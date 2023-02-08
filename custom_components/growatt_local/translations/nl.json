@@ -1,0 +1,60 @@
+{
+  "title": "Growatt Local",
+  "config": {
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+    },
+    "error": {
+      "serial_port": "Kan niet verbinden met de serieele poort",
+      "network_custom": "Controleer logboek voor details van de error",
+      "network_connection": "Kan geen verbinding maken",
+      "device_disconnect": "Apparaat heeft de verbinding gesloten",
+      "device_timeout": "Apparaat reageerd niet",
+      "device_address": "Apparaat adres is mogelijk incorrect"
+    },
+    "step": {
+      "user": {
+        "title": "Selecteer communicatie methode",
+        "data": {
+          "communication_layer": "Communication Layer"
+        }
+      },
+      "serial": {
+        "title": "Define serial port parameters.",
+        "data": {
+          "port": "Serial port",
+          "baudrate": "Baudrate",
+          "stopbits": "Stopbits",
+          "parity": "Parity",
+          "bytesize": "Bytesize"
+        }
+      },
+      "network": {
+        "title": "Define network parameters",
+        "data": {
+          "ip_address": "[%key:common::config_flow::data::ip%]",
+          "port": "[%key:common::config_flow::data::port%]"
+        }
+      },
+      "device": {
+        "title": "Define your Growatt device",
+        "data": {
+          "address": "Modbus Device Address",
+          "type": "Device type",
+          "scan_interval": "General update interval",
+          "power_scan_enabled": "Enable seperate power update interval",
+          "power_scan_interval": "Power update interval"
+        }
+      },
+      "inverter": {
+        "title": "Optional inverter settings",
+        "data": {
+          "name": "Customize device name",
+          "model": "Customize inverter model name",
+          "dc_string": "Number of Solar strings",
+          "ac_phases": "Number of AC phases"
+        }
+      }
+    }
+  }
+}

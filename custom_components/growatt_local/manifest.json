@@ -1,0 +1,12 @@
+{
+    "domain": "growatt_local",
+    "name": "Growatt Modbus",
+    "config_flow": true,
+    "documentation": "https://github.com/WouterTuinstra/homeassistant-growatt-local-modbus",
+    "dependencies": ["sun"],
+    "requirements": ["pymodbus==3.1.2"],
+    "codeowners": ["@WouterTuinstra"],
+    "iot_class": "local_polling",
+    "loggers": ["growattLocal"],
+    "version": "0.1"
+  }

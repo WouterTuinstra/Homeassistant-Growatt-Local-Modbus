@@ -1,0 +1,12 @@
+{
+    "state": {
+        "growatt_local__status": {
+          "Offline": "Offline",
+          "not_connected": "Geen Verbinding",
+          "no_response": "Geen Reactie",
+          "Waiting": "Wachten",
+          "Normal": "Operationeel",
+          "Fault": "Fout"
+        }
+    }
+}
