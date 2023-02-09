@@ -252,7 +252,7 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
                 # determine if time track can be removed
                 pass
 
-        self._listeners[remove_midnight_listener] = (update_callback, context)
+        self._midnight_listeners[remove_midnight_listener] = (update_callback, context)
 
         # This is the first listener, set up interval.
         if schedule_refresh:
