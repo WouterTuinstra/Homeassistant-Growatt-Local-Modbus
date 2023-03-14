@@ -44,6 +44,10 @@
           "scan_interval": "General update interval",
           "power_scan_enabled": "Enable seperate power update interval",
           "power_scan_interval": "Power update interval"
+        },
+        "data_description": {
+          "address": "De Standaard Modbus adres normaal geconfigureerd is: 1\nHet Alternatief is om de apperaat configratie te checken voor de geconfigureerde modbus adres.",
+          "type": "Selecteer de protocol versie die gebruikt wordt door het apperaat."
         }
       },
       "inverter": {
