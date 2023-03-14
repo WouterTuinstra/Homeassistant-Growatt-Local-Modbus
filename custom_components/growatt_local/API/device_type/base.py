@@ -8,6 +8,14 @@ ATTR_WARNING_CODE = "warning_code"
 ATTR_WARNING_VALUE = "warning_value"
 
 
+
+class custom_function(type):
+    """
+    Object to be used as value_type in a `GrowattDeviceRegisters` that require custom function to translate the register value.
+    """
+    pass
+
+
 @dataclass
 class GrowattDeviceRegisters:
     """Dataclass object to define register value for Growatt devices using modbus."""
@@ -15,6 +23,6 @@ class GrowattDeviceRegisters:
     name: str
     register: int
     value_type: type
-    double_value: bool = False
-    ascii_length: int = 1
+    length: int = 1
     scale: int = 10
+    function: Callable | None = None

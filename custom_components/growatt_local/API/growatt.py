@@ -23,6 +23,7 @@ from pymodbus.constants import Defaults
 from pymodbus.framer.rtu_framer import ModbusRtuFramer
 
 from .device_type.base import (
+    GrowattDeviceRegisters,
     ATTR_STATUS,
     ATTR_DERATING_MODE,
     ATTR_FAULT_CODE,
@@ -32,6 +33,12 @@ from .device_type.inverter import INVERTER_REGISTERS_TYPES, inverter_status
 
 from .exception import ModbusException, ModbusPortException
 from .const import DeviceTypes
+from .utils import (
+    get_keys_from_register,
+    get_all_keys_from_register,
+    keys_sequences,
+    process_registers
+)
 
 
 def rchr(rr, index, end=None):
@@ -145,7 +152,7 @@ class GrowattModbusBase:
         await self.client.write_register(50, second)
 
     async def read_holding_registers(self, start_index, length, unit) -> dict[int, int]:
-        data = await self.client.read_input_registers(start_index, length, unit)
+        data = await self.client.read_holding_registers(start_index, length, unit)
         registers = {c: v for c, v in enumerate(data.registers, start_index)}
         return registers
 
@@ -160,7 +167,7 @@ class GrowattNetwork(GrowattModbusBase):
         self,
         network_type: str,
         host: str,
-        port: int = None,
+        port: int = 502,
         timeout: int = Defaults.Timeout,
         retries: int = Defaults.Retries,
     ) -> None:
@@ -225,6 +232,10 @@ class GrowattSerial(GrowattModbusBase):
 
 
 class GrowattDevice:
+    holding_register: dict[int, GrowattDeviceRegisters] = {}
+    input_register: dict[int, GrowattDeviceRegisters] = {}
+    max_length: int = 20
+
     def __init__(
         self,
         GrowattModbusClient: GrowattModbusBase,
@@ -234,7 +245,7 @@ class GrowattDevice:
         self.modbus = GrowattModbusClient
         self.device = GrowattDeviceType
         if GrowattDeviceType == DeviceTypes.INVERTER:
-            self.register_lookup = {
+            self.input_register = {
                 obj.register: obj for obj in INVERTER_REGISTERS_TYPES
             }
         self.unit = unit
@@ -260,66 +271,35 @@ class GrowattDevice:
 
         return time - device_time
 
-    async def update(self, keys: Sequence[int]) -> dict[str, Any]:
+    async def update(self, keys: set[int]) -> dict[str, Any]:
+        """
+        Based on the given keys it will generate one or multiple requests to get the corrisponding results
+        from the input registers from the device.
+
+        returns a dictionary of register name and value
+        """
         if len(keys) == 0:
-            return
+            return {}
 
-        key = min(keys)
-        maximum_key = max(keys)
-        key_seperation = []
-        while key < maximum_key:
-            end_of_sequence = max([k for k in keys if k <= key + 43])
-
-            double_value = self.register_lookup[end_of_sequence].double_value
-
-            key_seperation.append((key, end_of_sequence + double_value + 1 - key))
-
-            if end_of_sequence == maximum_key:
-                break
-
-            key = min([k for k in keys if k > end_of_sequence])
+        # TODO: make a memory cell of requested key sequences to prevent look-up every update
+        key_sequences = keys_sequences(get_all_keys_from_register(self.input_register, keys), self.max_length)
 
         register_values = {}
-        result: dict[str, Any] = {}
 
-        for item in key_seperation:
+        for item in key_sequences:
             register_values.update(
-                await self.modbus.read_input_registers(*item, self.unit)
+                await self.modbus.read_input_registers(start_index=item[0], length=item[1], unit=self.unit)
             )
 
-        for key in keys:
-            value = register_values.get(key, None)
-
-            if value is None:
-                continue
-
-            register = self.register_lookup.get(key)
-
-            if register.value_type == int:
-                result[register.name] = value
-
-            elif register.value_type == float and register.double_value:
-                second_value = register_values.get(key + 1, None)
-
-                if second_value is None:
-                    continue
-
-                result[register.name] = round(
-                    float((value << 16) + second_value) / register.scale, 3
-                )
-
-            elif register.value_type == float:
-                result[register.name] = round(float(value) / register.scale, 3)
-
-        return result
+        return process_registers(self.input_register, register_values)
 
     def get_keys_by_name(self, names: Sequence[str]) -> Set[int]:
         if ATTR_STATUS in names:
-            names = {*names, ATTR_STATUS_CODE, ATTR_FAULT_CODE, ATTR_DERATING_MODE}
+            names = (*names, ATTR_STATUS_CODE, ATTR_FAULT_CODE, ATTR_DERATING_MODE)
 
         return {
             key
-            for key, register in self.register_lookup.items()
+            for key, register in self.input_register.items()
             if register.name in names
         }
 
