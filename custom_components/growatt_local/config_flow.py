@@ -21,6 +21,7 @@ from homeassistant.const import (
 )
 from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowResult
+from homeassistant.helpers import selector
 
 from .API.const import DeviceTypes
 from .API.exception import ModbusPortException
@@ -45,6 +46,14 @@ from .const import (
     ParityOptions,
     DOMAIN,
 )
+
+PARITY_OPTION = [
+    selector.SelectOptionDict(value=ParityOptions.NONE, label=ParityOptions.NONE),
+    selector.SelectOptionDict(value=ParityOptions.EVEN, label=ParityOptions.EVEN),
+    selector.SelectOptionDict(value=ParityOptions.ODD, label=ParityOptions.ODD),
+    selector.SelectOptionDict(value=ParityOptions.MARK, label=ParityOptions.MARK),
+    selector.SelectOptionDict(value=ParityOptions.SPACE, label=ParityOptions.SPACE),
+]
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -84,17 +93,25 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             {
                 vol.Required(CONF_SERIAL_PORT): str,
                 vol.Required(CONF_BAUDRATE, default=9600): int,
-                vol.Required(CONF_STOPBITS, default=1): vol.In((0, 1, 2)),
-                vol.Required(CONF_PARITY, default=ParityOptions.NONE): vol.In(
-                    (
-                        ParityOptions.NONE,
-                        ParityOptions.EVEN,
-                        ParityOptions.ODD,
-                        ParityOptions.MARK,
-                        ParityOptions.SPACE,
-                    )
+                vol.Required(CONF_STOPBITS, default=1): selector.NumberSelector(
+                    selector.NumberSelectorConfig(
+                        min=0,
+                        max=2,
+                        mode=selector.NumberSelectorMode.BOX,
+                    ),
                 ),
-                vol.Required(CONF_BYTESIZE, default=8): vol.In((5, 6, 7, 8)),
+                vol.Required(CONF_PARITY, default=ParityOptions.NONE): selector.SelectSelector(
+                    selector.SelectSelectorConfig(
+                        options=PARITY_OPTION, mode=selector.SelectSelectorMode.DROPDOWN
+                    ),
+                ),
+                vol.Required(CONF_BYTESIZE, default=8): selector.NumberSelector(
+                    selector.NumberSelectorConfig(
+                        min=5,
+                        max=8,
+                        mode=selector.NumberSelectorMode.BOX,
+                    ),
+                ),
             }
         )
 
@@ -151,8 +168,21 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             {
                 vol.Optional(CONF_NAME, default=name): str,
                 vol.Optional(CONF_MODEL, default=model): str,
-                vol.Required(CONF_DC_STRING, default=strings): vol.In((1, 2)),
-                vol.Required(CONF_AC_PHASES, default=phases): vol.In((1, 3)),
+                vol.Required(CONF_DC_STRING, default=strings): selector.NumberSelector(
+                    selector.NumberSelectorConfig(
+                        min=1,
+                        max=2,
+                        mode=selector.NumberSelectorMode.BOX,
+                    ),
+                ),
+                vol.Required(CONF_AC_PHASES, default=phases): selector.NumberSelector(
+                    selector.NumberSelectorConfig(
+                        min=1,
+                        max=3,
+                        step=2,
+                        mode=selector.NumberSelectorMode.BOX,
+                    ),
+                ),
             }
         )
 

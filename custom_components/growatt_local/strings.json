@@ -44,6 +44,10 @@
           "scan_interval": "General update interval",
           "power_scan_enabled": "Enable seperate power update interval",
           "power_scan_interval": "Power update interval"
+        },
+        "data_description": {
+          "address": "The default Modbus address normally configured is: 1\nAlternatively check the device configration for the assigned modbus address",
+          "type": "Select the protocol version used by your device."
         }
       },
       "inverter": {
