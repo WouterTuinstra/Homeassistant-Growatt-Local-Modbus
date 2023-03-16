@@ -16,44 +16,31 @@ from homeassistant.const import (
     POWER_WATT,
     TEMP_CELSIUS,
     TIME_HOURS,
+    PERCENTAGE,
 )
 
-# NOT WORKING due to relative import into higher located reference
-# from .growatt_local.API.device_type.inverter import (
-#     ATTR_FREQUENCY,
-#     ATTR_INPUT_1_AMPERAGE,
-#     ATTR_INPUT_1_ENERGY_TODAY,
-#     ATTR_INPUT_1_ENERGY_TOTAL,
-#     ATTR_INPUT_1_POWER,
-#     ATTR_INPUT_1_VOLTAGE,
-#     ATTR_INPUT_2_AMPERAGE,
-#     ATTR_INPUT_2_ENERGY_TODAY,
-#     ATTR_INPUT_2_ENERGY_TOTAL,
-#     ATTR_INPUT_2_POWER,
-#     ATTR_INPUT_2_VOLTAGE,
-#     ATTR_INPUT_ENERGY_TOTAL,
-#     ATTR_INPUT_POWER,
-#     ATTR_IPM_TEMPERATURE,
-#     ATTR_OPERATION_HOURS,
-#     ATTR_OUTPUT_1_AMPERAGE,
-#     ATTR_OUTPUT_1_POWER,
-#     ATTR_OUTPUT_1_VOLTAGE,
-#     ATTR_OUTPUT_2_AMPERAGE,
-#     ATTR_OUTPUT_2_POWER,
-#     ATTR_OUTPUT_2_VOLTAGE,
-#     ATTR_OUTPUT_3_AMPERAGE,
-#     ATTR_OUTPUT_3_POWER,
-#     ATTR_OUTPUT_3_VOLTAGE,
-#     ATTR_OUTPUT_ENERGY_TODAY,
-#     ATTR_OUTPUT_ENERGY_TOTAL,
-#     ATTR_OUTPUT_POWER,
-#     ATTR_OUTPUT_REACTIVE_POWER,
-#     ATTR_TEMPERATURE,
-# )
+# relative import NOT WORKING due to into higher located reference
+# from .growatt_local.API.device_type.base import ATTR 
 
-ATTR_SERIAL_NUMBER = "serial_number"
-ATTR_MODEL_NUMBER = "model_number"
+# Attribute names for values in the holding register
+
 ATTR_FIRMWARE = "firmware"
+ATTR_SERIAL_NUMBER = "serial number"
+ATTR_INVERTER_MODEL = "Inverter model"
+
+ATTR_DEVICE_TYPE_CODE = "device type code"
+ATTR_NUMBER_OF_TRACKERS_AND_PHASES = "number of trackers and phases"
+
+ATTR_MODBUS_VERSION = "modbus version"
+
+# Attribute names for values in the input register
+
+ATTR_STATUS = "status"
+ATTR_STATUS_CODE = "status_code"
+ATTR_DERATING_MODE = "derating_mode"
+ATTR_FAULT_CODE = "fault_code"
+ATTR_WARNING_CODE = "warning_code"
+ATTR_WARNING_VALUE = "warning_value"
 
 ATTR_INPUT_POWER = "input_power"  # W
 ATTR_INPUT_ENERGY_TOTAL = "input_energy_total"  # kWh
@@ -69,6 +56,42 @@ ATTR_INPUT_2_AMPERAGE = "input_2_amperage"  # A
 ATTR_INPUT_2_POWER = "input_2_power"  # W
 ATTR_INPUT_2_ENERGY_TODAY = "input_2_energy_today"  # kWh
 ATTR_INPUT_2_ENERGY_TOTAL = "input_2_energy_total"  # kWh
+
+ATTR_INPUT_3_VOLTAGE = "input_3_voltage"  # V
+ATTR_INPUT_3_AMPERAGE = "input_3_amperage"  # A
+ATTR_INPUT_3_POWER = "input_3_power"  # W
+ATTR_INPUT_3_ENERGY_TODAY = "input_3_energy_today"  # kWh
+ATTR_INPUT_3_ENERGY_TOTAL = "input_3_energy_total"  # kWh
+
+ATTR_INPUT_4_VOLTAGE = "input_4_voltage"  # V
+ATTR_INPUT_4_AMPERAGE = "input_4_amperage"  # A
+ATTR_INPUT_4_POWER = "input_4_power"  # W
+ATTR_INPUT_4_ENERGY_TODAY = "input_4_energy_today"  # kWh
+ATTR_INPUT_4_ENERGY_TOTAL = "input_4_energy_total"  # kWh
+
+ATTR_INPUT_5_VOLTAGE = "input_5_voltage"  # V
+ATTR_INPUT_5_AMPERAGE = "input_5_amperage"  # A
+ATTR_INPUT_5_POWER = "input_5_power"  # W
+ATTR_INPUT_5_ENERGY_TODAY = "input_5_energy_today"  # kWh
+ATTR_INPUT_5_ENERGY_TOTAL = "input_5_energy_total"  # kWh
+
+ATTR_INPUT_6_VOLTAGE = "input_6_voltage"  # V
+ATTR_INPUT_6_AMPERAGE = "input_6_amperage"  # A
+ATTR_INPUT_6_POWER = "input_6_power"  # W
+ATTR_INPUT_6_ENERGY_TODAY = "input_6_energy_today"  # kWh
+ATTR_INPUT_6_ENERGY_TOTAL = "input_6_energy_total"  # kWh
+
+ATTR_INPUT_7_VOLTAGE = "input_7_voltage"  # V
+ATTR_INPUT_7_AMPERAGE = "input_7_amperage"  # A
+ATTR_INPUT_7_POWER = "input_7_power"  # W
+ATTR_INPUT_7_ENERGY_TODAY = "input_7_energy_today"  # kWh
+ATTR_INPUT_7_ENERGY_TOTAL = "input_7_energy_total"  # kWh
+
+ATTR_INPUT_8_VOLTAGE = "input_8_voltage"  # V
+ATTR_INPUT_8_AMPERAGE = "input_8_amperage"  # A
+ATTR_INPUT_8_POWER = "input_8_power"  # W
+ATTR_INPUT_8_ENERGY_TODAY = "input_8_energy_today"  # kWh
+ATTR_INPUT_8_ENERGY_TOTAL = "input_8_energy_total"  # kWh
 
 ATTR_OUTPUT_POWER = "output_power"  # W
 ATTR_OUTPUT_ENERGY_TODAY = "output_energy_today"  # kWh
@@ -94,11 +117,14 @@ ATTR_OPERATION_HOURS = "operation_hours"  # s
 
 ATTR_FREQUENCY = "frequency"  # Hz
 
-ATTR_TEMPERATURE = "temperature"  # C
+ATTR_TEMPERATURE = "inverter_temperature"  # C
 ATTR_IPM_TEMPERATURE = "ipm_temperature"  # C
+ATTR_BOOST_TEMPERATURE = "boost_temperature"  # C
 
 ATTR_P_BUS_VOLTAGE = "p_bus_voltage"  # V
 ATTR_N_BUS_VOLTAGE = "n_bus_voltage"  # V
+
+ATTR_OUTPUT_PERCENTAGE = "real_output_power_percent"  # %
 
 
 from .sensor_entity_description import GrowattSensorEntityDescription
@@ -188,6 +214,204 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_2_ENERGY_TOTAL,
         name="Input 2 total energy",
+        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_3_VOLTAGE,
+        name="Input 3 voltage",
+        native_unit_of_measurement=ELECTRIC_POTENTIAL_VOLT,
+        device_class=SensorDeviceClass.VOLTAGE,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_3_AMPERAGE,
+        name="Input 3 Amperage",
+        native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
+        device_class=SensorDeviceClass.CURRENT,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_3_POWER,
+        name="Input 3 Wattage",
+        native_unit_of_measurement=POWER_WATT,
+        device_class=SensorDeviceClass.POWER,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_3_ENERGY_TODAY,
+        name="Input 3 energy today",
+        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        midnight_reset=True,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_3_ENERGY_TOTAL,
+        name="Input 3 total energy",
+        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_4_VOLTAGE,
+        name="Input 4 voltage",
+        native_unit_of_measurement=ELECTRIC_POTENTIAL_VOLT,
+        device_class=SensorDeviceClass.VOLTAGE,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_4_AMPERAGE,
+        name="Input 4 Amperage",
+        native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
+        device_class=SensorDeviceClass.CURRENT,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_4_POWER,
+        name="Input 4 Wattage",
+        native_unit_of_measurement=POWER_WATT,
+        device_class=SensorDeviceClass.POWER,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_4_ENERGY_TODAY,
+        name="Input 4 energy today",
+        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        midnight_reset=True,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_4_ENERGY_TOTAL,
+        name="Input 4 total energy",
+        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_5_VOLTAGE,
+        name="Input 5 voltage",
+        native_unit_of_measurement=ELECTRIC_POTENTIAL_VOLT,
+        device_class=SensorDeviceClass.VOLTAGE,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_5_AMPERAGE,
+        name="Input 5 Amperage",
+        native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
+        device_class=SensorDeviceClass.CURRENT,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_5_POWER,
+        name="Input 5 Wattage",
+        native_unit_of_measurement=POWER_WATT,
+        device_class=SensorDeviceClass.POWER,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_5_ENERGY_TODAY,
+        name="Input 5 energy today",
+        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        midnight_reset=True,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_5_ENERGY_TOTAL,
+        name="Input 5 total energy",
+        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_6_VOLTAGE,
+        name="Input 6 voltage",
+        native_unit_of_measurement=ELECTRIC_POTENTIAL_VOLT,
+        device_class=SensorDeviceClass.VOLTAGE,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_6_AMPERAGE,
+        name="Input 6 Amperage",
+        native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
+        device_class=SensorDeviceClass.CURRENT,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_6_POWER,
+        name="Input 6 Wattage",
+        native_unit_of_measurement=POWER_WATT,
+        device_class=SensorDeviceClass.POWER,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_6_ENERGY_TODAY,
+        name="Input 6 energy today",
+        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        midnight_reset=True,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_6_ENERGY_TOTAL,
+        name="Input 6 total energy",
+        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_7_VOLTAGE,
+        name="Input 7 voltage",
+        native_unit_of_measurement=ELECTRIC_POTENTIAL_VOLT,
+        device_class=SensorDeviceClass.VOLTAGE,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_7_AMPERAGE,
+        name="Input 7 Amperage",
+        native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
+        device_class=SensorDeviceClass.CURRENT,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_7_POWER,
+        name="Input 7 Wattage",
+        native_unit_of_measurement=POWER_WATT,
+        device_class=SensorDeviceClass.POWER,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_7_ENERGY_TODAY,
+        name="Input 7 energy today",
+        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        midnight_reset=True,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_7_ENERGY_TOTAL,
+        name="Input 7 total energy",
+        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_8_VOLTAGE,
+        name="Input 8 voltage",
+        native_unit_of_measurement=ELECTRIC_POTENTIAL_VOLT,
+        device_class=SensorDeviceClass.VOLTAGE,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_8_AMPERAGE,
+        name="Input 8 Amperage",
+        native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
+        device_class=SensorDeviceClass.CURRENT,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_8_POWER,
+        name="Input 8 Wattage",
+        native_unit_of_measurement=POWER_WATT,
+        device_class=SensorDeviceClass.POWER,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_8_ENERGY_TODAY,
+        name="Input 8 energy today",
+        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        midnight_reset=True,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INPUT_8_ENERGY_TOTAL,
+        name="Input 8 total energy",
         native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
@@ -287,6 +511,12 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Temperature",
         native_unit_of_measurement=TEMP_CELSIUS,
         device_class=SensorDeviceClass.TEMPERATURE,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_OUTPUT_PERCENTAGE,
+        name="Real power output percentage",
+        native_unit_of_measurement=PERCENTAGE,
+        device_class=SensorDeviceClass.POWER_FACTOR
     ),
     GrowattSensorEntityDescription(key="status", name="Status", device_class=f"growatt_local__status"),
 )

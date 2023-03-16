@@ -11,6 +11,9 @@ DEFAULT_ADDRESS = 0x1
 # Supported devices
 class DeviceTypes(StrEnum):
     INVERTER = "inverter"
+    INVERTER_120 = "inverter_120"
+    INVERTER_315 = "inverter_315"
+
 
 
 # Unit of measurement

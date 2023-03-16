@@ -10,7 +10,8 @@
       "network_connection": "Kan geen verbinding maken",
       "device_disconnect": "Apparaat heeft de verbinding gesloten",
       "device_timeout": "Apparaat reageerd niet",
-      "device_address": "Apparaat adres is mogelijk incorrect"
+      "device_address": "Apparaat adres is mogelijk incorrect",
+      "device_type": "Apparaat type is niet ondersteunt"
     },
     "step": {
       "user": {
@@ -26,37 +27,40 @@
           "baudrate": "Baudrate",
           "stopbits": "Stopbits",
           "parity": "Parity",
-          "bytesize": "Bytesize"
+          "bytesize": "Bytesize",
+          "address": "Modbus Device Address"
+        },
+        "data_description": {
+          "address": "De Standaard Modbus adres normaal geconfigureerd is: 1\nHet Alternatief is om de apperaat configratie te checken voor de geconfigureerde modbus adres."
         }
       },
       "network": {
         "title": "Define network parameters",
         "data": {
           "ip_address": "[%key:common::config_flow::data::ip%]",
-          "port": "[%key:common::config_flow::data::port%]"
+          "port": "[%key:common::config_flow::data::port%]",
+          "address": "Modbus Device Address"
+        },
+        "data_description": {
+          "address": "De Standaard Modbus adres normaal geconfigureerd is: 1\nHet Alternatief is om de apperaat configratie te checken voor de geconfigureerde modbus adres."
         }
       },
       "device": {
         "title": "Define your Growatt device",
+        "description": "Gebaseerd op jou configratie de volgende waardes zijn bekend.\nAanvullend is het volgende apperaat type gedetecteerd: `{device_type}`",
         "data": {
-          "address": "Modbus Device Address",
+          "name": "Customize device name",
+          "model": "Customize inverter model name",
           "type": "Device type",
+          "dc_string": "Number of Solar strings",
+          "ac_phases": "Number of AC phases",
           "scan_interval": "General update interval",
           "power_scan_enabled": "Enable seperate power update interval",
           "power_scan_interval": "Power update interval"
         },
         "data_description": {
-          "address": "De Standaard Modbus adres normaal geconfigureerd is: 1\nHet Alternatief is om de apperaat configratie te checken voor de geconfigureerde modbus adres.",
-          "type": "Selecteer de protocol versie die gebruikt wordt door het apperaat."
-        }
-      },
-      "inverter": {
-        "title": "Optional inverter settings",
-        "data": {
-          "name": "Customize device name",
-          "model": "Customize inverter model name",
-          "dc_string": "Number of Solar strings",
-          "ac_phases": "Number of AC phases"
+          "type": "Selecteer de protocol versie die gebruikt wordt door het apperaat.",
+          "power_scan_enabled": "Maakt het mogelijk om een hogere update rate te hebben voor verschillende energy waardes van jou apperaat."
         }
       }
     }
