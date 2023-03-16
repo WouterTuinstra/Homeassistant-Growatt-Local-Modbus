@@ -10,7 +10,8 @@
       "network_connection": "Unable to establish connection",
       "device_disconnect": "Device closed connection",
       "device_timeout": "Device didn't respond",
-      "device_address": "Device address is likely wrong"
+      "device_address": "Device address is likely wrong",
+      "device_type": "Device type is not supported"
     },
     "step": {
       "user": {
@@ -26,37 +27,40 @@
           "baudrate": "Baudrate",
           "stopbits": "Stopbits",
           "parity": "Parity",
-          "bytesize": "Bytesize"
+          "bytesize": "Bytesize",
+          "address": "Modbus Device Address"
+        },
+        "data_description": {
+          "address": "The default Modbus address normally configured is: 1\nAlternatively check the device configration for the assigned modbus address"
         }
       },
       "network": {
         "title": "Define network parameters",
         "data": {
           "ip_address": "[%key:common::config_flow::data::ip%]",
-          "port": "[%key:common::config_flow::data::port%]"
+          "port": "[%key:common::config_flow::data::port%]",
+          "address": "Modbus Device Address"
+        },
+        "data_description": {
+          "address": "The default Modbus address normally configured is: 1\nAlternatively check the device configration for the assigned modbus address"
         }
       },
       "device": {
         "title": "Define your Growatt device",
+        "description": "Based on your configration the following values are preset.\nAdditioanlly detected the following device type: `{device_type}`",
         "data": {
-          "address": "Modbus Device Address",
+          "name": "Device name",
+          "model": "Inverter model name",
           "type": "Device type",
+          "dc_string": "Number of Solar strings",
+          "ac_phases": "Number of AC phases",
           "scan_interval": "General update interval",
-          "power_scan_enabled": "Enable seperate power update interval",
+          "power_scan_enabled": "Enable power update interval",
           "power_scan_interval": "Power update interval"
         },
         "data_description": {
-          "address": "The default Modbus address normally configured is: 1\nAlternatively check the device configration for the assigned modbus address",
-          "type": "Select the protocol version used by your device."
-        }
-      },
-      "inverter": {
-        "title": "Optional inverter settings",
-        "data": {
-          "name": "Customize device name",
-          "model": "Customize inverter model name",
-          "dc_string": "Number of Solar strings",
-          "ac_phases": "Number of AC phases"
+          "type": "Select the protocol version used by your device detected modbus version: `{modbus_version}`",
+          "power_scan_enabled": "Allows to have a higher update rate of the various power values of your device."
         }
       }
     }
