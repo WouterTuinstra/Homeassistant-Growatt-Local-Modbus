@@ -47,7 +47,7 @@
       },
       "device": {
         "title": "Define your Growatt device",
-        "description": "Based on your configration the following values are preset.\nAdditioanlly detected the following device type: `{device_type}`",
+        "description": "Based on the configration the following values are preset.\nAdditioanlly detected the following device type: {device_type}",
         "data": {
           "name": "Device name",
           "model": "Inverter model name",
