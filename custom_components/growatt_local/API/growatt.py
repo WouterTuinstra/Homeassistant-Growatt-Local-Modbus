@@ -56,7 +56,6 @@ _LOGGER = logging.getLogger(__name__)
 
 class GrowattModbusBase:
     client: ModbusBaseClient
-    device_info: GrowattDeviceInfo | None = None
 
     @abstractmethod
     def __init__(self):
@@ -86,9 +85,6 @@ class GrowattModbusBase:
         if isinstance(register, tuple):
             register = {item.register: item for item in register}
 
-        if self.device_info is not None:
-            return self.device_info
-
         key_sequences = keys_sequences(get_keys_from_register(register), max_length)
 
         register_values = {}
@@ -100,7 +96,7 @@ class GrowattModbusBase:
 
         results = process_registers(register, register_values)
 
-        self.device_info = GrowattDeviceInfo(
+        device_info = GrowattDeviceInfo(
             serial_number=results[ATTR_SERIAL_NUMBER],
             model=results[ATTR_INVERTER_MODEL],
             firmware=results[ATTR_FIRMWARE],
@@ -110,7 +106,7 @@ class GrowattModbusBase:
             device_type=results[ATTR_DEVICE_TYPE_CODE]
         )
 
-        return self.device_info
+        return device_info
 
     async def read_device_time(self, unit: int):
         """
@@ -288,7 +284,7 @@ class GrowattDevice:
         if len(keys) == 0:
             return {}
 
-        if (key_hash := hash(keys)) in self._input_cache:
+        if (key_hash := hash(frozenset(keys))) not in self._input_cache:
             key_sequences = keys_sequences(get_all_keys_from_register(self.input_register, keys), self.max_length)
             self._input_cache[key_hash] = key_sequences
         else:
@@ -314,7 +310,9 @@ class GrowattDevice:
         }
 
     def get_register_names(self) -> set[str]:
-        return {register.name for register in self.input_register.values()}
+        names = {register.name for register in self.input_register.values()}
+        names.add(ATTR_STATUS)
+        return names
 
     def status(self, value: dict[str, Any]):
         """

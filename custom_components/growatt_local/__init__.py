@@ -53,10 +53,7 @@ from .const import (
 
 from .API.const import DeviceTypes
 from .API.growatt import GrowattDevice, GrowattSerial, GrowattNetwork
-from .API.device_type.inverter import (
-    ATTR_INPUT_POWER,
-    ATTR_OUTPUT_POWER,
-)
+
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -85,7 +82,7 @@ async def async_setup_entry(
             "Device layer %s is not supported right now",
             entry.data[CONF_LAYER],
         )
-        return
+        return False
 
     device = GrowattDevice(
         device_layer, DeviceTypes(entry.data[CONF_TYPE]), entry.data[CONF_ADDRESS]

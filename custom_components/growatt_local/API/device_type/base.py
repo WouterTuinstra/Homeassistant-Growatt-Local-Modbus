@@ -138,16 +138,16 @@ class GrowattDeviceInfo:
 
 
 DEVICE_TYPE_CODES = {
-    100: "1 tracker and 1phase Grid connect PV inverter TL",
-    200: "2 tracker and 1phase Grid connect PV inverter TL",
-    300: "1 tracker and 1phase Grid connect PV inverter HF",
-    400: "2 tracker and 1phase Grid connect PV inverter HF",
-    500: "1 tracker and 1phase Grid connect PV inverter LF",
-    600: "2 tracker and 1phase Grid connect PV inverter LF",
-    700: "1 tracker and 3phase Grid connect PV inverter TL",
-    800: "2 tracker and 3phase Grid connect PV inverter TL",
-    900: "1 tracker and 3phase Grid connect PV inverter LF",
-    1000: "2 tracker and 3phase Grid connect PV inverter LF",
+    0x100: "1 tracker and 1phase Grid connect PV inverter TL",
+    0x200: "2 tracker and 1phase Grid connect PV inverter TL",
+    0x300: "1 tracker and 1phase Grid connect PV inverter HF",
+    0x400: "2 tracker and 1phase Grid connect PV inverter HF",
+    0x500: "1 tracker and 1phase Grid connect PV inverter LF",
+    0x600: "2 tracker and 1phase Grid connect PV inverter LF",
+    0x700: "1 tracker and 3phase Grid connect PV inverter TL",
+    0x800: "2 tracker and 3phase Grid connect PV inverter TL",
+    0x900: "1 tracker and 3phase Grid connect PV inverter LF",
+    0xA00: "2 tracker and 3phase Grid connect PV inverter LF",
     3100: "Front 1 tracker PV Storage",
     3400: "OffGrid SPF 3-5K",
     10001: "RF-ShineVersion",
@@ -160,10 +160,10 @@ DEVICE_TYPE_CODES = {
 def device_type(register) -> str:
     not_defined = f"Device type {register} not defined in protocol"
 
-    if register > 10000:
+    if 10000 < register <= 10004:
         return DEVICE_TYPE_CODES.get(register, not_defined)
 
-    return DEVICE_TYPE_CODES.get(round(register, -2), not_defined)
+    return DEVICE_TYPE_CODES.get(register & 0xFF00, not_defined)
     
 
 def trackers_and_phases(register) -> tuple[int, int]:

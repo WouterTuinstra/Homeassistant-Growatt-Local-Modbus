@@ -53,11 +53,9 @@ async def async_setup_entry(
 
     entities = []
     power_sensor = []
-    sensor_descriptions: set[GrowattSensorEntityDescription] = set()
+    sensor_descriptions: list[GrowattSensorEntityDescription] = []
 
     device_type = DeviceTypes(config_entry.data[CONF_TYPE])
-
-    # make set of growattdeviceentities names
 
     if device_type in (DeviceTypes.INVERTER, DeviceTypes.INVERTER_315, DeviceTypes.INVERTER_120):
         supported_key_names = coordinator.growatt_api.get_register_names()
@@ -66,12 +64,12 @@ async def async_setup_entry(
             if sensor.key not in supported_key_names:
                 continue
 
-            if not re.match(f"input_[1-{config_entry.data[CONF_DC_STRING]}]", sensor.key):
+            if re.match(r"input_\d+", sensor.key) and not re.match(f"input_[1-{config_entry.data[CONF_DC_STRING]}]", sensor.key):
                 continue
-            elif not re.match(f"output_[1-{config_entry.data[CONF_AC_PHASES]}]", sensor.key):
+            elif re.match(r"output_\d+", sensor.key) and not re.match(f"output_[1-{config_entry.data[CONF_AC_PHASES]}]", sensor.key):
                 continue
 
-            sensor_descriptions.add(sensor)
+            sensor_descriptions.append(sensor)
 
         power_sensor = (ATTR_INPUT_POWER, ATTR_OUTPUT_POWER)
 
