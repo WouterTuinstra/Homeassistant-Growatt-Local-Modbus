@@ -5,6 +5,16 @@
 
  This intergration makes use of the *config_flow* and can be configured using the UI no confgration required using the `configration.yaml`
 
- The only requirement is that you know which Modbus adress the device has the default value would be 1
+ The requirement to be able to uses this intergration are:
+ * The communication layer and related parameters
+ * Modbus address of the device (Default value: 1)
+ * Used protocol version by your device
 
-Currently the communication layer (API) is included in this repository but following the guidelines of HASS they should be seperate
+## Protocol version
+Currently there are 2 protocol versions supported with this intergration:
+* Protocol version 3.15 used by older models that would support up to two strings
+* Protocol version 1.20 used by newer models and larger devices
+
+Note currently only supporting inverters adding support for storage devices is can be realized.
+
+Currently the communication layer (API) is included in this repository but following the guidelines of HASS there should be seperate repositories
