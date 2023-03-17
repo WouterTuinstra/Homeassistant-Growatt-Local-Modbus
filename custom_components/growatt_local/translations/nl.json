@@ -5,7 +5,7 @@
       "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
     },
     "error": {
-      "serial_port": "Kan niet verbinden met de serieele poort",
+      "serial_port": "Kan niet verbinden met de seriële poort",
       "network_custom": "Controleer logboek voor details van de error",
       "network_connection": "Kan geen verbinding maken",
       "device_disconnect": "Apparaat heeft de verbinding gesloten",
@@ -21,7 +21,7 @@
         }
       },
       "serial": {
-        "title": "Define serial port parameters.",
+        "title": "Configureer seriële port parameters.",
         "data": {
           "port": "Serial port",
           "baudrate": "Baudrate",
@@ -35,7 +35,7 @@
         }
       },
       "network": {
-        "title": "Define network parameters",
+        "title": "Configureer netwerk parameters",
         "data": {
           "ip_address": "[%key:common::config_flow::data::ip%]",
           "port": "[%key:common::config_flow::data::port%]",
@@ -46,20 +46,20 @@
         }
       },
       "device": {
-        "title": "Define your Growatt device",
-        "description": "Gebaseerd op jou configratie de volgende waardes zijn bekend.\nAanvullend is het volgende apperaat type gedetecteerd: `{device_type}`",
+        "title": "Defineer het Growatt apparaat",
+        "description": "Gebaseerd op de configratie de volgende waardes zijn bekend.\nAanvullend is het volgende apperaat type gedetecteerd: {device_type}",
         "data": {
-          "name": "Customize device name",
-          "model": "Customize inverter model name",
-          "type": "Device type",
-          "dc_string": "Number of Solar strings",
-          "ac_phases": "Number of AC phases",
+          "name": "Apparaat naam",
+          "model": "inverter model naam",
+          "type": "Apparaat type",
+          "dc_string": "Aantal PV strings",
+          "ac_phases": "Aantal grid fasen",
           "scan_interval": "General update interval",
           "power_scan_enabled": "Enable seperate power update interval",
           "power_scan_interval": "Power update interval"
         },
         "data_description": {
-          "type": "Selecteer de protocol versie die gebruikt wordt door het apperaat.",
+          "type": "Selecteer de protocol versie die gebruikt wordt door het apperaat de volgende modbus versie is gedetecteerd: {modbus_version}",
           "power_scan_enabled": "Maakt het mogelijk om een hogere update rate te hebben voor verschillende energy waardes van jou apperaat."
         }
       }

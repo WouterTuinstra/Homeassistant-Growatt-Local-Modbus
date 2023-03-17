@@ -47,7 +47,7 @@
       },
       "device": {
         "title": "Define your Growatt device",
-        "description": "Based on your configration the following values are preset.\nAdditioanlly detected the following device type: `{device_type}`",
+        "description": "Based on the configration the following values are preset.\nAdditioanlly detected the following device type: {device_type}",
         "data": {
           "name": "Device name",
           "model": "Inverter model name",
@@ -59,7 +59,7 @@
           "power_scan_interval": "Power update interval"
         },
         "data_description": {
-          "type": "Select the protocol version used by your device detected modbus version: `{modbus_version}`",
+          "type": "Select the protocol version used by your device detected modbus version: {modbus_version}",
           "power_scan_enabled": "Allows to have a higher update rate of the various power values of your device."
         }
       }

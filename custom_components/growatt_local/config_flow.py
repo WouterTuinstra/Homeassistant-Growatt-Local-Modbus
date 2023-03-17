@@ -56,6 +56,11 @@ PARITY_OPTION = [
     selector.SelectOptionDict(value=ParityOptions.SPACE, label=ParityOptions.SPACE),
 ]
 
+DEVICETYPES_OPTION = [
+    selector.SelectOptionDict(value=DeviceTypes.INVERTER_120, label="Inverter Protocol version 1.20"),
+    selector.SelectOptionDict(value=DeviceTypes.INVERTER_315, label="Inverter Protocol version 3.05-3.15"),
+]
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -153,12 +158,13 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Show the device form to the user."""
         data_schema = vol.Schema(
             {
-                vol.Optional(CONF_NAME, default=name): str,
-                vol.Optional(CONF_MODEL, default=model): str,
-                vol.Required(
-                    CONF_TYPE,
-                    default=device_type,
-                ): vol.In([DeviceTypes.INVERTER_120, DeviceTypes.INVERTER_315]),
+                vol.Required(CONF_NAME, default=name): str,
+                vol.Required(CONF_MODEL, default=model): str,
+                vol.Required(CONF_TYPE, default=device_type,): selector.SelectSelector(
+                    selector.SelectSelectorConfig(
+                        options=DEVICETYPES_OPTION
+                    ),
+                ),
                 vol.Required(CONF_DC_STRING, default=mppt_trackers): selector.NumberSelector(
                     selector.NumberSelectorConfig(
                         min=1,
@@ -174,7 +180,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         mode=selector.NumberSelectorMode.BOX,
                     ),
                 ),
-                vol.Optional(CONF_SCAN_INTERVAL, default=scan_interval): int,
+                vol.Required(CONF_SCAN_INTERVAL, default=scan_interval): int,
                 vol.Required(CONF_POWER_SCAN_ENABLED, default=power_scan_enabled): bool,
                 vol.Optional(
                     CONF_POWER_SCAN_INTERVAL, default=power_scan_interval
@@ -212,7 +218,13 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None and CONF_SERIAL_PORT in user_input:
             try:
-                server = GrowattSerial(**user_input)
+                server = GrowattSerial(
+                    user_input[CONF_SERIAL_PORT],
+                    user_input[CONF_BAUDRATE],
+                    user_input[CONF_STOPBITS],
+                    user_input[CONF_PARITY],
+                    user_input[CONF_BYTESIZE]
+                )
                 await server.connect()
             except ModbusPortException:
                 _LOGGER.error("ERROR", exc_info=True)
@@ -264,8 +276,6 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 await server.close()
 
             self.server = server
-
-            # TODO: finish up device form
             self.data.update(user_input)
 
             if device_info:
@@ -356,8 +366,6 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 await server.close()
 
             self.server = server
-
-            # TODO: finish up device form
             self.data.update(user_input)
 
             if device_info:
@@ -381,8 +389,43 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         device_info = None
         if self.server and user_input is not None:
             await self.server.connect()
-            device_info = await get_device_info(self.server, self.data[CONF_ADDRESS], user_input[CONF_TYPE])
-            await self.server.close()
+            try:
+                device_info = await get_device_info(
+                    self.server, self.data[CONF_ADDRESS], user_input[CONF_TYPE]
+                )
+            except TimeoutError:
+                _LOGGER.warning(
+                    "Device didn't respond on given address ID %s",
+                    self.data[CONF_ADDRESS],
+                )
+                return self._async_show_device_form(
+                    name=user_input[CONF_NAME],
+                    model=user_input[CONF_MODEL],
+                    device_type=user_input[CONF_TYPE],
+                    mppt_trackers=user_input[CONF_DC_STRING],
+                    grid_phases=user_input[CONF_AC_PHASES],
+                    scan_interval=user_input[CONF_SCAN_INTERVAL],
+                    power_scan_enabled=user_input[CONF_POWER_SCAN_ENABLED],
+                    power_scan_interval=user_input[CONF_POWER_SCAN_INTERVAL],
+                    errors={"base": "device_timeout"},
+                )
+            except ConnectionException:
+                _LOGGER.error(
+                    "Unexpected error when trying to get device info", exc_info=True
+                )
+                return self._async_show_device_form(
+                    name=user_input[CONF_NAME],
+                    model=user_input[CONF_MODEL],
+                    device_type=user_input[CONF_TYPE],
+                    mppt_trackers=user_input[CONF_DC_STRING],
+                    grid_phases=user_input[CONF_AC_PHASES],
+                    scan_interval=user_input[CONF_SCAN_INTERVAL],
+                    power_scan_enabled=user_input[CONF_POWER_SCAN_ENABLED],
+                    power_scan_interval=user_input[CONF_POWER_SCAN_INTERVAL],
+                    errors={"base": "device_disconnect"},
+                )
+            finally:
+                await self.server.close()
 
         if device_info is None:
             return self._async_show_device_form(
@@ -397,11 +440,11 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 errors={"base": "device_type"},
             )
 
-        await self.async_set_unique_id(self.device_info.serial_number)
+        await self.async_set_unique_id(device_info.serial_number)
         self._abort_if_unique_id_configured()
 
-        self.data[CONF_SERIAL_NUMBER] = self.device_info.serial_number
-        self.data[CONF_FIRMWARE] = self.device_info.firmware
+        self.data[CONF_SERIAL_NUMBER] = device_info.serial_number
+        self.data[CONF_FIRMWARE] = device_info.firmware
 
         self.data.update(user_input)
 
