@@ -65,9 +65,10 @@ def keys_sequences(keys: Iterable[int], maximum_length: int) -> Set[tuple[int, i
     start = 0
     indexes.append(len(sorted_keys))
     for end in indexes:
-        sequence.add((sorted_keys[start], len(sorted_keys[start:end])))
+        sequence.add((sorted_keys[start], max(sorted_keys[start:end]) - min(sorted_keys[start:end]) + 1))
         start = end
 
+    _LOGGER.debug("determined key seqences %s", [f"start: {s[0]}, end: {s[0] + s[1]}" for s in sequence])
     return sequence
 
 
