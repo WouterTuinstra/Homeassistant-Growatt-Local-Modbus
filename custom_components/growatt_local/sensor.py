@@ -1,6 +1,8 @@
 from datetime import timedelta
 
 import logging
+import re
+
 
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
@@ -20,11 +22,12 @@ from homeassistant.helpers.update_coordinator import (
 )
 
 from .API.const import DeviceTypes
-from .API.device_type.inverter import (
+from .API.device_type.base import (
     ATTR_INPUT_POWER,
     ATTR_OUTPUT_POWER,
 )
 
+from .sensor_types.sensor_entity_description import GrowattSensorEntityDescription
 from .sensor_types.inverter import INVERTER_SENSOR_TYPES
 from .const import (
     CONF_AC_PHASES,
@@ -50,22 +53,24 @@ async def async_setup_entry(
 
     entities = []
     power_sensor = []
-    sensor_descriptions = []
+    sensor_descriptions: list[GrowattSensorEntityDescription] = []
 
     device_type = DeviceTypes(config_entry.data[CONF_TYPE])
 
-    if device_type is DeviceTypes.INVERTER:
+    if device_type in (DeviceTypes.INVERTER, DeviceTypes.INVERTER_315, DeviceTypes.INVERTER_120):
+        supported_key_names = coordinator.growatt_api.get_register_names()
+
         for sensor in INVERTER_SENSOR_TYPES:
-            if config_entry.data[CONF_DC_STRING] == 1 and sensor.key.startswith(
-                "input_2"
-            ):
+            if sensor.key not in supported_key_names:
                 continue
-            elif config_entry.data[CONF_AC_PHASES] == 1 and (
-                sensor.key.startswith("output_2") or sensor.key.startswith("output_3")
-            ):
+
+            if re.match(r"input_\d+", sensor.key) and not re.match(f"input_[1-{config_entry.data[CONF_DC_STRING]}]", sensor.key):
+                continue
+            elif re.match(r"output_\d+", sensor.key) and not re.match(f"output_[1-{config_entry.data[CONF_AC_PHASES]}]", sensor.key):
                 continue
 
             sensor_descriptions.append(sensor)
+
         power_sensor = (ATTR_INPUT_POWER, ATTR_OUTPUT_POWER)
 
     else:
