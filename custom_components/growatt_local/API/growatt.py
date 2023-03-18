@@ -23,27 +23,32 @@ from pymodbus.constants import Defaults
 from pymodbus.framer.rtu_framer import ModbusRtuFramer
 
 from .device_type.base import (
+    GrowattDeviceRegisters,
+    GrowattDeviceInfo,
+    ATTR_DEVICE_TYPE_CODE,
+    ATTR_FIRMWARE,
+    ATTR_INVERTER_MODEL,
+    ATTR_MODBUS_VERSION,
+    ATTR_NUMBER_OF_TRACKERS_AND_PHASES,
+    ATTR_SERIAL_NUMBER,
     ATTR_STATUS,
     ATTR_DERATING_MODE,
     ATTR_FAULT_CODE,
     ATTR_STATUS_CODE,
+    inverter_status,
 )
-from .device_type.inverter import INVERTER_REGISTERS_TYPES, inverter_status
+from .device_type.inverter_120 import MAXIMUM_DATA_LENGTH_120, HOLDING_REGISTERS_120, INPUT_REGISTERS_120
+from .device_type.inverter_315 import MAXIMUM_DATA_LENGTH_315, HOLDING_REGISTERS_315, INPUT_REGISTERS_315
 
 from .exception import ModbusException, ModbusPortException
 from .const import DeviceTypes
-
-
-def rchr(rr, index, end=None):
-    """Read and convert to ASCII."""
-    string = ""
-    if end is None:
-        end = index
-    for i in range(index, end + 1):
-        string += chr(rr.registers[i] >> 8)
-        string += chr(rr.registers[i] & 0x000000FF)
-
-    return string
+from .utils import (
+    get_keys_from_register,
+    get_all_keys_from_register,
+    keys_sequences,
+    process_registers,
+    LRUCache
+)
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -51,7 +56,6 @@ _LOGGER = logging.getLogger(__name__)
 
 class GrowattModbusBase:
     client: ModbusBaseClient
-    device_info: tuple[str, str, str] = None
 
     @abstractmethod
     def __init__(self):
@@ -68,56 +72,47 @@ class GrowattModbusBase:
         """Closing the modbus device connection."""
         await self.client.close()
 
-    async def get_device_info(self, unit: int) -> tuple[str, str, str]:
+    async def get_device_info(
+            self,
+            register: dict[int, GrowattDeviceRegisters] | tuple[GrowattDeviceRegisters, ...],
+            max_length: int,
+            unit: int
+    ) -> GrowattDeviceInfo:
         """
         Read Growatt device information.
         """
 
-        if self.device_info is not None:
-            return self.device_info
+        if isinstance(register, tuple):
+            register = {item.register: item for item in register}
 
-        # Assuming the serial number doesn't change, it is read only once
-        rhr = await self.client.read_holding_registers(0, 30, slave=unit)
-        if rhr.isError():
-            self.client.close()
-            _LOGGER.debug("Modbus read failed for rhr")
-            raise ModbusException("Modbus read failed for rhr.")
+        key_sequences = keys_sequences(get_keys_from_register(register), max_length)
 
-        firmware = rchr(rhr, 9, 14)
+        register_values = {}
 
-        serial_number = rchr(rhr, 23, 27)
+        for item in key_sequences:
+            register_values.update(
+                await self.read_holding_registers(start_index=item[0], length=item[1], unit=unit)
+            )
 
-        mo = (rhr.registers[28] << 16) + rhr.registers[29]
-        model_number = (
-            "T"
-            + str((mo & 0xF00000) >> 20)
-            + " Q"
-            + str((mo & 0x0F0000) >> 16)
-            + " P"
-            + str((mo & 0x00F000) >> 12)
-            + " U"
-            + str((mo & 0x000F00) >> 8)
-            + " M"
-            + str((mo & 0x0000F0) >> 4)
-            + " S"
-            + str((mo & 0x00000F))
+        results = process_registers(register, register_values)
+
+        device_info = GrowattDeviceInfo(
+            serial_number=results[ATTR_SERIAL_NUMBER],
+            model=results[ATTR_INVERTER_MODEL],
+            firmware=results[ATTR_FIRMWARE],
+            mppt_trackers=results[ATTR_NUMBER_OF_TRACKERS_AND_PHASES][0],
+            grid_phases=results[ATTR_NUMBER_OF_TRACKERS_AND_PHASES][1],
+            modbus_version=results[ATTR_MODBUS_VERSION],
+            device_type=results[ATTR_DEVICE_TYPE_CODE]
         )
 
-        self.device_info = (serial_number, model_number, firmware)
-
-        _LOGGER.debug(
-            "GrowattRS232 with serial number %s is model %s and has firmware %s",
-            *self.device_info,
-        )
-
-        return self.device_info
+        return device_info
 
     async def read_device_time(self, unit: int):
         """
         Read Growatt device time.
         """
-
-        # Assuming the serial number doesn't change, it is read only once
+        # TODO: update with dynamic register values
         rhr = await self.client.read_holding_registers(45, 6, slave=unit)
         if rhr.isError():
             _LOGGER.debug("Modbus read failed for rhr")
@@ -136,7 +131,8 @@ class GrowattModbusBase:
         self, year: int, month: int, day: int, hour: int, minute: int, second: int
     ):
         """Writing current date/time to device."""
-        # doesn't work with asyc libary
+        # TODO: test if it works with current asyc libary
+        # TODO: update with dynamic register values
         await self.client.write_register(45, year - 2000)
         await self.client.write_register(46, month)
         await self.client.write_register(47, day)
@@ -145,7 +141,7 @@ class GrowattModbusBase:
         await self.client.write_register(50, second)
 
     async def read_holding_registers(self, start_index, length, unit) -> dict[int, int]:
-        data = await self.client.read_input_registers(start_index, length, unit)
+        data = await self.client.read_holding_registers(start_index, length, unit)
         registers = {c: v for c, v in enumerate(data.registers, start_index)}
         return registers
 
@@ -160,7 +156,7 @@ class GrowattNetwork(GrowattModbusBase):
         self,
         network_type: str,
         host: str,
-        port: int = None,
+        port: int = 502,
         timeout: int = Defaults.Timeout,
         retries: int = Defaults.Retries,
     ) -> None:
@@ -225,6 +221,10 @@ class GrowattSerial(GrowattModbusBase):
 
 
 class GrowattDevice:
+    holding_register: dict[int, GrowattDeviceRegisters] = {}
+    input_register: dict[int, GrowattDeviceRegisters] = {}
+    max_length: int = 20
+
     def __init__(
         self,
         GrowattModbusClient: GrowattModbusBase,
@@ -233,10 +233,24 @@ class GrowattDevice:
     ) -> None:
         self.modbus = GrowattModbusClient
         self.device = GrowattDeviceType
-        if GrowattDeviceType == DeviceTypes.INVERTER:
-            self.register_lookup = {
-                obj.register: obj for obj in INVERTER_REGISTERS_TYPES
+        self._input_cache = LRUCache(10)
+        if GrowattDeviceType in (DeviceTypes.INVERTER, DeviceTypes.INVERTER_315):
+            self.max_length = MAXIMUM_DATA_LENGTH_315
+            self.holding_register = {
+                obj.register: obj for obj in HOLDING_REGISTERS_315
             }
+            self.input_register = {
+                obj.register: obj for obj in INPUT_REGISTERS_315
+            }
+        elif GrowattDeviceType == DeviceTypes.INVERTER_120:
+            self.max_length = MAXIMUM_DATA_LENGTH_120
+            self.holding_register = {
+                obj.register: obj for obj in HOLDING_REGISTERS_120
+            }
+            self.input_register = {
+                obj.register: obj for obj in INPUT_REGISTERS_120
+            }
+
         self.unit = unit
 
     async def connect(self):
@@ -248,11 +262,11 @@ class GrowattDevice:
     async def close(self):
         await self.modbus.close()
 
-    async def get_device_into(self) -> tuple[str, str, str]:
-        return await self.modbus.get_device_info()
+    async def get_device_into(self) -> GrowattDeviceInfo:
+        return await self.modbus.get_device_info(self.holding_register, self.max_length, self.unit)
 
     async def sync_time(self) -> timedelta:
-        device_time = await self.modbus.read_device_time()
+        device_time = await self.modbus.read_device_time(self.unit)
         time = datetime.now()
         await self.modbus.write_device_time(
             time.year, time.month, time.day, time.hour, time.minute, time.second
@@ -260,85 +274,77 @@ class GrowattDevice:
 
         return time - device_time
 
-    async def update(self, keys: Sequence[int]) -> dict[str, Any]:
+    async def update(self, keys: set[int]) -> dict[str, Any]:
+        """
+        Based on the given keys it will generate one or multiple requests to get the corrisponding results
+        from the input registers from the device.
+
+        returns a dictionary of register name and value
+        """
         if len(keys) == 0:
-            return
+            return {}
 
-        key = min(keys)
-        maximum_key = max(keys)
-        key_seperation = []
-        while key < maximum_key:
-            end_of_sequence = max([k for k in keys if k <= key + 43])
-
-            double_value = self.register_lookup[end_of_sequence].double_value
-
-            key_seperation.append((key, end_of_sequence + double_value + 1 - key))
-
-            if end_of_sequence == maximum_key:
-                break
-
-            key = min([k for k in keys if k > end_of_sequence])
+        if (key_hash := hash(frozenset(keys))) not in self._input_cache:
+            key_sequences = keys_sequences(get_all_keys_from_register(self.input_register, keys), self.max_length)
+            self._input_cache[key_hash] = key_sequences
+        else:
+            key_sequences = self._input_cache[key_hash]
 
         register_values = {}
-        result: dict[str, Any] = {}
 
-        for item in key_seperation:
+        for item in key_sequences:
             register_values.update(
-                await self.modbus.read_input_registers(*item, self.unit)
+                await self.modbus.read_input_registers(start_index=item[0], length=item[1], unit=self.unit)
             )
 
-        for key in keys:
-            value = register_values.get(key, None)
+        return process_registers(self.input_register, register_values)
 
-            if value is None:
-                continue
-
-            register = self.register_lookup.get(key)
-
-            if register.value_type == int:
-                result[register.name] = value
-
-            elif register.value_type == float and register.double_value:
-                second_value = register_values.get(key + 1, None)
-
-                if second_value is None:
-                    continue
-
-                result[register.name] = round(
-                    float((value << 16) + second_value) / register.scale, 3
-                )
-
-            elif register.value_type == float:
-                result[register.name] = round(float(value) / register.scale, 3)
-
-        return result
-
-    def get_keys_by_name(self, names: Sequence[str]) -> Set[int]:
+    def get_keys_by_name(self, names: Sequence[str]) -> set[int]:
         if ATTR_STATUS in names:
-            names = {*names, ATTR_STATUS_CODE, ATTR_FAULT_CODE, ATTR_DERATING_MODE}
+            names = (*names, ATTR_STATUS_CODE, ATTR_FAULT_CODE, ATTR_DERATING_MODE)
 
         return {
             key
-            for key, register in self.register_lookup.items()
+            for key, register in self.input_register.items()
             if register.name in names
         }
 
-    def status(self, value):
-        if self.device is DeviceTypes.INVERTER:
+    def get_register_names(self) -> set[str]:
+        names = {register.name for register in self.input_register.values()}
+        names.add(ATTR_STATUS)
+        return names
+
+    def status(self, value: dict[str, Any]):
+        """
+        Based on the various register values the status of the device can be determined.
+        """
+        if self.device in (DeviceTypes.INVERTER, DeviceTypes.INVERTER_315, DeviceTypes.INVERTER_120):
             return inverter_status(value)
 
 
-if __name__ == "__main__":
+async def get_device_info(device: GrowattModbusBase, unit: int, fixed_device_types: DeviceTypes | None = None) -> GrowattDeviceInfo | None:
+    # Needs to determine minimal maximum length as all devices need to be able to support this
+    minimal_length = min((MAXIMUM_DATA_LENGTH_120, MAXIMUM_DATA_LENGTH_315))
 
-    loop = asyncio.get_event_loop()
+    if fixed_device_types is not None:
+        if fixed_device_types == DeviceTypes.INVERTER_120:
+            return await device.get_device_info(HOLDING_REGISTERS_120, minimal_length, unit)
+        elif fixed_device_types == DeviceTypes.INVERTER_315:
+            return await device.get_device_info(HOLDING_REGISTERS_315, minimal_length, unit)
+        else:
+            return None
 
-    server = GrowattSerial("COM10", timeout=10)
-    # server = GrowattNetwork('TCP', 'localhost')
+    _LOGGER.info(f"Detected the following device info")
+    inverter_v120 = await device.get_device_info(HOLDING_REGISTERS_120, minimal_length, unit)
+    _LOGGER.info(f"Inverter Protocol v1.20: {inverter_v120}")
 
-    test = GrowattDevice(server, INVERTER_REGISTERS_TYPES, 1)
+    inverter_v315 = await device.get_device_info(HOLDING_REGISTERS_315, minimal_length, unit)
+    _LOGGER.info(f"Inverter Protocol v3.15: {inverter_v315}")
 
-    loop.run_until_complete(test.connect())
-
-    loop.run_until_complete(test.update([0, 1]))
-
-    loop.run_until_complete(test.close())
+    if 1.0 < inverter_v120.modbus_version < 1.20:
+        return inverter_v120
+    elif 3.0 < inverter_v315.modbus_version < 3.15:
+        return inverter_v315
+    else:
+        _LOGGER.warning(f"Inverter Modbus version not default supported.")
+        return None
