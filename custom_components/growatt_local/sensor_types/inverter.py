@@ -19,115 +19,69 @@ from homeassistant.const import (
     PERCENTAGE,
 )
 
-# relative import NOT WORKING due to into higher located reference
-# from .growatt_local.API.device_type.base import ATTR 
-
-# Attribute names for values in the holding register
-
-ATTR_FIRMWARE = "firmware"
-ATTR_SERIAL_NUMBER = "serial number"
-ATTR_INVERTER_MODEL = "Inverter model"
-
-ATTR_DEVICE_TYPE_CODE = "device type code"
-ATTR_NUMBER_OF_TRACKERS_AND_PHASES = "number of trackers and phases"
-
-ATTR_MODBUS_VERSION = "modbus version"
-
-# Attribute names for values in the input register
-
-ATTR_STATUS = "status"
-ATTR_STATUS_CODE = "status_code"
-ATTR_DERATING_MODE = "derating_mode"
-ATTR_FAULT_CODE = "fault_code"
-ATTR_WARNING_CODE = "warning_code"
-ATTR_WARNING_VALUE = "warning_value"
-
-ATTR_INPUT_POWER = "input_power"  # W
-ATTR_INPUT_ENERGY_TOTAL = "input_energy_total"  # kWh
-
-ATTR_INPUT_1_VOLTAGE = "input_1_voltage"  # V
-ATTR_INPUT_1_AMPERAGE = "input_1_amperage"  # A
-ATTR_INPUT_1_POWER = "input_1_power"  # W
-ATTR_INPUT_1_ENERGY_TODAY = "input_1_energy_today"  # kWh
-ATTR_INPUT_1_ENERGY_TOTAL = "input_1_energy_total"  # kWh
-
-ATTR_INPUT_2_VOLTAGE = "input_2_voltage"  # V
-ATTR_INPUT_2_AMPERAGE = "input_2_amperage"  # A
-ATTR_INPUT_2_POWER = "input_2_power"  # W
-ATTR_INPUT_2_ENERGY_TODAY = "input_2_energy_today"  # kWh
-ATTR_INPUT_2_ENERGY_TOTAL = "input_2_energy_total"  # kWh
-
-ATTR_INPUT_3_VOLTAGE = "input_3_voltage"  # V
-ATTR_INPUT_3_AMPERAGE = "input_3_amperage"  # A
-ATTR_INPUT_3_POWER = "input_3_power"  # W
-ATTR_INPUT_3_ENERGY_TODAY = "input_3_energy_today"  # kWh
-ATTR_INPUT_3_ENERGY_TOTAL = "input_3_energy_total"  # kWh
-
-ATTR_INPUT_4_VOLTAGE = "input_4_voltage"  # V
-ATTR_INPUT_4_AMPERAGE = "input_4_amperage"  # A
-ATTR_INPUT_4_POWER = "input_4_power"  # W
-ATTR_INPUT_4_ENERGY_TODAY = "input_4_energy_today"  # kWh
-ATTR_INPUT_4_ENERGY_TOTAL = "input_4_energy_total"  # kWh
-
-ATTR_INPUT_5_VOLTAGE = "input_5_voltage"  # V
-ATTR_INPUT_5_AMPERAGE = "input_5_amperage"  # A
-ATTR_INPUT_5_POWER = "input_5_power"  # W
-ATTR_INPUT_5_ENERGY_TODAY = "input_5_energy_today"  # kWh
-ATTR_INPUT_5_ENERGY_TOTAL = "input_5_energy_total"  # kWh
-
-ATTR_INPUT_6_VOLTAGE = "input_6_voltage"  # V
-ATTR_INPUT_6_AMPERAGE = "input_6_amperage"  # A
-ATTR_INPUT_6_POWER = "input_6_power"  # W
-ATTR_INPUT_6_ENERGY_TODAY = "input_6_energy_today"  # kWh
-ATTR_INPUT_6_ENERGY_TOTAL = "input_6_energy_total"  # kWh
-
-ATTR_INPUT_7_VOLTAGE = "input_7_voltage"  # V
-ATTR_INPUT_7_AMPERAGE = "input_7_amperage"  # A
-ATTR_INPUT_7_POWER = "input_7_power"  # W
-ATTR_INPUT_7_ENERGY_TODAY = "input_7_energy_today"  # kWh
-ATTR_INPUT_7_ENERGY_TOTAL = "input_7_energy_total"  # kWh
-
-ATTR_INPUT_8_VOLTAGE = "input_8_voltage"  # V
-ATTR_INPUT_8_AMPERAGE = "input_8_amperage"  # A
-ATTR_INPUT_8_POWER = "input_8_power"  # W
-ATTR_INPUT_8_ENERGY_TODAY = "input_8_energy_today"  # kWh
-ATTR_INPUT_8_ENERGY_TOTAL = "input_8_energy_total"  # kWh
-
-ATTR_OUTPUT_POWER = "output_power"  # W
-ATTR_OUTPUT_ENERGY_TODAY = "output_energy_today"  # kWh
-ATTR_OUTPUT_ENERGY_TOTAL = "output_energy_total"  # kWh
-
-ATTR_OUTPUT_REACTIVE_POWER = "output_reactive_power"  # Var
-ATTR_OUTPUT_REACTIVE_ENERGY_TODAY = "output_reactive_energy_today"  # kVarh
-ATTR_OUTPUT_REACTIVE_ENERGY_TOTAL = "output_reactive_energy_total"  # kVarh
-
-ATTR_OUTPUT_1_VOLTAGE = "output_1_voltage"  # V
-ATTR_OUTPUT_1_AMPERAGE = "output_1_amperage"  # A
-ATTR_OUTPUT_1_POWER = "output_1_power"  # W
-
-ATTR_OUTPUT_2_VOLTAGE = "output_2_voltage"  # V
-ATTR_OUTPUT_2_AMPERAGE = "output_2_amperage"  # A
-ATTR_OUTPUT_2_POWER = "output_2_power"  # W
-
-ATTR_OUTPUT_3_VOLTAGE = "output_3_voltage"  # V
-ATTR_OUTPUT_3_AMPERAGE = "output_3_amperage"  # A
-ATTR_OUTPUT_3_POWER = "output_3_power"  # W
-
-ATTR_OPERATION_HOURS = "operation_hours"  # s
-
-ATTR_FREQUENCY = "frequency"  # Hz
-
-ATTR_TEMPERATURE = "inverter_temperature"  # C
-ATTR_IPM_TEMPERATURE = "ipm_temperature"  # C
-ATTR_BOOST_TEMPERATURE = "boost_temperature"  # C
-
-ATTR_P_BUS_VOLTAGE = "p_bus_voltage"  # V
-ATTR_N_BUS_VOLTAGE = "n_bus_voltage"  # V
-
-ATTR_OUTPUT_PERCENTAGE = "real_output_power_percent"  # %
-
-
 from .sensor_entity_description import GrowattSensorEntityDescription
+from ..API.device_type.base import (
+    ATTR_INPUT_POWER,
+    ATTR_INPUT_ENERGY_TOTAL,
+    ATTR_INPUT_1_VOLTAGE,
+    ATTR_INPUT_1_AMPERAGE,
+    ATTR_INPUT_1_POWER,
+    ATTR_INPUT_1_ENERGY_TODAY,
+    ATTR_INPUT_1_ENERGY_TOTAL,
+    ATTR_INPUT_2_VOLTAGE,
+    ATTR_INPUT_2_AMPERAGE,
+    ATTR_INPUT_2_POWER,
+    ATTR_INPUT_2_ENERGY_TODAY,
+    ATTR_INPUT_2_ENERGY_TOTAL,
+    ATTR_INPUT_3_VOLTAGE,
+    ATTR_INPUT_3_AMPERAGE,
+    ATTR_INPUT_3_POWER,
+    ATTR_INPUT_3_ENERGY_TODAY,
+    ATTR_INPUT_3_ENERGY_TOTAL,
+    ATTR_INPUT_4_VOLTAGE,
+    ATTR_INPUT_4_AMPERAGE,
+    ATTR_INPUT_4_POWER,
+    ATTR_INPUT_4_ENERGY_TODAY,
+    ATTR_INPUT_4_ENERGY_TOTAL,
+    ATTR_INPUT_5_VOLTAGE,
+    ATTR_INPUT_5_AMPERAGE,
+    ATTR_INPUT_5_POWER,
+    ATTR_INPUT_5_ENERGY_TODAY,
+    ATTR_INPUT_5_ENERGY_TOTAL,
+    ATTR_INPUT_6_VOLTAGE,
+    ATTR_INPUT_6_AMPERAGE,
+    ATTR_INPUT_6_POWER,
+    ATTR_INPUT_6_ENERGY_TODAY,
+    ATTR_INPUT_6_ENERGY_TOTAL,
+    ATTR_INPUT_7_VOLTAGE,
+    ATTR_INPUT_7_AMPERAGE,
+    ATTR_INPUT_7_POWER,
+    ATTR_INPUT_7_ENERGY_TODAY,
+    ATTR_INPUT_7_ENERGY_TOTAL,
+    ATTR_INPUT_8_VOLTAGE,
+    ATTR_INPUT_8_AMPERAGE,
+    ATTR_INPUT_8_POWER,
+    ATTR_INPUT_8_ENERGY_TODAY,
+    ATTR_INPUT_8_ENERGY_TOTAL,
+    ATTR_OUTPUT_POWER,
+    ATTR_OUTPUT_ENERGY_TODAY,
+    ATTR_OUTPUT_ENERGY_TOTAL,
+    ATTR_OUTPUT_REACTIVE_POWER,
+    ATTR_OUTPUT_1_VOLTAGE,
+    ATTR_OUTPUT_1_AMPERAGE,
+    ATTR_OUTPUT_1_POWER,
+    ATTR_OUTPUT_2_VOLTAGE,
+    ATTR_OUTPUT_2_AMPERAGE,
+    ATTR_OUTPUT_2_POWER,
+    ATTR_OUTPUT_3_VOLTAGE,
+    ATTR_OUTPUT_3_AMPERAGE,
+    ATTR_OUTPUT_3_POWER,
+    ATTR_OPERATION_HOURS,
+    ATTR_FREQUENCY,
+    ATTR_TEMPERATURE,
+    ATTR_IPM_TEMPERATURE,
+    ATTR_OUTPUT_PERCENTAGE,
+)
 
 INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
     GrowattSensorEntityDescription(
