@@ -35,6 +35,7 @@ from .const import (
     CONF_SERIAL,
     CONF_TCP,
     CONF_UDP,
+    CONF_FRAME,
     CONF_SERIAL_PORT,
     CONF_BAUDRATE,
     CONF_BYTESIZE,
@@ -54,6 +55,11 @@ PARITY_OPTION = [
     selector.SelectOptionDict(value=ParityOptions.ODD, label=ParityOptions.ODD),
     selector.SelectOptionDict(value=ParityOptions.MARK, label=ParityOptions.MARK),
     selector.SelectOptionDict(value=ParityOptions.SPACE, label=ParityOptions.SPACE),
+]
+
+MODBUS_FRAMER_OPTION = [
+    selector.SelectOptionDict(value='rtu', label='Modbus RTU'),
+    selector.SelectOptionDict(value='socket', label='Modbus TCP'),
 ]
 
 DEVICETYPES_OPTION = [
@@ -126,13 +132,18 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
     @callback
-    def _async_show_network_form(self, default_values=("", 502, None), errors=None):
+    def _async_show_network_form(self, default_values=("", 502, None, 'socket'), errors=None):
         """Show the network form to the user."""
         data_schema = vol.Schema(
             {
                 vol.Required(CONF_IP_ADDRESS, default=default_values[0]): str,
                 vol.Required(CONF_PORT, default=default_values[1]): int,
                 vol.Required(CONF_ADDRESS, default=default_values[2]): int,
+                vol.Required(CONF_FRAME, default=default_values[3]): selector.SelectSelector(
+                    selector.SelectSelectorConfig(
+                        options=MODBUS_FRAMER_OPTION, mode=selector.SelectSelectorMode.DROPDOWN
+                    )
+                )
             }
         )
 
@@ -298,6 +309,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     self.data[CONF_LAYER],
                     user_input[CONF_IP_ADDRESS],
                     user_input[CONF_PORT],
+                    user_input[CONF_FRAME],
                     timeout=5,
                     retries=0,
                 )
@@ -307,7 +319,8 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     default_values=(
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
-                        user_input[CONF_ADDRESS]
+                        user_input[CONF_ADDRESS],
+                        user_input[CONF_FRAME]
                     ),
                     errors={"base": "network_connection"},
                 )
@@ -317,7 +330,8 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     default_values=(
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
-                        user_input[CONF_ADDRESS]
+                        user_input[CONF_ADDRESS],
+                        user_input[CONF_FRAME]
                     ),
                     errors={"base": "network_custom"},
                 )
@@ -328,7 +342,8 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     default_values=(
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
-                        user_input[CONF_ADDRESS]
+                        user_input[CONF_ADDRESS],
+                        user_input[CONF_FRAME]
                     ),
                     errors={"base": "network_connection"},
                 )
@@ -346,7 +361,8 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     default_values=(
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
-                        user_input[CONF_ADDRESS]
+                        user_input[CONF_ADDRESS],
+                        user_input[CONF_FRAME]
                     ),
                     errors={CONF_ADDRESS: "device_address", "base": "device_timeout"},
                 )
@@ -358,7 +374,8 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     default_values=(
                         user_input[CONF_IP_ADDRESS],
                         user_input[CONF_PORT],
-                        user_input[CONF_ADDRESS]
+                        user_input[CONF_ADDRESS],
+                        user_input[CONF_FRAME]
                     ),
                     errors={"base": "device_disconnect"},
                 )
