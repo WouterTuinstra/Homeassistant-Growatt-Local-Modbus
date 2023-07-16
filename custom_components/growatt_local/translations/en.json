@@ -39,10 +39,12 @@
         "data": {
           "ip_address": "[%key:common::config_flow::data::ip%]",
           "port": "[%key:common::config_flow::data::port%]",
-          "address": "Modbus Device Address"
+          "address": "Modbus Device Address",
+          "modbus_frame": "Modbus Framer"
         },
         "data_description": {
-          "address": "The default Modbus address normally configured is: 1\nAlternatively check the device configration for the assigned modbus address"
+          "address": "The default Modbus address normally configured is: 1\nAlternatively check the device configration for the assigned modbus address",
+          "modbus_frame": "The interfacing method determines which framer to use.\n Default 'Modbus TCP' should be used when interfacing directly."
         }
       },
       "device": {

@@ -7,6 +7,8 @@ CONF_SERIAL = "serial"
 CONF_TCP = "tcp"
 CONF_UDP = "udp"
 
+CONF_FRAME = "modbus_frame"
+
 CONF_SERIAL_PORT = "port"
 CONF_BAUDRATE = "baudrate"
 CONF_STOPBITS = "stopbits"
