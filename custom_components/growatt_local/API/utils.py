@@ -2,9 +2,10 @@
 Utility functions.
 """
 import logging
+from dataclasses import dataclass
 from typing import Any, List, Iterable, Iterator, TypeVar, Generic, Union, Optional
 from collections import OrderedDict
-from collections.abc import MutableMapping, Set
+from collections.abc import MutableMapping
 
 
 from .device_type.base import (
@@ -19,6 +20,50 @@ D = TypeVar('D')
 __all__ = ('LRUCache', 'get_keys_from_register', 'get_all_keys_from_register', 'keys_sequences', 'split_sequence', 'process_registers')
 
 _LOGGER = logging.getLogger(__name__)
+
+
+@dataclass
+class DeviceRegisters:
+    holding: dict[int, GrowattDeviceRegisters]
+    input: dict[int, GrowattDeviceRegisters]
+    max_length: int
+
+
+@dataclass
+class RegisterKeys:
+    holding: set[int] = set()
+    input: set[int] = set()
+
+    def __len__(self):
+        return len(self.holding) + len(self.input)
+
+    def __hash__(self) -> int:
+        return hash((frozenset(self.holding), frozenset(self.input)))
+
+    def update(self, register_keys: "RegisterKeys") -> None:
+        self.holding.update(register_keys.holding)
+        self.input.update(register_keys.input)
+
+
+@dataclass
+class RegisterSequences:
+    holding: set[tuple[int, int]] = set()
+    input: set[tuple[int, int]] = set()
+
+    def __len__(self):
+        return len(self.holding) + len(self.input)
+
+
+def register_sequences(
+    register_keys: RegisterKeys,
+    device_registers: DeviceRegisters
+) -> RegisterSequences:
+
+    input_sequence = keys_sequences(get_all_keys_from_register(device_registers.input, register_keys.input), device_registers.max_length)
+
+    holding_sequence = keys_sequences(get_all_keys_from_register(device_registers.holding, register_keys.holding), device_registers.max_length)
+
+    return RegisterSequences(holding_sequence, input_sequence)
 
 
 def get_keys_from_register(register: dict[int, GrowattDeviceRegisters]) -> set[int]:
@@ -52,7 +97,7 @@ def get_all_keys_from_register(registers: dict[int, GrowattDeviceRegisters], key
     return result
 
 
-def keys_sequences(keys: Iterable[int], maximum_length: int) -> Set[tuple[int, int]]:
+def keys_sequences(keys: Iterable[int], maximum_length: int) -> set[tuple[int, int]]:
     """
     Creates the set of sequences based on the given keys.
     returns set containing tuples with start_key and length.
@@ -112,10 +157,10 @@ def split_sequence(keys: list[int], maximum_length: int) -> list[int]:
 
     _LOGGER.debug(f"split sequence indexes based on maximum length: {cumulative_key_seperation_index}")
 
-    # check if both methodes find equal index seperation values
+    # check if both methods find equal index separation values
     common_index = cumulative_key_seperation_index.intersection(diff_key_seperation_index)
 
-    _LOGGER.debug(f"split sequence commom indexes: {common_index}")
+    _LOGGER.debug(f"split sequence common indexes: {common_index}")
 
     cumulative_key_seperation_index.difference_update(common_index)
     diff_key_seperation_index.difference_update(common_index)
@@ -124,18 +169,18 @@ def split_sequence(keys: list[int], maximum_length: int) -> list[int]:
         return sorted(common_index)
 
     if len(cumulative_key_seperation_index) > 0:
-        # sorting the seperation index fixes the processing from small to higher
+        # sorting the separation index fixes the processing from small to higher
         for item in sorted(cumulative_key_seperation_index):
             if len(diff_key_seperation_index) == 0:
                 common_index.add(item)
                 cumulative_key_seperation_index.remove(item)
                 continue
 
-            # Trying to optimize the number split by checking if there is a larger seperation nearby
+            # Trying to optimize the number split by checking if there is a larger separation nearby
             closest_value = min(diff_key_seperation_index, key=lambda x: abs(x - item))
 
             if len(common_index) == 0:
-                # checking if closest seperation is not violating the maximum length
+                # checking if closest separation is not violating the maximum length
                 if keys[closest_value - 1] - keys[0] < maximum_length:
                     common_index.add(closest_value)
                     cumulative_key_seperation_index.remove(item)
@@ -154,7 +199,7 @@ def split_sequence(keys: list[int], maximum_length: int) -> list[int]:
                     cumulative_key_seperation_index.remove(item)
                     continue
 
-                # closest_value falls within the same known sepeation as item
+                # closest_value falls within the same known separation as item
                 if smaller_common_value is None:
                     if keys[closest_value - 1] - keys[0] < maximum_length:
                         common_index.add(closest_value)

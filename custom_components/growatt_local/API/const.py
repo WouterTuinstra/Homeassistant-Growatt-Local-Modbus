@@ -12,7 +12,10 @@ DEFAULT_ADDRESS = 0x1
 class DeviceTypes(str, Enum):
     INVERTER = "inverter"
     INVERTER_120 = "inverter_120"
+    STORAGE_120 = "storage_120"
+    HYBRIDE_120 = "hybride_120"
     INVERTER_315 = "inverter_315"
+
 
 
 # Unit of measurement
