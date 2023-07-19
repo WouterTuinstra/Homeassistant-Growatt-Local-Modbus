@@ -1,17 +1,14 @@
 """The Growatt server PV inverter sensor integration."""
 import asyncio
-from datetime import date, timedelta
 import logging
 from collections.abc import Callable, Sequence
+from datetime import timedelta
 from typing import Any, Optional
 
 from pymodbus.exceptions import ConnectionException
 
 from homeassistant import config_entries
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback
-from homeassistant.helpers.sun import get_astral_event_next
-from homeassistant.util import dt as dt_util
 from homeassistant.const import (
     CONF_ADDRESS,
     CONF_IP_ADDRESS,
@@ -22,18 +19,21 @@ from homeassistant.const import (
     SUN_EVENT_SUNRISE,
     SUN_EVENT_SUNSET,
 )
-
+from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback
 from homeassistant.helpers.event import (
     async_track_sunrise,
     async_track_sunset,
     async_track_time_change,
 )
-
+from homeassistant.helpers.sun import get_astral_event_next
 from homeassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
-    UpdateFailed,
 )
-
+from homeassistant.util import dt as dt_util
+from .API.device_type.base import GrowattDeviceRegisters
+from .API.utils import RegisterKeys
+from .API.const import DeviceTypes
+from .API.growatt import GrowattDevice, GrowattSerial, GrowattNetwork
 from .const import (
     CONF_LAYER,
     CONF_SERIAL,
@@ -50,10 +50,6 @@ from .const import (
     DOMAIN,
     PLATFORMS,
 )
-
-from .API.const import DeviceTypes
-from .API.growatt import GrowattDevice, GrowattSerial, GrowattNetwork
-
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -138,8 +134,8 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
         self.data = {}
         self.growatt_api = growatt_api
         self._failed_update_count = 0
-        self.keys = set()
-        self.p_keys = set()
+        self.keys = RegisterKeys()
+        self.p_keys = RegisterKeys()
         self._midnight_listeners: dict[
             CALLBACK_TYPE, tuple[CALLBACK_TYPE, object | None]
         ] = {}
@@ -149,10 +145,14 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
         else:
             self._counter = self._max_counter = 0
 
-        self._sun_is_down = self.sun_down()
+        # Storage/Hybride devices are always active while inverters are only active when the sun is up.
+        if self.growatt_api.device not in (DeviceTypes.HYBRIDE_120, ):
+            self._sun_is_down = self.sun_down()
 
-        async_track_sunrise(self.hass, self.sunrise)
-        async_track_sunset(self.hass, self.sunset, timedelta(minutes=-10))
+            async_track_sunrise(self.hass, self.sunrise)
+            async_track_sunset(self.hass, self.sunset, timedelta(minutes=-10))
+        else:
+            self._sun_is_down = False
 
         async_track_time_change(self.hass, self.midnight, 0, 0, 0)
 
@@ -197,6 +197,10 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
             data["status"] = status
 
         return data
+
+    async def force_refresh(self):
+        self._counter = 999
+        await self.async_request_refresh()
 
     async def sunrise(self):
         """Callback function when sunrise occours."""
@@ -260,7 +264,7 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
     @callback
     def get_keys_by_name(
         self, names: Sequence[str], update_keys: bool = False
-    ) -> set[int]:
+    ) -> RegisterKeys:
         """
         Loopup modbus register values based on name.
         Setting update_keys automaticly extends the list of keys to request.
@@ -270,3 +274,12 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
             self.keys.update(keys)
 
         return keys
+
+    def get_input_register_by_name(self, name) -> GrowattDeviceRegisters | None:
+        return self.growatt_api.get_input_register_by_name(name)
+
+    def get_holding_register_by_name(self, name) -> GrowattDeviceRegisters | None:
+        return self.growatt_api.get_holding_register_by_name(name)
+
+    async def write_register(self, register, payload):
+        await self.growatt_api.write_register(register, payload)

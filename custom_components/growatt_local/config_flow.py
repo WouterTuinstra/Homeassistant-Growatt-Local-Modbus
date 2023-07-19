@@ -1,15 +1,13 @@
 """Config flow for growatt server integration."""
 import asyncio
 import logging
-import traceback
 from asyncio.exceptions import TimeoutError
 from typing import Any
-import voluptuous as vol
 
+import voluptuous as vol
 from pymodbus.exceptions import ConnectionException
 
 from homeassistant import config_entries
-
 from homeassistant.const import (
     CONF_IP_ADDRESS,
     CONF_NAME,
@@ -64,6 +62,7 @@ MODBUS_FRAMER_OPTION = [
 
 DEVICETYPES_OPTION = [
     selector.SelectOptionDict(value=DeviceTypes.INVERTER_120, label="Inverter Protocol version 1.20"),
+    selector.SelectOptionDict(value=DeviceTypes.HYBRIDE_120, label="Hybride Protocol version 1.20"),
     selector.SelectOptionDict(value=DeviceTypes.INVERTER_315, label="Inverter Protocol version 3.05-3.15"),
 ]
 
