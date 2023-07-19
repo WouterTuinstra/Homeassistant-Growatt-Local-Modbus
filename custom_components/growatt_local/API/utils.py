@@ -2,7 +2,7 @@
 Utility functions.
 """
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, List, Iterable, Iterator, TypeVar, Generic, Union, Optional
 from collections import OrderedDict
 from collections.abc import MutableMapping
@@ -31,8 +31,8 @@ class DeviceRegisters:
 
 @dataclass
 class RegisterKeys:
-    holding: set[int] = set()
-    input: set[int] = set()
+    holding: set[int] = field(default_factory=set)
+    input: set[int] = field(default_factory=set)
 
     def __len__(self):
         return len(self.holding) + len(self.input)
@@ -47,8 +47,8 @@ class RegisterKeys:
 
 @dataclass
 class RegisterSequences:
-    holding: set[tuple[int, int]] = set()
-    input: set[tuple[int, int]] = set()
+    holding: set[tuple[int, int]] = field(default_factory=set)
+    input: set[tuple[int, int]] = field(default_factory=set)
 
     def __len__(self):
         return len(self.holding) + len(self.input)
@@ -59,9 +59,15 @@ def register_sequences(
     device_registers: DeviceRegisters
 ) -> RegisterSequences:
 
-    input_sequence = keys_sequences(get_all_keys_from_register(device_registers.input, register_keys.input), device_registers.max_length)
+    if register_keys.holding:
+        holding_sequence = keys_sequences(get_all_keys_from_register(device_registers.holding, register_keys.holding), device_registers.max_length)
+    else:
+        holding_sequence = set()
 
-    holding_sequence = keys_sequences(get_all_keys_from_register(device_registers.holding, register_keys.holding), device_registers.max_length)
+    if register_keys.input:
+        input_sequence = keys_sequences(get_all_keys_from_register(device_registers.input, register_keys.input), device_registers.max_length)
+    else:
+        input_sequence = set()
 
     return RegisterSequences(holding_sequence, input_sequence)
 
