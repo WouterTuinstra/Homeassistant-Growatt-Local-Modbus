@@ -39,6 +39,7 @@ from .device_type.base import (
 from .device_type.inverter_120 import MAXIMUM_DATA_LENGTH_120, HOLDING_REGISTERS_120, INPUT_REGISTERS_120
 from .device_type.storage_120 import STORAGE_HOLDING_REGISTERS_120, STORAGE_INPUT_REGISTERS_120
 from .device_type.inverter_315 import MAXIMUM_DATA_LENGTH_315, HOLDING_REGISTERS_315, INPUT_REGISTERS_315
+from .device_type.offgrid import INPUT_REGISTERS_OFFGRID, offgrid_status
 
 from .exception import ModbusException, ModbusPortException
 from .const import DeviceTypes
@@ -388,6 +389,9 @@ class GrowattDevice:
         """
         Based on the various register values the status of the device can be determined.
         """
+        if self.device == DeviceTypes.OFFGRID_SPF:
+            return offgrid_status(value)
+
         return inverter_status(value)
 
 
@@ -399,6 +403,14 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
         }
         input_register = {
             obj.register: obj for obj in INPUT_REGISTERS_315
+        }
+    elif GrowattDeviceType == DeviceTypes.OFFGRID_SPF:
+        max_length = MAXIMUM_DATA_LENGTH_315
+        holding_register = {
+            obj.register: obj for obj in HOLDING_REGISTERS_315
+        }
+        input_register = {
+            obj.register: obj for obj in INPUT_REGISTERS_OFFGRID
         }
     elif GrowattDeviceType == DeviceTypes.INVERTER_120:
         max_length = MAXIMUM_DATA_LENGTH_120

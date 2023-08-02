@@ -73,7 +73,7 @@ from ..API.device_type.base import (
     ATTR_OUTPUT_3_AMPERAGE,
     ATTR_OUTPUT_3_POWER,
     ATTR_OPERATION_HOURS,
-    ATTR_FREQUENCY,
+    ATTR_GRID_FREQUENCY,
     ATTR_TEMPERATURE,
     ATTR_IPM_TEMPERATURE,
     ATTR_OUTPUT_PERCENTAGE,
@@ -434,7 +434,7 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         device_class=SensorDeviceClass.POWER,
     ),
     GrowattSensorEntityDescription(
-        key=ATTR_FREQUENCY,
+        key=ATTR_GRID_FREQUENCY,
         name="AC frequency",
         native_unit_of_measurement=FREQUENCY_HERTZ,
     ),

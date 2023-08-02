@@ -22,14 +22,17 @@ from homeassistant.helpers.update_coordinator import (
 
 from .API.const import DeviceTypes
 from .API.device_type.base import (
+    ATTR_ACTIVE_POWER,
     ATTR_INPUT_POWER,
     ATTR_OUTPUT_POWER,
-    ATTR_SOC_PERCENTAGE,
     ATTR_DISCHARGE_POWER,
-    ATTR_CHARGE_POWER
+    ATTR_CHARGE_POWER,
+    ATTR_SOC_PERCENTAGE,
+    ATTR_LOAD_PERCENTAGE,
 )
 
 from .sensor_types.sensor_entity_description import GrowattSensorEntityDescription
+from .sensor_types.offgrid import OFFGRID_SENSOR_TYPES
 from .sensor_types.inverter import INVERTER_SENSOR_TYPES
 from .sensor_types.storage import STORAGE_SENSOR_TYPES
 from .const import (
@@ -73,6 +76,17 @@ async def async_setup_entry(
                 continue
 
             sensor_descriptions.append(sensor)
+    elif device_type == DeviceTypes.OFFGRID_SPF:
+        for sensor in OFFGRID_SENSOR_TYPES:
+            if sensor.key not in supported_key_names:
+                continue
+
+            if re.match(r"input_\d+", sensor.key) and not re.match(
+                f"input_[1-{config_entry.data[CONF_DC_STRING]}]", sensor.key
+            ):
+                continue
+
+            sensor_descriptions.append(sensor)
 
     if device_type in (DeviceTypes.HYBRIDE_120, DeviceTypes.STORAGE_120):
         for sensor in STORAGE_SENSOR_TYPES:
@@ -83,10 +97,12 @@ async def async_setup_entry(
 
     if device_type in (DeviceTypes.INVERTER, DeviceTypes.INVERTER_315, DeviceTypes.INVERTER_120):
         power_sensor = (ATTR_INPUT_POWER, ATTR_OUTPUT_POWER)
-    elif device_type in device_type in (DeviceTypes.HYBRIDE_120, ):
+    elif device_type in (DeviceTypes.HYBRIDE_120, ):
         power_sensor = (ATTR_INPUT_POWER, ATTR_OUTPUT_POWER, ATTR_SOC_PERCENTAGE, ATTR_DISCHARGE_POWER, ATTR_CHARGE_POWER)
-    elif device_type in device_type in (DeviceTypes.STORAGE_120, ):
+    elif device_type in (DeviceTypes.STORAGE_120, ):
         power_sensor = (ATTR_SOC_PERCENTAGE, ATTR_DISCHARGE_POWER, ATTR_CHARGE_POWER)
+    elif device_type == DeviceTypes.OFFGRID_SPF:
+        power_sensor = (ATTR_ACTIVE_POWER, ATTR_LOAD_PERCENTAGE, ATTR_DISCHARGE_POWER, ATTR_CHARGE_POWER)
     else:
         power_sensor = tuple()
         _LOGGER.debug(

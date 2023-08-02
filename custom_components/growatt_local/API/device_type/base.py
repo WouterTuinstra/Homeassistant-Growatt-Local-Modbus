@@ -96,7 +96,8 @@ ATTR_OUTPUT_3_POWER = "output_3_power"  # W
 
 ATTR_OPERATION_HOURS = "operation_hours"  # s
 
-ATTR_FREQUENCY = "frequency"  # Hz
+ATTR_GRID_VOLTAGE = "grid_voltage"
+ATTR_GRID_FREQUENCY = "grid_frequency"  # Hz
 
 ATTR_TEMPERATURE = "inverter_temperature"  # C
 ATTR_IPM_TEMPERATURE = "ipm_temperature"  # C
@@ -123,6 +124,27 @@ ATTR_DISCHARGE_ENERGY_TOTAL = "discharge_energy_total"  # kWh
 
 ATTR_CHARGE_ENERGY_TODAY = "charge_energy_today"  # kWh
 ATTR_CHARGE_ENERGY_TOTAL = "charge_energy_total"  # kWh
+
+# Attribute names for values in the input register for Offgrid inverter 
+ATTR_ACTIVE_POWER = "output_active_power"  # W
+
+ATTR_BATTERY_VOLTAGE = "battery_voltage"  # V
+ATTR_BUS_VOLTAGE = "bus_voltage"  # V
+ATTR_OUTPUT_FREQUENCY = "output_frequency"  # Hz
+ATTR_OUTPUT_DC_VOLTAGE = "output_dc_voltage"  # V
+
+ATTR_DC_TEMPERATURE = "dc_dc_temperature"  # C
+ATTR_LOAD_PERCENTAGE = "load_percent"  # %
+
+ATTR_BATTERY_P_VOLTAGE = "battery_port_voltage"  # V
+ATTR_BATTERY_B_VOLTAGE = "battery_bus_voltage"  # V
+ATTR_CONSTANT_POWER = "constant_power"
+
+ATTR_AC_CHARGE_AMPERAGE = "ac_charge_amperage"  # A
+ATTR_BATTERY_DISCHARGE_AMPERAGE = "battery_discharge_amperage"  # A
+
+ATTR_AC_DISCHARGE_TODAY = "ac_discharge_energy_today"  # kWh
+ATTR_AC_DISCHARGE_TOTAL = "ac_discharge_energy_total"  # kWh
 
 
 class custom_function(type):
