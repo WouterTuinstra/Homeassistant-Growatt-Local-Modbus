@@ -64,6 +64,7 @@ DEVICETYPES_OPTION = [
     selector.SelectOptionDict(value=DeviceTypes.INVERTER_120, label="Inverter Protocol version 1.20"),
     selector.SelectOptionDict(value=DeviceTypes.HYBRIDE_120, label="Hybride Protocol version 1.20"),
     selector.SelectOptionDict(value=DeviceTypes.INVERTER_315, label="Inverter Protocol version 3.05-3.15"),
+    selector.SelectOptionDict(value=DeviceTypes.OFFGRID_SPF, label="Offgrid SPF Protocol"),
 ]
 
 _LOGGER = logging.getLogger(__name__)
