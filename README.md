@@ -20,3 +20,31 @@ Currently there are 2 protocol versions supported with this intergration:
 Note currently only supporting inverters adding support for storage devices is can be realized.
 
 Currently the communication layer (API) is included in this repository but following the guidelines of HASS there should be seperate repositories
+
+
+## Manual Installation by ssh
+
+1. Open the `\share` directory.
+2. If you do not have a `custom_components` directory there, you need to create it.
+
+#### Git clone method
+
+This is a preferred method of manual installation, because it allows you to keep the `git` functionality,
+allowing you to manually install updates just by running `git pull origin master` from the created directory.
+
+Now you can clone the repository somewhere else and symlink it to Home Assistant like so:
+
+1. Clone the repo.
+
+```shell
+git clone https://github.com/l4m4re/Homeassistant-Growatt-Local-Modbus.git
+```
+
+2. Create the symlink to `growatt_local` in the configuration directory.
+   If you have non standard directory for configuration, use it instead.
+
+```shell
+ln -s /share/custom_components/Homeassistant-Growatt-Local-Modbus/custom_components/growatt_local /config/custom_components/growatt_local
+```
+
+https://community.home-assistant.io/t/user-file-changes-lost-on-reboot/545757/2
