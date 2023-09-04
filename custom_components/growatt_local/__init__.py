@@ -184,6 +184,9 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
                 data = await self.growatt_api.update(self.p_keys)
             self._failed_update_count = 0
         except ConnectionException:
+            if self._failed_update_count % 60 == 0:
+                _LOGGER.warning("Modbus connection got interupted retrying to reconnect", exc_info=True)
+                await self.growatt_api.connect()
             self._failed_update_count += 1
             status = "not_connected"
         except asyncio.TimeoutError:
