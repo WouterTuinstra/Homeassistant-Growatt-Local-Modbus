@@ -279,7 +279,7 @@ class GrowattDevice:
     async def close(self):
         await self.modbus.close()
 
-    async def get_device_into(self) -> GrowattDeviceInfo:
+    async def get_device_info(self) -> GrowattDeviceInfo:
         return await self.modbus.get_device_info(self.holding_register, self.max_length, self.unit)
 
     async def sync_time(self) -> timedelta:
