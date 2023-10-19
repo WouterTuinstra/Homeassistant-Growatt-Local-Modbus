@@ -69,9 +69,9 @@ class GrowattModbusBase:
     def connected(self):
         return self.client.connected
 
-    async def close(self):
+    def close(self):
         """Closing the modbus device connection."""
-        await self.client.close()
+        self.client.close()
 
     async def get_device_info(
             self,
@@ -279,8 +279,8 @@ class GrowattDevice:
     def connected(self):
         return self.modbus.connected()
 
-    async def close(self):
-        await self.modbus.close()
+    def close(self):
+        self.modbus.close()
 
     async def get_device_info(self) -> GrowattDeviceInfo:
         return await self.modbus.get_device_info(self.holding_register, self.max_length, self.unit)
