@@ -109,7 +109,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
 
-    await hass.data[DOMAIN][entry.data[CONF_SERIAL_NUMBER]].growatt_api.close()
+    hass.data[DOMAIN][entry.data[CONF_SERIAL_NUMBER]].growatt_api.close()
 
     if unload_ok:
         del hass.data[DOMAIN][entry.data[CONF_SERIAL_NUMBER]]
