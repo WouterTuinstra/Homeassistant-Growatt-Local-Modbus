@@ -284,7 +284,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     errors={"base": "device_disconnect"},
                 )
             finally:
-                await server.close()
+                server.close()
 
             self.server = server
             self.data.update(user_input)
@@ -337,7 +337,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 )
 
             if not server.connected():
-                await server.close()
+                server.close()
                 return self._async_show_network_form(
                     default_values=(
                         user_input[CONF_IP_ADDRESS],
@@ -380,7 +380,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     errors={"base": "device_disconnect"},
                 )
             finally:
-                await server.close()
+                server.close()
 
             self.server = server
             self.data.update(user_input)
@@ -442,7 +442,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     errors={"base": "device_disconnect"},
                 )
             finally:
-                await self.server.close()
+                self.server.close()
 
         if device_info is None:
             return self._async_show_device_form(
