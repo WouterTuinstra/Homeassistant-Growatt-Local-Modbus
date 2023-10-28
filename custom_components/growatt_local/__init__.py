@@ -40,6 +40,7 @@ from .const import (
     CONF_SERIAL_NUMBER,
     CONF_TCP,
     CONF_UDP,
+    CONF_FRAME,
     CONF_SERIAL_PORT,
     CONF_BAUDRATE,
     CONF_BYTESIZE,
@@ -76,6 +77,7 @@ async def async_setup_entry(
             entry.data[CONF_LAYER],
             entry.data[CONF_IP_ADDRESS],
             entry.data[CONF_PORT],
+            entry.data[CONF_FRAME],
         )
     else:
         _LOGGER.warning(
