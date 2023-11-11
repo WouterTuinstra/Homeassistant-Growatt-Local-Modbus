@@ -196,6 +196,8 @@ class InverterStatus(Enum):
     Waiting = 0
     Normal = 1
     Fault = 3
+    Unknown5 = 5  # maybe some warning state if no battery connected
+    Unknown9 = 9  # maybe upgrade planned
 
 
 INVERTER_DERATINGMODES = {
@@ -254,7 +256,7 @@ def inverter_status(value: dict[str, Any]) -> str | None:
     if status_value is InverterStatus.Waiting:
         return status_value.name
 
-    elif status_value == InverterStatus.Normal:
+    elif status_value in [InverterStatus.Normal, InverterStatus.Unknown5, InverterStatus.Unknown9]:
         derating = value.get(ATTR_DERATING_MODE, None)
         if (derating is not None and derating in INVERTER_DERATINGMODES.keys() and derating != 0):
             return f"{status_value.name} - {INVERTER_DERATINGMODES[derating]}"

@@ -361,7 +361,7 @@ async def get_device_info(device: GrowattModbusBase, unit: int, fixed_device_typ
     inverter_v315 = await device.get_device_info(HOLDING_REGISTERS_315, minimal_length, unit)
     _LOGGER.info(f"Inverter Protocol v3.15: {inverter_v315}")
 
-    if 1.0 < inverter_v120.modbus_version < 1.20:
+    if 1.0 < inverter_v120.modbus_version < 2.3:
         return inverter_v120
     elif 3.0 < inverter_v315.modbus_version < 3.15:
         return inverter_v315
