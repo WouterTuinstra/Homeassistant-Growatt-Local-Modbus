@@ -13,11 +13,10 @@
  * Used protocol version by your device
 
 ## Protocol version
-Currently there are 2 protocol versions supported with this integration:
+Currently there are 3 protocol versions supported with this integration:
 * Protocol version 3.15 used by older models that would support up to two strings
-* Protocol version 1.20 used by newer models and larger devices
-
-Note currently only supporting inverters adding support for storage devices is can be realized.
+* Protocol version 1.20 used by newer models and larger devices including Storage and Hybrid inverters
+* Protocol for Offgrid inverters
 
 Currently the communication layer (API) is included in this repository but following the guidelines of HASS there should be seperate repositories
 
