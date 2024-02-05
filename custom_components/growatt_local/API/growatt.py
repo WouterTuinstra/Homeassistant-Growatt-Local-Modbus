@@ -15,7 +15,7 @@ from pymodbus.client import ModbusBaseClient
 from pymodbus.client.serial import AsyncModbusSerialClient
 from pymodbus.client.tcp import AsyncModbusTcpClient
 from pymodbus.client.udp import AsyncModbusUdpClient
-from pymodbus.constants import Defaults, Endian
+from pymodbus.constants import Endian
 from pymodbus.framer.rtu_framer import ModbusRtuFramer
 from pymodbus.framer.socket_framer import ModbusSocketFramer
 from pymodbus.payload import BinaryPayloadBuilder
@@ -167,8 +167,8 @@ class GrowattNetwork(GrowattModbusBase):
         host: str,
         port: int = 502,
         frame: str = '',
-        timeout: int = Defaults.Timeout,
-        retries: int = Defaults.Retries,
+        timeout: int = 3,
+        retries: int = 3,
     ) -> None:
         """Initialize Network Growatt."""
 
@@ -176,7 +176,7 @@ class GrowattNetwork(GrowattModbusBase):
             if frame.lower() == 'rtu':
                 self.client = AsyncModbusTcpClient(
                     host,
-                    port if port else Defaults.TcpPort,
+                    port ,
                     framer=ModbusRtuFramer,
                     timeout=timeout,
                     retries=retries,
@@ -184,7 +184,7 @@ class GrowattNetwork(GrowattModbusBase):
             else:
                 self.client = AsyncModbusTcpClient(
                     host,
-                    port if port else Defaults.TcpPort,
+                    port,
                     framer=ModbusSocketFramer,
                     timeout=timeout,
                     retries=retries,
@@ -194,7 +194,7 @@ class GrowattNetwork(GrowattModbusBase):
             if frame.lower() == 'rtu':
                 self.client = AsyncModbusUdpClient(
                     host,
-                    port if port else Defaults.UdpPort,
+                    port,
                     framer=ModbusRtuFramer,
                     timeout=timeout,
                     retries=retries,
@@ -202,7 +202,7 @@ class GrowattNetwork(GrowattModbusBase):
             else:
                 self.client = AsyncModbusUdpClient(
                     host,
-                    port if port else Defaults.UdpPort,
+                    port,
                     framer=ModbusSocketFramer,
                     timeout=timeout,
                     retries=retries,
