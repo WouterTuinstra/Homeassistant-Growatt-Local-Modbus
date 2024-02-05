@@ -14,8 +14,8 @@
 
 ## Protocol version
 Currently there are 2 protocol versions supported with this intergration:
-* Protocol version 3.15 used by older models that would support up to two strings
-* Protocol version 1.20 used by newer models and larger devices
+* RTU Protocol version 3.15 used by older models that would support up to two strings
+* RTU Protocol 2 version 1.24 used by newer models and larger devices
 
 Note currently only supporting inverters adding support for storage devices is can be realized.
 
