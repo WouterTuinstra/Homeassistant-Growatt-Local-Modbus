@@ -1,0 +1,70 @@
+{
+  "title": "Growatt Local",
+  "config": {
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+    },
+    "error": {
+      "serial_port": "Невъзможност за свързване към сериен порт",
+      "network_custom": "Проверете регистрите за подробна информация за грешката",
+      "network_connection": "Невъзможно е да се установи връзка",
+      "device_disconnect": "Устройството затвори връзката",
+      "device_timeout": "Устройството не отговори",
+      "device_address": "Адресът на устройството вероятно е грешен",
+      "device_type": "Типът на устройството не се поддържа"
+    },
+    "step": {
+      "user": {
+        "title": "Select your communication layer",
+        "data": {
+          "communication_layer": "Communication Layer"
+        }
+      },
+      "serial": {
+        "title": "Определяне на параметрите на серийния порт.",
+        "data": {
+          "port": "Сериен порт",
+          "baudrate": "Baudrate",
+          "stopbits": "Stopbits",
+          "parity": "Parity",
+          "bytesize": "Bytesize",
+          "address": "Modbus Device Address"
+        },
+        "data_description": {
+          "address": "Обикновено конфигурираният по подразбиране Modbus адрес е: 1\nАлтернативно проверете конфигурацията на устройството за зададения Modbus адрес"
+        }
+      },
+      "network": {
+        "title": "Define network parameters",
+        "data": {
+          "ip_address": "[%key:common::config_flow::data::ip%]",
+          "port": "[%key:common::config_flow::data::port%]",
+          "address": "Modbus Device Address",
+          "modbus_frame": "Modbus Framer"
+        },
+        "data_description": {
+          "address": "Обикновено конфигурираният по подразбиране Modbus адрес е: 1\nАлтернативно проверете конфигурацията на устройството за зададения Modbus адрес",
+          "modbus_frame": "\n При директно свързване трябва да се използва 'Modbus TCP' по подразбиране."
+        }
+      },
+      "device": {
+        "title": "Дефинирайте вашето устройство Growatt",
+        "description": "Въз основа на конфигурирането са зададени следните стойности.\nАдминистративно е открит следният тип устройство: {device_type}",
+        "data": {
+          "name": "Име на устройството",
+          "model": "Име на модела на инвертора",
+          "type": "Тип устройство",
+          "dc_string": "Брой слънчеви стрингове",
+          "ac_phases": "Брой на фазите на променливия ток",
+          "scan_interval": "Общ интервал на актуализация",
+          "power_scan_enabled": "Разрешаване на интервала за обновяване на захранването",
+          "power_scan_interval": "Интервал на актуализация на захранването"
+        },
+        "data_description": {
+          "type": "Изберете версията на протокола, използван от вашето устройство, открита версия на modbus: `{modbus_version}`",
+          "power_scan_enabled": "Позволява по-висока честота на актуализиране на различните стойности на мощността на вашето устройство."
+        }
+      }
+    }
+  }
+}
