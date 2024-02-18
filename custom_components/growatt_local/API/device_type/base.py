@@ -3,7 +3,6 @@ from enum import Enum
 from typing import Any, Callable
 
 # Attribute names for values in the holding register
-
 ATTR_FIRMWARE = "firmware"
 ATTR_SERIAL_NUMBER = "serial number"
 ATTR_INVERTER_MODEL = "Inverter model"
@@ -13,8 +12,10 @@ ATTR_NUMBER_OF_TRACKERS_AND_PHASES = "number of trackers and phases"
 
 ATTR_MODBUS_VERSION = "modbus version"
 
-# Attribute names for values in the input register
+# Attribute names for values in the holding register (Storage)
+ATTR_AC_CHARGE_ENABLED = "ac_charge_enabled"
 
+# Attribute names for values in the input register
 ATTR_STATUS = "status"
 ATTR_STATUS_CODE = "status_code"
 ATTR_DERATING_MODE = "derating_mode"
@@ -95,7 +96,8 @@ ATTR_OUTPUT_3_POWER = "output_3_power"  # W
 
 ATTR_OPERATION_HOURS = "operation_hours"  # s
 
-ATTR_FREQUENCY = "frequency"  # Hz
+ATTR_GRID_VOLTAGE = "grid_voltage"
+ATTR_GRID_FREQUENCY = "grid_frequency"  # Hz
 
 ATTR_TEMPERATURE = "inverter_temperature"  # C
 ATTR_IPM_TEMPERATURE = "ipm_temperature"  # C
@@ -105,6 +107,44 @@ ATTR_P_BUS_VOLTAGE = "p_bus_voltage"  # V
 ATTR_N_BUS_VOLTAGE = "n_bus_voltage"  # V
 
 ATTR_OUTPUT_PERCENTAGE = "real_output_power_percent"  # %
+
+
+# Attribute names for values in the input register Storage
+ATTR_SOC_PERCENTAGE = "soc"  # %
+ATTR_DISCHARGE_POWER = "discharge_power"  # W
+ATTR_CHARGE_POWER = "charge_power"  # W
+
+ATTR_ENERGY_TO_USER_TODAY = "energy_to_user_today"  # kWh
+ATTR_ENERGY_TO_USER_TOTAL = "energy_to_user_total"  # kWh
+ATTR_ENERGY_TO_GRID_TODAY = "energy_to_grid_today"  # kWh
+ATTR_ENERGY_TO_GRID_TOTAL = "energy_to_grid_total"  # kWh
+
+ATTR_DISCHARGE_ENERGY_TODAY = "discharge_energy_today"  # kWh
+ATTR_DISCHARGE_ENERGY_TOTAL = "discharge_energy_total"  # kWh
+
+ATTR_CHARGE_ENERGY_TODAY = "charge_energy_today"  # kWh
+ATTR_CHARGE_ENERGY_TOTAL = "charge_energy_total"  # kWh
+
+# Attribute names for values in the input register for Offgrid inverter 
+ATTR_ACTIVE_POWER = "output_active_power"  # W
+
+ATTR_BATTERY_VOLTAGE = "battery_voltage"  # V
+ATTR_BUS_VOLTAGE = "bus_voltage"  # V
+ATTR_OUTPUT_FREQUENCY = "output_frequency"  # Hz
+ATTR_OUTPUT_DC_VOLTAGE = "output_dc_voltage"  # V
+
+ATTR_DC_TEMPERATURE = "dc_dc_temperature"  # C
+ATTR_LOAD_PERCENTAGE = "load_percent"  # %
+
+ATTR_BATTERY_P_VOLTAGE = "battery_port_voltage"  # V
+ATTR_BATTERY_B_VOLTAGE = "battery_bus_voltage"  # V
+ATTR_CONSTANT_POWER = "constant_power"
+
+ATTR_AC_CHARGE_AMPERAGE = "ac_charge_amperage"  # A
+ATTR_BATTERY_DISCHARGE_AMPERAGE = "battery_discharge_amperage"  # A
+
+ATTR_AC_DISCHARGE_TODAY = "ac_discharge_energy_today"  # kWh
+ATTR_AC_DISCHARGE_TOTAL = "ac_discharge_energy_total"  # kWh
 
 
 class custom_function(type):
@@ -148,8 +188,9 @@ DEVICE_TYPE_CODES = {
     0x800: "2 tracker and 3phase Grid connect PV inverter TL",
     0x900: "1 tracker and 3phase Grid connect PV inverter LF",
     0xA00: "2 tracker and 3phase Grid connect PV inverter LF",
-    3100: "Front 1 tracker PV Storage",
-    3400: "OffGrid SPF 3-5K",
+    0xC00: "Front 1 tracker PV Storage",
+    0xD00: "OffGrid SPF 3-5K",
+    0x1500: "2 tracker and 3phase Grid connect Hybrid inverter",
     10001: "RF-ShineVersion",
     10002: "Web-ShinePano",
     10003: "Web-ShineWebBox",
@@ -164,10 +205,10 @@ def device_type(register) -> str:
         return DEVICE_TYPE_CODES.get(register, not_defined)
 
     return DEVICE_TYPE_CODES.get(register & 0xFF00, not_defined)
-    
+
 
 def trackers_and_phases(register) -> tuple[int, int]:
-    # number of mppt trackers high byte, grid phases low byte 
+    # number of mppt trackers high byte, grid phases low byte
     return (register >> 8, register & 0xFF)
 
 
