@@ -5,7 +5,7 @@
     "documentation": "https://github.com/WouterTuinstra/homeassistant-growatt-local-modbus",
     "issue_tracker": "https://github.com/WouterTuinstra/Homeassistant-Growatt-Local-Modbus/issues",
     "dependencies": ["sun"],
-    "requirements": ["pymodbus>=3.4.1"],
+    "requirements": ["pymodbus>=3.6.4"],
     "codeowners": ["@WouterTuinstra"],
     "iot_class": "local_polling",
     "loggers": ["growattLocal"],
