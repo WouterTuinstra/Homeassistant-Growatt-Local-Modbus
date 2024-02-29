@@ -192,14 +192,16 @@ NUMBER_OF_TRACKERS_AND_PHASES_REGISTER = GrowattDeviceRegisters(
 
 
 class InverterStatus(Enum):
-    "Enum of possible Inverter Status."
+    """Enum of possible Inverter Status."""
     Waiting = 0
     Normal = 1
     Fault = 3
+    Unknown5 = 5  # maybe some warning state if no battery connected
+    Unknown9 = 9  # maybe upgrade planned
 
 
 INVERTER_DERATINGMODES = {
-    0: "No Deratring",
+    0: "No Derating",
     1: "PV",
     3: "Vac",
     4: "Fac",
@@ -245,7 +247,7 @@ for i in range(1, 24):
 
 
 def inverter_status(value: dict[str, Any]) -> str | None:
-    """Returns status based on multiple registery values."""
+    """Returns status based on multiple registry values."""
     if ATTR_STATUS_CODE not in value.keys():
         return None
 
@@ -254,7 +256,7 @@ def inverter_status(value: dict[str, Any]) -> str | None:
     if status_value is InverterStatus.Waiting:
         return status_value.name
 
-    elif status_value == InverterStatus.Normal:
+    elif status_value in [InverterStatus.Normal, InverterStatus.Unknown5, InverterStatus.Unknown9]:
         derating = value.get(ATTR_DERATING_MODE, None)
         if (derating is not None and derating in INVERTER_DERATINGMODES.keys() and derating != 0):
             return f"{status_value.name} - {INVERTER_DERATINGMODES[derating]}"
