@@ -158,6 +158,11 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
 
         async_track_time_change(self.hass, self.midnight, 0, 0, 0)
 
+
+    async def set_state(self, state: bool):
+        return await self.growatt_api.set_state(state)
+
+
     @callback
     def async_update_listeners(self) -> None:
         """Update only the registered listeners for which we have new data."""

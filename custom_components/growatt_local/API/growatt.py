@@ -127,6 +127,14 @@ class GrowattModbusBase:
             rhr.register[5],
         )
 
+    async def write_state(
+        self, state: bool
+    ):
+        """Writing current date/time to device."""
+
+        _LOGGER.warning("Writing state register")
+        await self.client.write_register(0, 1 if state else 0)
+
     async def write_device_time(
         self, year: int, month: int, day: int, hour: int, minute: int, second: int
     ):
@@ -280,6 +288,9 @@ class GrowattDevice:
 
     def close(self):
         self.modbus.close()
+
+    async def set_state(self, state: bool):
+        await self.modbus.write_state(state)
 
     async def get_device_info(self) -> GrowattDeviceInfo:
         return await self.modbus.get_device_info(self.holding_register, self.max_length, self.unit)
