@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from collections.abc import Callable, Iterable
 
 from homeassistant.components.sensor import SensorEntityDescription
+from homeassistant.components.switch import SwitchEntityDescription
 from homeassistant.core import Event
 
 
@@ -19,3 +20,15 @@ class GrowattRequiredKeysMixin:
 @dataclass
 class GrowattSensorEntityDescription(GrowattRequiredKeysMixin, SensorEntityDescription):
     """Describes Growatt sensor entity."""
+
+
+
+
+
+@dataclass
+class GrowattSwitchEntityDescription(GrowattRequiredKeysMixin, SwitchEntityDescription):
+    """Describes Growatt switch entity."""
+
+
+
+
