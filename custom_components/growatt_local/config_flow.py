@@ -468,3 +468,55 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         return self.async_create_entry(
             title=f"Growatt {self.data[CONF_MODEL]}", data=self.data
         )
+
+class GrowattLocalOptionsFlow(config_entries.OptionsFlow):
+    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
+        """Initialize options flow."""
+        self.config_entry = config_entry
+
+    @callback
+    def _async_show_options_form(self, errors=None):
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(CONF_NAME, default=self.config_entry.options.get(CONF_NAME)): str,
+                    vol.Required(CONF_MODEL, default=self.config_entry.options.get(CONF_MODEL)): str,
+                    vol.Required(CONF_TYPE, default=self.config_entry.options.get(CONF_TYPE),): selector.SelectSelector(
+                        selector.SelectSelectorConfig(
+                            options=DEVICETYPES_OPTION
+                        ),
+                    ),
+                    vol.Required(CONF_DC_STRING, default=self.config_entry.options.get(CONF_DC_STRING)): selector.NumberSelector(
+                        selector.NumberSelectorConfig(
+                            min=1,
+                            max=8,
+                            mode=selector.NumberSelectorMode.BOX,
+                        ),
+                    ),
+                    vol.Required(CONF_AC_PHASES, default=self.config_entry.options.get(CONF_AC_PHASES)): selector.NumberSelector(
+                        selector.NumberSelectorConfig(
+                            min=1,
+                            max=3,
+                            step=2,
+                            mode=selector.NumberSelectorMode.BOX,
+                        ),
+                    ),
+                    vol.Required(CONF_SCAN_INTERVAL, 
+                                 default=self.config_entry.options.get(CONF_SCAN_INTERVAL)): int,
+                    vol.Required(CONF_POWER_SCAN_ENABLED, 
+                                 default=self.config_entry.options.get(CONF_POWER_SCAN_INTERVAL)): bool,
+                    vol.Optional(CONF_POWER_SCAN_INTERVAL, 
+                                 default=self.config_entry.options.get(CONF_POWER_SCAN_INTERVAL)): int
+                }
+            )
+        )
+
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Manage the options."""
+        if user_input is not None:
+            return self.async_create_entry(title="", data=user_input)
+        
+        return self._async_show_options_form()
