@@ -87,5 +87,11 @@
         }
       }
     }
+  },
+  "issues": {
+    "entity_migration_frequency": {
+      "title": "Failed to migrate entity",
+      "description": "**Please resolve the issue manually:**\n{error}\nYou have two options:\n1. Remove the entity with the above mentioned entityID if you want to migrate the old entity.\n2. Remove EntityID '{entityID}' if don't want to update the entity."
+    }
   }
 }
