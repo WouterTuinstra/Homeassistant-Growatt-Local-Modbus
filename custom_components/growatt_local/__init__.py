@@ -121,12 +121,16 @@ async def async_migrate_entry(hass, config_entry: ConfigEntry):
 
         new_data = {**config_entry.data}
         new_options = {**config_entry.options}
-        # Migration of ConfigEntry data to ConfigEntry options to support the OptionsFlow
+
         if config_entry.minor_version < 2:
+            # Migration of ConfigEntry data to ConfigEntry options to support the OptionsFlow
+            # when moving to version 2 remove CONF_NAME, CONF_SCAN_INTERVAL, CONF_POWER_SCAN_ENABLED, CONF_POWER_SCAN_INTERVAL from 'data'
+            # but for now keeping the original values in 'data' order to keep it backwards compatible for now.
+
             items_to_move = (CONF_NAME, CONF_SCAN_INTERVAL, CONF_POWER_SCAN_ENABLED, CONF_POWER_SCAN_INTERVAL)
 
             for item in items_to_move:
-                new_options[item] = new_data.pop(item)
+                new_options[item] = new_data.get(item)
 
         hass.config_entries.async_update_entry(config_entry, data=new_data, options=new_options, minor_version=2, version=1)
 
