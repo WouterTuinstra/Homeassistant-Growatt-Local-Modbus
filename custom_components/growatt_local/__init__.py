@@ -21,6 +21,7 @@ from homeassistant.const import (
     SUN_EVENT_SUNSET,
 )
 from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback
+from homeassistant.helpers import entity_registry, issue_registry 
 from homeassistant.helpers.event import (
     async_track_sunrise,
     async_track_sunset,
@@ -128,7 +129,43 @@ async def async_migrate_entry(hass, config_entry: ConfigEntry):
             for item in items_to_move:
                 new_options[item] = new_data.get(item)
 
-        hass.config_entries.async_update_entry(config_entry, data=new_data, options=new_options, minor_version=2, version=1)
+        if config_entry.minor_version < 3:
+            # Change in naming of entity frequency to grid frequency to keep the history this entity it requires an update of the Unique ID
+            # Otherwise it will create a new entity
+
+            entity_id: str|None = None
+
+            @callback
+            def replace_frequency(
+                entity_entry: entity_registry.RegistryEntry
+            ) -> dict[str, Any] | None:
+                old_unique_id = "frequency"
+                new_unique_id = "grid_frequency"
+                if entity_entry.unique_id.endswith(old_unique_id):
+                    nonlocal entity_id
+                    entity_id = entity_entry.entity_id
+                    return {"new_unique_id": entity_entry.unique_id.replace(old_unique_id, new_unique_id)}
+
+            try:
+                await entity_registry.async_migrate_entries(hass, config_entry.entry_id, replace_frequency)
+            except ValueError as e:
+                _LOGGER.error(f"Failed to migrate entity: {e}\n", exc_info=True)
+                
+                issue_registry.async_create_issue(
+                    hass, 
+                    DOMAIN, 
+                    "entity_migration_frequency", 
+                    is_fixable=False, 
+                    severity=issue_registry.IssueSeverity.ERROR, 
+                    translation_key= "entity_migration_frequency",
+                    translation_placeholders={
+                        "entityID": entity_id,
+                        "error": str(e)
+                    }
+                )
+                return False
+
+        hass.config_entries.async_update_entry(config_entry, data=new_data, options=new_options, minor_version=3, version=1)
 
     _LOGGER.debug("Migration to configuration version %s.%s successful", config_entry.version, config_entry.minor_version)
 
@@ -139,6 +176,7 @@ async def async_update_options(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Update options."""
     _LOGGER.debug("Reloading intergration")
     await hass.config_entries.async_reload(entry.entry_id)
+
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
