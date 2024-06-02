@@ -147,7 +147,7 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SensorEntity):
 
     @property
     def name(self):
-        return f"{self._config_entry.data[CONF_NAME]} {self.entity_description.name}"
+        return f"{self._config_entry.options[CONF_NAME]} {self.entity_description.name}"
 
     @property
     def unique_id(self) -> Optional[str]:
