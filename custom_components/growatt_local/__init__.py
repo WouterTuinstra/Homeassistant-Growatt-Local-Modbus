@@ -10,6 +10,7 @@ from pymodbus.exceptions import ConnectionException
 from homeassistant import config_entries
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
+    CONF_NAME,
     CONF_ADDRESS,
     CONF_IP_ADDRESS,
     CONF_MODEL,
@@ -91,17 +92,53 @@ async def async_setup_entry(
     coordinator = GrowattLocalCoordinator(
         hass,
         device,
-        timedelta(seconds=entry.data[CONF_SCAN_INTERVAL]),
-        timedelta(seconds=entry.data[CONF_POWER_SCAN_INTERVAL])
-        if entry.data[CONF_POWER_SCAN_ENABLED]
+        timedelta(seconds=entry.options[CONF_SCAN_INTERVAL]),
+        timedelta(seconds=entry.options[CONF_POWER_SCAN_INTERVAL])
+        if entry.options[CONF_POWER_SCAN_ENABLED]
         else None,
     )
 
     hass.data.setdefault(DOMAIN, {})[entry.data[CONF_SERIAL_NUMBER]] = coordinator
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    entry.async_on_unload(entry.add_update_listener(async_update_options))
     return True
 
+
+async def async_migrate_entry(hass, config_entry: ConfigEntry):
+    """Migrate old entry."""
+    _LOGGER.debug("Migrating configuration from version %s.%s", config_entry.version, config_entry.minor_version)
+
+    if config_entry.version > 1:
+      # This means the user has downgraded from a future version
+      return False
+    
+    if config_entry.version == 1:
+
+        new_data = {**config_entry.data}
+        new_options = {**config_entry.options}
+
+        if config_entry.minor_version < 2:
+            # Migration of ConfigEntry data to ConfigEntry options to support the OptionsFlow
+            # when moving to version 2 remove CONF_NAME, CONF_SCAN_INTERVAL, CONF_POWER_SCAN_ENABLED, CONF_POWER_SCAN_INTERVAL from 'data'
+            # but for now keeping the original values in 'data' order to keep it backwards compatible for now.
+
+            items_to_move = (CONF_NAME, CONF_SCAN_INTERVAL, CONF_POWER_SCAN_ENABLED, CONF_POWER_SCAN_INTERVAL)
+
+            for item in items_to_move:
+                new_options[item] = new_data.get(item)
+
+        hass.config_entries.async_update_entry(config_entry, data=new_data, options=new_options, minor_version=2, version=1)
+
+    _LOGGER.debug("Migration to configuration version %s.%s successful", config_entry.version, config_entry.minor_version)
+
+    return True
+
+
+async def async_update_options(hass: HomeAssistant, entry: ConfigEntry) -> None:
+    """Update options."""
+    _LOGGER.debug("Reloading intergration")
+    await hass.config_entries.async_reload(entry.entry_id)
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
