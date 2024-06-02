@@ -72,12 +72,12 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
             manufacturer="Growatt",
             model=entry.data[CONF_MODEL],
             sw_version=entry.data[CONF_FIRMWARE],
-            name=entry.data[CONF_NAME],
+            name=entry.options[CONF_NAME],
         )
 
     @property
     def name(self):
-        return f"{self._config_entry.data[CONF_NAME]} {self.entity_description.name}"
+        return f"{self._config_entry.options[CONF_NAME]} {self.entity_description.name}"
 
     @property
     def unique_id(self) -> Optional[str]:
