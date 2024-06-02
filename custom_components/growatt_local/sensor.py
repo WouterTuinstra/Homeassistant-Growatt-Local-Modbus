@@ -81,7 +81,7 @@ async def async_setup_entry(
 
     coordinator.get_keys_by_name({sensor.key for sensor in sensor_descriptions}, True)
 
-    if config_entry.data[CONF_POWER_SCAN_ENABLED]:
+    if config_entry.options[CONF_POWER_SCAN_ENABLED]:
         power_keys = coordinator.get_keys_by_name(power_sensor)
 
         coordinator.p_keys.update(power_keys)
@@ -114,7 +114,7 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SensorEntity):
             manufacturer="Growatt",
             model=entry.data[CONF_MODEL],
             sw_version=entry.data[CONF_FIRMWARE],
-            name=entry.data[CONF_NAME],
+            name=entry.options[CONF_NAME],
         )
 
     async def async_added_to_hass(self) -> None:
