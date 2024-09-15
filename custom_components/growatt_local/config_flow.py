@@ -62,9 +62,9 @@ MODBUS_FRAMER_OPTION = [
 
 DEVICETYPES_OPTION = [
     selector.SelectOptionDict(value=DeviceTypes.INVERTER_120, label="RTU 2 - Inverter v1.24"),
-    selector.SelectOptionDict(value=DeviceTypes.HYBRIDE_120, label="RTU 2 - Hybride v1.24"),
+    selector.SelectOptionDict(value=DeviceTypes.HYBRIDE_120, label="RTU 2 - Hybrid v1.24"),
     selector.SelectOptionDict(value=DeviceTypes.INVERTER_315, label="RTU - Inverter v3.15"),
-    selector.SelectOptionDict(value=DeviceTypes.OFFGRID_SPF, label="SPF - Offgrid"),
+    selector.SelectOptionDict(value=DeviceTypes.OFFGRID_SPF, label="SPF - Offgrid/Hybrid"),
 ]
 
 _LOGGER = logging.getLogger(__name__)
