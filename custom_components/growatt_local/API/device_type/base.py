@@ -146,6 +146,7 @@ ATTR_BATTERY_DISCHARGE_AMPERAGE = "battery_discharge_amperage"  # A
 ATTR_AC_DISCHARGE_TODAY = "ac_discharge_energy_today"  # kWh
 ATTR_AC_DISCHARGE_TOTAL = "ac_discharge_energy_total"  # kWh
 
+ATTR_BATTERY_POWER = "battery_power"  # W
 
 class custom_function(type):
     """
