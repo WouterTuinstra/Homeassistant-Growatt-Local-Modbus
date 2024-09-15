@@ -47,6 +47,7 @@ from ..API.device_type.base import (
     ATTR_BATTERY_B_VOLTAGE,
     ATTR_AC_CHARGE_AMPERAGE,
     ATTR_BATTERY_DISCHARGE_AMPERAGE,
+    ATTR_BATTERY_POWER,
     ATTR_CHARGE_ENERGY_TODAY,
     ATTR_CHARGE_ENERGY_TOTAL,
     ATTR_DISCHARGE_ENERGY_TODAY,
@@ -285,6 +286,12 @@ OFFGRID_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Battery bus voltage",
         native_unit_of_measurement=ELECTRIC_POTENTIAL_VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_BATTERY_POWER,
+        name="Battery charging/ discharging(-ve)",
+        native_unit_of_measurement=POWER_WATT,
+        device_class=SensorDeviceClass.POWER,
     ),
     GrowattSensorEntityDescription(
         key="status",
