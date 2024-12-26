@@ -10,6 +10,8 @@ from homeassistant.components.switch import SwitchEntityDescription
 class GrowattSwitchRequiredKeysMixin:
     """Mixin for required keys."""
     key: str
+    state_on: str|int
+    state_off: str|int
 
 
 @dataclass

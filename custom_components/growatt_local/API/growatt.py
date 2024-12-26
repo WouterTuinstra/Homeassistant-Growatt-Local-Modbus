@@ -143,7 +143,7 @@ class GrowattModbusBase:
         await self.client.write_register(50, second)
 
     async def write_register(self, register, payload, unit) -> ModbusResponse:
-        builder = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Big)
+        builder = BinaryPayloadBuilder(byteorder=Endian.BIG, wordorder=Endian.BIG)
         builder.reset()
         builder.add_16bit_int(payload)
         payload = builder.to_registers()

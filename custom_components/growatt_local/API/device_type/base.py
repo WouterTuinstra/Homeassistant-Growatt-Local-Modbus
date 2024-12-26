@@ -12,7 +12,8 @@ ATTR_NUMBER_OF_TRACKERS_AND_PHASES = "number of trackers and phases"
 
 ATTR_MODBUS_VERSION = "modbus version"
 
-# Attribute names for values in the holding register (Storage)
+# Attribute names for values in the holding register
+ATTR_INVERTER_ENABLED = "inverter_enabled"
 ATTR_AC_CHARGE_ENABLED = "ac_charge_enabled"
 
 # Attribute names for values in the input register

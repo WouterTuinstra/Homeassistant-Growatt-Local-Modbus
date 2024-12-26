@@ -50,6 +50,7 @@ from .const import (
     CONF_STOPBITS,
     CONF_POWER_SCAN_ENABLED,
     CONF_POWER_SCAN_INTERVAL,
+    CONF_INVERTER_POWER_CONTROL,
     DOMAIN,
     PLATFORMS,
 )
@@ -131,7 +132,7 @@ async def async_migrate_entry(hass, config_entry: ConfigEntry):
 
         if config_entry.minor_version < 3:
             # Change in naming of entity frequency to grid frequency to keep the history this entity it requires an update of the Unique ID
-            # Otherwise it will create a new entity
+            # otherwise it will create a new entity.
 
             entity_id: str|None = None
 
@@ -159,13 +160,18 @@ async def async_migrate_entry(hass, config_entry: ConfigEntry):
                     severity=issue_registry.IssueSeverity.ERROR, 
                     translation_key= "entity_migration_frequency",
                     translation_placeholders={
-                        "entityID": entity_id,
+                        "entity_id": entity_id,
                         "error": str(e)
                     }
                 )
                 return False
+            
+        if config_entry.minor_version < 4:
+            # Added Inverter power control in naming options of config entity
+            new_options[CONF_INVERTER_POWER_CONTROL] = False
 
-        hass.config_entries.async_update_entry(config_entry, data=new_data, options=new_options, minor_version=3, version=1)
+
+        hass.config_entries.async_update_entry(config_entry, data=new_data, options=new_options, minor_version=4, version=1)
 
     _LOGGER.debug("Migration to configuration version %s.%s successful", config_entry.version, config_entry.minor_version)
 
@@ -279,7 +285,7 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
         return data
 
     async def force_refresh(self):
-        self._counter = 999
+        self._counter = 99999
         await self.async_request_refresh()
 
     async def sunrise(self):
@@ -355,11 +361,14 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
 
         return keys
 
-    def get_input_register_by_name(self, name) -> GrowattDeviceRegisters | None:
+    def get_input_register_by_name(self, name: str) -> GrowattDeviceRegisters | None:
         return self.growatt_api.get_input_register_by_name(name)
 
-    def get_holding_register_by_name(self, name) -> GrowattDeviceRegisters | None:
+    def get_holding_register_by_name(self, name: str) -> GrowattDeviceRegisters | None:
         return self.growatt_api.get_holding_register_by_name(name)
 
-    async def write_register(self, register, payload):
-        await self.growatt_api.write_register(register, payload)
+    async def write_register(self, key: str, payload):
+        register = self.growatt_api.get_holding_register_by_name(key)
+        #TODO: better logging 
+        _LOGGER.debug("Device type key %s and register %d", register.name, register.register)
+        await self.growatt_api.write_register(register.register, payload)
