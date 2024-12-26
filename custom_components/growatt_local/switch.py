@@ -19,8 +19,10 @@ from homeassistant.helpers.update_coordinator import (
 from .const import (
     CONF_FIRMWARE,
     CONF_SERIAL_NUMBER,
+    CONF_INVERTER_POWER_CONTROL,
     DOMAIN,
 )
+from .sensor_types.inverter import INVERTER_POWER_SWITCH
 from .sensor_types.storage import STORAGE_SWITCH_TYPES
 from .sensor_types.switch_entity_description import GrowattSwitchEntityDescription
 
@@ -38,6 +40,9 @@ async def async_setup_entry(
     entities = []
     sensor_descriptions: list[GrowattSwitchEntityDescription] = []
     supported_key_names = coordinator.growatt_api.get_register_names()
+
+    if config_entry.options.get(CONF_INVERTER_POWER_CONTROL, False):
+        sensor_descriptions.append(INVERTER_POWER_SWITCH) 
 
     for sensor in STORAGE_SWITCH_TYPES:
         if sensor.key not in supported_key_names:
@@ -84,14 +89,16 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
         return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}"
 
     async def async_turn_on(self, **kwargs: Any) -> None:
-        register = self.coordinator.get_holding_register_by_name(self.entity_description.key)
-        _LOGGER.debug("Device type %s key %s and register %d", self._attr_unique_id, register.name, register.register)
-        await self.coordinator.write_register(register.register, 1)
+        await self.coordinator.write_register(
+            self.entity_description.key,
+            self.entity_description.state_on
+        )
 
     async def async_turn_off(self, **kwargs: Any) -> None:
-        register = self.coordinator.get_holding_register_by_name(self.entity_description.key)
-        _LOGGER.debug("Device type %s key %s and register %d", self._attr_unique_id, register.name, register.register)
-        await self.coordinator.write_register(register.register, 0)
+        await self.coordinator.write_register(
+            self.entity_description.key,
+            self.entity_description.state_off
+        )
         await self.coordinator.force_refresh()
 
     async def async_added_to_hass(self) -> None:
@@ -111,7 +118,7 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
 
         value = int(state)
 
-        self._attr_is_on = value == 1
+        self._attr_is_on = value >= 1
 
         self.async_write_ha_state()
 
@@ -125,5 +132,5 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
         _LOGGER.debug("Device type %s state %s", self._attr_unique_id, state)
         value = int(state)
 
-        self._attr_is_on = value == 1
+        self._attr_is_on = value >= 1
         self.async_write_ha_state()

@@ -41,6 +41,7 @@ from .const import (
     CONF_STOPBITS,
     CONF_POWER_SCAN_ENABLED,
     CONF_POWER_SCAN_INTERVAL,
+    CONF_INVERTER_POWER_CONTROL,
     CONF_SERIAL_NUMBER,
     CONF_FIRMWARE,
     ParityOptions,
@@ -74,7 +75,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow class."""
 
     VERSION = 1
-    MINOR_VERSION = 3
+    MINOR_VERSION = 4
 
     def __init__(self):
         """Initialise growatt server flow."""
@@ -173,6 +174,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         scan_interval: int = 60,
         power_scan_enabled: bool = False,
         power_scan_interval: int = 5,
+        inverter_power_control: bool = False,
         errors=None,
     ):
         """Show the device form to the user."""
@@ -202,9 +204,8 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 ),
                 vol.Required(CONF_SCAN_INTERVAL, default=scan_interval): int,
                 vol.Required(CONF_POWER_SCAN_ENABLED, default=power_scan_enabled): bool,
-                vol.Optional(
-                    CONF_POWER_SCAN_INTERVAL, default=power_scan_interval
-                ): int,
+                vol.Optional(CONF_POWER_SCAN_INTERVAL, default=power_scan_interval): int,
+                vol.Required(CONF_INVERTER_POWER_CONTROL, default=inverter_power_control): bool,
             }
         )
 
@@ -499,12 +500,10 @@ class GrowattLocalOptionsFlow(config_entries.OptionsFlow):
             data_schema=vol.Schema(
                 {
                     vol.Required(CONF_NAME, default=self.config_entry.options.get(CONF_NAME)): str,
-                    vol.Required(CONF_SCAN_INTERVAL, 
-                                 default=self.config_entry.options.get(CONF_SCAN_INTERVAL)): int,
-                    vol.Required(CONF_POWER_SCAN_ENABLED, 
-                                 default=self.config_entry.options.get(CONF_POWER_SCAN_ENABLED)): bool,
-                    vol.Optional(CONF_POWER_SCAN_INTERVAL, 
-                                 default=self.config_entry.options.get(CONF_POWER_SCAN_INTERVAL)): int
+                    vol.Required(CONF_SCAN_INTERVAL, default=self.config_entry.options.get(CONF_SCAN_INTERVAL)): int,
+                    vol.Required(CONF_POWER_SCAN_ENABLED, default=self.config_entry.options.get(CONF_POWER_SCAN_ENABLED)): bool,
+                    vol.Optional(CONF_POWER_SCAN_INTERVAL, default=self.config_entry.options.get(CONF_POWER_SCAN_INTERVAL)): int,
+                    vol.Required(CONF_INVERTER_POWER_CONTROL, default=self.config_entry.options.get(CONF_INVERTER_POWER_CONTROL)): bool
                 }
             )
         )

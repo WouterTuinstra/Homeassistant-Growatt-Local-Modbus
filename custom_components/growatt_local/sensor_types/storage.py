@@ -32,7 +32,9 @@ from ..API.device_type.base import (
 STORAGE_SWITCH_TYPES: tuple[GrowattSwitchEntityDescription, ...] = (
     GrowattSwitchEntityDescription(
         key=ATTR_AC_CHARGE_ENABLED,
-        name="AC Charge"
+        name="AC Charge",
+        state_on=1,
+        state_off=0
     ),
 )
 

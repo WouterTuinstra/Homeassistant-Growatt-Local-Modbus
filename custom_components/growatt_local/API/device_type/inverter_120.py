@@ -7,6 +7,7 @@ from .base import (
     SERIAL_NUMBER_REGISTER,
     DEVICE_TYPE_CODE_REGISTER,
     NUMBER_OF_TRACKERS_AND_PHASES_REGISTER,
+    ATTR_INVERTER_ENABLED,
     ATTR_INVERTER_MODEL,
     ATTR_MODBUS_VERSION,
     ATTR_STATUS_CODE,
@@ -102,6 +103,11 @@ def model(registers) -> str:
 
 
 HOLDING_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
+    GrowattDeviceRegisters(
+        name=ATTR_INVERTER_ENABLED,
+        register=0,
+        value_type=int
+    ),
     FIRMWARE_REGISTER,
     SERIAL_NUMBER_REGISTER,
     GrowattDeviceRegisters(

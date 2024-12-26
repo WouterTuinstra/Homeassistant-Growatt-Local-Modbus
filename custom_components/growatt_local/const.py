@@ -20,6 +20,7 @@ CONF_AC_PHASES = "ac_phases"
 
 CONF_POWER_SCAN_INTERVAL = "power_scan_interval"
 CONF_POWER_SCAN_ENABLED = "power_scan_enabled"
+CONF_INVERTER_POWER_CONTROL = "inverter_power_control"
 
 CONF_SERIAL_NUMBER = "serial_number"
 CONF_FIRMWARE = "firmware"
