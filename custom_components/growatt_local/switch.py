@@ -71,6 +71,7 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
         super().__init__(coordinator, description.key)
         self.entity_description: GrowattSwitchEntityDescription = description
         self._config_entry = entry
+        self.masked_value = 0
 
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.data[CONF_SERIAL_NUMBER])},
@@ -89,16 +90,28 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
         return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}"
 
     async def async_turn_on(self, **kwargs: Any) -> None:
-        await self.coordinator.write_register(
-            self.entity_description.key,
-            self.entity_description.state_on
-        )
+        if self.masked_value != 0:
+            await self.coordinator.write_register(
+                self.entity_description.key,
+                self.masked_value + self.entity_description.state_on
+            )
+        else:
+            await self.coordinator.write_register(
+                self.entity_description.key,
+                self.entity_description.state_on
+            )
 
     async def async_turn_off(self, **kwargs: Any) -> None:
-        await self.coordinator.write_register(
-            self.entity_description.key,
-            self.entity_description.state_off
-        )
+        if self.masked_value != 0:
+            await self.coordinator.write_register(
+                self.entity_description.key,
+                self.masked_value + self.entity_description.state_off
+            )
+        else:
+            await self.coordinator.write_register(
+                self.entity_description.key,
+                self.entity_description.state_off
+            )
         await self.coordinator.force_refresh()
 
     async def async_added_to_hass(self) -> None:
@@ -118,19 +131,15 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
 
         value = int(state)
 
-        self._attr_is_on = value >= 1
+        if self.entity_description.mask != 0:
+            self._attr_is_on = value & self.entity_description.mask
+            self.masked_value = value ^ self._attr_is_on
+
+        else:    
+            self._attr_is_on = value >= 1
 
         self.async_write_ha_state()
 
     @callback
     def _handle_midnight_update(self) -> None:
-        """Handle updated data from the coordinator."""
-        if (state := self.coordinator.data.get(self.entity_description.key)) is None:
-            _LOGGER.debug("Device type %s state %s", self._attr_unique_id, state)
-            return
-
-        _LOGGER.debug("Device type %s state %s", self._attr_unique_id, state)
-        value = int(state)
-
-        self._attr_is_on = value >= 1
-        self.async_write_ha_state()
+        self._handle_coordinator_update()
