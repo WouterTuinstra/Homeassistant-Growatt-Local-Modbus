@@ -33,8 +33,8 @@ STORAGE_SWITCH_TYPES: tuple[GrowattSwitchEntityDescription, ...] = (
     GrowattSwitchEntityDescription(
         key=ATTR_AC_CHARGE_ENABLED,
         name="AC Charge",
-        state_on=1,
-        state_off=0
+        state_on=0x1,
+        state_off=0x0
     ),
 )
 

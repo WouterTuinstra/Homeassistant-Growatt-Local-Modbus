@@ -84,8 +84,9 @@ from ..API.device_type.base import (
 INVERTER_POWER_SWITCH: GrowattSwitchEntityDescription = GrowattSwitchEntityDescription(
     key=ATTR_INVERTER_ENABLED,
     name="Power control",
-    state_on=1,
-    state_off=0
+    state_on=0x1,
+    state_off=0x0,
+    mask=0x1,
 )
 
 INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (

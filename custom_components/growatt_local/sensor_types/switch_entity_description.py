@@ -12,6 +12,7 @@ class GrowattSwitchRequiredKeysMixin:
     key: str
     state_on: str|int
     state_off: str|int
+    mask: int = 0
 
 
 @dataclass
