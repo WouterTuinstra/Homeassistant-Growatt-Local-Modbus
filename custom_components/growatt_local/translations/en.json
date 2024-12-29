@@ -58,11 +58,13 @@
           "ac_phases": "Number of AC phases",
           "scan_interval": "General update interval",
           "power_scan_enabled": "Enable power update interval",
-          "power_scan_interval": "Power update interval"
+          "power_scan_interval": "Power update interval",
+          "inverter_power_control": "Inverter power control"
         },
         "data_description": {
           "type": "Select the protocol version used by your device detected modbus version: {modbus_version}",
-          "power_scan_enabled": "Allows a higher update rate of the various power values."
+          "power_scan_enabled": "Allows a higher update rate of the various power values of your device.",
+          "inverter_power_control": "Creates a switch to allow manual control of when the inverter is enabled."
         }
       }
     }
@@ -79,11 +81,13 @@
           "ac_phases": "Number of AC phases",
           "scan_interval": "General update interval",
           "power_scan_enabled": "Enable power update interval",
-          "power_scan_interval": "Power update interval"
+          "power_scan_interval": "Power update interval",
+          "inverter_power_control": "Inverter power control"
         },
         "data_description": {
           "type": "Select the protocol version used by your device.",
-          "power_scan_enabled": "Allows a higher update rate of the various power values."
+          "power_scan_enabled": "Allows a higher update rate of the various power values of your device.",
+          "inverter_power_control": "Creates a switch to allow manual control of when the inverter is enabled."
         }
       }
     }
