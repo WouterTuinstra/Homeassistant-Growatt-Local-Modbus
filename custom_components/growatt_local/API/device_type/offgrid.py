@@ -4,6 +4,7 @@ from enum import Enum
 from typing import Any
 from .base import (
     GrowattDeviceRegisters,
+    custom_function,
     ATTR_STATUS_CODE,
     ATTR_FAULT_CODE,
     ATTR_WARNING_CODE,
@@ -37,6 +38,7 @@ from .base import (
     ATTR_BATTERY_P_VOLTAGE,
     ATTR_BATTERY_B_VOLTAGE,
     ATTR_BATTERY_DISCHARGE_AMPERAGE,
+    ATTR_BATTERY_POWER,
     ATTR_CHARGE_ENERGY_TODAY,
     ATTR_CHARGE_ENERGY_TOTAL,
     ATTR_DISCHARGE_ENERGY_TODAY,
@@ -134,6 +136,15 @@ def offgrid_status(value: dict[str, Any]) -> str | None:
         return f"{status_value.name} - {OFFGRID_WARNINGCODES[warning]}"
 
     return status_value.name
+
+
+def batt_watt(registers) -> float:
+   value = (registers[0] << 16) + registers[1]
+   if (value & 0x80000000) == 0x80000000 :
+      neg = ~0xFFFFFFFF
+   else:
+      neg = 0
+   return round(float(-1 * int(neg + value)) / 10, 3)
 
 
 INPUT_REGISTERS_OFFGRID: tuple[GrowattDeviceRegisters, ...] = (
@@ -254,9 +265,16 @@ INPUT_REGISTERS_OFFGRID: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_AC_CHARGE_AMPERAGE, register=68, value_type=float,
     ),
     GrowattDeviceRegisters(
-        name=ATTR_DISCHARGE_POWER, register=69, value_type=float,
+        name=ATTR_DISCHARGE_POWER, register=69, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
         name=ATTR_BATTERY_DISCHARGE_AMPERAGE, register=73, value_type=float,
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BATTERY_POWER,
+        register=77,
+        value_type=custom_function,
+        length=2,
+        function=batt_watt
     )
 )
