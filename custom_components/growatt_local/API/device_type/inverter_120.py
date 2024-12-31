@@ -7,6 +7,7 @@ from .base import (
     SERIAL_NUMBER_REGISTER,
     DEVICE_TYPE_CODE_REGISTER,
     NUMBER_OF_TRACKERS_AND_PHASES_REGISTER,
+    ATTR_INVERTER_ENABLED,
     ATTR_INVERTER_MODEL,
     ATTR_MODBUS_VERSION,
     ATTR_STATUS_CODE,
@@ -72,7 +73,7 @@ from .base import (
     ATTR_OUTPUT_3_AMPERAGE,
     ATTR_OUTPUT_3_POWER,
     ATTR_OPERATION_HOURS,
-    ATTR_FREQUENCY,
+    ATTR_GRID_FREQUENCY,
     ATTR_TEMPERATURE,
     ATTR_IPM_TEMPERATURE,
     ATTR_BOOST_TEMPERATURE,
@@ -102,6 +103,11 @@ def model(registers) -> str:
 
 
 HOLDING_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
+    GrowattDeviceRegisters(
+        name=ATTR_INVERTER_ENABLED,
+        register=0,
+        value_type=int
+    ),
     FIRMWARE_REGISTER,
     SERIAL_NUMBER_REGISTER,
     GrowattDeviceRegisters(
@@ -204,7 +210,7 @@ INPUT_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_OUTPUT_POWER, register=35, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_FREQUENCY, register=37, value_type=float, scale=100
+        name=ATTR_GRID_FREQUENCY, register=37, value_type=float, scale=100
     ),
     GrowattDeviceRegisters(
         name=ATTR_OUTPUT_1_VOLTAGE, register=38, value_type=float,

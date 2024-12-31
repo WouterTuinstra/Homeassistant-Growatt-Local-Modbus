@@ -58,11 +58,34 @@
           "ac_phases": "Aantal grid fasen",
           "scan_interval": "General update interval",
           "power_scan_enabled": "Enable seperate power update interval",
-          "power_scan_interval": "Power update interval"
+          "power_scan_interval": "Power update interval",
+          "inverter_power_control": "Inverter power controle"
         },
         "data_description": {
           "type": "Selecteer de protocol versie die gebruikt wordt door het apperaat de volgende modbus versie is gedetecteerd: {modbus_version}",
-          "power_scan_enabled": "Maakt het mogelijk om een hogere update rate te hebben voor verschillende energy waardes van jou apperaat."
+          "power_scan_enabled": "Optie om een hogere update rate te hebben voor verschillende energy waardes.",
+          "inverter_power_control": "Voegt een schakelaar toe welke manueele controle geeft wanneer de inverter aanstaat."
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Growatt apperaat opties",
+        "data": {
+          "name": "Apparaat naam",
+          "model": "inverter model naam",
+          "type": "Apparaat type",
+          "dc_string": "Aantal PV strings",
+          "ac_phases": "Aantal grid fasen",
+          "scan_interval": "General update interval",
+          "power_scan_enabled": "Enable seperate power update interval",
+          "power_scan_interval": "Power update interval"
+        },
+        "data_description": {
+          "type": "Selecteer de protocol versie die gebruikt wordt door het apperaat.",
+          "power_scan_enabled": "Optie om een hogere update rate te hebben voor verschillende energy waardes."
         }
       }
     }
