@@ -6,8 +6,8 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.const import (
-    ENERGY_KILO_WATT_HOUR,
-    POWER_WATT,
+    UnitOfEnergy,
+    UnitOfPower,
     PERCENTAGE,
 )
 from .sensor_entity_description import GrowattSensorEntityDescription
@@ -49,26 +49,26 @@ STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
     GrowattSensorEntityDescription(
         key=ATTR_DISCHARGE_POWER,
         name="Discharge Power",
-        native_unit_of_measurement=POWER_WATT,
+        native_unit_of_measurement=UnitOfPower.WATT,
         device_class=SensorDeviceClass.POWER
     ),
     GrowattSensorEntityDescription(
         key=ATTR_CHARGE_POWER,
         name="Charge Power",
-        native_unit_of_measurement=POWER_WATT,
+        native_unit_of_measurement=UnitOfPower.WATT,
         device_class=SensorDeviceClass.POWER
     ),
     GrowattSensorEntityDescription(
         key=ATTR_ENERGY_TO_GRID_TOTAL,
         name="Energy To Grid (Total)",
-        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_ENERGY_TO_GRID_TODAY,
         name="Energy To Grid (Today)",
-        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
         midnight_reset=True
@@ -76,7 +76,7 @@ STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
     GrowattSensorEntityDescription(
         key=ATTR_ENERGY_TO_USER_TOTAL,
         name="Energy To User (Total)",
-        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
     ),
@@ -84,7 +84,7 @@ STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
     GrowattSensorEntityDescription(
         key=ATTR_ENERGY_TO_USER_TODAY,
         name="Energy To User (Today)",
-        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
         midnight_reset=True
@@ -96,7 +96,7 @@ STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
     GrowattSensorEntityDescription(
         key=ATTR_DISCHARGE_ENERGY_TODAY,
         name="Battery Discharged (Today)",
-        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
         midnight_reset=True
@@ -104,14 +104,14 @@ STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
     GrowattSensorEntityDescription(
         key=ATTR_DISCHARGE_ENERGY_TOTAL,
         name="Battery Discharged (Total)",
-        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_CHARGE_ENERGY_TODAY,
         name="Battery Charged (Today)",
-        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
         midnight_reset=True
@@ -119,7 +119,7 @@ STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
     GrowattSensorEntityDescription(
         key=ATTR_CHARGE_ENERGY_TOTAL,
         name="Battery Charged (Total)",
-        native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
     )
