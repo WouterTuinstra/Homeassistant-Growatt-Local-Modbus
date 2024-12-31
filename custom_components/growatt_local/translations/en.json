@@ -58,13 +58,44 @@
           "ac_phases": "Number of AC phases",
           "scan_interval": "General update interval",
           "power_scan_enabled": "Enable power update interval",
-          "power_scan_interval": "Power update interval"
+          "power_scan_interval": "Power update interval",
+          "inverter_power_control": "Inverter power control"
         },
         "data_description": {
-          "type": "Select the protocol version used by your device detected modbus version: `{modbus_version}`",
-          "power_scan_enabled": "Allows to have a higher update rate of the various power values of your device."
+          "type": "Select the protocol version used by your device detected modbus version: {modbus_version}",
+          "power_scan_enabled": "Allows a higher update rate of the various power values of your device.",
+          "inverter_power_control": "Creates a switch to allow manual control of when the inverter is enabled."
         }
       }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Growatt Device options",
+        "data": {
+          "name": "Device name",
+          "model": "Inverter model name",
+          "type": "Device type",
+          "dc_string": "Number of Solar strings",
+          "ac_phases": "Number of AC phases",
+          "scan_interval": "General update interval",
+          "power_scan_enabled": "Enable power update interval",
+          "power_scan_interval": "Power update interval",
+          "inverter_power_control": "Inverter power control"
+        },
+        "data_description": {
+          "type": "Select the protocol version used by your device.",
+          "power_scan_enabled": "Allows a higher update rate of the various power values of your device.",
+          "inverter_power_control": "Creates a switch to allow manual control of when the inverter is enabled."
+        }
+      }
+    }
+  },
+  "issues": {
+    "entity_migration_frequency": {
+      "title": "Failed to migrate entity",
+      "description": "**Please resolve the issue manually:**\n{error}\nYou have two options:\n1. Remove the entity with the above mentioned entityID if you want to migrate the old entity.\n2. Remove EntityID '{entity_id}' if don't want to update the entity."
     }
   }
 }

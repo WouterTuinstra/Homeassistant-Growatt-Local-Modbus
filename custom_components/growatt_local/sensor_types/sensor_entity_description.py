@@ -2,14 +2,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from collections.abc import Callable, Iterable
 
 from homeassistant.components.sensor import SensorEntityDescription
-from homeassistant.core import Event
 
 
 @dataclass
-class GrowattRequiredKeysMixin:
+class GrowattSensorRequiredKeysMixin:
     """Mixin for required keys."""
 
     key: str
@@ -17,5 +15,5 @@ class GrowattRequiredKeysMixin:
 
 
 @dataclass
-class GrowattSensorEntityDescription(GrowattRequiredKeysMixin, SensorEntityDescription):
+class GrowattSensorEntityDescription(GrowattSensorRequiredKeysMixin, SensorEntityDescription):
     """Describes Growatt sensor entity."""

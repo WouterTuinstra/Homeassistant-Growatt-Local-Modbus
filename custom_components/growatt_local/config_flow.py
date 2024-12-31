@@ -1,15 +1,13 @@
 """Config flow for growatt server integration."""
 import asyncio
 import logging
-import traceback
 from asyncio.exceptions import TimeoutError
 from typing import Any
-import voluptuous as vol
 
+import voluptuous as vol
 from pymodbus.exceptions import ConnectionException
 
 from homeassistant import config_entries
-
 from homeassistant.const import (
     CONF_IP_ADDRESS,
     CONF_NAME,
@@ -43,6 +41,7 @@ from .const import (
     CONF_STOPBITS,
     CONF_POWER_SCAN_ENABLED,
     CONF_POWER_SCAN_INTERVAL,
+    CONF_INVERTER_POWER_CONTROL,
     CONF_SERIAL_NUMBER,
     CONF_FIRMWARE,
     ParityOptions,
@@ -64,7 +63,9 @@ MODBUS_FRAMER_OPTION = [
 
 DEVICETYPES_OPTION = [
     selector.SelectOptionDict(value=DeviceTypes.INVERTER_120, label="RTU 2 - Inverter v1.24"),
+    selector.SelectOptionDict(value=DeviceTypes.HYBRIDE_120, label="RTU 2 - Hybrid v1.24"),
     selector.SelectOptionDict(value=DeviceTypes.INVERTER_315, label="RTU - Inverter v3.15"),
+    selector.SelectOptionDict(value=DeviceTypes.OFFGRID_SPF, label="SPF - Offgrid/Hybrid"),
 ]
 
 _LOGGER = logging.getLogger(__name__)
@@ -74,6 +75,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow class."""
 
     VERSION = 1
+    MINOR_VERSION = 4
 
     def __init__(self):
         """Initialise growatt server flow."""
@@ -81,6 +83,14 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self.user_id = None
         self.data: dict[str, Any] = {}
         self.force_next_page = False
+
+    @staticmethod
+    @callback
+    def async_get_options_flow(
+        config_entry: config_entries.ConfigEntry,
+    ) -> config_entries.OptionsFlow:
+        """Create the options flow."""
+        return GrowattLocalOptionsFlow(config_entry)
 
     @callback
     def _async_show_selection_form(self, errors=None):
@@ -164,6 +174,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         scan_interval: int = 60,
         power_scan_enabled: bool = False,
         power_scan_interval: int = 5,
+        inverter_power_control: bool = False,
         errors=None,
     ):
         """Show the device form to the user."""
@@ -193,9 +204,8 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 ),
                 vol.Required(CONF_SCAN_INTERVAL, default=scan_interval): int,
                 vol.Required(CONF_POWER_SCAN_ENABLED, default=power_scan_enabled): bool,
-                vol.Optional(
-                    CONF_POWER_SCAN_INTERVAL, default=power_scan_interval
-                ): int,
+                vol.Optional(CONF_POWER_SCAN_INTERVAL, default=power_scan_interval): int,
+                vol.Required(CONF_INVERTER_POWER_CONTROL, default=inverter_power_control): bool,
             }
         )
 
@@ -463,8 +473,46 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self.data[CONF_SERIAL_NUMBER] = device_info.serial_number
         self.data[CONF_FIRMWARE] = device_info.firmware
 
+        options = {
+            CONF_NAME: user_input.pop(CONF_NAME, ""),
+            CONF_SCAN_INTERVAL: user_input.pop(CONF_SCAN_INTERVAL, 60),
+            CONF_POWER_SCAN_ENABLED: user_input.pop(CONF_POWER_SCAN_ENABLED, False),
+            CONF_POWER_SCAN_INTERVAL: user_input.pop(CONF_POWER_SCAN_INTERVAL, 5)
+        }
+
         self.data.update(user_input)
 
         return self.async_create_entry(
-            title=f"Growatt {self.data[CONF_MODEL]}", data=self.data
+            title=f"Growatt {self.data[CONF_MODEL]}", 
+            data=self.data, 
+            options=options
         )
+
+class GrowattLocalOptionsFlow(config_entries.OptionsFlow):
+    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
+        """Initialize options flow."""
+        self.config_entry = config_entry
+
+    @callback
+    def _async_show_options_form(self, errors=None):
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(CONF_NAME, default=self.config_entry.options.get(CONF_NAME)): str,
+                    vol.Required(CONF_SCAN_INTERVAL, default=self.config_entry.options.get(CONF_SCAN_INTERVAL)): int,
+                    vol.Required(CONF_POWER_SCAN_ENABLED, default=self.config_entry.options.get(CONF_POWER_SCAN_ENABLED)): bool,
+                    vol.Optional(CONF_POWER_SCAN_INTERVAL, default=self.config_entry.options.get(CONF_POWER_SCAN_INTERVAL)): int,
+                    vol.Required(CONF_INVERTER_POWER_CONTROL, default=self.config_entry.options.get(CONF_INVERTER_POWER_CONTROL)): bool
+                }
+            )
+        )
+
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Manage the options."""
+        if user_input is not None:
+            return self.async_create_entry(title="", data=user_input)
+        
+        return self._async_show_options_form()

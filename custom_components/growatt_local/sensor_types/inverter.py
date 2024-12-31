@@ -1,9 +1,6 @@
 """Growatt Sensor definitions for the Inverter type."""
 from __future__ import annotations
-from datetime import datetime
-from decimal import Decimal
 
-from homeassistant.core import Event
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorStateClass,
@@ -18,9 +15,10 @@ from homeassistant.const import (
     TIME_HOURS,
     PERCENTAGE,
 )
-
 from .sensor_entity_description import GrowattSensorEntityDescription
+from .switch_entity_description import GrowattSwitchEntityDescription
 from ..API.device_type.base import (
+    ATTR_INVERTER_ENABLED,
     ATTR_INPUT_POWER,
     ATTR_INPUT_ENERGY_TOTAL,
     ATTR_INPUT_1_VOLTAGE,
@@ -77,10 +75,18 @@ from ..API.device_type.base import (
     ATTR_OUTPUT_3_AMPERAGE,
     ATTR_OUTPUT_3_POWER,
     ATTR_OPERATION_HOURS,
-    ATTR_FREQUENCY,
+    ATTR_GRID_FREQUENCY,
     ATTR_TEMPERATURE,
     ATTR_IPM_TEMPERATURE,
     ATTR_OUTPUT_PERCENTAGE,
+)
+
+INVERTER_POWER_SWITCH: GrowattSwitchEntityDescription = GrowattSwitchEntityDescription(
+    key=ATTR_INVERTER_ENABLED,
+    name="Power control",
+    state_on=0x1,
+    state_off=0x0,
+    mask=0x1,
 )
 
 INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
@@ -438,7 +444,7 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         device_class=SensorDeviceClass.POWER,
     ),
     GrowattSensorEntityDescription(
-        key=ATTR_FREQUENCY,
+        key=ATTR_GRID_FREQUENCY,
         name="AC frequency",
         native_unit_of_measurement=FREQUENCY_HERTZ,
     ),
@@ -472,5 +478,9 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         native_unit_of_measurement=PERCENTAGE,
         device_class=SensorDeviceClass.POWER_FACTOR
     ),
-    GrowattSensorEntityDescription(key="status", name="Status", device_class=f"growatt_local__status"),
+    GrowattSensorEntityDescription(
+        key="status",
+        name="Status",
+        device_class=f"growatt_local__status"
+    ),
 )
