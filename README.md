@@ -16,10 +16,17 @@
 Currently there are 3 protocol versions supported with this integration:
 * RTU Protocol version 3.15 used by older models that would support up to two strings
 * RTU Protocol 2 version 1.24 used by newer models and larger devices including Storage and Hybrid inverters
-* RTU Protocol for Offgrid inverters version 0.11
+* RTU Protocol for SPH Hybrid/Offgrid inverters version 0.11
 
 Currently the communication layer (API) is included in this repository but following the guidelines of HASS there should be seperate repositories
 
+## Additional functionality of this intergration
+
+Customizable control of the update rate of sensor values.
+* A scan interval of all information.
+* A seperate scan inverval of main power values
+
+For inverters a optional switch can be set active if you want control when the inverter may produces power to the grid.
 
 ## Manual Installation by ssh
 
