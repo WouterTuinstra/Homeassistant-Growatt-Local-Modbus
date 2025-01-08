@@ -16,10 +16,9 @@ from pymodbus.client.serial import AsyncModbusSerialClient
 from pymodbus.client.tcp import AsyncModbusTcpClient
 from pymodbus.client.udp import AsyncModbusUdpClient
 from pymodbus.constants import Endian
-from pymodbus.framer.rtu_framer import ModbusRtuFramer
-from pymodbus.framer.socket_framer import ModbusSocketFramer
+from pymodbus.framer import FramerType
 from pymodbus.payload import BinaryPayloadBuilder
-from pymodbus.pdu import ModbusResponse
+from pymodbus.pdu import ModbusPDU
 
 from .device_type.base import (
     GrowattDeviceRegisters,
@@ -142,7 +141,7 @@ class GrowattModbusBase:
         await self.client.write_register(49, minute)
         await self.client.write_register(50, second)
 
-    async def write_register(self, register, payload, unit) -> ModbusResponse:
+    async def write_register(self, register, payload, slave) -> ModbusPDU:
         builder = BinaryPayloadBuilder(byteorder=Endian.BIG, wordorder=Endian.BIG)
         builder.reset()
         builder.add_16bit_int(payload)
@@ -177,7 +176,7 @@ class GrowattNetwork(GrowattModbusBase):
                 self.client = AsyncModbusTcpClient(
                     host,
                     port ,
-                    framer=ModbusRtuFramer,
+                    framer=FramerType.RTU,
                     timeout=timeout,
                     retries=retries,
                 )
@@ -185,7 +184,7 @@ class GrowattNetwork(GrowattModbusBase):
                 self.client = AsyncModbusTcpClient(
                     host,
                     port,
-                    framer=ModbusSocketFramer,
+                    framer=FramerType.SOCKET,
                     timeout=timeout,
                     retries=retries,
                 )
@@ -195,7 +194,7 @@ class GrowattNetwork(GrowattModbusBase):
                 self.client = AsyncModbusUdpClient(
                     host,
                     port,
-                    framer=ModbusRtuFramer,
+                    framer=FramerType.RTU,
                     timeout=timeout,
                     retries=retries,
                 )
@@ -203,7 +202,7 @@ class GrowattNetwork(GrowattModbusBase):
                 self.client = AsyncModbusUdpClient(
                     host,
                     port,
-                    framer=ModbusSocketFramer,
+                    framer=FramerType.SOCKET,
                     timeout=timeout,
                     retries=retries,
                 )
@@ -239,7 +238,7 @@ class GrowattSerial(GrowattModbusBase):
 
         self.client = AsyncModbusSerialClient(
             port=port,
-            framer=ModbusRtuFramer,
+            framer=FramerType.RTU,
             baudrate=baudrate,
             stopbits=stopbits,
             parity=parity[:1],
