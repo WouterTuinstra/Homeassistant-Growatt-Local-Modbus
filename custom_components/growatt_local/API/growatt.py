@@ -77,7 +77,7 @@ class GrowattModbusBase:
             self,
             register: dict[int, GrowattDeviceRegisters] | tuple[GrowattDeviceRegisters, ...],
             max_length: int,
-            unit: int
+            slave: int
     ) -> GrowattDeviceInfo:
         """
         Read Growatt device information.
@@ -92,7 +92,7 @@ class GrowattModbusBase:
 
         for item in key_sequences:
             register_values.update(
-                await self.read_holding_registers(start_index=item[0], length=item[1], unit=unit)
+                await self.read_holding_registers(item[0], count=item[1], slave=slave)
             )
 
         results = process_registers(register, register_values)
@@ -109,12 +109,12 @@ class GrowattModbusBase:
 
         return device_info
 
-    async def read_device_time(self, unit: int):
+    async def read_device_time(self, slave: int):
         """
         Read Growatt device time.
         """
         # TODO: update with dynamic register values
-        rhr = await self.client.read_holding_registers(45, 6, slave=unit)
+        rhr = await self.client.read_holding_registers(45, count=6, slave=slave)
         if rhr.isError():
             _LOGGER.debug("Modbus read failed for rhr")
             raise ModbusException("Modbus read failed for rhr.")
@@ -146,16 +146,16 @@ class GrowattModbusBase:
         builder.reset()
         builder.add_16bit_int(payload)
         payload = builder.to_registers()
-        return await self.client.write_register(register, payload[0], unit)
+        return await self.client.write_register(register, payload[0], slave=slave)
 
-    async def read_holding_registers(self, start_index, length, unit) -> dict[int, int]:
-        data = await self.client.read_holding_registers(start_index, length, unit)
-        registers = {c: v for c, v in enumerate(data.registers, start_index)}
+    async def read_holding_registers(self, start_address, count, slave) -> dict[int, int]:
+        data = await self.client.read_holding_registers(start_address, count=count, slave=slave)
+        registers = {c: v for c, v in enumerate(data.registers, start_address)}
         return registers
 
-    async def read_input_registers(self, start_index, length, unit) -> dict[int, int]:
-        data = await self.client.read_input_registers(start_index, length, unit)
-        registers = {c: v for c, v in enumerate(data.registers, start_index)}
+    async def read_input_registers(self, start_address, count, slave) -> dict[int, int]:
+        data = await self.client.read_input_registers(start_address, count=count, slave=slave)
+        registers = {c: v for c, v in enumerate(data.registers, start_address)}
         return registers
 
 
@@ -267,7 +267,7 @@ class GrowattDevice:
         self.holding_register = self.device_registers.holding
         self.input_register = self.device_registers.input
 
-        self.unit = unit
+        self.slave = unit
 
     async def connect(self):
         await self.modbus.connect()
@@ -279,10 +279,10 @@ class GrowattDevice:
         self.modbus.close()
 
     async def get_device_info(self) -> GrowattDeviceInfo:
-        return await self.modbus.get_device_info(self.holding_register, self.max_length, self.unit)
+        return await self.modbus.get_device_info(self.holding_register, self.max_length, self.slave)
 
     async def sync_time(self) -> timedelta:
-        device_time = await self.modbus.read_device_time(self.unit)
+        device_time = await self.modbus.read_device_time(self.slave)
         time = datetime.now()
         await self.modbus.write_device_time(
             time.year, time.month, time.day, time.hour, time.minute, time.second
@@ -312,7 +312,7 @@ class GrowattDevice:
             register_values = {}
             for item in key_sequences.holding:
                 register_values.update(
-                    await self.modbus.read_holding_registers(start_index=item[0], length=item[1], unit=self.unit)
+                    await self.modbus.read_holding_registers(item[0], count=item[1], slave=self.slave)
                 )
 
             results.update(process_registers(self.device_registers.holding, register_values))
@@ -321,16 +321,16 @@ class GrowattDevice:
             register_values = {}
             for item in key_sequences.input:
                 register_values.update(
-                    await self.modbus.read_input_registers(start_index=item[0], length=item[1], unit=self.unit)
+                    await self.modbus.read_input_registers(item[0], count=item[1], slave=self.slave)
                 )
 
             results.update(process_registers(self.device_registers.input, register_values))
 
         return results
 
-    async def write_register(self, register, payload) -> ModbusResponse:
-        _LOGGER.info("Write register %d with payload %d and unit %d", register, payload, self.unit)
-        data = await self.modbus.write_register(register, payload, self.unit)
+    async def write_register(self, register, payload) -> ModbusPDU:
+        _LOGGER.info("Write register %d with payload %d and unit %d", register, payload, self.slave)
+        data = await self.modbus.write_register(register, payload, self.slave)
         _LOGGER.info("Write response done")
         return data
 
@@ -342,7 +342,7 @@ class GrowattDevice:
 
         for item in key_sequences:
             register_values.update(
-                await self.modbus.read_holding_registers(start_index=item[0], length=item[1], unit=self.unit)
+                await self.modbus.read_holding_registers(item[0], count=item[1], slave=self.slave)
             )
 
         results = process_registers(register, register_values)
