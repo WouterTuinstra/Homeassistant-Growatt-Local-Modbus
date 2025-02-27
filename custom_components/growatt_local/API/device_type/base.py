@@ -115,6 +115,9 @@ ATTR_SOC_PERCENTAGE = "soc"  # %
 ATTR_DISCHARGE_POWER = "discharge_power"  # W
 ATTR_CHARGE_POWER = "charge_power"  # W
 
+ATTR_PAC_TO_USER_TOTAL = "pac_to_user_total"  # W
+ATTR_PAC_TO_GRID_TOTAL = "pac_to_grid_total"  # W
+
 ATTR_ENERGY_TO_USER_TODAY = "energy_to_user_today"  # kWh
 ATTR_ENERGY_TO_USER_TOTAL = "energy_to_user_total"  # kWh
 ATTR_ENERGY_TO_GRID_TODAY = "energy_to_grid_today"  # kWh

@@ -26,7 +26,8 @@ from ..API.device_type.base import (
     ATTR_DISCHARGE_ENERGY_TOTAL,
     ATTR_CHARGE_ENERGY_TODAY,
     ATTR_CHARGE_ENERGY_TOTAL,
-
+    ATTR_PAC_TO_GRID_TOTAL,
+    ATTR_PAC_TO_USER_TOTAL,
 )
 
 STORAGE_SWITCH_TYPES: tuple[GrowattSwitchEntityDescription, ...] = (
@@ -122,5 +123,17 @@ STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
-    )
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_PAC_TO_USER_TOTAL,
+        name="AC to user total",
+        native_unit_of_measurement=UnitOfPower.WATT,
+        device_class=SensorDeviceClass.POWER,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_PAC_TO_GRID_TOTAL,
+        name="AC to grid total",
+        native_unit_of_measurement=UnitOfPower.WATT,
+        device_class=SensorDeviceClass.POWER,
+    ),
 )

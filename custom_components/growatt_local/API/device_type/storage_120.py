@@ -21,6 +21,8 @@ from .base import (
     ATTR_CHARGE_ENERGY_TOTAL,
     ATTR_AC_CHARGE_ENABLED,
     ATTR_SERIAL_NUMBER,
+    ATTR_PAC_TO_GRID_TOTAL,
+    ATTR_PAC_TO_USER_TOTAL,
 )
 
 MAXIMUM_DATA_LENGTH = 100
@@ -103,5 +105,11 @@ STORAGE_INPUT_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
     ),
     GrowattDeviceRegisters(
         name=ATTR_CHARGE_ENERGY_TOTAL, register=1058, value_type=float, length=2
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_PAC_TO_USER_TOTAL, register=1021, value_type=float, length=2,
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_PAC_TO_GRID_TOTAL, register=1029, value_type=float, length=2,
     ),
 )
