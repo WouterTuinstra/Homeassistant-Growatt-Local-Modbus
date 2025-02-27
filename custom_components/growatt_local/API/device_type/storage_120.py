@@ -72,36 +72,36 @@ STORAGE_HOLDING_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
 
 STORAGE_INPUT_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(
-        name=ATTR_SOC_PERCENTAGE, register=3171, value_type=int
+        name=ATTR_SOC_PERCENTAGE, register=1014, value_type=int
     ),
     GrowattDeviceRegisters(
-        name=ATTR_DISCHARGE_POWER, register=3178, value_type=float, length=2
+        name=ATTR_DISCHARGE_POWER, register=1009, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_CHARGE_POWER, register=3180, value_type=float, length=2
+        name=ATTR_CHARGE_POWER, register=1011, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_ENERGY_TO_USER_TODAY, register=3067, value_type=float, length=2
+        name=ATTR_ENERGY_TO_USER_TODAY, register=1044, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_ENERGY_TO_USER_TOTAL, register=3069, value_type=float, length=2
+        name=ATTR_ENERGY_TO_USER_TOTAL, register=1046, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_ENERGY_TO_GRID_TODAY, register=3071, value_type=float, length=2
+        name=ATTR_ENERGY_TO_GRID_TODAY, register=1048, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_ENERGY_TO_GRID_TOTAL, register=3073, value_type=float, length=2
+        name=ATTR_ENERGY_TO_GRID_TOTAL, register=1050, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_DISCHARGE_ENERGY_TODAY, register=3125, value_type=float, length=2
+        name=ATTR_DISCHARGE_ENERGY_TODAY, register=1052, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_DISCHARGE_ENERGY_TOTAL, register=3127, value_type=float, length=2
+        name=ATTR_DISCHARGE_ENERGY_TOTAL, register=1054, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_CHARGE_ENERGY_TODAY, register=3129, value_type=float, length=2
+        name=ATTR_CHARGE_ENERGY_TODAY, register=1056, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_CHARGE_ENERGY_TOTAL, register=3131, value_type=float, length=2
+        name=ATTR_CHARGE_ENERGY_TOTAL, register=1058, value_type=float, length=2
     ),
 )
