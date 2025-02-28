@@ -115,6 +115,9 @@ ATTR_SOC_PERCENTAGE = "soc"  # %
 ATTR_DISCHARGE_POWER = "discharge_power"  # W
 ATTR_CHARGE_POWER = "charge_power"  # W
 
+ATTR_PAC_TO_USER_TOTAL = "pac_to_user_total"  # W
+ATTR_PAC_TO_GRID_TOTAL = "pac_to_grid_total"  # W
+
 ATTR_ENERGY_TO_USER_TODAY = "energy_to_user_today"  # kWh
 ATTR_ENERGY_TO_USER_TOTAL = "energy_to_user_total"  # kWh
 ATTR_ENERGY_TO_GRID_TODAY = "energy_to_grid_today"  # kWh
@@ -235,10 +238,19 @@ NUMBER_OF_TRACKERS_AND_PHASES_REGISTER = GrowattDeviceRegisters(
 
 
 class InverterStatus(Enum):
-    "Enum of possible Inverter Status."
+    """Enum of possible Inverter Status."""
     Waiting = 0
     Normal = 1
+    Discharge = 2
     Fault = 3
+    PV_charge = 5
+    AC_charge = 6
+    Combined_charge = 7
+    Combined_charge_bypass = 8
+    PV_charge_bypass = 9
+    AC_charge_bypass = 10
+    Bypass = 11
+    PV_charge_discharge = 12
 
 
 INVERTER_DERATINGMODES = {
@@ -294,17 +306,14 @@ def inverter_status(value: dict[str, Any]) -> str | None:
 
     status_value = InverterStatus(value[ATTR_STATUS_CODE])
 
-    if status_value is InverterStatus.Waiting:
-        return status_value.name
-
-    elif status_value == InverterStatus.Normal:
+    if status_value in [InverterStatus.Normal, InverterStatus.PV_charge, InverterStatus.PV_charge_bypass]:
         derating = value.get(ATTR_DERATING_MODE, None)
         if (derating is not None and derating in INVERTER_DERATINGMODES.keys() and derating != 0):
             return f"{status_value.name} - {INVERTER_DERATINGMODES[derating]}"
-
-        return status_value.name
 
     elif status_value is InverterStatus.Fault:
         fault = value.get(ATTR_FAULT_CODE, None)
         if fault is not None and fault != 0:
             return f"{status_value.name} - {INVERTER_FAULTCODES[fault]}"
+
+    return status_value.name
