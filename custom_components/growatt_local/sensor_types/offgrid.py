@@ -1,4 +1,4 @@
-"""Growatt Sensor definitions for the Inverter type."""
+er"""Growatt Sensor definitions for the Inverter type."""
 from __future__ import annotations
 
 from homeassistant.components.sensor import (
@@ -172,13 +172,13 @@ OFFGRID_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
     ),
     GrowattSensorEntityDescription(
         key=ATTR_CHARGE_POWER,
-        name="Battery charge power",
+        name="Inverter charge power",
         native_unit_of_measurement=UnitOfPower.WATT,
         device_class=SensorDeviceClass.POWER,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_CHARGE_ENERGY_TODAY,
-        name="Battery Charged Today",
+        name="Inverter Charged Today",
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
@@ -199,13 +199,13 @@ OFFGRID_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
     ),
     GrowattSensorEntityDescription(
         key=ATTR_DISCHARGE_POWER,
-        name="Battery discharge power",
+        name="Inverter discharge power",
         native_unit_of_measurement=UnitOfPower.WATT,
         device_class=SensorDeviceClass.POWER,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_DISCHARGE_ENERGY_TODAY,
-        name="Battery Discharged Today",
+        name="Inverter Discharged Today",
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
@@ -213,7 +213,7 @@ OFFGRID_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
     ),
     GrowattSensorEntityDescription(
         key=ATTR_DISCHARGE_ENERGY_TOTAL,
-        name="Battery Discharged Lifetime",
+        name="Inverter Discharged Lifetime",
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
@@ -261,7 +261,7 @@ OFFGRID_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         key=ATTR_LOAD_PERCENTAGE,
         name="Inverter load",
         native_unit_of_measurement=PERCENTAGE,
-        device_class=SensorDeviceClass.BATTERY
+        device_class=SensorDeviceClass.POWER
     ),
     GrowattSensorEntityDescription(
         key=ATTR_BATTERY_VOLTAGE,
