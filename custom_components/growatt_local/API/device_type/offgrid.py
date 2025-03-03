@@ -146,7 +146,14 @@ def batt_watt(registers) -> float:
       neg = 0
    return round(float(-1 * int(neg + value)) / 10, 3)
 
-
+def inv_watt(registers) -> float:
+   value = (registers[0] << 16) + registers[1]
+   if (value & 0x80000000) == 0x80000000 :
+      neg = ~0xFFFFFFFF
+   else:
+      neg = 0
+   return round(float(-1 * int(neg + value)) / 10, 3)
+    
 INPUT_REGISTERS_OFFGRID: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(
         name=ATTR_STATUS_CODE, register=0, value_type=int
@@ -265,7 +272,9 @@ INPUT_REGISTERS_OFFGRID: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_AC_CHARGE_AMPERAGE, register=68, value_type=float,
     ),
     GrowattDeviceRegisters(
-        name=ATTR_DISCHARGE_POWER, register=69, value_type=float, length=2
+        name=ATTR_DISCHARGE_POWER, register=69, value_type=custom_function,
+        length=2,
+        function=inv_watt
     ),
     GrowattDeviceRegisters(
         name=ATTR_BATTERY_DISCHARGE_AMPERAGE, register=73, value_type=float,
