@@ -15,6 +15,7 @@ from homeassistant.const import (
     UnitOfTime,
     PERCENTAGE,
 )
+from .number_entity_description import GrowattNumberEntityDescription
 from .sensor_entity_description import GrowattSensorEntityDescription
 from .switch_entity_description import GrowattSwitchEntityDescription
 from ..API.device_type.base import (
@@ -483,4 +484,17 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Status",
         device_class=f"growatt_local__status"
     ),
+)
+
+INVERTER_POWER_LIMIT = GrowattNumberEntityDescription(
+    key="max_output_power_percentage",
+    name="Power Limit %",
+    native_min_value=0,
+    native_max_value=100,
+    native_step=1,
+    unit_of_measurement="%",
+    entity_category=None,
+    register=3,     # Confirmed: modbus register 3 (DEC)
+    scale=1,
+    writeable=True,
 )
