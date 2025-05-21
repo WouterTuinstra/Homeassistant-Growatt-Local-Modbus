@@ -419,7 +419,7 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
         input_register = {
             obj.register: obj for obj in INPUT_REGISTERS_120
         }
-    elif GrowattDeviceType == DeviceTypes.HYBRIDE_120:
+    elif GrowattDeviceType == DeviceTypes.HYBRID_120:
         max_length = MAXIMUM_DATA_LENGTH_120
         holding_register = {
             obj.register: obj for obj in STORAGE_HOLDING_REGISTERS_120
@@ -428,6 +428,18 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
             obj.register: obj for obj in INPUT_REGISTERS_120
         }
         input_register.update({
+            obj.register: obj for obj in STORAGE_INPUT_REGISTERS_120
+        })
+    elif GrowattDeviceType == DeviceTypes.HYBRID_120_TL_XH:
+        max_length = MAXIMUM_DATA_LENGTH_120
+        holding_register = {
+            obj.register: obj for obj in STORAGE_HOLDING_REGISTERS_120
+        }
+        input_register = {
+            obj.register: obj for obj in INPUT_REGISTERS_120
+        }
+        input_register.update({
+            # would need to be updated with the correct register values
             obj.register: obj for obj in STORAGE_INPUT_REGISTERS_120
         })
     elif GrowattDeviceType == DeviceTypes.STORAGE_120:
@@ -449,7 +461,8 @@ async def get_device_info(device: GrowattModbusBase, unit: int, fixed_device_typ
     minimal_length = min((MAXIMUM_DATA_LENGTH_120, MAXIMUM_DATA_LENGTH_315))
 
     if fixed_device_types is not None:
-        if fixed_device_types in (DeviceTypes.INVERTER_120, DeviceTypes.HYBRIDE_120, DeviceTypes.STORAGE_120):
+        if fixed_device_types in (DeviceTypes.INVERTER_120, DeviceTypes.HYBRID_120, 
+                                  DeviceTypes.HYBRID_120_TL_XH, DeviceTypes.STORAGE_120):
             return await device.get_device_info(HOLDING_REGISTERS_120, minimal_length, unit)
         elif fixed_device_types in (DeviceTypes.INVERTER_315, DeviceTypes.OFFGRID_SPF):
             return await device.get_device_info(HOLDING_REGISTERS_315, minimal_length, unit)
