@@ -251,9 +251,10 @@ def process_registers(
             if (second_value := register_values.get(key + 1, None)) is None:
                 continue
 
-            result[register.name] = round(
-                float((value << 16) + second_value) / register.scale, 3
-            )
+            # Handle negative numbers
+            v = (value << 16) | second_value
+            v = v - (v >> 31 << 32)
+            result[register.name] = round(float(v / register.scale), 3)
 
         elif register.value_type == float:
             result[register.name] = round(float(value) / register.scale, 3)
