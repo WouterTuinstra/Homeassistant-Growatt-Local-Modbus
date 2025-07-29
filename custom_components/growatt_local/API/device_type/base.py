@@ -313,7 +313,10 @@ def inverter_status(value: dict[str, Any]) -> str | None:
 
     elif status_value is InverterStatus.Fault:
         fault = value.get(ATTR_FAULT_CODE, None)
-        if fault is not None and fault != 0:
-            return f"{status_value.name} - {INVERTER_FAULTCODES[fault]}"
+        if fault is not None:
+            if fault in INVERTER_FAULTCODES.keys():
+                return f"{status_value.name} - {INVERTER_FAULTCODES[fault]}"
+            else:
+                return f"{status_value.name} - code: {fault}"
 
     return status_value.name
