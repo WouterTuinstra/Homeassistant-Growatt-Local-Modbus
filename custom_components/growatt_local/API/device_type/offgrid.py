@@ -268,13 +268,9 @@ INPUT_REGISTERS_OFFGRID: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_DISCHARGE_POWER, register=69, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_BATTERY_DISCHARGE_AMPERAGE, register=73, value_type=float,
+        name=ATTR_BATTERY_DISCHARGE_AMPERAGE, register=73, value_type=float
     ),
     GrowattDeviceRegisters(
-        name=ATTR_BATTERY_POWER,
-        register=77,
-        value_type=custom_function,
-        length=2,
-        function=batt_watt
+        name=ATTR_BATTERY_POWER, register=77, value_type=float, length=2
     )
 )
