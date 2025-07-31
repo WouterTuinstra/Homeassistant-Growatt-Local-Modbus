@@ -229,7 +229,7 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
             self._counter = self._max_counter = 0
 
         # Storage/Hybride devices are always active while inverters are only active when the sun is up.
-        if self.growatt_api.device not in (DeviceTypes.HYBRIDE_120, DeviceTypes.OFFGRID_SPF):
+        if self.growatt_api.device not in (DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH, DeviceTypes.OFFGRID_SPF):
             self._sun_is_down = self.sun_down()
 
             async_track_sunrise(self.hass, self.sunrise)
