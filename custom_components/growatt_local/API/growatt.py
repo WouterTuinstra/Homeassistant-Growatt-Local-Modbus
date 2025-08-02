@@ -278,6 +278,26 @@ class GrowattDevice:
     def close(self):
         self.modbus.close()
 
+
+
+    async def get_power_limit(self) -> int:
+        result = await self.modbus.read_holding_registers(3, 1, slave=1)
+
+        if not result or not isinstance(result, dict):
+            _LOGGER.warning("MODBUS result invalid or unexpected format: %s", result)
+            return 0
+
+        value = result.get(3, 0)
+        _LOGGER.debug("Decoded power limit value: %s", value)
+        return value
+
+
+
+    async def set_power_limit(self, value: int) -> None:
+        await self.modbus.write_register(3, value, self.slave)
+
+
+
     async def get_device_info(self) -> GrowattDeviceInfo:
         return await self.modbus.get_device_info(self.holding_register, self.max_length, self.slave)
 
