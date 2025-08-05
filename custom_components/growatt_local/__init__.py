@@ -281,14 +281,6 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
 
         if status:
             data["status"] = status
-        
-        try:
-            limit = await self.growatt_api.get_power_limit()
-            _LOGGER.debug("Fetched current power limit from inverter: %s", limit)
-            data["power_limit"] = limit
-        except Exception as e:
-            _LOGGER.warning("Failed to retrieve power limit: %s", e)
-
         return data
 
     async def force_refresh(self):
