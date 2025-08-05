@@ -5,7 +5,7 @@ from collections.abc import Callable, Sequence
 from datetime import timedelta
 from typing import Any, Optional
 
-from pymodbus.exceptions import ConnectionException
+from pymodbus.exceptions import ConnectionException, ModbusIOException
 
 from homeassistant import config_entries
 from homeassistant.config_entries import ConfigEntry
@@ -272,7 +272,7 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
                 await self.growatt_api.connect()
             self._failed_update_count += 1
             status = "not_connected"
-        except asyncio.TimeoutError:
+        except (asyncio.TimeoutError, ModbusIOException):
             self._failed_update_count += 1
             status = "no_response"
 
