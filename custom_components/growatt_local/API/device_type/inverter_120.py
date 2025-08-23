@@ -311,6 +311,17 @@ INPUT_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_WARNING_CODE, register=110, value_type=int, length=2
     ),
     GrowattDeviceRegisters(
+        name=ATTR_OUTPUT_REACTIVE_POWER, register=58, value_type=float, length=2,
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_OUTPUT_REACTIVE_ENERGY_TODAY, register=60, value_type=float, length=2,
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_OUTPUT_REACTIVE_ENERGY_TOTAL, register=62, value_type=float, length=2,
+    ),
+    GrowattDeviceRegisters(name=ATTR_WARNING_VALUE, register=65, value_type=int),
+
+    GrowattDeviceRegisters(
         name=ATTR_OUTPUT_REACTIVE_POWER, register=234, value_type=float, length=2,
     ),
     GrowattDeviceRegisters(
