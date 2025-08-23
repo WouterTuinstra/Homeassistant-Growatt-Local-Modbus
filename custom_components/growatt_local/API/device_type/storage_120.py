@@ -121,6 +121,17 @@ STORAGE_INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(
         name=ATTR_SOC_PERCENTAGE, register=3171, value_type=int
     ),
+    # BDC presence flag (soms nuttig bij debugging/mapping)
+    GrowattDeviceRegisters(
+        name=ATTR_BDC_NEW_FLAG,     register=3164, value_type=int
+    ),
+    # Batterijtemperaturen (0.1 C schaal, integration hanteert doorgaans *0.1 naar float)
+    GrowattDeviceRegisters(
+        name=ATTR_BATTERY_TEMPERATURE_A, register=3176, value_type=float
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BATTERY_TEMPERATURE_B, register=3177, value_type=float
+    ),
     GrowattDeviceRegisters(
         name=ATTR_DISCHARGE_POWER, register=3178, value_type=float, length=2
     ),

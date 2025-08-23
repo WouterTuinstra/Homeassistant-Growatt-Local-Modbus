@@ -104,11 +104,15 @@ ATTR_TEMPERATURE = "inverter_temperature"  # C
 ATTR_IPM_TEMPERATURE = "ipm_temperature"  # C
 ATTR_BOOST_TEMPERATURE = "boost_temperature"  # C
 
+ATTR_BATTERY_TEMPERATURE_A = "battery_temperature_a"  # C
+ATTR_BATTERY_TEMPERATURE_B = "battery_temperature_b"  # C
+
+ATTR_BDC_NEW_FLAG = "bdc_new_flag"  # 0/1 – geeft aan dat BDC-blok actief is
+
 ATTR_P_BUS_VOLTAGE = "p_bus_voltage"  # V
 ATTR_N_BUS_VOLTAGE = "n_bus_voltage"  # V
 
 ATTR_OUTPUT_PERCENTAGE = "real_output_power_percent"  # %
-
 
 # Attribute names for values in the input register Storage
 ATTR_SOC_PERCENTAGE = "soc"  # %
