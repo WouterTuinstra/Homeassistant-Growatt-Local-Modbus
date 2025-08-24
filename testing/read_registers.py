@@ -69,20 +69,26 @@ async def main():
         MODBUS_ADDRESS,
     )
     await dev.connect()
-    # Read a small TL-XH window to verify comms
-    keys = utils.RegisterKeys(input=set(range(3000, 3250)))
-    res = await dev.update(keys)
 
-    # Pretty print: address, name, value
-    print("{:<10} {:<30} {:<15}".format("Address", "Name", "Value"))
-    print("-" * 60)
-    # Find register info for each address
+    ranges = [
+        (0, 124),
+        (3000, 3124),
+        (3125, 3249),
+        (3250, 3374),
+    ]
     reg_map = dev.input_register
-    for addr in sorted(keys.input):
-        reg = reg_map.get(addr)
-        name = reg.name if reg else "?"
-        value = res.get(name, "-")
-        print(f"{addr:<10} {name:<30} {value:<15}")
+
+    for start, end in ranges:
+        print(f"\n=== Scanning registers {start}~{end} ===")
+        keys = utils.RegisterKeys(input=set(range(start, end + 1)))
+        res = await dev.update(keys)
+        print("{:<10} {:<30} {:<15}".format("Address", "Name", "Value"))
+        print("-" * 60)
+        for addr in sorted(keys.input):
+            reg = reg_map.get(addr)
+            name = reg.name if reg else "?"
+            value = res.get(name, "-")
+            print(f"{addr:<10} {name:<30} {value:<15}")
 
 if __name__ == "__main__":
     asyncio.run(main())
