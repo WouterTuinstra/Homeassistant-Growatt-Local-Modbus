@@ -4,27 +4,8 @@ from pathlib import Path
 """
 
 This script allows you to read Modbus registers from a Growatt inverter using the
-Growatt Local Modbus integration. It sets up the necessary environment to import
-the Growatt Local Modbus components and connects to the inverter via a serial port.
-
-The script can be run in a Docker container on HA using the 
-
-    # host path to your config:
-    REPO=/mnt/data/supervisor/homeassistant/growatt-local
-
-    docker run -it --rm \
-    --device=/dev/serial/by-id/usb-1a86_USB_Serial-if00-port0:/dev/ttyUSB0 \
-    -v "$REPO":/app -w /app \
-    python:3.11 bash
-
-
-
-
-
-pip install --upgrade pip
-pip install --upgrade "pymodbus[serial]>=3.8,<3.9"
-
-
+Growatt Local Modbus integration. It is intended for debugging and exploring
+the available registers on your device.
 
 """
 
@@ -110,10 +91,26 @@ async def main():
         res = await dev.update(keys)
         print("{:<10} {:<30} {:<15}".format("Address", "Name", "Value"))
         print("-" * 60)
+        # Build reverse lookup: name -> address for defined registers
+        name_to_addr = {reg.name: addr for addr, reg in reg_map.items() if reg}
+        # Print all addresses in the range
         for addr in sorted(keys.input):
             reg = reg_map.get(addr)
-            name = reg.name if reg else "?"
-            value = res.get(name, "-")
+            if reg:
+                name = reg.name
+                value = res.get(name, "-")
+            else:
+                # Try to get value by address if not defined
+                # The result dict uses names for defined, but for undefined, try raw register value
+                value = None
+                # Try to find a value by scanning the result dict for int values
+                for v in res.values():
+                    if isinstance(v, dict) and addr in v:
+                        value = v[addr]
+                        break
+                if value is None:
+                    value = "-"
+                name = "?"
             print(f"{addr:<10} {name:<30} {value:<15}")
 
 if __name__ == "__main__":
