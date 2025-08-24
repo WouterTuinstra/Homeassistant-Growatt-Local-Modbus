@@ -1,6 +1,32 @@
 import asyncio, sys, types, importlib.util, os
 from pathlib import Path
 
+"""
+
+This script allows you to read Modbus registers from a Growatt inverter using the
+Growatt Local Modbus integration. It sets up the necessary environment to import
+the Growatt Local Modbus components and connects to the inverter via a serial port.
+
+The script can be run in a Docker container on HA using the 
+
+    # host path to your config:
+    REPO=/mnt/data/supervisor/homeassistant/growatt-local
+
+    docker run -it --rm \
+    --device=/dev/serial/by-id/usb-1a86_USB_Serial-if00-port0:/dev/ttyUSB0 \
+    -v "$REPO":/app -w /app \
+    python:3.11 bash
+
+
+
+
+
+pip install --upgrade pip
+pip install --upgrade "pymodbus[serial]>=3.8,<3.9"
+
+
+
+"""
 
 # Find project root by searching upwards for custom_components
 def find_project_root(start: Path) -> Path:
