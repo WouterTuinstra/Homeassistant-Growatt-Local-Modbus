@@ -70,9 +70,19 @@ async def main():
     )
     await dev.connect()
     # Read a small TL-XH window to verify comms
-    keys = utils.RegisterKeys(input=set(range(3000, 3010)))
+    keys = utils.RegisterKeys(input=set(range(3000, 3250)))
     res = await dev.update(keys)
-    print(res)
+
+    # Pretty print: address, name, value
+    print("{:<10} {:<30} {:<15}".format("Address", "Name", "Value"))
+    print("-" * 60)
+    # Find register info for each address
+    reg_map = dev.input_register
+    for addr in sorted(keys.input):
+        reg = reg_map.get(addr)
+        name = reg.name if reg else "?"
+        value = res.get(name, "-")
+        print(f"{addr:<10} {name:<30} {value:<15}")
 
 if __name__ == "__main__":
     asyncio.run(main())
