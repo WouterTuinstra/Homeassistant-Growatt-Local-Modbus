@@ -142,13 +142,13 @@ STORAGE_INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_CHARGE_POWER, register=3180, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_POWER_TO_USER, register=30041, value_type=float, length=2
+        name=ATTR_POWER_TO_USER, register=3041, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_POWER_TO_GRID, register=30043, value_type=float, length=2
+        name=ATTR_POWER_TO_GRID, register=3043, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_POWER_USER_LOAD, register=30045, value_type=float, length=2
+        name=ATTR_POWER_USER_LOAD, register=3045, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
         name=ATTR_ENERGY_TO_USER_TODAY, register=3067, value_type=float, length=2
