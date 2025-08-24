@@ -436,8 +436,11 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
             obj.register: obj for obj in STORAGE_HOLDING_REGISTERS_120
         }
         input_register = {
-            obj.register: obj for obj in INPUT_REGISTERS_120_TL_XH
+            obj.register: obj for obj in INPUT_REGISTERS_120
         }
+        input_register.update({
+            obj.register: obj for obj in INPUT_REGISTERS_120_TL_XH
+        })
         input_register.update({
             obj.register: obj for obj in STORAGE_INPUT_REGISTERS_120_TL_XH
         })
