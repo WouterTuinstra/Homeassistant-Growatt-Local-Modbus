@@ -410,7 +410,125 @@ These registers should eventually be mapped in HA:
 
 ---
 
+
+
 ---
+
+# Update: Undocumented Input Cluster (285–815)
+
+You confirmed these input registers are **not described** in v1.24. I’ve tagged them explicitly as an *Undocumented TL‑X/H cluster* and kept all observed values in the tracker above so we can correlate later. Quick notes:
+
+- Values are stable across reboots and scale similarly to nearby documented items → likely **diagnostic / debug** counters.
+- Several appear in **H/L 32‑bit pairs** (e.g., 309x in the TL‑XH block does this; for 285–815 we’ll watch for `n` & `n+1` pairs that jump together).
+- Good candidates to probe when changing modes: load %, AC‑charge on/off, and AFCI self‑check.
+
+### Suggested reverse‑engineering steps
+1. Log these regs at 1–5 s cadence during: PV ramp, AC‑charge enable/disable (3049), grid loss (EPS), forced discharge.
+2. Correlate with known bits (e.g., `ATTR_STANDBY_FLAGS`, `ATTR_BDC_ONOFF_STATE`).
+3. Test 32‑bit assembly for contiguous pairs and try **0.1 / 0.01 scales**.
+4. Compare weekday/weekend schedules to see if any counters advance with **time period** activity.
+
+---
+
+# Proposed Input Attribute Constants (TL‑XH)
+Add these to `base.py` if they’re missing; names match the tables above so you can drop them straight into the integration.
+
+```python
+# TL‑XH input attributes (≥3000)
+ATTR_VAC_RS = "vac_rs"                      # V, 3038
+ATTR_VAC_ST = "vac_st"                      # V, 3039
+ATTR_VAC_TR = "vac_tr"                      # V, 3040
+ATTR_PRESENT_FFT_A = "present_fft_a"        # 3111
+ATTR_AFCI_STATUS = "afci_status"            # 3112
+ATTR_AFCI_STRENGTH_A = "afci_strength_a"    # 3113
+ATTR_AFCI_SELF_CHECK_A = "afci_self_check_a"# 3114
+ATTR_INV_START_DELAY = "inv_start_delay"    # s, 3115
+ATTR_BDC_ONOFF_STATE = "bdc_onoff_state"    # 3118
+ATTR_DRY_CONTACT_STATE = "dry_contact_state"# 3119
+ATTR_SELF_USE_POWER = "self_use_power"      # W, 3121–3122
+ATTR_SYSTEM_ENERGY_TODAY = "system_energy_today"  # kWh, 3123–3124
+ATTR_PRIORITY_MODE = "priority_mode"        # 3144
+ATTR_EPS_FREQUENCY = "eps_frequency"        # Hz, 3145
+ATTR_EPS_VOLTAGE_R = "eps_voltage_r"        # V, 3146
+ATTR_EPS_CURRENT_R = "eps_current_r"        # A, 3147
+ATTR_EPS_POWER_R = "eps_power_r"            # VA, 3148–3149
+ATTR_EPS_VOLTAGE_S = "eps_voltage_s"        # V, 3150
+ATTR_EPS_CURRENT_S = "eps_current_s"        # A, 3151
+ATTR_EPS_POWER_S = "eps_power_s"            # VA, 3152–3153
+ATTR_EPS_VOLTAGE_T = "eps_voltage_t"        # V, 3154
+ATTR_EPS_CURRENT_T = "eps_current_t"        # A, 3155
+ATTR_EPS_POWER_T = "eps_power_t"            # VA, 3156–3157
+ATTR_EPS_POWER_TOTAL = "eps_power_total"    # VA, 3158–3159
+ATTR_LOAD_PERCENT = "load_percent"          # %, 3160
+ATTR_POWER_FACTOR = "power_factor"          # 0.1, 3161
+ATTR_DC_VOLTAGE = "dc_voltage"              # mV, 3162
+ATTR_BDC_DERATING_MODE = "bdc_derating_mode"# 3165
+ATTR_SYSTEM_STATE_MODE = "system_state_mode"# 3166
+ATTR_STORAGE_FAULT_CODE = "storage_fault_code"      # 3167
+ATTR_STORAGE_WARNING_CODE = "storage_warning_code"  # 3168
+ATTR_VBUS1_VOLTAGE = "vbus1_voltage"        # V, 3172
+ATTR_VBUS2_VOLTAGE = "vbus2_voltage"        # V, 3173
+ATTR_BUCK_BOOST_CURRENT = "buck_boost_current" # A, 3174
+ATTR_LLC_CURRENT = "llc_current"            # A, 3175
+ATTR_BDC_FLAGS = "bdc_flags"                # bitfield, 3187
+ATTR_VBUS2_LOWER = "vbus2_lower_voltage"    # V, 3188
+ATTR_BMS_MAX_VOLT_CELL_NO = "bms_max_volt_cell_no" # 3189
+ATTR_BMS_MIN_VOLT_CELL_NO = "bms_min_volt_cell_no" # 3190
+ATTR_BMS_AVG_TEMP_A = "bms_avg_temp_a"      # 3191
+ATTR_BMS_MAX_CELL_TEMP_A = "bms_max_cell_temp_a"   # 3192
+ATTR_BMS_AVG_TEMP_B = "bms_avg_temp_b"      # 3193
+ATTR_BMS_MAX_CELL_TEMP_B = "bms_max_cell_temp_b"   # 3194
+ATTR_BMS_AVG_TEMP_C = "bms_avg_temp_c"      # 3195
+ATTR_BMS_MAX_SOC = "bms_max_soc"            # %, 3196
+ATTR_BMS_MIN_SOC = "bms_min_soc"            # %, 3197
+ATTR_PARALLEL_BATTERY_NUM = "parallel_battery_num" # 3198
+ATTR_BMS_DERATE_REASON = "bms_derate_reason"# 3199
+ATTR_BMS_GAUGE_FCC_AH = "bms_gauge_fcc_ah"  # Ah, 3200
+ATTR_BMS_GAUGE_RM_AH = "bms_gauge_rm_ah"    # Ah, 3201
+ATTR_BMS_PROTECT1 = "bms_protect1"          # 3202
+ATTR_BMS_WARN1 = "bms_warn1"                # 3203
+ATTR_BMS_FAULT1 = "bms_fault1"              # 3204
+ATTR_BMS_FAULT2 = "bms_fault2"              # 3205
+ATTR_BAT_ISO_STATUS = "bat_iso_status"      # 3210
+ATTR_BATT_REQUEST_FLAGS = "batt_request_flags" # 3211
+ATTR_BMS_STATUS = "bms_status"              # 3212
+ATTR_BMS_PROTECT2 = "bms_protect2"          # 3213
+ATTR_BMS_WARN2 = "bms_warn2"                # 3214
+ATTR_BMS_SOC = "bms_soc"                    # %, 3215
+ATTR_BMS_BATTERY_VOLTAGE = "bms_battery_voltage" # V, 3216
+ATTR_BMS_BATTERY_CURRENT = "bms_battery_current" # A, 3217
+ATTR_BMS_CELL_MAX_TEMP = "bms_cell_max_temp"# 3218
+ATTR_BMS_MAX_CHARGE_CURRENT = "bms_max_charge_current"     # A, 3219
+ATTR_BMS_MAX_DISCHARGE_CURRENT = "bms_max_discharge_current" # A, 3220
+ATTR_BMS_CYCLE_COUNT = "bms_cycle_count"    # 3221
+ATTR_BMS_SOH = "bms_soh"                    # %, 3222
+ATTR_BMS_CHARGE_VOLT_LIMIT = "bms_charge_volt_limit"    # V, 3223
+ATTR_BMS_DISCHARGE_VOLT_LIMIT = "bms_discharge_volt_limit" # V, 3224
+ATTR_BMS_WARN3 = "bms_warn3"                # 3225
+ATTR_BMS_PROTECT3 = "bms_protect3"          # 3226
+ATTR_BMS_CELL_VOLT_MAX = "bms_cell_volt_max"# V, 3230
+ATTR_BMS_CELL_VOLT_MIN = "bms_cell_volt_min"# V, 3231
+ATTR_BAT_LOAD_VOLT = "bat_load_volt"        # V, 3232
+# 3234–3249: debug data 1..16
+ATTR_DEBUG_DATA_1 = "debug_data_1"
+ATTR_DEBUG_DATA_2 = "debug_data_2"
+ATTR_DEBUG_DATA_3 = "debug_data_3"
+ATTR_DEBUG_DATA_4 = "debug_data_4"
+ATTR_DEBUG_DATA_5 = "debug_data_5"
+ATTR_DEBUG_DATA_6 = "debug_data_6"
+ATTR_DEBUG_DATA_7 = "debug_data_7"
+ATTR_DEBUG_DATA_8 = "debug_data_8"
+ATTR_DEBUG_DATA_9 = "debug_data_9"
+ATTR_DEBUG_DATA_10 = "debug_data_10"
+ATTR_DEBUG_DATA_11 = "debug_data_11"
+ATTR_DEBUG_DATA_12 = "debug_data_12"
+ATTR_DEBUG_DATA_13 = "debug_data_13"
+ATTR_DEBUG_DATA_14 = "debug_data_14"
+ATTR_DEBUG_DATA_15 = "debug_data_15"
+ATTR_DEBUG_DATA_16 = "debug_data_16"
+```
+---
+
 
 # Holding Registers (R/W)
 
@@ -535,53 +653,12 @@ Use the list below to extend tables in your device modules (copy/paste). **All r
 
 > Hybrid‑only metrics (power/energy to user/grid) exist **only** in ≥3000.
 
+
 ---
 
-# Observed Undocumented Registers (for reverse‑engineering)
+# Coverage Snapshot
+- **Inputs 0–124**: complete.
+- **Inputs 3000–3280 (TL‑XH)**: complete and cross‑linked to low‑range mirrors.
+- **Holding ≥3000 (TL‑XH)**: captured (serial 3001–3015, AC‑charge enable 3049); more can be added later from the spec block.
+- **Inputs 285–815**: tracked as undocumented with observed values; pending correlation.
 
-Below are registers that returned non‑zero in your scans and are **not yet mapped** in the integration. Where the v1.24 spec provides names, we’ve promoted them to the main tables (and removed from this list). What remains here are still‑unnamed items to revisit.
-
-## Inputs (RO)
-
-> **Note:** You indicated that **all TL‑XH input registers up to 3280 are documented** in v1.24 (some as debug/reserved). We therefore removed items like **182 (DSP067 Debug Data1)**, **189 (Debug Data8)**, **3097 (Comm board temperature)**, **3111 (PresentFFTValue A)**, **3115 (inv start delay)** from this “undocumented” list and reflected them in the main sections.
-
-| Register | Observed Value | Comment |
-|----------|----------------|---------|
-| 285 | 6 | Likely debug counter (spec may define; pending review)
-| 287 | 6 | ″
-| 289 | 8 | ″
-| 291 | 6 | ″
-| 293 | 16 | ″
-| 295 | 23 | ″
-| 297 | 23 | ″
-| 299 | 22 | ″
-| 301 | 26 | ″
-| 303 | 31 | ″
-| 305 | 32 | ″
-| 307 | 32 | ″
-| 309 | 18 | ″
-| 311 | 4  | ″
-| 313 | 2  | ″
-| 315 | 2  | ″
-| 317 | 3  | ″
-| 319 | 2  | ″
-| 321 | 2  | ″
-| 323 | 2  | ″
-| 325 | 2  | ″
-| 327 | 2  | ″
-| 329 | 5  | ″
-| 331 | 5  | ″
-| 333 | 275| ″
-| 335 | 268| ″
-| 337 | 258| ″
-| 339 | 225| ″
-| 341 | 142| ″
-| 343 | 99 | ″
-| 345 | 248| ″
-| 347 | 1267| ″
-| 349 | 6772| ″
-| 351 | 5659| ″
-| 365 | 341| ″
-| 376 | 14039| ″
-| 802 | 1  | ″
-| 815 | 6829| ″
