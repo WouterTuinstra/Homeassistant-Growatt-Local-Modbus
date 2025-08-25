@@ -260,6 +260,46 @@ These registers should eventually be mapped in HA:
 | 3230–3235| BMS flags / pack count (obs.) | –    | –                                  | – |
 | 3241–3248| Model & version (echo)        | –    | –                                  | – |
 
+### Spec‑documented TL‑XH debug/diagnostic inputs (examples)
+
+> Per the v1.24 spec, many addresses in this area are **documented** as diagnostic or reserved. Notable examples you observed:
+
+| Register | Name (per v1.24)                                 | Note |
+|----------|--------------------------------------------------|------|
+| 3069–3070| 32‑bit field (pair)                              | Your scan shows 3070 populated; treat 3069–3070 as one 32‑bit value.
+| 3097     | Communication board temperature                  | Observed non‑zero in scan.
+| 3111     | PresentFFTValue \[CHANNEL_A]                     | Diagnostic FFT bin.
+| 3115     | Inverter start delay time                        | Matches observed value.
+
+**32‑bit convention:** For these TL‑XH input blocks, 32‑bit values are exposed as **two consecutive 16‑bit words**. The integration already combines pairs as `(hi<<16) + lo` (big‑endian words), consistent with your scan and current code.
+
+---
+-------|-------------------------------|------|------------------------------------|--------------|
+| 3125–3126| Discharge energy today        | kWh  | `ATTR_DISCHARGE_ENERGY_TODAY`      | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3127–3128| Discharge energy total        | kWh  | `ATTR_DISCHARGE_ENERGY_TOTAL`      | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3129–3130| Charge energy today           | kWh  | `ATTR_CHARGE_ENERGY_TODAY`         | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3131–3132| Charge energy total           | kWh  | `ATTR_CHARGE_ENERGY_TOTAL`         | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3161     | Battery rated capacity (?)    | –    | –                                  | – |
+| 3163     | Battery nominal voltage (?)   | V    | –                                  | – |
+| 3164     | BDC new flag                  | –    | `ATTR_BDC_NEW_FLAG`                | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3165–3166| BMS/BDC status code(s) (?)    | –    | –                                  | – |
+| 3169–3170| Battery model/code / flags (?)| –    | –                                  | – |
+| 3171     | SoC                           | %    | `ATTR_SOC_PERCENTAGE`              | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3172–3173| Battery voltages (A/B) (?)    | V    | – (`ATTR_BATTERY_VOLTAGE` pending) | – |
+| 3174–3175| Pack string count / status (?)| –    | –                                  | – |
+| 3176     | Battery temperature A         | °C   | `ATTR_BATTERY_TEMPERATURE_A`       | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3177     | Battery temperature B         | °C   | `ATTR_BATTERY_TEMPERATURE_B`       | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3178–3179| Discharge power (instant)     | W    | `ATTR_DISCHARGE_POWER`             | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3180–3181| Charge power (instant)        | W    | `ATTR_CHARGE_POWER`                | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3183–3185| Battery V/I derived fields (?)| –    | –                                  | – |
+| 3190–3195| SoH/limits/status (observed)  | –    | –                                  | – |
+| 3200–3201| Charge/discharge limit (%) (?)| %    | –                                  | – |
+| 3212     | Battery cycles (observed)     | –    | –                                  | – |
+| 3215–3224| BMS power/energy caps (obs.)  | –    | –                                  | – |
+| 3227     | Rated power (?)               | W    | –                                  | – |
+| 3230–3235| BMS flags / pack count (obs.) | –    | –                                  | – |
+| 3241–3248| Model & version (echo)        | –    | –                                  | – |
+
 > **Note**: Items marked **(?)** are observed active but not explicitly named in v1.24 public tables. Keep them listed so we can bind once clarified; see **Attributes to Add**.
 
 ---
@@ -357,4 +397,265 @@ Use the list below to extend tables in your device modules (copy/paste). **All r
 - `ATTR_BATTERY_VOLTAGE` / `ATTR_BATTERY_CURRENT` around **3172–3175**, **3183–3185**
 - `ATTR_BATTERY_CYCLE_COUNT` at **3212**; charge/discharge limits around **3200–3201**
 - Extended hybrid block **3250–3280** (reserve until named by a newer spec)
+
+---
+
+# Mirror Index (Inputs): Confirmed 1:1 Pairs
+
+> These pairs have matching values in your scans and should map to the **same attributes**.
+
+| Low Range | High Range | Attribute / Meaning                 |
+|-----------|------------|-------------------------------------|
+| 0         | 3000       | `ATTR_STATUS_CODE`                  |
+| 1–2       | 3001–3002  | `ATTR_INPUT_POWER` (PV total W)     |
+| 3         | 3003       | `ATTR_INPUT_1_VOLTAGE`              |
+| 4         | 3004       | `ATTR_INPUT_1_AMPERAGE`             |
+| 5–6       | 3005–3006  | `ATTR_INPUT_1_POWER`                |
+| 7         | 3007       | `ATTR_INPUT_2_VOLTAGE`              |
+| 8         | 3008       | `ATTR_INPUT_2_AMPERAGE`             |
+| 9–10      | 3009–3010  | `ATTR_INPUT_2_POWER`                |
+| 35        | 3023       | `ATTR_OUTPUT_POWER`                 |
+| 37        | 3025       | `ATTR_GRID_FREQUENCY`               |
+| 38        | 3026       | `ATTR_OUTPUT_1_VOLTAGE`             |
+| 39        | 3027       | `ATTR_OUTPUT_1_AMPERAGE`            |
+| 40–41     | 3028–3029  | `ATTR_OUTPUT_1_POWER`               |
+| 53–54     | 3049–3050  | `ATTR_OUTPUT_ENERGY_TODAY`          |
+| 55–56     | 3051–3052  | `ATTR_OUTPUT_ENERGY_TOTAL`          |
+| 59–60     | 3055–3056  | `ATTR_INPUT_1_ENERGY_TODAY`         |
+| 61–62     | 3057–3058  | `ATTR_INPUT_1_ENERGY_TOTAL`         |
+| 63–64     | 3059–3060  | `ATTR_INPUT_2_ENERGY_TODAY`         |
+| 65–66     | 3061–3062  | `ATTR_INPUT_2_ENERGY_TOTAL`         |
+| 91–92     | 3053–3054  | `ATTR_INPUT_ENERGY_TOTAL`           |
+| 93        | 3093       | `ATTR_TEMPERATURE` (inverter °C)    |
+| 94        | 3094       | `ATTR_IPM_TEMPERATURE`              |
+| 98        | 3098       | `ATTR_P_BUS_VOLTAGE`                |
+| 99        | 3099       | `ATTR_N_BUS_VOLTAGE`                |
+| 101       | 3100–3101  | `ATTR_OUTPUT_PERCENTAGE`            |
+| 104       | 3086       | `ATTR_DERATING_MODE`                |
+| 105       | 3105       | `ATTR_FAULT_CODE`                   |
+| 110       | 3110       | `ATTR_WARNING_CODE`                 |
+
+> Hybrid‑only metrics (power/energy to user/grid) exist **only** in ≥3000.
+
+---
+
+# Observed Undocumented Registers (for reverse‑engineering)
+
+Below are registers that returned non‑zero in your scans and are **not yet mapped** in the integration. Where the v1.24 spec provides names, we’ve promoted them to the main tables (and removed from this list). What remains here are still‑unnamed items to revisit.
+
+## Inputs (RO)
+
+> **Note:** You indicated that **all TL‑XH input registers up to 3280 are documented** in v1.24 (some as debug/reserved). We therefore removed items like **182 (DSP067 Debug Data1)**, **189 (Debug Data8)**, **3097 (Comm board temperature)**, **3111 (PresentFFTValue A)**, **3115 (inv start delay)** from this “undocumented” list and reflected them in the main sections.
+
+| Register | Observed Value | Comment |
+|----------|----------------|---------|
+| 285 | 6 | Likely debug counter (spec may define; pending review)
+| 287 | 6 | ″
+| 289 | 8 | ″
+| 291 | 6 | ″
+| 293 | 16 | ″
+| 295 | 23 | ″
+| 297 | 23 | ″
+| 299 | 22 | ″
+| 301 | 26 | ″
+| 303 | 31 | ″
+| 305 | 32 | ″
+| 307 | 32 | ″
+| 309 | 18 | ″
+| 311 | 4  | ″
+| 313 | 2  | ″
+| 315 | 2  | ″
+| 317 | 3  | ″
+| 319 | 2  | ″
+| 321 | 2  | ″
+| 323 | 2  | ″
+| 325 | 2  | ″
+| 327 | 2  | ″
+| 329 | 5  | ″
+| 331 | 5  | ″
+| 333 | 275| ″
+| 335 | 268| ″
+| 337 | 258| ″
+| 339 | 225| ″
+| 341 | 142| ″
+| 343 | 99 | ″
+| 345 | 248| ″
+| 347 | 1267| ″
+| 349 | 6772| ″
+| 351 | 5659| ″
+| 365 | 341| ″
+| 376 | 14039| ″
+| 802 | 1  | ″
+| 815 | 6829| ″
+
+**TL‑XH input (≥3000) pairs / reserved values (kept for tracking even if named in spec):**
+
+| Register(s) | Observed Value | Comment |
+|-------------|----------------|---------|
+| 3069–3070   | 1643           | 32‑bit value (pair) — keep visible for correlation tests |
+| 3072        | 181            | Likely part of a series of debug counters |
+| 3074        | 6425           | ″ |
+| 3076        | 118            | ″ |
+| 3078        | 9968           | ″ |
+| 3084        | 287            | ″ |
+| 3087        | -6             | ″ |
+| 3122        | 7144           | ″ |
+| 3124        | 290            | ″ |
+| 3126        | 53             | ″ |
+| 3128        | 2240           | ″ |
+| 3130        | 50             | ″ |
+| 3132        | 2381           | ″ |
+| 3136        | 44             | ″ |
+| 3138        | 14799          | ″ |
+| 3140        | 109            | ″ |
+| 3142        | 8376           | ″ |
+| 3161        | 10000          | ″ (may be rated capacity) |
+| 3163        | 3900           | ″ (nominal voltage?) |
+| 3165        | 22             | ″ (status code?) |
+| 3166        | 513            | ″ |
+| 3169        | 21017          | ″ (model/code?) |
+| 3170        | 33             | ″ |
+| 3172        | 3899           | ″ |
+| 3173        | 1988           | ″ |
+| 3174        | 15             | ″ |
+| 3175        | 15             | ″ |
+| 3179        | 7080           | ″ |
+| 3183        | 2240           | ″ |
+| 3185        | 2381           | ″ |
+| 3187        | 3              | ″ |
+| 3188        | 1911           | ″ |
+| 3189        | 59             | ″ |
+| 3190        | 41             | ″ |
+| 3192        | 310            | ″ |
+| 3193        | 287            | ″ |
+| 3194        | 2              | ″ |
+| 3195        | 14             | ″ |
+| 3198        | 1              | ″ |
+| 3200        | 50             | ″ |
+| 3201        | 50             | ″ |
+| 3212        | 2              | ″ (cycles?) |
+| 3215        | 63             | ″ |
+| 3216        | 21000          | ″ |
+| 3217        | -340           | ″ |
+| 3218        | 480            | ″ |
+| 3219        | 2500           | ″ |
+| 3220        | 2500           | ″ |
+| 3222        | 100            | ″ |
+| 3223        | 22720          | ″ |
+| 3224        | 18880          | ″ |
+| 3227        | 10536          | ″ |
+| 3230        | 3269           | ″ |
+| 3231        | 3265           | ″ |
+| 3232        | 21010          | ″ |
+| 3234        | 1              | ″ |
+| 3235        | 1              | ″ |
+| 3241        | 26             | ″ |
+| 3242        | 35             | ″ |
+| 3243        | 375            | ″ |
+| 3244        | 6000           | ″ |
+| 3245        | 1              | ″ |
+| 3246        | 9              | ″ |
+| 3247        | 7              | ″ |
+| 3248        | 2              | ″ |
+
+## Holdings (R/W) — observed but not yet mapped / named
+
+(*Excludes documented items like 3001–3015 serial and 3049 AC charge enable that we already handle.*)
+
+| Register | Observed Value |
+|----------|----------------|
+| 3017 | 500 |
+| 3019 | 400 |
+| 3020 | -30207 |
+| 3022 | 5500 |
+| 3024 | 600 |
+| 3030 | 5800 |
+| 3036 | 15 |
+| 3037 | 15 |
+| 3038 | -32768 |
+| 3039 | 5947 |
+| 3041 | 59 |
+| 3043 | 59 |
+| 3047 | 50 |
+| 3048 | 90 |
+| 3079 | 1 |
+| 3087 | 20817 |
+| 3088 | 19249 |
+| 3089 | 12336 |
+| 3090 | 12336 |
+| 3091 | 12850 |
+| 3092 | 12338 |
+| 3093 | 12336 |
+| 3094 | 14667 |
+| 3096 | 23109 |
+| 3097 | 16961 |
+| 3099 | 22083 |
+| 3100 | 16705 |
+| 3101 | 2 |
+| 3102 | 2616 |
+| 3103 | 2 |
+| 3104 | 2 |
+| 3105 | 732 |
+| 3108 | 16 |
+| 3109 | 1024 |
+| 3111 | 48 |
+| 3113 | 257 |
+| 3114 | 10 |
+| 3125 | 22616 |
+| 3126 | 22616 |
+| 3127 | 22616 |
+| 3128 | 22616 |
+| 3136 | 8224 |
+| 3137 | 8224 |
+
+
+(*Excludes documented items like 3001–3015 serial and 3049 AC charge enable that we already handle.*)
+
+| Register | Observed Value |
+|----------|----------------|
+| 3017 | 500 |
+| 3019 | 400 |
+| 3020 | -30207 |
+| 3022 | 5500 |
+| 3024 | 600 |
+| 3030 | 5800 |
+| 3036 | 15 |
+| 3037 | 15 |
+| 3038 | -32768 |
+| 3039 | 5947 |
+| 3041 | 59 |
+| 3043 | 59 |
+| 3047 | 50 |
+| 3048 | 90 |
+| 3079 | 1 |
+| 3087 | 20817 |
+| 3088 | 19249 |
+| 3089 | 12336 |
+| 3090 | 12336 |
+| 3091 | 12850 |
+| 3092 | 12338 |
+| 3093 | 12336 |
+| 3094 | 14667 |
+| 3096 | 23109 |
+| 3097 | 16961 |
+| 3099 | 22083 |
+| 3100 | 16705 |
+| 3101 | 2 |
+| 3102 | 2616 |
+| 3103 | 2 |
+| 3104 | 2 |
+| 3105 | 732 |
+| 3108 | 16 |
+| 3109 | 1024 |
+| 3111 | 48 |
+| 3113 | 257 |
+| 3114 | 10 |
+| 3125 | 22616 |
+| 3126 | 22616 |
+| 3127 | 22616 |
+| 3128 | 22616 |
+| 3136 | 8224 |
+| 3137 | 8224 |
+
+> These ≥3000 holding registers look TL‑XH‑specific (device/capability descriptors, thresholds, or BDC/BMS config). We’ll try to correlate with battery state, grid‑tie mode, and charge/backup settings during tests.
 
