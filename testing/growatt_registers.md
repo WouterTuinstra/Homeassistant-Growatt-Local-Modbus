@@ -195,12 +195,96 @@ These registers should eventually be mapped in HA:
 
 ---
 
-## (3000–3124)
+## (3000–3124) — TL‑XH Input Detailed Map
 
-(Primarily mirrors 0–124 with hybrid/energy‑flow stats.)
+| Reg(s) | Spec Name / Description | Scale / Unit | Attribute | Register Set |
+|---|---|---|---|---|
+| 3000 | Inverter Status (hi=mode, lo=status) | – | `ATTR_STATUS_CODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3001–3002 | PV total power (Ppv H/L) | 0.1 W | `ATTR_INPUT_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3003 | PV1 voltage (Vpv1) | 0.1 V | `ATTR_INPUT_1_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3004 | PV1 current (Ipv1) | 0.1 A | `ATTR_INPUT_1_AMPERAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3005–3006 | PV1 power (Ppv1 H/L) | 0.1 W | `ATTR_INPUT_1_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3007 | PV2 voltage (Vpv2) | 0.1 V | `ATTR_INPUT_2_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3008 | PV2 current (Ipv2) | 0.1 A | `ATTR_INPUT_2_AMPERAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3009–3010 | PV2 power (Ppv2 H/L) | 0.1 W | `ATTR_INPUT_2_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3011 | PV3 voltage | 0.1 V | `ATTR_INPUT_3_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3012 | PV3 current | 0.1 A | `ATTR_INPUT_3_AMPERAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3013–3014 | PV3 power | 0.1 W | `ATTR_INPUT_3_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3015 | PV4 voltage | 0.1 V | `ATTR_INPUT_4_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3016 | PV4 current | 0.1 A | `ATTR_INPUT_4_AMPERAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3017–3018 | PV4 power | 0.1 W | `ATTR_INPUT_4_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3019–3020 | System output power (Psys H/L) | 0.1 W | `ATTR_OUTPUT_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3021–3022 | Reactive power (Qac H/L) | 0.1 Var | `ATTR_OUTPUT_REACTIVE_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3023–3024 | AC output power (Pac H/L) | 0.1 W | `ATTR_OUTPUT_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3025 | Grid frequency (Fac) | 0.01 Hz | `ATTR_GRID_FREQUENCY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3026 | AC1 voltage (Vac1) | 0.1 V | `ATTR_OUTPUT_1_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3027 | AC1 current (Iac1) | 0.1 A | `ATTR_OUTPUT_1_AMPERAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3028–3029 | AC1 apparent power (Pac1 H/L) | 0.1 VA | `ATTR_OUTPUT_1_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3030 | AC2 voltage (Vac2) | 0.1 V | `ATTR_OUTPUT_2_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3031 | AC2 current (Iac2) | 0.1 A | `ATTR_OUTPUT_2_AMPERAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3032–3033 | AC2 power (Pac2 H/L) | 0.1 VA | `ATTR_OUTPUT_2_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3034 | AC3 voltage (Vac3) | 0.1 V | `ATTR_OUTPUT_3_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3035 | AC3 current (Iac3) | 0.1 A | `ATTR_OUTPUT_3_AMPERAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3036–3037 | AC3 power (Pac3 H/L) | 0.1 VA | `ATTR_OUTPUT_3_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3038 | Vac_RS (line voltage) | 0.1 V | `ATTR_VAC_RS` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3039 | Vac_ST (line voltage) | 0.1 V | `ATTR_VAC_ST` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3040 | Vac_TR (line voltage) | 0.1 V | `ATTR_VAC_TR` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3041–3042 | Total forward power (Ptouser total H/L) | 0.1 W | `ATTR_POWER_TO_USER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3043–3044 | Total reverse power (Ptogrid total H/L) | 0.1 W | `ATTR_POWER_TO_GRID` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3045–3046 | Total load power (Ptoload total H/L) | 0.1 W | `ATTR_POWER_USER_LOAD` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3047–3048 | Work time total (Time total H/L) | 0.5 s | `ATTR_OPERATION_HOURS` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3049–3050 | Today AC energy (Eac today H/L) | 0.1 kWh | `ATTR_OUTPUT_ENERGY_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3051–3052 | Total AC energy (Eac total H/L) | 0.1 kWh | `ATTR_OUTPUT_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3053–3054 | PV energy total (Epv total H/L) | 0.1 kWh | `ATTR_INPUT_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3055–3056 | PV1 energy today (H/L) | 0.1 kWh | `ATTR_INPUT_1_ENERGY_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3057–3058 | PV1 energy total (H/L) | 0.1 kWh | `ATTR_INPUT_1_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3059–3060 | PV2 energy today (H/L) | 0.1 kWh | `ATTR_INPUT_2_ENERGY_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3061–3062 | PV2 energy total (H/L) | 0.1 kWh | `ATTR_INPUT_2_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3063–3064 | PV3 energy today (H/L) | 0.1 kWh | `ATTR_INPUT_3_ENERGY_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3065–3066 | PV3 energy total (H/L) | 0.1 kWh | `ATTR_INPUT_3_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3067–3068 | Today energy to user (H/L) | 0.1 kWh | `ATTR_ENERGY_TO_USER_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3069–3070 | Total energy to user (H/L) | 0.1 kWh | `ATTR_ENERGY_TO_USER_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3071–3072 | Today energy to grid (H/L) | 0.1 kWh | `ATTR_ENERGY_TO_GRID_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3073–3074 | Total energy to grid (H/L) | 0.1 kWh | `ATTR_ENERGY_TO_GRID_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3075–3076 | Today energy of user load (H/L) | 0.1 kWh | `ATTR_ENERGY_LOAD_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3077–3078 | Total energy of user load (H/L) | 0.1 kWh | `ATTR_ENERGY_LOAD_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3079–3082 | PV4 energy today/total (H/L pairs) | 0.1 kWh | `ATTR_INPUT_4_ENERGY_TODAY/TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3083–3084 | PV energy today (H/L) | 0.1 kWh | `ATTR_INPUT_ENERGY_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3085 | Reserved | – | – | – |
+| 3086 | DeratingMode | enum | `ATTR_DERATING_MODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3087 | PV ISO value (ISO) | kΩ | `ATTR_PV_ISO_VALUE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3088 | DCI_R | 0.1 mA | `ATTR_DCI_R` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3089 | DCI_S | 0.1 mA | `ATTR_DCI_S` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3090 | DCI_T | 0.1 mA | `ATTR_DCI_T` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3091 | GFCI current | 1 mA | `ATTR_GFCI_CURRENT` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3092 | Total bus voltage | 0.1 V | `ATTR_TOTAL_BUS_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3093 | Inverter temperature (Temp1) | 0.1 °C | `ATTR_TEMPERATURE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3094 | IPM temperature (Temp2) | 0.1 °C | `ATTR_IPM_TEMPERATURE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3095 | Boost temperature (Temp3) | 0.1 °C | `ATTR_BOOST_TEMPERATURE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3096 | Temp4 (Reserved) | 0.1 °C | – | – |
+| 3097 | Communication board temperature (Temp5) | 0.1 °C | `ATTR_COMM_BOARD_TEMPERATURE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3098 | P Bus voltage | 0.1 V | `ATTR_P_BUS_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3099 | N Bus voltage | 0.1 V | `ATTR_N_BUS_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3100 | Inverter output PF now (IPF) | 0–20000 | `ATTR_OUTPUT_PF` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3101 | Real output power percent | 1 % | `ATTR_OUTPUT_PERCENTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3102–3103 | Output max power limit (OPFullwatt H/L) | 0.1 W | `ATTR_OUTPUT_MAX_POWER_LIMIT` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3104 | StandbyFlag (bitfield) | – | `ATTR_STANDBY_FLAGS` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3105 | Fault maincode | – | `ATTR_FAULT_CODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3106 | Warn maincode | – | `ATTR_WARNING_CODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3107 | Fault subcode (bitfield) | – | `ATTR_FAULT_SUBCODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3108 | Warn subcode (bitfield) | – | `ATTR_WARNING_SUBCODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3111 | PresentFFTValue [CHANNEL_A] | – | `ATTR_PRESENT_FFT_A` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3112 | AFCI Status | enum | `ATTR_AFCI_STATUS` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3113 | AFCI Strength [CHANNEL_A] | – | `ATTR_AFCI_STRENGTH_A` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3114 | AFCI SelfCheck [CHANNEL_A] | – | `ATTR_AFCI_SELF_CHECK_A` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3115 | Inverter start delay time | 1 s | `ATTR_INV_START_DELAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3118 | BDC connect state | enum | `ATTR_BDC_ONOFF_STATE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3119 | DryContactState (0=off,1=on) | – | `ATTR_DRY_CONTACT_STATE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3121–3122 | Self‑use power (Pself H/L) | 0.1 W | `ATTR_SELF_USE_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3123–3124 | System energy today (Esys_today H/L) | 0.1 kWh | `ATTR_SYSTEM_ENERGY_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
 
-| Register | Name / Description         | Unit | Integration Attribute | Register Set |
-|----------|----------------------------|------|------------------------|--------------|
+---
+-------|----------------------------|------|------------------------|--------------|
 | 3000     | Status code                | –    | `ATTR_STATUS_CODE`     | STORAGE_INPUT_REGISTERS_120_TL_XH |
 | 3001–3002| PV total input power       | W    | `ATTR_INPUT_POWER`     | STORAGE_INPUT_REGISTERS_120_TL_XH |
 | 3021     | Output reactive power      | Var  | `ATTR_OUTPUT_REACTIVE_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
@@ -231,10 +315,101 @@ These registers should eventually be mapped in HA:
 
 ---
 
-## (3125–3249) — TL‑XH Battery Block
+## (3125–3249) — TL‑XH Battery / System Block
 
-| Register | Name / Description            | Unit | Integration Attribute              | Register Set |
-|----------|-------------------------------|------|------------------------------------|--------------|
+| Reg(s) | Spec Name / Description | Scale / Unit | Attribute | Register Set |
+|---|---|---|---|---|
+| 3125–3126 | Today discharge energy (Edischr_today H/L) | 0.1 kWh | `ATTR_DISCHARGE_ENERGY_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3127–3128 | Total discharge energy (Edischr_total H/L) | 0.1 kWh | `ATTR_DISCHARGE_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3129–3130 | Charge energy today (Echr_today H/L) | 0.1 kWh | `ATTR_CHARGE_ENERGY_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3131–3132 | Charge energy total (Echr_total H/L) | 0.1 kWh | `ATTR_CHARGE_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3133–3134 | Today energy of AC charge (Eacchr_today H/L) | 0.1 kWh | `ATTR_AC_CHARGE_ENERGY_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3135–3136 | Total energy of AC charge (Eacchr_total H/L) | 0.1 kWh | `ATTR_AC_CHARGE_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3137–3138 | Total energy of system output (Esys_total H/L) | 0.1 kWh | `ATTR_SYSTEM_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3139–3140 | Today energy of Self output (Eself_today H/L) | 0.1 kWh | `ATTR_SELF_ENERGY_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3141–3142 | Total energy of Self output (Eself_total H/L) | 0.1 kWh | `ATTR_SELF_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3143 | Reserved | – | – | – |
+| 3144 | Priority Word Mode (0:LoadFirst,1:BatteryFirst,2:GridFirst) | enum | `ATTR_PRIORITY_MODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3145 | EPS frequency (UPS Fac) | 0.01 Hz | `ATTR_EPS_FREQUENCY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3146 | EPS Vac1 (phase R) | 0.1 V | `ATTR_EPS_VOLTAGE_R` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3147 | EPS Iac1 (phase R) | 0.1 A | `ATTR_EPS_CURRENT_R` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3148–3149 | EPS Pac1 (phase R H/L) | 0.1 VA | `ATTR_EPS_POWER_R` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3150 | EPS Vac2 (phase S) | 0.1 V | `ATTR_EPS_VOLTAGE_S` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3151 | EPS Iac2 (phase S) | 0.1 A | `ATTR_EPS_CURRENT_S` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3152–3153 | EPS Pac2 (phase S H/L) | 0.1 VA | `ATTR_EPS_POWER_S` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3154 | EPS Vac3 (phase T) | 0.1 V | `ATTR_EPS_VOLTAGE_T` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3155 | EPS Iac3 (phase T) | 0.1 A | `ATTR_EPS_CURRENT_T` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3156–3157 | EPS Pac3 (phase T H/L) | 0.1 VA | `ATTR_EPS_POWER_T` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3158–3159 | EPS total output power (H/L) | 0.1 VA | `ATTR_EPS_POWER_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3160 | Load percent of UPS output | 0.10 % | `ATTR_EPS_LOAD_PERCENT` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3161 | Power factor | 0.1 | `ATTR_POWER_FACTOR` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3162 | DC voltage | 1 mV | `ATTR_DC_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3163 | Reserved | – | – | – |
+| 3164 | NewBdcFlag (parse BDC separately) | – | `ATTR_BDC_NEW_FLAG` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3165 | BDCDeratingMode (see spec list) | enum | `ATTR_BDC_DERATING_MODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3166 | SysState_Mode (mode/status) | enum | `ATTR_SYSTEM_STATE_MODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3167 | Storage fault code | – | `ATTR_STORAGE_FAULT_CODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3168 | Storage warning code | – | `ATTR_STORAGE_WARNING_CODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3169 | Battery voltage (Vbat) | 0.01 V | `ATTR_BATTERY_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3170 | Battery current (Ibat) | 0.1 A | `ATTR_BATTERY_CURRENT` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3171 | SOC | 1 % | `ATTR_SOC_PERCENTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3172 | Vbus1 total BUS | 0.1 V | `ATTR_VBUS1_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3173 | Vbus2 on BUS | 0.1 V | `ATTR_VBUS2_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3174 | BUCK‑BOOST current (Ibb) | 0.1 A | `ATTR_BUCK_BOOST_CURRENT` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3175 | LLC current (Illc) | 0.1 A | `ATTR_LLC_CURRENT` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3176 | Temperature A | 0.1 °C | `ATTR_BATTERY_TEMPERATURE_A` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3177 | Temperature B | 0.1 °C | `ATTR_BATTERY_TEMPERATURE_B` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3178–3179 | Discharge power (H/L) | 0.1 W | `ATTR_DISCHARGE_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3180–3181 | Charge power (H/L) | 0.1 W | `ATTR_CHARGE_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3182–3183 | Discharge total energy of storage (H/L) | 0.1 kWh | `ATTR_DISCHARGE_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3184–3185 | Charge total energy of storage (H/L) | 0.1 kWh | `ATTR_CHARGE_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3186 | Reserved | – | – | – |
+| 3187 | BDC1_Flag (bitfield) | – | `ATTR_BDC_FLAGS` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3188 | Lower BUS voltage (Vbus2) | 0.1 V | `ATTR_VBUS2_LOWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3189 | BmsMaxVoltCellNo | – | `ATTR_BMS_MAX_VOLT_CELL_NO` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3190 | BmsMinVoltCellNo | – | `ATTR_BMS_MIN_VOLT_CELL_NO` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3191 | BmsBatteryAvgTemp | – | `ATTR_BMS_AVG_TEMP_A` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3192 | BmsMaxCellTemp | 0.1 °C | `ATTR_BMS_MAX_CELL_TEMP_A` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3193 | BmsBatteryAvgTemp | – | `ATTR_BMS_AVG_TEMP_B` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3194 | BmsMaxCellTemp | – | `ATTR_BMS_MAX_CELL_TEMP_B` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3195 | BmsBatteryAvgTemp | – | `ATTR_BMS_AVG_TEMP_C` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3196 | BmsMaxSOC | 1 % | `ATTR_BMS_MAX_SOC` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3197 | BmsMinSOC | 1 % | `ATTR_BMS_MIN_SOC` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3198 | ParallelBatteryNum | – | `ATTR_PARALLEL_BATTERY_NUM` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3199 | BmsDerateReason | – | `ATTR_BMS_DERATE_REASON` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3200 | BmsGaugeFCC (Ah) | Ah | `ATTR_BMS_GAUGE_FCC_AH` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3201 | BmsGaugeRM (Ah) | Ah | `ATTR_BMS_GAUGE_RM_AH` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3202 | BMS Protect1 | – | `ATTR_BMS_PROTECT1` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3203 | BMS Warn1 | – | `ATTR_BMS_WARN1` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3204 | BMS Fault1 | – | `ATTR_BMS_FAULT1` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3205 | BMS Fault2 | – | `ATTR_BMS_FAULT2` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3206–3209 | Reserved | – | – | – |
+| 3210 | Battery ISO detection status | – | `ATTR_BAT_ISO_STATUS` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3211 | Battery work request flags | bitfield | `ATTR_BATT_REQUEST_FLAGS` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3212 | BMS status | enum | `ATTR_BMS_STATUS` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3213 | BMS Protect2 | – | `ATTR_BMS_PROTECT2` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3214 | BMS Warn2 | – | `ATTR_BMS_WARN2` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3215 | BMS SOC | 1 % | `ATTR_BMS_SOC` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3216 | BMS BatteryVolt | 0.01 V | `ATTR_BMS_BATTERY_VOLTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3217 | BMS BatteryCurr | 0.01 A | `ATTR_BMS_BATTERY_CURRENT` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3218 | Battery cell max temperature | 0.1 °C | `ATTR_BMS_CELL_MAX_TEMP` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3219 | Maximum charging current | 0.01 A | `ATTR_BMS_MAX_CHARGE_CURRENT` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3220 | Maximum discharge current | 0.01 A | `ATTR_BMS_MAX_DISCHARGE_CURRENT` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3221 | BMS Cycle count | 1 | `ATTR_BMS_CYCLE_COUNT` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3222 | BMS SOH | 1 | `ATTR_BMS_SOH` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3223 | Battery charging voltage limit | 0.01 V | `ATTR_BMS_CHARGE_VOLT_LIMIT` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3224 | Battery discharge voltage limit | 0.01 V | `ATTR_BMS_DISCHARGE_VOLT_LIMIT` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3225 | BMS Warn3 | – | `ATTR_BMS_WARN3` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3226 | BMS Protect3 | – | `ATTR_BMS_PROTECT3` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3227–3229 | Reserved | – | – | – |
+| 3230 | BMS Battery SingleVoltMax | 0.001 V | `ATTR_BMS_CELL_VOLT_MAX` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3231 | BMS Battery SingleVoltMin | 0.001 V | `ATTR_BMS_CELL_VOLT_MIN` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3232 | Battery LoadVolt | 0.01 V | `ATTR_BAT_LOAD_VOLT` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3233 | – | – | – | – |
+| 3234–3249 | Debug data1..16 | – | `ATTR_DEBUG_DATA_[1..16]` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+
+---
+-------|-------------------------------|------|------------------------------------|--------------|
 | 3125–3126| Discharge energy today        | kWh  | `ATTR_DISCHARGE_ENERGY_TODAY`      | STORAGE_INPUT_REGISTERS_120_TL_XH |
 | 3127–3128| Discharge energy total        | kWh  | `ATTR_DISCHARGE_ENERGY_TOTAL`      | STORAGE_INPUT_REGISTERS_120_TL_XH |
 | 3129–3130| Charge energy today           | kWh  | `ATTR_CHARGE_ENERGY_TODAY`         | STORAGE_INPUT_REGISTERS_120_TL_XH |
@@ -304,13 +479,22 @@ These registers should eventually be mapped in HA:
 
 ---
 
-## (3250–3280 observed)
+## (3250–3280) — TL‑XH Extension Inputs
 
-| Register | Name / Description | Unit | Integration Attribute | Register Set |
-|----------|--------------------|------|------------------------|--------------|
-| 3250–3280| Reserved/Hybrid ext. (active on TL‑XH, details TBD) | – | – | – |
+| Reg(s) | Spec Name / Description | Scale / Unit | Attribute | Register Set |
+|---|---|---|---|---|
+| 3250–3251 | PV inverter 1 output power (Pex1 H/L) | 0.1 W | `ATTR_EXT_PV1_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3252–3253 | PV inverter 2 output power (Pex2 H/L) | 0.1 W | `ATTR_EXT_PV2_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3254–3255 | PV inverter 1 energy today (Eex1Today H/L) | 0.1 kWh | `ATTR_EXT_PV1_ENERGY_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3256–3257 | PV inverter 2 energy today (Eex2Today H/L) | 0.1 kWh | `ATTR_EXT_PV2_ENERGY_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3258–3259 | PV inverter 1 energy total (Eex1Total H/L) | 0.1 kWh | `ATTR_EXT_PV1_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3260–3261 | PV inverter 2 energy total (Eex2Total H/L) | 0.1 kWh | `ATTR_EXT_PV2_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3262 | Battery pack number (uwBatNo) | – | `ATTR_BAT_PACK_COUNT` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3263–3270 | Battery pack serials SN[0..15] (pairs) | – | `ATTR_BAT_PACK_SERIAL_[1..8]` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3271–3279 | Reserved | – | – | – |
+| 3280 | Clear day data flag (bClrTodayDataFlag) | – | `ATTR_CLEAR_DAY_DATA_FLAG` | STORAGE_INPUT_REGISTERS_120_TL_XH |
 
-> Current integration: no attributes bound in this block; keep for future use.
+---
 
 ---
 
@@ -487,175 +671,3 @@ Below are registers that returned non‑zero in your scans and are **not yet map
 | 376 | 14039| ″
 | 802 | 1  | ″
 | 815 | 6829| ″
-
-**TL‑XH input (≥3000) pairs / reserved values (kept for tracking even if named in spec):**
-
-| Register(s) | Observed Value | Comment |
-|-------------|----------------|---------|
-| 3069–3070   | 1643           | 32‑bit value (pair) — keep visible for correlation tests |
-| 3072        | 181            | Likely part of a series of debug counters |
-| 3074        | 6425           | ″ |
-| 3076        | 118            | ″ |
-| 3078        | 9968           | ″ |
-| 3084        | 287            | ″ |
-| 3087        | -6             | ″ |
-| 3122        | 7144           | ″ |
-| 3124        | 290            | ″ |
-| 3126        | 53             | ″ |
-| 3128        | 2240           | ″ |
-| 3130        | 50             | ″ |
-| 3132        | 2381           | ″ |
-| 3136        | 44             | ″ |
-| 3138        | 14799          | ″ |
-| 3140        | 109            | ″ |
-| 3142        | 8376           | ″ |
-| 3161        | 10000          | ″ (may be rated capacity) |
-| 3163        | 3900           | ″ (nominal voltage?) |
-| 3165        | 22             | ″ (status code?) |
-| 3166        | 513            | ″ |
-| 3169        | 21017          | ″ (model/code?) |
-| 3170        | 33             | ″ |
-| 3172        | 3899           | ″ |
-| 3173        | 1988           | ″ |
-| 3174        | 15             | ″ |
-| 3175        | 15             | ″ |
-| 3179        | 7080           | ″ |
-| 3183        | 2240           | ″ |
-| 3185        | 2381           | ″ |
-| 3187        | 3              | ″ |
-| 3188        | 1911           | ″ |
-| 3189        | 59             | ″ |
-| 3190        | 41             | ″ |
-| 3192        | 310            | ″ |
-| 3193        | 287            | ″ |
-| 3194        | 2              | ″ |
-| 3195        | 14             | ″ |
-| 3198        | 1              | ″ |
-| 3200        | 50             | ″ |
-| 3201        | 50             | ″ |
-| 3212        | 2              | ″ (cycles?) |
-| 3215        | 63             | ″ |
-| 3216        | 21000          | ″ |
-| 3217        | -340           | ″ |
-| 3218        | 480            | ″ |
-| 3219        | 2500           | ″ |
-| 3220        | 2500           | ″ |
-| 3222        | 100            | ″ |
-| 3223        | 22720          | ″ |
-| 3224        | 18880          | ″ |
-| 3227        | 10536          | ″ |
-| 3230        | 3269           | ″ |
-| 3231        | 3265           | ″ |
-| 3232        | 21010          | ″ |
-| 3234        | 1              | ″ |
-| 3235        | 1              | ″ |
-| 3241        | 26             | ″ |
-| 3242        | 35             | ″ |
-| 3243        | 375            | ″ |
-| 3244        | 6000           | ″ |
-| 3245        | 1              | ″ |
-| 3246        | 9              | ″ |
-| 3247        | 7              | ″ |
-| 3248        | 2              | ″ |
-
-## Holdings (R/W) — observed but not yet mapped / named
-
-(*Excludes documented items like 3001–3015 serial and 3049 AC charge enable that we already handle.*)
-
-| Register | Observed Value |
-|----------|----------------|
-| 3017 | 500 |
-| 3019 | 400 |
-| 3020 | -30207 |
-| 3022 | 5500 |
-| 3024 | 600 |
-| 3030 | 5800 |
-| 3036 | 15 |
-| 3037 | 15 |
-| 3038 | -32768 |
-| 3039 | 5947 |
-| 3041 | 59 |
-| 3043 | 59 |
-| 3047 | 50 |
-| 3048 | 90 |
-| 3079 | 1 |
-| 3087 | 20817 |
-| 3088 | 19249 |
-| 3089 | 12336 |
-| 3090 | 12336 |
-| 3091 | 12850 |
-| 3092 | 12338 |
-| 3093 | 12336 |
-| 3094 | 14667 |
-| 3096 | 23109 |
-| 3097 | 16961 |
-| 3099 | 22083 |
-| 3100 | 16705 |
-| 3101 | 2 |
-| 3102 | 2616 |
-| 3103 | 2 |
-| 3104 | 2 |
-| 3105 | 732 |
-| 3108 | 16 |
-| 3109 | 1024 |
-| 3111 | 48 |
-| 3113 | 257 |
-| 3114 | 10 |
-| 3125 | 22616 |
-| 3126 | 22616 |
-| 3127 | 22616 |
-| 3128 | 22616 |
-| 3136 | 8224 |
-| 3137 | 8224 |
-
-
-(*Excludes documented items like 3001–3015 serial and 3049 AC charge enable that we already handle.*)
-
-| Register | Observed Value |
-|----------|----------------|
-| 3017 | 500 |
-| 3019 | 400 |
-| 3020 | -30207 |
-| 3022 | 5500 |
-| 3024 | 600 |
-| 3030 | 5800 |
-| 3036 | 15 |
-| 3037 | 15 |
-| 3038 | -32768 |
-| 3039 | 5947 |
-| 3041 | 59 |
-| 3043 | 59 |
-| 3047 | 50 |
-| 3048 | 90 |
-| 3079 | 1 |
-| 3087 | 20817 |
-| 3088 | 19249 |
-| 3089 | 12336 |
-| 3090 | 12336 |
-| 3091 | 12850 |
-| 3092 | 12338 |
-| 3093 | 12336 |
-| 3094 | 14667 |
-| 3096 | 23109 |
-| 3097 | 16961 |
-| 3099 | 22083 |
-| 3100 | 16705 |
-| 3101 | 2 |
-| 3102 | 2616 |
-| 3103 | 2 |
-| 3104 | 2 |
-| 3105 | 732 |
-| 3108 | 16 |
-| 3109 | 1024 |
-| 3111 | 48 |
-| 3113 | 257 |
-| 3114 | 10 |
-| 3125 | 22616 |
-| 3126 | 22616 |
-| 3127 | 22616 |
-| 3128 | 22616 |
-| 3136 | 8224 |
-| 3137 | 8224 |
-
-> These ≥3000 holding registers look TL‑XH‑specific (device/capability descriptors, thresholds, or BDC/BMS config). We’ll try to correlate with battery state, grid‑tie mode, and charge/backup settings during tests.
-
