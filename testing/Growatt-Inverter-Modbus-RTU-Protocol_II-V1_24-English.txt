@@ -1,45 +1,18 @@
 Converted from pdf using 'pdftotext -layout Growatt-Inverter-Modbus-RTU-Protocol_II-V1_24-English.pdf'.
 
-1 / 85
-
-
-
-
                     Growatt Inverter Modbus RTU Protocol
                                                                          V1.24
-
-
-
 
                                                 Make： weiwei.shi
                                                 Check：    qixing.ren
                                                 Authorize： liangcai.wu
                                                 Effective date：
 
-
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司         Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾       www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-                                       2 / 85
-
                                                   Change Record
-
 
            Index      Version                   Change Content        Make           Make date
 
               1           00                    First Republic     Weiwei.shi        2020.4.28
-
-
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司       Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾     www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-                                       3 / 85
 
           Instruction：Register range for various types of inverter
 
@@ -75,18 +48,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
 
           range：0~124,1000~1124，1125~1249
 
-
-
-
-Growatt New Energy Technology Co., Ltd.         古瑞瓦特新能源股份有限公司     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,          中国深圳市宝安区石岩街道办龙腾   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.   社区光明路 28 号
-                                                P.C. 518000
-                                                4 / 85
-
-
-
-
                                                                              catalog
           1 Data format.....................................................................................................................................5
 
@@ -104,88 +65,35 @@ Shiyan, Baoan District, Shenzhen, P.R. China.   社区光明路 28 号
 
           6 Notice............................................................................................................................................84
 
-
-
-
-Growatt New Energy Technology Co., Ltd.                            古瑞瓦特新能源股份有限公司                                          Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,                             中国深圳市宝安区石岩街道办龙腾                                        www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.                      社区光明路 28 号
-                                                                   P.C. 518000
-                                       5 / 85
-
-
           1 Data format
-
-
-
 
           Valid slave device addresses are in the range of 0 – 254 decimal.
           The individual slave devices are assigned addresses in the range of 1 – 254.
           0 is the broadcast address
 
-
           It is 16bits (two bytes) unsigned integer for each holding and input register;
-
-
-
 
           2 Command Format
 
           Function 3 Read holding register
 
-
-
-
-Growatt New Energy Technology Co., Ltd.           古瑞瓦特新能源股份有限公司                            Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,            中国深圳市宝安区石岩街道办龙腾                          www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.     社区光明路 28 号
-                                                  P.C. 518000
-                                       6 / 85
           Response Error:
               11 0x80|0x03 ErrornumCRC(Errornum as a byte)
 
           Function 4 Read input      register
-
-
-
 
              Response Error:
                11 0x80|0x04 ErrornumCRC         (Errornum as a byte)
 
           Function 6 Preset single register
 
-
-
-
-Growatt New Energy Technology Co., Ltd.            古瑞瓦特新能源股份有限公司       Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,             中国深圳市宝安区石岩街道办龙腾     www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
-                                                   P.C. 518000
-                                       7 / 85
-
-
-
-
             Response Error:
                11 0x80|0x06 ErrornumCRC         (Errornum as a byte)
 
           Function 16 Preset multiple register
 
-
-
-
           Response Error:
               11 0x80|0x10 ErrornumCRC          (Errornum as a byte)
-
-
-
-
-Growatt New Energy Technology Co., Ltd.            古瑞瓦特新能源股份有限公司       Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,             中国深圳市宝安区石岩街道办龙腾     www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
-                                                   P.C. 518000
-                                       8 / 85
-
 
           3 Device Message Transmission Mode / Framing
 
@@ -221,22 +129,9 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
               Except the CEI0-21 and VDE-AR-N 4105 power management registers, you should refer the
           manufactory’s suggestion when writing other registers;
 
-
-
-
-Growatt New Energy Technology Co., Ltd.           古瑞瓦特新能源股份有限公司                  Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,            中国深圳市宝安区石岩街道办龙腾                www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.     社区光明路 28 号
-                                                  P.C. 518000
-                                       9 / 85
-
-
-
-
            4     Register map
 
            It is 16bits (two bytes) unsigned integer for each holding and input register;
-
 
            4.1 Holding Reg
       Registe Variable         Description             Write Value          Unit   Initial Note
@@ -246,7 +141,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.     社区光明路 28 号
                                On（1）；Off（0）Inverter           3                          on and off, and the BDC can be
                                On（3） ；Off（2）BDC                                          switched on and off for the
                                                                                          batt ready function.
-
 
       01        SaftyFuncEn Bit0: SPI enable             W    0         :                SPI:     system          protection
                             Bit1: AutoTestStart               disable                    interface
@@ -274,14 +168,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.     社区光明路 28 号
       03        Active      P Inverter Max output        W    0-100 or %           255   255: power is not be limited
                 Rate          active power percent            255
 
-
-
-
-Growatt New Energy Technology Co., Ltd.            古瑞瓦特新能源股份有限公司                            Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,             中国深圳市宝安区石岩街道办龙腾                          www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
-                                                   P.C. 518000
-                                        10 / 85
       04        Reactive     P Inverter max output         W   -100-100 %           255   255: power is not be limited
                 Rate           reactive power percent          or 255
       05        Power factor Inverter output power         W   0-20000,             0
@@ -325,13 +211,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
       19        RestartDelay Restart Delay Time            W                1s
                 Time         after fault back;
 
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司                         Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾                       www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       11 / 85
       20        wPowerStart Power start slope           W   1-1000      0.1%
                 Slope
       21        wPowerRest Power restart slope          W   1-1000      0.1%
@@ -375,13 +254,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
                                                             Disable:0
       43        DTC            Device Type Code             &*6
 
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司                    Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾                  www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       12 / 85
       44        TP             Input tracker num and           Eg:0x020
                                output phase num                3 is two
                                                                MPPT
@@ -425,13 +297,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
                                connect to Grid
       66        Fac low C      Grid low frequency          W                 0.01
 
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司                     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾                   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       13 / 85
                                limit connect to Grid             Hz
       67        Fac high C     Grid high frequency       W       0.01
                                limit connect to Grid             Hz
@@ -475,13 +340,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
                 1            No.
       87        FW Build No. M3 FW Build No.                     ASCII
 
-
-
-Growatt New Energy Technology Co., Ltd.                古瑞瓦特新能源股份有限公司             Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,                 中国深圳市宝安区石岩街道办龙腾           www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.          社区光明路 28 号
-                                                       P.C. 518000
-                                       14 / 85
                 0
       88        ModbusVers Modbus Version                    Eg：207 is Int(16
                 ion                                          V2.07     bits)
@@ -524,14 +382,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.          社区光明路 28 号
       100       LOGridV        Lock out gird volt of     W   nVn         0.1V
                                CEI021 PF line
 
-
-
-
-Growatt New Energy Technology Co., Ltd.                古瑞瓦特新能源股份有限公司              Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,                 中国深圳市宝安区石岩街道办龙腾            www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.          社区光明路 28 号
-                                                       P.C. 518000
-                                       15 / 85
       101       PFAdj1         PF adjust value 1                4096 is 1
       102       PFAdj2         PF adjust value 2                4096 is 1
       103       PFAdj3         PF adjust value 3                4096 is 1
@@ -575,13 +425,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.          社区光明路 28 号
                                                                                           1:DC Source
                                                                                           2:Parallel
 
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司                         Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾                       www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       16 / 85
       Second group
       125       INV Type-1     Inverter type-1         R             ASCII           Reserved
       126       INV Type-2     Inverter type-2         R             ASCII
@@ -625,13 +468,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
                 Volt
       148       uwHVoltDer HVoltDerate HighPoint R/W        0-1000V 0.1V
 
-
-
-Growatt New Energy Technology Co., Ltd.           古瑞瓦特新能源股份有限公司                       Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,            中国深圳市宝安区石岩街道办龙腾                     www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.     社区光明路 28 号
-                                                  P.C. 518000
-                                       17 / 85
                 ateHighPoint
       149       uwHVoltDer HVoltDerate LowPoint R/W           0-1000V 0.1V
                 ateLowPoint
@@ -684,13 +520,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.     社区光明路 28 号
                           HFRT1 Time                                   20ms
                 eEE
 
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司                      Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾                    www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       18 / 85
       169                                            R/W    5500~650               UL
                 uwHFRT2EE HFRT2 Freq                                 0.01Hz
                                                             0
@@ -730,15 +559,12 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
       180       MeterLink      Whether to elect the R/W                            0: Missed, 1: Received
                                meter
 
-
       181       OPT Number Number of connection R/W         0-64                   The total number of optimizers
                            optimizers                                              connected to the inverter
-
 
       182       OPT            Optimizer             R/W                           0x00:Not configured success
                 ConfigOK       configuration                                       0x01:Configuration is complete
                 Flag           completion flag
-
 
       183       PvStrScan      String Num            R/W    0、8、16、                0：Not support
                                                             32                     Other：PvString Num
@@ -746,15 +572,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
                                                                                    connected to the current
                                                                                    machine
                                                                                    Default is 0
-
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司                      Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾                    www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-                                       19 / 85
-
 
       185       PackNum        Number of battery           R                          Total number of battery
                                modules                                                modules currently associated
@@ -782,7 +599,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
       203       PID    Volt PID Output           voltage       W   300~1000 V
                 Option      option
 
-
       ……                                                                              Reserved
       209       New            Serial number 1-2                              ASCII
                 Serial    NO
@@ -799,13 +615,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
       215       New            Serial number 13-14                            ASCII
                 Serial    NO
 
-
-
-Growatt New Energy Technology Co., Ltd.               古瑞瓦特新能源股份有限公司                    Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,                中国深圳市宝安区石岩街道办龙腾                  www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.         社区光明路 28 号
-                                                      P.C. 518000
-                                       20 / 85
       216       New            Serial number 15-16                     ASCII
                 Serial   NO
       217       New            Serial number 17-18                     ASCII
@@ -828,7 +637,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.         社区光明路 28 号
                             coefficient
       230~249 for growatt debug setting
 
-
       230       IslandDisabl Island Disable or not.    W   0,1                 0
                 e            1:disable 0:Enable
       231       FanCheck       Start Fan Check         W   1
@@ -850,13 +658,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.         社区光明路 28 号
       237       uwEnableSp Disablse/enable             W   1:enable Binary 0x000 Bit 0: Hungary
                 ecSet      appointed spec setting          0:disable       0
 
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司                  Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾                www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       21 / 85
       238       Fast MPPT About Fast mppt                        0,1,2           0   Reserved
                 enable
       239       /              /                            /    /               /   Reserved
@@ -905,16 +706,7 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
 
       312       uwQmax_Ca The Capactive Qmax of R/W              0-1000   0.1%
 
-
-
-
-Growatt New Energy Technology Co., Ltd.               古瑞瓦特新能源股份有限公司                   Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,                中国深圳市宝安区石岩街道办龙腾                 www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.         社区光明路 28 号
-                                                      P.C. 518000
-                                       22 / 85
                 pactive        the Q(V) curve
-
 
                 uwReactiveP ReactivePowerAdjust   R/W   0-5000       S
                 owerAdjustF Failur ResponseTime
@@ -950,7 +742,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.         社区光明路 28 号
                                                                             the host computer
                                                                             .used for IEE1547
 
-
       321       uwVrefMod VrefModelFilterTime     R/W   0-5000       S      Activate Vref mode, the
                 elFilterTime                                                output filter value is equal to
                                                                             Vref with in the set time
@@ -959,13 +750,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.         社区光明路 28 号
                 odeP1Krate point percentage for
                            QP mode
 
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司               Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾             www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-                                       23 / 85
       323       uwUserQPM Active power P2 set R/W         0-1000       0.1%    used for IEE1547
                 odeP2Krate point percentage for
                            QP mode
@@ -976,16 +760,13 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
                 odeQ1Krate point percentage for           00                   ~ Capacitive（100%）
                            QP mode
 
-
       326       uwUserQPM Reactive power Q2 set R/W       -1000-10 0.1%        -1000~1000：Inductive（100%）
                 odeQ2Krate point percentage for           00                   ~ Capacitive（100%）
                            QP mode
 
-
       327       uwUserQPM Reactive power Q3 set R/W       -1000-10 0.1%        -1000~1000：Inductive（100%）
                 odeQ3Krate point percentage for           00                   ~ Capacitive（100%）
                            QP mode
-
 
       328       uwAcVoltHig AcVoltHighDeratPower R/W      0-1000       0.1%
                 hDeratPowe Limit
@@ -1013,13 +794,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
       336       uwFreqIncre FreqIncreasingEndLow R/W                   0.01H
                 asingEndLow Point                                      Z
 
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司                  Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾                www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-                                       24 / 85
                 Point
       337       bFreqIncreas FreqIncreasingStopMo R/W   0-1
                 ingStopMod deEnable
@@ -1053,7 +827,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
                 adSpeed                                                          the function is not enabled;
                                                                                  1-1000 means n%Pn/min
 
-
       533       LimitDevice Anti-backflow           W/R 0-3                      1：Meter
                             equipment selection                                  3:CT
                                                                                  other meaningless
@@ -1064,13 +837,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
                 e1En       Grade1Enable,                                         1:enable
                            currently only used by
 
-
-
-Growatt New Energy Technology Co., Ltd.           古瑞瓦特新能源股份有限公司                   Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,            中国深圳市宝安区石岩街道办龙腾                 www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.     社区光明路 28 号
-                                                  P.C. 518000
-                                         25 / 85
                                CEI0-21
       536       Country Set Country settings under W/R 0-200             For mobile APP use only
                             the same safety
@@ -1114,13 +880,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.     社区光明路 28 号
                 overTime    recovery time
       551       HVoltDerate Voltage active cut-off    W/R -5000-11
 
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司         Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾       www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       26 / 85
                 StopPower      power                      400
       552       QVTimeExpo QVTimeExponent            WR 1-255        Q varies exponentially with
                 nent                                                 time
@@ -1164,13 +923,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
                 tEnable    Enable                                    1：Unlimited output power
                                                                      (default is 1)
 
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司        Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾      www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-                                       27 / 85
       610       DealDebugP Flag bit for clearing                                    Currently only bit0 and bit1
                 araFlag    debug variables                                          are used
                                                                                     bit0 is used to manually clear
@@ -1185,9 +937,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
       …..
       660       ReloadCmd M3 remote command                                         0xA0: Initialize safety defaults
                                                                                     0xAA: Reboot M3 remotely
-
-
-
 
       Six group for Storage Power
       Register Variable       Description              Write Value   Unit    Initial Note
@@ -1216,13 +965,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
       1004.     Vbatstopfo Should stop discharge W                   0.01V
                 rdischarge when lower than this
 
-
-
-Growatt New Energy Technology Co., Ltd.            古瑞瓦特新能源股份有限公司                     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,             中国深圳市宝安区石岩街道办龙腾                   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
-                                                   P.C. 518000
-                                       28 / 85
                               voltage(only lead-Acid):
                               46.0V
                               <20%
@@ -1266,13 +1008,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
                 c                                            1000-140
                                                              0：-40-0℃
 
-
-
-Growatt New Energy Technology Co., Ltd.            古瑞瓦特新能源股份有限公司                      Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,             中国深圳市宝安区石岩街道办龙腾                    www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
-                                                   P.C. 518000
-                                       29 / 85
       1012.     Bat temp Battery temperature         W       200-1000 0.1℃ 370   Upper temperature limit
                 upper limit upper limit for charge
                 c
@@ -1284,7 +1019,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
       1015.     BatMdlPara Battery parallel section W        00:00               SPH4-11K used
                 llNum
       1016.     DRMS_EN /                            /       /        /      /   0：disable    1：enable
-
 
       1017.     Bat    First High eight:hours                0-23
                 Start Time Low eight: minutes                0-59
@@ -1316,16 +1050,7 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
       1026.     Grid First High eight:hours                  0-23
                 Start Time Low eight: minutes                0-59
 
-
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司                    Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾                  www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-                                       30 / 85
                 4
-
 
       1027.     Grid First High eight:hours               0-23
                 Stop Time Low eight: minutes              0-59
@@ -1356,7 +1081,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
                 4
       1036.     /             /                       /   /           /   /   Reserve
 
-
       1037.                   Use the CTMode to       W   2:METER         0
                 bCTMode       Choose RFCT \ Cable         1:cWirele
                               CT\METER                    ssCT
@@ -1366,25 +1090,13 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
                                                           1:enable
       1039.     /             /                       /   /           /   /   Reserve
 
-
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司              Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾            www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       31 / 85
       1040.     /             /                       /    /            /     /   Reserve
-
 
       1041.     /             /                       /    /            /     /   Reserve
 
-
       1042.     /             /                       /    /            /         Reserve
 
-
       1043.     /             /                       /    /            /     /   Reserve
-
 
       1044.     Priority      ForceChrEn/ForceDischr R     0.Load(de              bForceChrEn/disbForceDischrE
                               En                           fault)/1.B             n/dis
@@ -1392,9 +1104,7 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
                               first                        rid
       1045.     /             /                       /    /            /     /   Reserve
 
-
       1046.     /             /                       /    /            /     /   Reserve
-
 
       1047.     AgingTestSt Command for aging test         0: default             Cmd for aging test
                 ep                                         1: charge
@@ -1406,35 +1116,19 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
                                                            2:other
       1049.     /             /                       /    /            /         Reserve
 
-
       1050.     /             /                       /    /            /     /   Reserve
-
 
       1051.     /             /                       /    /            /         Reserve
 
-
       1052.     /             /                       /    /            /         Reserve
-
 
       1053.     /             /                       /    /            /         Reserve
 
-
       1054.     /             /                       /    /            /     /   Reserve
-
-
-
 
       1060.     BuckUpsFunE Ups function enable or                0:disable
                 n           disable                               1:enable
 
-
-
-
-Growatt New Energy Technology Co., Ltd.           古瑞瓦特新能源股份有限公司                    Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,            中国深圳市宝安区石岩街道办龙腾                  www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.     社区光明路 28 号
-                                                  P.C. 518000
-                                       32 / 85
       1061.     BuckUPSVoltS UPS output voltage                  0:230         230V
                 et                                               1:208
                                                                  2:240
@@ -1442,9 +1136,7 @@ Shiyan, Baoan District, Shenzhen, P.R. China.     社区光明路 28 号
                                                                  1:60Hz
       ...       /                /                          /    /        /    /          reverse
 
-
       Priority set
-
 
       1070.     GridFirstDisch Discharge Power          Rate W   0-100    1%    Discharge
                 argePowerRat when Grid First                                   Power Rate
@@ -1477,14 +1169,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.     社区光明路 28 号
                 Switch 3        Disable:0                                      enable
       1089.     /                /                          /    /        /    /             reserve
 
-
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司                     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾                   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-                                       33 / 85
       1090.     BatFirstPower Charge Power Rate when W      0-100       1%     Charge
                 Rate          Bat First                                      Power Rate
                                                                               when Bat
@@ -1521,7 +1205,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
                 Switch 3       Disable:0                                     Enable3
       1109.     /                /                      /   /           /    /             reserve
 
-
       1110.     Load First       High eight bit：hour        0-23                           SPA/ reserve
                 Start Time 1     Low eight bit：minute       0-59
       1111.     Load First       High eight bit：hour        0-23                           SPA/ reserve
@@ -1529,13 +1212,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
       1112.     Load First       Enable :1                  0 or 1           Load First SPA/ reserve
                 Switch 1         Disable:0                                     Enable
 
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司                   Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾                 www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-                                       34 / 85
       1113.     Load First       High eight bit：hour           0-23                           SPA/ reserve
                 Start Time2      Low eight bit：minute          0-59
       1114.     Load First       High eight bit：hour           0-23                           SPA/ reserve
@@ -1556,7 +1232,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
       1121.     SGIPEn           SGIP Enable                                                  MIX US
 
       ……… 1122~1124              /                         /   /        /       /             reserve
-
 
              BatSerialNO. Product serial number of /           /        ASCII
         1125 8            the first PACK of energy
@@ -1579,18 +1254,10 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
         1132 BatSerialNO.        the energy storage battery
        ~1204 1                   consists of nine packs, and
 
-
-
-Growatt New Energy Technology Co., Ltd.           古瑞瓦特新能源股份有限公司                     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,            中国深圳市宝安区石岩街道办龙腾                   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.     社区光明路 28 号
-                                                  P.C. 518000
-                                       35 / 85
                                  the format of the serial
                                  number of each PACK is
                                  1125 to 1132
       ……
-
 
       1244      Com version Name of the battery main                    ASCII
                 NameH       control firmware version
@@ -1632,14 +1299,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.     社区光明路 28 号
       3008      New              Serial number 15-16              R/W    ASCII
                 Serial   NO
 
-
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司                Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾              www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       36 / 85
       3009      New              Serial number 17-18           R/W                ASCII
                 Serial   NO
       3010      New              Serial number 19-20           R/W                ASCII
@@ -1684,13 +1343,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
       3024      Float charge     When charge current           R/W                0.1A 600          CC current
                 current limit    battery need is lower than
 
-
-
-Growatt New Energy Technology Co., Ltd.               古瑞瓦特新能源股份有限公司                       Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,                中国深圳市宝安区石岩街道办龙腾                     www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.         社区光明路 28 号
-                                                      P.C. 518000
-                                       37 / 85
                                  this value, enter into float
                                  charge
       3025      VbatWarning "Battery-low" warning               R/W   0.1V 4800        Lead acid battery
@@ -1733,14 +1385,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.         社区光明路 28 号
                                                                                        lower than this
                                                                                        voltage
 
-
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司           Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾         www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       38 / 85
       3031      Battemp       Battery temperature lower        R/W   0.1℃ 1170        0-200:0-20℃
                 lower limit d limit for discharge                                     1000-1400：
                                                                                       -40-0℃
@@ -1792,15 +1436,7 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
                                  discharge, start time, 3041                          Bit15,
                                          end time                                     0: prohibited; 1:
 
-
-
-Growatt New Energy Technology Co., Ltd.            古瑞瓦特新能源股份有限公司            Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,             中国深圳市宝安区石岩街道办龙腾          www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
-                                                   P.C. 518000
-                                       39 / 85
                                                                                enabled;
-
 
       3041                                                R/W                  Bit0~7: minutes;
                                                                                Bit8~12: hour;
@@ -1812,7 +1448,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
       3045                                                R/W                  With Time1
       3046      预留
 
-
       3047      BatFirstPower Charge Power Rate when                 1-100
                 Rate          Bat First
       3048      wBatFirst stop Stop Charge soc when Bat              1-100
@@ -1821,45 +1456,27 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
                 ble                                                            Disable:0
       3050        Time 5(xh)     With Time1               R/W                  With Time1
 
-
       3051                                                R/W                  With Time1
-
 
       3052        Time 6(xh)     With Time1               R/W                  With Time1
 
-
       3053                                                R/W                  With Time1
-
 
       3054        Time 7(xh)     With Time1               R/W                  With Time1
 
-
       3055                                                R/W                  With Time1
-
 
       3056        Time 8(xh)     With Time1               R/W                  With Time1
 
-
       3057                                                R/W                  With Time1
-
 
       3058        Time 9(xh)     With Time1               R/W                  With Time1
 
-
       3059                                                R/W                  With Time1
-
 
       3060~     Reserved
       3069
 
-
-
-
-Growatt New Energy Technology Co., Ltd.            古瑞瓦特新能源股份有限公司     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,             中国深圳市宝安区石岩街道办龙腾   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
-                                                   P.C. 518000
-                                       40 / 85
       3070      BatteryType      Battery type choose of   R/W                           Battery type
                                  buck-boost input                                       0:Lithium
                                                                                         1:Lead-acid
@@ -1902,14 +1519,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
                                                                                         1: 38400 bps
       3087      Serial NO. 1     Serial Number 1-2        R/W     ASCII                 For battery
 
-
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司            Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾          www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       41 / 85
       3088      Serial NO. 2     Serial Number 3-4                R/W        ASCII
       3089      Serial NO. 3     Serial Number 5-6                R/W        ASCII
       3090      Serial NO. 4     Serial Number 7-8                R/W        ASCII
@@ -1952,25 +1561,13 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
                                                                                                1: CAN;
       3108      Module 4         BDCmodel (4)                     R/W &*11                     SxxBxx
 
-
       3109      Module 3         BDCmodel (3)                     R/W &*11                     DxxTxx
 
-
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司                   Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾                 www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       42 / 85
       3110      Module 2         BDCmodel (2)                 R/W &*11                   PxxUxx
-
 
       3111      Module 1         BDCmodel (1)                 R/W &*11                   Mxxxx
 
-
       3112      Reserved
-
 
       3113      unProtocolVe BDCProtocolVer                    R       1                 Bit8-bit15 The
                 r                                                                        major version
@@ -2010,13 +1607,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
                                                                     e/counte             bit12~14,
                                                                         r                0:loadfirst;
 
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司                 Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾               www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-                                       43 / 85
                                                             current],             1:batfirst；
                                                             [disable/             2:gridfirst；
                                                              enable]              3: anti-reflux
@@ -2059,14 +1649,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
       3157-3 Time15（us） Same as above                R/W                          Same as Time 1
       158                                                                         （us）
 
-
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司          Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾        www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-                                       44 / 85
       3159-3 Time 16（us）Same as above                R/W                     Same as Time 1
       160                                                                    （us）
       3161-3 Time 17（us）Same as above                R/W                     Same as Time 1
@@ -2110,13 +1692,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
       3199-3 Time 36（us）Same as above                R/W                     Same as Time 1
       200                                                                    （us）
 
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-                                       45 / 85
       3201                       SpecialDay1（month，Day）R/W                   bit0~7:day；
                                                                              bit8~14:month
                   SpecialDay1                                                bit15，
@@ -2160,13 +1735,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
       219       Time9                                                        SpecialDay1_Time
                                                                              1
 
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-                                       46 / 85
       3220                       SpecialDay2（month，Day）R/W                   bit0~7:day；
                                                                              bit8~14:month
                   SpecialDay2                                                bit15，
@@ -2210,13 +1778,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
       238    Time9                                                           SpecialDay2_Time
                                                                              1
 
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-                                       47 / 85
       3239-3 Reserve              Reserve                      R/W
       249
       BDC information (support up to 10 parallel BDC)
@@ -2228,10 +1789,8 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
       5000+(N-1)*40---            N
       5039+(N-1)*40
 
-
             4.2 Input Reg
       NO.     Variable Name           Description                    Value             Unit         Note
-
 
       First group
       0.        Inverter Status       Inverter run state             0:waiting,
@@ -2262,13 +1821,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
       23.       Vpv6                  PV6 voltage                                      0.1V
       24.       PV6Curr               PV6 input current                                0.1A
 
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司                Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾              www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       48 / 85
       25.       Ppv6 H               PV6 input power (high)                        0.1W
       26.       Ppv6 L               PV6 input power (low)                         0.1W
       27.       Vpv7                 PV7 voltage                                   0.1V
@@ -2312,13 +1864,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
       62.       Epv1_total L         PV1Energy total (low)                         0.1kWh
       63.       Epv2_today H         PV2Energy today(high)                         0.1kWh
 
-
-
-Growatt New Energy Technology Co., Ltd.            古瑞瓦特新能源股份有限公司              Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,             中国深圳市宝安区石岩街道办龙腾            www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
-                                                   P.C. 518000
-                                       49 / 85
       64.       Epv2_today L         PV2Energy today (low)                                   0.1kWh
 
       65.       Epv2_total H         PV2Energy total(high)                                   0.1kWh
@@ -2363,14 +1908,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
       101.      RealOPPercent        Real Output power Percent                               1%
       102.      OPFullwatt H         Output Maxpower Limited high
 
-
-
-
-Growatt New Energy Technology Co., Ltd.            古瑞瓦特新能源股份有限公司                        Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,             中国深圳市宝安区石岩街道办龙腾                      www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
-                                                   P.C. 518000
-                                         50 / 85
       103.      OPFullwatt L         Output Maxpower Limited low                   0.1W
       104.      DeratingMode         DeratingMode                  0:no derate;
                                                                    1:PV;
@@ -2416,14 +1953,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
                 Power_L                                                                         Power
       118.      Priority             0:Load First                                               Storage
 
-
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司            Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾          www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       51 / 85
                                      1:Battery First                                                        Power
                                      2:Grid First
       119.      Battery Type         0：Lead-acid                                                            Storage
@@ -2468,13 +1997,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
       143.      Curr _String1          PV String1 current                      -15~15A         0.1A
       144.      V _String2             PV String2 voltage                                      0.1V
 
-
-
-Growatt New Energy Technology Co., Ltd.                古瑞瓦特新能源股份有限公司                      Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,                 中国深圳市宝安区石岩街道办龙腾                    www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.          社区光明路 28 号
-                                                       P.C. 518000
-                                       52 / 85
       145.      Curr _String2          PV String2 current                     -15~15A         0.1A
       146.      V _String3             PV String3 voltage                                     0.1V
       147.      Curr _String3          PV String3 current                     -15~15A         0.1A
@@ -2517,14 +2039,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.          社区光明路 28 号
                                        Bit1:StrDisconnect
                                        Bit2:StrCurrentUnblance
 
-
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司                        Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾                      www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       53 / 85
                                        Bit3~15:reserved
       179       PV Warning Value       PV Warning Value
       180       DSP075 Warning         DSP075 Warning Value
@@ -2568,13 +2082,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
       199       bFlashEraseAging       FlashEraseAgingOkFlag   0-1
                 OkFlag
 
-
-
-Growatt New Energy Technology Co., Ltd.            古瑞瓦特新能源股份有限公司     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,             中国深圳市宝安区石岩街道办龙腾   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
-                                                   P.C. 518000
-                                       54 / 85
       200       PVISO                  PVISOValue                                          KΩ
       201       R_DCI                  R DCI Curr                                          0.1mA
       202       S_DCI                  S DCI Curr                                          0.1mA
@@ -2618,13 +2125,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
                                        for SVG(High)
       222       COMP_Q _S L            S phase compensate reactive power                   0.1Var
 
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司                      Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾                    www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       55 / 85
                                         for SVG(low)
       223       COMP_Q _T H            T phase compensate reactive power               0.1Var
                                        for SVG(High)
@@ -2668,13 +2168,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
                 Data2
       243       DSP067        Debug    DSP067 Debug Data3
 
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司                 Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾               www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       56 / 85
                 Data3
       244       DSP067       Debug     DSP067 Debug Data4
                 Data4
@@ -2717,14 +2210,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
       901       Ppv15 H                PV15 input power (High)              0.1W
       902       Ppv15 L                PV15 input power (Low)               0.1W
 
-
-
-
-Growatt New Energy Technology Co., Ltd.               古瑞瓦特新能源股份有限公司     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,                中国深圳市宝安区石岩街道办龙腾   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.         社区光明路 28 号
-                                                      P.C. 518000
-                                       57 / 85
       903       Vpv16                  PV16 voltage                                   0.1V
       904       PV16Curr               PV16 Input current                             0.1A
       905       Ppv16 H                PV16 input power (High)                        0.1W
@@ -2767,13 +2252,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.         社区光明路 28 号
       941       PID          PV10+     PID PV10PE/ Flyspan voltage (MAX 0~1000V       0.1V
                 Voltage                HV)
 
-
-
-Growatt New Energy Technology Co., Ltd.               古瑞瓦特新能源股份有限公司               Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,                中国深圳市宝安区石岩街道办龙腾             www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.         社区光明路 28 号
-                                                      P.C. 518000
-                                       58 / 85
       942       PID           PV10+    PID PV10PE Current              -10~10mA       0.1mA
                 Current
       943       PID           PV11+    PID PV11PE Volt/ Flyspan voltage 0~1000V       0.1V
@@ -2816,14 +2294,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.         社区光明路 28 号
       968       Curr _String23         PV String 23 Current            -15~15A        0.1A
       969       V _String24            PV String 24 voltage                           0.1V
 
-
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司                 Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾               www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       59 / 85
       970       Curr _String24         PV String 24 Current                      -15A~15A          0.1A
       971       V _String25            PV String 25 voltage                                        0.1V
       972       Curr _String25         PV String 25 Current                      -15A~15A          0.1A
@@ -2866,14 +2336,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
                                                                           0x04:      Flash                 module
                                                                           module                           0x04:flash
 
-
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司                              Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾                            www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       60 / 85
                                                                     0x05         ：               module
                                                                     PVBATOnline                  0x05|0x06|0x07|0
                                                                     module,                      x08:normal
@@ -2916,13 +2378,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
       1025.     Pactogrid S H                                                         0.1w
       1026.     Pactogrid S L                                                         0.1w
 
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司                    Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾                  www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       61 / 85
       1027.     Pactogrid T H                                               0.1w
       1028.     Pactogrid T L                                               0.1w
       1029.     Pactogrid total H        AC power to grid total H           0.1w
@@ -2968,13 +2423,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
 
       1059. Echarge1_total L         Charge1 energy total                  0.1kWh
 
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司          Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾        www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                         62 / 85
       1060. ELocalLoad_Today         Local load energy today                      0.1kWh
             H
       1061. ELocalLoad_Today         Local load energy today                      0.1kWh
@@ -3020,14 +2468,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
       1089.
                 mp
 
-
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司                 Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾               www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       63 / 85
                 BMS_MaxCurr          Max. charge/discharge current
       1090.
                                      from BMS (pylon)
@@ -3083,14 +2523,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
                 llNo
       1117.     uwMinTemprCel        MinVoltTemprCellNo                1
 
-
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司         Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾       www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       64 / 85
                 lNo
       1118.     Protect pack ID      Faulty Battery Address                        1
       1119.     MaxSOC               Parallel maximum SOC                          1%
@@ -3137,13 +2569,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
                 H                                                                                  System electric
                                                                                                    energy today H
 
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司                     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾                   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       65 / 85
       1138.     Esystem_ today System electric energy today L                  0.1kWh      SPA used
                 L                                                                          System electric
                                                                                            energy today L
@@ -3188,14 +2613,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
       1154.     AccCharge            charge power pack serial number      R    /
                 PackSn
 
-
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司             Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾           www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       66 / 85
       1155.                          Cumulative charge power high R     0.1kWH
                 AccCharge            16-bit byte
 
@@ -3242,14 +2659,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
 
                 fault code 4
 
-
-
-
-Growatt New Energy Technology Co., Ltd.            古瑞瓦特新能源股份有限公司        Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,             中国深圳市宝安区石岩街道办龙腾      www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
-                                                   P.C. 518000
-                                         67 / 85
       1165.                                                            R   /
                 Battery history      Battery history fault code 5
 
@@ -3301,14 +2710,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
        1207     MinTemprCell_1       MinTemprCell_10T                  R   0.1℃
                 0T
 
-
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司         Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾       www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                         68 / 85
        1208     MaxTemprCellN        MaxTemprCellNo                      R                 /
                 o
        1209     MinTemprCellN        MinTemprCellNo                      R                 /
@@ -3338,7 +2739,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
                                                                                                          completed
       1249.     /                    /                                   /                 /             reversed
 
-
       thirteen group for Storage power’s SPA
       2000      Inverter Status      Inverter run state                       0:waiting,                     SPA
                                                                               1:normal,
@@ -3357,14 +2757,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
       2053      Eac today H          Today generate energy (high)                               0.1kWH       SPA
       2054      Eac today L          Today generate energy (low)                                0.1kWH       SPA
 
-
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司                         Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾                       www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                         69 / 85
       2055      Eac total H          Total generate energy (high)                             0.1kWH       SPA
       2056      Eac total L          Total generate energy (low)                              0.1kWH       SPA
       2057      Time total H         Work time total (high)                                   0.5s         SPA
@@ -3408,13 +2800,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
       2110      Esystem_total H      System electric energy total H                           0.1kWh       SPA used
                                                                                                            System
 
-
-
-Growatt New Energy Technology Co., Ltd.            古瑞瓦特新能源股份有限公司                         Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,             中国深圳市宝安区石岩街道办龙腾                       www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
-                                                   P.C. 518000
-                                       70 / 85
                                                                                            electric
                                                                                            energy total
                                                                                            H
@@ -3446,8 +2831,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
 
       2124.     reserved                                                                   reserved
 
-
-
       Use for TL-X and TL-XH
 
                 Inverter Status      Inverter run state
@@ -3460,17 +2843,8 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
                                      5：PVBATOnline module:
                                      6：BatOnline module
 
-
-
-
-Growatt New Energy Technology Co., Ltd.                古瑞瓦特新能源股份有限公司     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,                 中国深圳市宝安区石岩街道办龙腾   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.          社区光明路 28 号
-                                                       P.C. 518000
-                                       71 / 85
                                      7：PVOfflineMode
                                      8：BatOfflineMode
-
 
                                      The lower 8 bits indicate the machine
                                      status (web page display)
@@ -3502,7 +2876,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.          社区光明路 28 号
                 Qac L                                                              0.1Var
        3022
 
-
        3023     Pac H                Output power                                  0.1W       Output
        3024     Pac L                                                                         power
                 Fac                  Grid frequency                                0.01Hz     Grid
@@ -3513,14 +2886,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.          社区光明路 28 号
                                                                                               voltage
        3027     Iac1                 Three/single phase grid output current        0.1A       Three/single
 
-
-
-
-Growatt New Energy Technology Co., Ltd.                 古瑞瓦特新能源股份有限公司         Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,                  中国深圳市宝安区石岩街道办龙腾       www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.           社区光明路 28 号
-                                                        P.C. 518000
-                                       72 / 85
                                                                                            phase grid
                                                                                            output
                                                                                            current
@@ -3571,14 +2936,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.           社区光明路 28 号
        3051     Eac total H          Total generate energy                      0.1kWh     Total
        3052     Eac total L                                                                generate
 
-
-
-
-Growatt New Energy Technology Co., Ltd.            古瑞瓦特新能源股份有限公司           Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,             中国深圳市宝安区石岩街道办龙腾         www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
-                                                   P.C. 518000
-                                       73 / 85
                                                                                       energy
        3053     Epv_total H          PV energy total                       0.1kWh     PV energy
        3054     Epv_total L                                                           total
@@ -3632,13 +2989,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
        3083     Epv_today H             PV energy today
        3084     Epv_today L                                                0.1kWh
 
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       74 / 85
        3085     Reserved
                 DeratingMode         DeratingMode                                     0:cNOTDerate
                                                                                       1:cPVHighDer
@@ -3682,13 +3032,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
        3091     GFCI                 GFCI Curr                             1mA
        3092     Bus Voltage             total bus voltage                  0.1V
 
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       75 / 85
        3093     Temp1                Inverter temperature                          0.1℃
        3094     Temp2                The inside IPM in inverter temperature        0.1℃
        3095     Temp3                Boost temperature                             0.1℃
@@ -3736,14 +3079,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
        3113
                 NNEL_A]
 
-
-
-
-Growatt New Energy Technology Co., Ltd.            古瑞瓦特新能源股份有限公司              Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,             中国深圳市宝安区石岩街道办龙腾            www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
-                                                   P.C. 518000
-                                       76 / 85
                 uwSelfCheckVal       AFCI SelfCheck[CHANNEL_A]
        3114
                 ue[CHANNEL_A]
@@ -3771,7 +3106,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
                 Pself L
        3122                                                                0.1W
 
-
        3123     Esys_today H            System energy today
                 Esys_today L
        3124
@@ -3794,13 +3128,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.      社区光明路 28 号
        3136     Eacchr_total L                                                        of AC charge
        3137     Esys_total H
 
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       77 / 85
                 Esys_total L            Total energy of system output \
        3138
                                                                                    0.1kWh
@@ -3848,13 +3175,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
                                      3：Battery discharge Enable (Discharge)
                                      4：High bus discharge derating
 
-
-
-Growatt New Energy Technology Co., Ltd.              古瑞瓦特新能源股份有限公司            Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,               中国深圳市宝安区石岩街道办龙腾          www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
-                                                     P.C. 518000
-                                       78 / 85
                                      (discharge)
                                      5：High temperature discharge
                                      derating (discharge)
@@ -3899,13 +3219,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.        社区光明路 28 号
        3178     Pdischr H            Discharge power                               0.1W
        3179     Pdischr L
 
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司             Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾           www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       79 / 85
        3180     Pchr H               Charge power                                   0.1W
        3181     Pchr L
        3182     Edischr_total H      Discharge total energy of storge device        0.1kWh
@@ -3961,14 +3274,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
        3200
                 （Ah）
 
-
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司              Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾            www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       80 / 85
                 BmsGaugeRM           BmsGaugeRM（Ah）
        3201
                 （Ah）
@@ -4019,14 +3324,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
                                                                            strong
                                                                            charge
 
-
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司     Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾   www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       81 / 85
                                                                                  2
 
                                                                                  bit8:1:
@@ -4076,15 +3373,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
        3220
                 Curr
        3221     BMS_CycleCnt         BMSCycleCnt                        R        1
-
-
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司           Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾         www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       82 / 85
 
        3222     BMS_SOH              BMS SOH                                 R        1
 
@@ -4142,14 +3430,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
 
       3248      Debug data15         Debug data15                            R
 
-
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司                Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾              www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       83 / 85
       3249      Debug data16         Debug data16                           R
 
       3250      Pex1H                PV inverter 1 output power H           R        0.1W
@@ -4203,13 +3483,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
                                                                                                 that    the
                                                                                                 server
 
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司               Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾             www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       84 / 85
                                                                                                            determines
                                                                                                            whether to
                                                                                                            clear.
@@ -4232,9 +3505,6 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
       5079                           same data area as 3165-3233, the remaining 31 registers are reserved, a total of
                                      108 registers (including 8 registers occupied by serial number).
 
-
-
-
            5 Set address
 
                 Refer to the Inverter user manual. Always is :
@@ -4242,31 +3512,12 @@ Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
            “Move”, you should another double knock, until it displays a address number, then you can give a
            single knock to change the address, this address will be remembered when the lcd backlight off.
 
-
-
-
            6 Notice
 
             1) It can drive mostly 32 pv inverters for one rs485 comport.
             2) There are only read input and hold registers commands even the newest version.
 
-
-
-Growatt New Energy Technology Co., Ltd.             古瑞瓦特新能源股份有限公司                         Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,              中国深圳市宝安区石岩街道办龙腾                       www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.       社区光明路 28 号
-                                                    P.C. 518000
-                                       85 / 85
            3) App user could only care the input register.
            4) App user could not care the holding registers.
            5) Except the CEI0-21 and VDE-AR-N 4105 power management registers, you should refer the
           manufactory’s suggestion when writing the other registers;
-
-
-
-
-Growatt New Energy Technology Co., Ltd.          古瑞瓦特新能源股份有限公司              Tel: 86 75529515888
-#28 GuangmingRoad ,LongTeng community,           中国深圳市宝安区石岩街道办龙腾            www.growatt.com
-Shiyan, Baoan District, Shenzhen, P.R. China.    社区光明路 28 号
-                                                 P.C. 518000
-
