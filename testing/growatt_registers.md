@@ -379,33 +379,6 @@ These registers should eventually be mapped in HA:
 | 3233 | – | – | – | – |
 | 3234–3249 | Debug data1..16 | – | `ATTR_DEBUG_DATA_[1..16]` | STORAGE_INPUT_REGISTERS_120_TL_XH |
 
----
--------|-------------------------------|------|------------------------------------|--------------|
-| 3125–3126| Discharge energy today        | kWh  | `ATTR_DISCHARGE_ENERGY_TODAY`      | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3127–3128| Discharge energy total        | kWh  | `ATTR_DISCHARGE_ENERGY_TOTAL`      | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3129–3130| Charge energy today           | kWh  | `ATTR_CHARGE_ENERGY_TODAY`         | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3131–3132| Charge energy total           | kWh  | `ATTR_CHARGE_ENERGY_TOTAL`         | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3161     | Battery rated capacity (?)    | –    | –                                  | – |
-| 3163     | Battery nominal voltage (?)   | V    | –                                  | – |
-| 3164     | BDC new flag                  | –    | `ATTR_BDC_NEW_FLAG`                | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3165–3166| BMS/BDC status code(s) (?)    | –    | –                                  | – |
-| 3169–3170| Battery model/code / flags (?)| –    | –                                  | – |
-| 3171     | SoC                           | %    | `ATTR_SOC_PERCENTAGE`              | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3172–3173| Battery voltages (A/B) (?)    | V    | – (`ATTR_BATTERY_VOLTAGE` pending) | – |
-| 3174–3175| Pack string count / status (?)| –    | –                                  | – |
-| 3176     | Battery temperature A         | °C   | `ATTR_BATTERY_TEMPERATURE_A`       | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3177     | Battery temperature B         | °C   | `ATTR_BATTERY_TEMPERATURE_B`       | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3178–3179| Discharge power (instant)     | W    | `ATTR_DISCHARGE_POWER`             | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3180–3181| Charge power (instant)        | W    | `ATTR_CHARGE_POWER`                | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3183–3185| Battery V/I derived fields (?)| –    | –                                  | – |
-| 3190–3195| SoH/limits/status (observed)  | –    | –                                  | – |
-| 3200–3201| Charge/discharge limit (%) (?)| %    | –                                  | – |
-| 3212     | Battery cycles (observed)     | –    | –                                  | – |
-| 3215–3224| BMS power/energy caps (obs.)  | –    | –                                  | – |
-| 3227     | Rated power (?)               | W    | –                                  | – |
-| 3230–3235| BMS flags / pack count (obs.) | –    | –                                  | – |
-| 3241–3248| Model & version (echo)        | –    | –                                  | – |
-
 ### Spec‑documented TL‑XH debug/diagnostic inputs (examples)
 
 > Per the v1.24 spec, many addresses in this area are **documented** as diagnostic or reserved. Notable examples you observed:
