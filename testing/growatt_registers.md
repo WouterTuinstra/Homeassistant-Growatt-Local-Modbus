@@ -272,7 +272,8 @@ These registers should eventually be mapped in HA:
 | 3105 | Fault maincode | – | `ATTR_FAULT_CODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
 | 3106 | Warn maincode | – | `ATTR_WARNING_CODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
 | 3107 | Fault subcode (bitfield) | – | `ATTR_FAULT_SUBCODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3108 | Warn subcode (bitfield) | – | `ATTR_WARNING_SUBCODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3108 | Warn subcode (bitfield)  | – | `ATTR_WARNING_SUBCODE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
+| 3110 | Warning code             | – | `ATTR_WARNING_CODE`    | STORAGE_INPUT_REGISTERS_120_TL_XH |
 | 3111 | PresentFFTValue [CHANNEL_A] | – | `ATTR_PRESENT_FFT_A` | STORAGE_INPUT_REGISTERS_120_TL_XH |
 | 3112 | AFCI Status | enum | `ATTR_AFCI_STATUS` | STORAGE_INPUT_REGISTERS_120_TL_XH |
 | 3113 | AFCI Strength [CHANNEL_A] | – | `ATTR_AFCI_STRENGTH_A` | STORAGE_INPUT_REGISTERS_120_TL_XH |
@@ -282,36 +283,6 @@ These registers should eventually be mapped in HA:
 | 3119 | DryContactState (0=off,1=on) | – | `ATTR_DRY_CONTACT_STATE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
 | 3121–3122 | Self‑use power (Pself H/L) | 0.1 W | `ATTR_SELF_USE_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
 | 3123–3124 | System energy today (Esys_today H/L) | 0.1 kWh | `ATTR_SYSTEM_ENERGY_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
-
----
--------|----------------------------|------|------------------------|--------------|
-| 3000     | Status code                | –    | `ATTR_STATUS_CODE`     | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3001–3002| PV total input power       | W    | `ATTR_INPUT_POWER`     | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3021     | Output reactive power      | Var  | `ATTR_OUTPUT_REACTIVE_POWER` | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3023–3024| Output (AC) power          | W    | `ATTR_OUTPUT_POWER`    | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3025     | Grid frequency             | Hz   | `ATTR_GRID_FREQUENCY`  | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3026     | AC1 voltage                | V    | `ATTR_OUTPUT_1_VOLTAGE`| STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3027     | AC1 current                | A    | `ATTR_OUTPUT_1_AMPERAGE`| STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3028–3029| AC1 power                  | W    | `ATTR_OUTPUT_1_POWER`  | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3041–3042| Power to user (instant)    | W    | `ATTR_POWER_TO_USER`   | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3043–3044| Power to grid (instant)    | W    | `ATTR_POWER_TO_GRID`   | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3045–3046| User load power (instant)  | W    | `ATTR_POWER_USER_LOAD` | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3047–3048| Operation hours            | h    | `ATTR_OPERATION_HOURS` | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3049–3050| Today’s output energy      | kWh  | `ATTR_OUTPUT_ENERGY_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3051–3052| Total output energy        | kWh  | `ATTR_OUTPUT_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3053–3054| Total PV input energy      | kWh  | `ATTR_INPUT_ENERGY_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3055–3062| PV1/PV2 energy today/total | kWh  | `ATTR_INPUT_*_ENERGY_*`| STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3067–3068| Energy to user today       | kWh  | `ATTR_ENERGY_TO_USER_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3069–3070| Energy to user total       | kWh  | `ATTR_ENERGY_TO_USER_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3071–3072| Energy to grid today       | kWh  | `ATTR_ENERGY_TO_GRID_TODAY` | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3073–3074| Energy to grid total       | kWh  | `ATTR_ENERGY_TO_GRID_TOTAL` | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3093     | Inverter temperature       | °C   | `ATTR_TEMPERATURE`     | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3094     | IPM temperature            | °C   | `ATTR_IPM_TEMPERATURE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3098     | DC bus voltage P           | V    | `ATTR_P_BUS_VOLTAGE`   | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3099     | DC bus voltage N           | V    | `ATTR_N_BUS_VOLTAGE`   | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3100–3101| Real output %              | %    | `ATTR_OUTPUT_PERCENTAGE` | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3105     | Fault code                 | –    | `ATTR_FAULT_CODE`      | STORAGE_INPUT_REGISTERS_120_TL_XH |
-| 3110     | Warning code               | –    | `ATTR_WARNING_CODE`    | STORAGE_INPUT_REGISTERS_120_TL_XH |
 
 ---
 
