@@ -1,3 +1,5 @@
+Nieuw
++42-0
 # Agent Instructions
 
 This repository tracks work on expanding Growatt inverter support for Home Assistant.
@@ -29,6 +31,14 @@ register set, focusing on the MIN 6000TL XH inverter with battery.
      scaling on real hardware.
    - Compare results with external references and document discrepancies in
      `testing/growatt_registers.md`.
+
+5. **Debug via Modbus broker**
+   - Follow the strategy in `testing/Modbus sniffer adaptation.md`.
+   - Run the Home Assistant Pi4 as a man-in-the-middle between the inverter and
+     ShineWiFi, acting as the sole RTU master.
+   - The Pi exposes a Modbus-TCP endpoint so both Home Assistant and laptop
+     scripts in `testing/` can exercise the API without a full HA installation
+     while capturing bus traffic for analysis.
 
 These steps are expected to be iterative; each commit should strive to leave the
 repository in a working state with tests executed.
