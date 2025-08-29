@@ -438,6 +438,7 @@ Add these to `base.py` if they’re missing; names match the tables above so you
 ATTR_VAC_RS = "vac_rs"                      # V, 3038
 ATTR_VAC_ST = "vac_st"                      # V, 3039
 ATTR_VAC_TR = "vac_tr"                      # V, 3040
+ATTR_COMM_BOARD_TEMPERATURE = "comm_board_temperature"    # C, 3097
 ATTR_PRESENT_FFT_A = "present_fft_a"        # 3111
 ATTR_AFCI_STATUS = "afci_status"            # 3112
 ATTR_AFCI_STRENGTH_A = "afci_strength_a"    # 3113
