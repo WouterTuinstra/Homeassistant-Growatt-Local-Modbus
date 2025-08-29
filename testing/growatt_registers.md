@@ -90,7 +90,7 @@ Various PF/Q(V) models, grid curves, and frequency derating settings appear here
 
 ### Extended Measurements (3000–3124)
 Mirror of 0–124, but also includes:
-- 3021: Reactive power → `ATTR_OUTPUT_REACTIVE_POWER`
+- 3021: Reactive power (Var) → `ATTR_OUTPUT_REACTIVE_POWER` (`STORAGE_INPUT_REGISTERS_120_TL_XH`)
 - 3047: Operation hours (duplicate)
 - 3067–3074: To-user / To-grid energy stats → `ATTR_ENERGY_TO_*`
 
@@ -597,7 +597,7 @@ Use the list below to extend tables in your device modules (copy/paste). **All r
 - `ATTR_ENERGY_TO_USER_TOTAL` → **3069–3070** (kWh), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
 - `ATTR_ENERGY_TO_GRID_TODAY` → **3071–3072** (kWh), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
 - `ATTR_ENERGY_TO_GRID_TOTAL` → **3073–3074** (kWh), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
-- `ATTR_OUTPUT_REACTIVE_POWER` → **3021** (Var), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
+- `ATTR_OUTPUT_REACTIVE_POWER` → **3021** (Var), set: `STORAGE_INPUT_REGISTERS_120_TL_XH` *(implemented)*
 - `ATTR_SOC_PERCENTAGE` → **3171** (%), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
 - `ATTR_BDC_NEW_FLAG` → **3164** (–), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
 - `ATTR_BATTERY_TEMPERATURE_A` → **3176** (°C), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
