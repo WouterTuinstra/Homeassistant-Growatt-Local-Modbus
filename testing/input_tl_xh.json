@@ -1,5 +1,85 @@
 [
   {
+    "number": 3041,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "Total forward power"
+  },
+  {
+    "number": 3043,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "Total reverse power"
+  },
+  {
+    "number": 3045,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "Total load power"
+  },
+  {
+    "number": 3067,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "Today energy to user"
+  },
+  {
+    "number": 3069,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "",
+    "description": "32‑bit field (pair)"
+  },
+  {
+    "number": 3071,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "Today energy to grid"
+  },
+  {
+    "number": 3073,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "Total energy to grid"
+  },
+  {
+    "number": 3097,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "",
+    "description": "Communication board temperature"
+  },
+  {
+    "number": 3111,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "",
+    "description": "PresentFFTValue [CHANNEL_A]"
+  },
+  {
+    "number": 3115,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "",
+    "description": "Inverter start delay time"
+  },
+  {
     "number": 3125,
     "function_code": "04",
     "length": 2,
@@ -78,37 +158,6 @@
     "scale": 1,
     "unit": "W",
     "description": "Battery charge power"
-  },
-  {
-    "number": 3069,
-    "function_code": "04",
-    "length": 2,
-    "scale": 1,
-    "unit": "",
-    "description": "32‑bit field (pair)"
-  },
-  {
-    "number": 3097,
-    "function_code": "04",
-    "length": 1,
-    "scale": 1,
-    "unit": "",
-    "description": "Communication board temperature"
-  },
-  {
-    "number": 3111,
-    "function_code": "04",
-    "length": 1,
-    "scale": 1,
-    "unit": "",
-    "description": "PresentFFTValue \\[CHANNEL_A]"
-  },
-  {
-    "number": 3115,
-    "function_code": "04",
-    "length": 1,
-    "scale": 1,
-    "unit": "",
-    "description": "Inverter start delay time"
   }
 ]
+
