@@ -1,0 +1,434 @@
+[
+  {
+    "number": 0,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "-",
+    "description": "Remote On/Off"
+  },
+  {
+    "number": 3,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "%",
+    "description": "Max active power %"
+  },
+  {
+    "number": 5,
+    "function_code": "03",
+    "length": 1,
+    "scale": 10000,
+    "unit": "-",
+    "description": "Power factor ×10000"
+  },
+  {
+    "number": 7,
+    "function_code": "03",
+    "length": 2,
+    "scale": 1,
+    "unit": "VA",
+    "description": "Normal power setting"
+  },
+  {
+    "number": 9,
+    "function_code": "03",
+    "length": 3,
+    "scale": 1,
+    "unit": "ASCII",
+    "description": "Firmware version"
+  },
+  {
+    "number": 12,
+    "function_code": "03",
+    "length": 3,
+    "scale": 1,
+    "unit": "ASCII",
+    "description": "Control firmware version"
+  },
+  {
+    "number": 15,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "code",
+    "description": "LCD language"
+  },
+  {
+    "number": 17,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "V",
+    "description": "PV start voltage"
+  },
+  {
+    "number": 18,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "s",
+    "description": "Start time"
+  },
+  {
+    "number": 19,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "s",
+    "description": "Restart delay after fault"
+  },
+  {
+    "number": 20,
+    "function_code": "03",
+    "length": 2,
+    "scale": 1,
+    "unit": "%/s",
+    "description": "Power slope settings"
+  },
+  {
+    "number": 22,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "-",
+    "description": "Baud rate selection"
+  },
+  {
+    "number": 23,
+    "function_code": "03",
+    "length": 5,
+    "scale": 1,
+    "unit": "str",
+    "description": "Serial number (ASCII)"
+  },
+  {
+    "number": 28,
+    "function_code": "03",
+    "length": 2,
+    "scale": 1,
+    "unit": "str",
+    "description": "Inverter model"
+  },
+  {
+    "number": 30,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "-",
+    "description": "Communication address"
+  },
+  {
+    "number": 31,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "-",
+    "description": "Flash update trigger"
+  },
+  {
+    "number": 34,
+    "function_code": "03",
+    "length": 8,
+    "scale": 1,
+    "unit": "-",
+    "description": "Manufacturer info"
+  },
+  {
+    "number": 43,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "`ATTR_DEVICE_TYPE_CODE`",
+    "description": "Device type code"
+  },
+  {
+    "number": 44,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "`ATTR_NUMBER_OF_TRACKERS_AND_PHASES`",
+    "description": "Tracker + phase count"
+  },
+  {
+    "number": 45,
+    "function_code": "03",
+    "length": 6,
+    "scale": 1,
+    "unit": "-",
+    "description": "Device system time (Y/M/D/H/M/S)"
+  },
+  {
+    "number": 82,
+    "function_code": "03",
+    "length": 6,
+    "scale": 1,
+    "unit": "-",
+    "description": "FW build numbers (ASCII)"
+  },
+  {
+    "number": 88,
+    "function_code": "03",
+    "length": 1,
+    "scale": 100,
+    "unit": "`ATTR_MODBUS_VERSION`",
+    "description": "Modbus version ×100"
+  },
+  {
+    "number": 0,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "Remote On/Off (Inverter/BDC)"
+  },
+  {
+    "number": 1,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "Safety function enable bits"
+  },
+  {
+    "number": 2,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "PF CMD memory state"
+  },
+  {
+    "number": 3,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "%",
+    "description": "Active P rate (limit %)"
+  },
+  {
+    "number": 4,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "%",
+    "description": "Reactive P rate (limit %)"
+  },
+  {
+    "number": 5,
+    "function_code": "03",
+    "length": 1,
+    "scale": 10000,
+    "unit": "–",
+    "description": "Power factor ×10000"
+  },
+  {
+    "number": 6,
+    "function_code": "03",
+    "length": 2,
+    "scale": 1,
+    "unit": "VA",
+    "description": "Pmax (high/low)"
+  },
+  {
+    "number": 8,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "V",
+    "description": "Vnormal (PV work voltage)"
+  },
+  {
+    "number": 9,
+    "function_code": "03",
+    "length": 3,
+    "scale": 1,
+    "unit": "–",
+    "description": "Firmware version (H/M/L)"
+  },
+  {
+    "number": 12,
+    "function_code": "03",
+    "length": 3,
+    "scale": 1,
+    "unit": "–",
+    "description": "Control FW version (H/M/L)"
+  },
+  {
+    "number": 15,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "LCD language"
+  },
+  {
+    "number": 16,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "Country selected"
+  },
+  {
+    "number": 17,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "V",
+    "description": "PV start voltage"
+  },
+  {
+    "number": 18,
+    "function_code": "03",
+    "length": 2,
+    "scale": 1,
+    "unit": "s",
+    "description": "Start / Restart delay"
+  },
+  {
+    "number": 20,
+    "function_code": "03",
+    "length": 2,
+    "scale": 1,
+    "unit": "0.1%",
+    "description": "Power start / restart slope"
+  },
+  {
+    "number": 22,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "Baudrate select (0=9600,1=38400)"
+  },
+  {
+    "number": 23,
+    "function_code": "03",
+    "length": 5,
+    "scale": 1,
+    "unit": "–",
+    "description": "Serial number (1–10)"
+  },
+  {
+    "number": 28,
+    "function_code": "03",
+    "length": 2,
+    "scale": 1,
+    "unit": "–",
+    "description": "Inverter Module (model code)"
+  },
+  {
+    "number": 30,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "Modbus address"
+  },
+  {
+    "number": 31,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "FlashStart (FW update)"
+  },
+  {
+    "number": 32,
+    "function_code": "03",
+    "length": 2,
+    "scale": 1,
+    "unit": "–",
+    "description": "Reset user info / factory"
+  },
+  {
+    "number": 34,
+    "function_code": "03",
+    "length": 8,
+    "scale": 1,
+    "unit": "–",
+    "description": "Manufacturer info (8..1)"
+  },
+  {
+    "number": 42,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "G100 fail safe"
+  },
+  {
+    "number": 43,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "Device Type Code"
+  },
+  {
+    "number": 44,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "Trackers & phases"
+  },
+  {
+    "number": 45,
+    "function_code": "03",
+    "length": 7,
+    "scale": 1,
+    "unit": "–",
+    "description": "System time (Y/M/D/h/m/s/weekday)"
+  },
+  {
+    "number": 52,
+    "function_code": "03",
+    "length": 16,
+    "scale": 1,
+    "unit": "–",
+    "description": "Grid protection limits"
+  },
+  {
+    "number": 68,
+    "function_code": "03",
+    "length": 12,
+    "scale": 1,
+    "unit": "–",
+    "description": "Grid protection times"
+  },
+  {
+    "number": 80,
+    "function_code": "03",
+    "length": 2,
+    "scale": 1,
+    "unit": "–",
+    "description": "10‑min voltage / PV over‑V fault"
+  },
+  {
+    "number": 82,
+    "function_code": "03",
+    "length": 6,
+    "scale": 1,
+    "unit": "–",
+    "description": "FW build numbers"
+  },
+  {
+    "number": 88,
+    "function_code": "03",
+    "length": 1,
+    "scale": 100,
+    "unit": "–",
+    "description": "Modbus version ×100"
+  },
+  {
+    "number": 89,
+    "function_code": "03",
+    "length": 11,
+    "scale": 1,
+    "unit": "–",
+    "description": "PF/Q(V)/derating controls"
+  }
+]

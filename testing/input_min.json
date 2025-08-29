@@ -1,0 +1,450 @@
+[
+  {
+    "number": 0,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "int",
+    "description": "Status code"
+  },
+  {
+    "number": 1,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "Total PV input power"
+  },
+  {
+    "number": 3,
+    "function_code": "04",
+    "length": 4,
+    "scale": 1,
+    "unit": "V/A/W",
+    "description": "PV1 V/A/P"
+  },
+  {
+    "number": 7,
+    "function_code": "04",
+    "length": 4,
+    "scale": 1,
+    "unit": "V/A/W",
+    "description": "PV2 V/A/P"
+  },
+  {
+    "number": 35,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "W",
+    "description": "Output power"
+  },
+  {
+    "number": 37,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "Hz",
+    "description": "Grid frequency"
+  },
+  {
+    "number": 38,
+    "function_code": "04",
+    "length": 3,
+    "scale": 1,
+    "unit": "V/A/W",
+    "description": "AC1 V/A/P"
+  },
+  {
+    "number": 53,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "Today’s output energy"
+  },
+  {
+    "number": 55,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "Total output energy"
+  },
+  {
+    "number": 57,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "h",
+    "description": "Operation hours"
+  },
+  {
+    "number": 59,
+    "function_code": "04",
+    "length": 8,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "PV1+PV2 today & total energy"
+  },
+  {
+    "number": 91,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "PV total energy"
+  },
+  {
+    "number": 93,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "°C",
+    "description": "Inverter temp"
+  },
+  {
+    "number": 94,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "°C",
+    "description": "IPM temp"
+  },
+  {
+    "number": 98,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "V",
+    "description": "P-bus voltage"
+  },
+  {
+    "number": 99,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "V",
+    "description": "N-bus voltage"
+  },
+  {
+    "number": 101,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "%",
+    "description": "Output %"
+  },
+  {
+    "number": 104,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "-",
+    "description": "Derating mode"
+  },
+  {
+    "number": 105,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "-",
+    "description": "Fault code"
+  },
+  {
+    "number": 110,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "-",
+    "description": "Warning code"
+  },
+  {
+    "number": 0,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "Status code"
+  },
+  {
+    "number": 1,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "PV total input power"
+  },
+  {
+    "number": 3,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "V",
+    "description": "PV1 voltage"
+  },
+  {
+    "number": 4,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "A",
+    "description": "PV1 current"
+  },
+  {
+    "number": 5,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "PV1 power"
+  },
+  {
+    "number": 7,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "V",
+    "description": "PV2 voltage"
+  },
+  {
+    "number": 8,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "A",
+    "description": "PV2 current"
+  },
+  {
+    "number": 9,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "PV2 power"
+  },
+  {
+    "number": 11,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "V",
+    "description": "PV3 voltage"
+  },
+  {
+    "number": 12,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "A",
+    "description": "PV3 current"
+  },
+  {
+    "number": 13,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "PV3 power"
+  },
+  {
+    "number": 15,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "V",
+    "description": "PV4 voltage"
+  },
+  {
+    "number": 16,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "A",
+    "description": "PV4 current"
+  },
+  {
+    "number": 17,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "PV4 power"
+  },
+  {
+    "number": 35,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "W",
+    "description": "Output (AC) power"
+  },
+  {
+    "number": 37,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "Hz",
+    "description": "Grid frequency"
+  },
+  {
+    "number": 38,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "V",
+    "description": "AC1 voltage"
+  },
+  {
+    "number": 39,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "A",
+    "description": "AC1 current"
+  },
+  {
+    "number": 40,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "W",
+    "description": "AC1 power"
+  },
+  {
+    "number": 42,
+    "function_code": "04",
+    "length": 7,
+    "scale": 1,
+    "unit": "–",
+    "description": "AC2/AC3 (3‑phase models)"
+  },
+  {
+    "number": 53,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "Today’s output energy"
+  },
+  {
+    "number": 55,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "Total output energy"
+  },
+  {
+    "number": 57,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "h",
+    "description": "Operation hours"
+  },
+  {
+    "number": 59,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "PV1 today’s energy"
+  },
+  {
+    "number": 61,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "PV1 total energy"
+  },
+  {
+    "number": 63,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "PV2 today’s energy"
+  },
+  {
+    "number": 65,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "PV2 total energy"
+  },
+  {
+    "number": 91,
+    "function_code": "04",
+    "length": 2,
+    "scale": 1,
+    "unit": "kWh",
+    "description": "PV total energy"
+  },
+  {
+    "number": 93,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "°C",
+    "description": "Inverter temperature"
+  },
+  {
+    "number": 94,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "°C",
+    "description": "IPM temperature"
+  },
+  {
+    "number": 98,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "V",
+    "description": "DC bus voltage P"
+  },
+  {
+    "number": 99,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "V",
+    "description": "DC bus voltage N"
+  },
+  {
+    "number": 101,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "%",
+    "description": "Real output %"
+  },
+  {
+    "number": 104,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "Derating mode"
+  },
+  {
+    "number": 105,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "Fault code"
+  },
+  {
+    "number": 110,
+    "function_code": "04",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "Warning code"
+  }
+]
