@@ -1,0 +1,18 @@
+[
+  {
+    "number": 3001,
+    "function_code": "03",
+    "length": 15,
+    "scale": 1,
+    "unit": "–",
+    "description": "Serial number (ASCII, 15 words)"
+  },
+  {
+    "number": 3049,
+    "function_code": "03",
+    "length": 1,
+    "scale": 1,
+    "unit": "–",
+    "description": "AC charge enable"
+  }
+]

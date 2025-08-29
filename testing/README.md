@@ -249,6 +249,26 @@ ha core stop && docker run --rm -it --device=$SER:/dev/ttyUSB0 -v "$REPO":/app -
   sh -lc 'pip install -q "pymodbus[serial]>=3.8,<3.9" && PYTHONPATH=/app SERIAL_PORT=/dev/ttyUSB0 python /app/read_registers.py' && ha core start
 ```
 
+## Parsing register specification
+
+`parse_registers.py` converts the in-repo documentation
+`growatt_registers.md` into machine readable JSON files. Run from this
+directory:
+
+```bash
+python parse_registers.py
+```
+
+The script writes four outputs:
+
+* `holding_min.json`
+* `holding_tl_xh.json`
+* `input_min.json`
+* `input_tl_xh.json`
+
+Each entry records register number, function code, length, scale, unit,
+and description for the corresponding device type.
+
 ---
 
 *Happy hacking and safe debugging!*
