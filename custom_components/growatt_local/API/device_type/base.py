@@ -137,7 +137,12 @@ ATTR_DISCHARGE_ENERGY_TOTAL = "discharge_energy_total"  # kWh
 ATTR_CHARGE_ENERGY_TODAY = "charge_energy_today"  # kWh
 ATTR_CHARGE_ENERGY_TOTAL = "charge_energy_total"  # kWh
 
-# Attribute names for values in the input register for Offgrid inverter 
+# Additional TL-XH input attributes
+ATTR_COMM_BOARD_TEMPERATURE = "comm_board_temperature"  # C
+ATTR_PRESENT_FFT_A = "present_fft_a"
+ATTR_INV_START_DELAY = "inv_start_delay"  # s
+
+# Attribute names for values in the input register for Offgrid inverter
 ATTR_ACTIVE_POWER = "output_active_power"  # W
 
 ATTR_BATTERY_VOLTAGE = "battery_voltage"  # V

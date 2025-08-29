@@ -29,6 +29,9 @@ from .base import (
     ATTR_BDC_NEW_FLAG,
     ATTR_BATTERY_TEMPERATURE_A,
     ATTR_BATTERY_TEMPERATURE_B,
+    ATTR_COMM_BOARD_TEMPERATURE,
+    ATTR_PRESENT_FFT_A,
+    ATTR_INV_START_DELAY,
 )
 
 MAXIMUM_DATA_LENGTH = 100
@@ -161,6 +164,15 @@ STORAGE_INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
     ),
     GrowattDeviceRegisters(
         name=ATTR_ENERGY_TO_GRID_TOTAL, register=3073, value_type=float, length=2
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_COMM_BOARD_TEMPERATURE, register=3097, value_type=float
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_PRESENT_FFT_A, register=3111, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_INV_START_DELAY, register=3115, value_type=int
     ),
     GrowattDeviceRegisters(
         name=ATTR_DISCHARGE_ENERGY_TODAY, register=3125, value_type=float, length=2
