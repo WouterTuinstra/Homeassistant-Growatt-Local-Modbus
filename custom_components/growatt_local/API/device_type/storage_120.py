@@ -74,11 +74,31 @@ STORAGE_HOLDING_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
         value_type=float,
         scale=100
     ),
+)
+
+STORAGE_HOLDING_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
+    FIRMWARE_REGISTER,
+    GrowattDeviceRegisters(
+        name=ATTR_INVERTER_MODEL,
+        register=28,
+        value_type=custom_function,
+        length=2,
+        function=model,
+    ),
+    DEVICE_TYPE_CODE_REGISTER,
+    NUMBER_OF_TRACKERS_AND_PHASES_REGISTER,
+    GrowattDeviceRegisters(
+        name=ATTR_MODBUS_VERSION,
+        register=88,
+        value_type=float,
+        scale=100,
+    ),
+    SERIAL_NUMBER_REGISTER,
     GrowattDeviceRegisters(
         name=ATTR_AC_CHARGE_ENABLED,
         register=3049,
         value_type=int,
-        length=1
+        length=1,
     ),
 )
 

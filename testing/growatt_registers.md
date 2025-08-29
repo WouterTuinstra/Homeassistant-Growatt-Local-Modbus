@@ -574,16 +574,18 @@ ATTR_DEBUG_DATA_16 = "debug_data_16"
 
 ## Hybrid / Extended Holding (TL‑XH)
 
-For TL‑XH systems we should introduce a dedicated holding set:
+For TL‑XH systems we use a dedicated holding set that mirrors the base
+`STORAGE_HOLDING_REGISTERS_120` entries and adds TL‑XH‑only addresses.
+The serial number range (3001–3015) is shared with the base set, while
+AC‑charge enable (3049) is TL‑XH specific:
 
 - **Set name**: `STORAGE_HOLDING_REGISTERS_120_TL_XH`
-- Purpose: all holding registers ≥3000 for TL‑XH hybrid inverters.
+- Purpose: TL‑XH holding registers, preferring the >3000 range where available.
 
 | Register | Name / Description             | Unit | Integration Attribute       | Notes |
 |----------|--------------------------------|------|-----------------------------|-------|
-| 3001–3015| Serial number (ASCII, 15 words)| –    | `ATTR_SERIAL_NUMBER`        | Already used by integration (mappable to TL‑XH set)
-| 3049     | AC charge enable               | –    | `ATTR_AC_CHARGE_ENABLED`    | Move here from generic storage holding
-
+| 3001–3015| Serial number (ASCII, 15 words)| –    | `ATTR_SERIAL_NUMBER`        | common |
+| 3049     | AC charge enable               | –    | `ATTR_AC_CHARGE_ENABLED`    | TL‑XH only |
 ---
 
 # Attributes to Add / Bind (TL‑XH)
