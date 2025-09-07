@@ -117,18 +117,18 @@ class GrowattModbusBase:
         Read Growatt device time.
         """
         # TODO: update with dynamic register values
-        rhr = await self.client.read_holding_registers(45, count=6, slave=slave)
+        rhr = await self.client.read_holding_registers(45, count=6, device_id=slave)
         if rhr.isError():
             _LOGGER.debug("Modbus read failed for rhr")
             raise ModbusException("Modbus read failed for rhr.")
 
         return datetime(
-            rhr.register[0] + 2000,
-            rhr.register[1],
-            rhr.register[2],
-            rhr.register[3],
-            rhr.register[4],
-            rhr.register[5],
+            rhr.registers[0] + 2000,
+            rhr.registers[1],
+            rhr.registers[2],
+            rhr.registers[3],
+            rhr.registers[4],
+            rhr.registers[5],
         )
 
     async def write_device_time(
@@ -149,12 +149,12 @@ class GrowattModbusBase:
         return await self.client.write_register(register, payload[0], slave=slave)
 
     async def read_holding_registers(self, start_address, count, slave) -> dict[int, int]:
-        data = await self.client.read_holding_registers(start_address, count=count, slave=slave)
+        data = await self.client.read_holding_registers(start_address, count=count, device_id=slave)
         registers = {c: v for c, v in enumerate(data.registers, start_address)}
         return registers
 
     async def read_input_registers(self, start_address, count, slave) -> dict[int, int]:
-        data = await self.client.read_input_registers(start_address, count=count, slave=slave)
+        data = await self.client.read_input_registers(start_address, count=count, device_id=slave)
         registers = {c: v for c, v in enumerate(data.registers, start_address)}
         return registers
 
