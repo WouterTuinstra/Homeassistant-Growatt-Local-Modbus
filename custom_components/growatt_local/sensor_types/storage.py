@@ -8,6 +8,8 @@ from homeassistant.components.sensor import (
 from homeassistant.const import (
     UnitOfEnergy,
     UnitOfPower,
+    UnitOfTemperature,
+    UnitOfTime,
     PERCENTAGE,
 )
 from .sensor_entity_description import GrowattSensorEntityDescription
@@ -31,6 +33,12 @@ from ..API.device_type.base import (
     ATTR_CHARGE_ENERGY_TOTAL,
     ATTR_PAC_TO_GRID_TOTAL,
     ATTR_PAC_TO_USER_TOTAL,
+    ATTR_BATTERY_TEMPERATURE_A,
+    ATTR_BATTERY_TEMPERATURE_B,
+    ATTR_COMM_BOARD_TEMPERATURE,
+    ATTR_BDC_NEW_FLAG,
+    ATTR_PRESENT_FFT_A,
+    ATTR_INV_START_DELAY,
 )
 
 STORAGE_SWITCH_TYPES: tuple[GrowattSwitchEntityDescription, ...] = (
@@ -44,6 +52,38 @@ STORAGE_SWITCH_TYPES: tuple[GrowattSwitchEntityDescription, ...] = (
 
 
 STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
+    GrowattSensorEntityDescription(
+        key=ATTR_BATTERY_TEMPERATURE_A,
+        name="Battery temperature A",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        device_class=SensorDeviceClass.TEMPERATURE,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_BATTERY_TEMPERATURE_B,
+        name="Battery temperature B",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        device_class=SensorDeviceClass.TEMPERATURE,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_COMM_BOARD_TEMPERATURE,
+        name="Comm board temperature",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        device_class=SensorDeviceClass.TEMPERATURE,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_BDC_NEW_FLAG,
+        name="BDC present",
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_PRESENT_FFT_A,
+        name="Present FFT A",
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_INV_START_DELAY,
+        name="Inverter start delay",
+        native_unit_of_measurement=UnitOfTime.SECONDS,
+        device_class=SensorDeviceClass.DURATION,
+    ),
     GrowattSensorEntityDescription(
         key=ATTR_SOC_PERCENTAGE,
         name="SOC",
