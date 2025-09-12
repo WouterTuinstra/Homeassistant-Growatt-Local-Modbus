@@ -1,12 +1,205 @@
 {
-    "state": {
-        "growatt_local__status": {
-          "Offline": "Offline",
-          "not_connected": "Geen Verbinding",
-          "no_response": "Geen Reactie",
-          "Waiting": "Wachten",
-          "Normal": "Operationeel",
-          "Fault": "Fout"
-        }
+  "entity": {
+    "sensor": {
+      "battery_temperature_a": {
+        "name": "Batterijtemperatuur A"
+      },
+      "battery_temperature_b": {
+        "name": "Batterijtemperatuur B"
+      },
+      "comm_board_temperature": {
+        "name": "Communicatiebord temperatuur"
+      },
+      "bdc_new_flag": {
+        "name": "BDC aanwezig"
+      },
+      "present_fft_a": {
+        "name": "Aanwezige FFT A"
+      },
+      "inv_start_delay": {
+        "name": "Omvormer startvertraging"
+      },
+      "soc": {
+        "name": "SOC"
+      },
+      "discharge_power": {
+        "name": "Ontlaadvermogen"
+      },
+      "charge_power": {
+        "name": "Laadvermogen"
+      },
+      "power_to_user": {
+        "name": "Vermogen naar gebruiker"
+      },
+      "power_to_grid": {
+        "name": "Vermogen naar net"
+      },
+      "power_user_load": {
+        "name": "Vermogen gebruikersbelasting"
+      },
+      "energy_to_grid_total": {
+        "name": "Energie naar net (totaal)"
+      },
+      "energy_to_grid_today": {
+        "name": "Energie naar net (vandaag)"
+      },
+      "energy_to_user_total": {
+        "name": "Energie naar gebruiker (totaal)"
+      },
+      "energy_to_user_today": {
+        "name": "Energie naar gebruiker (vandaag)"
+      },
+      "ac_charge_enabled": {
+        "name": "AC opladen ingeschakeld"
+      },
+      "discharge_energy_today": {
+        "name": "Batterij ontladen (vandaag)"
+      },
+      "discharge_energy_total": {
+        "name": "Batterij ontladen (totaal)"
+      },
+      "charge_energy_today": {
+        "name": "Batterij geladen (vandaag)"
+      },
+      "charge_energy_total": {
+        "name": "Batterij geladen (totaal)"
+      },
+      "pac_to_user_total": {
+        "name": "AC naar gebruiker totaal"
+      },
+      "pac_to_grid_total": {
+        "name": "AC naar net totaal"
+      },
+      "output_reactive_power": {
+        "name": "Blindvermogen"
+      },
+      "battery_voltage": {
+        "name": "Batterijspanning"
+      },
+      "battery_current": {
+        "name": "Batterijstroom"
+      },
+      "vbus1_voltage": {
+        "name": "VBUS1-spanning"
+      },
+      "vbus2_voltage": {
+        "name": "VBUS2-spanning"
+      },
+      "buck_boost_current": {
+        "name": "Buck/boost-stroom"
+      },
+      "llc_current": {
+        "name": "LLC-stroom"
+      },
+      "bms_max_volt_cell_no": {
+        "name": "BMS max. celspanning nr."
+      },
+      "bms_min_volt_cell_no": {
+        "name": "BMS min. celspanning nr."
+      },
+      "bms_avg_temp_a": {
+        "name": "BMS gem. temp A"
+      },
+      "bms_max_cell_temp_a": {
+        "name": "BMS max. celtemp A"
+      },
+      "bms_avg_temp_b": {
+        "name": "BMS gem. temp B"
+      },
+      "bms_max_cell_temp_b": {
+        "name": "BMS max. celtemp B"
+      },
+      "bms_avg_temp_c": {
+        "name": "BMS gem. temp C"
+      },
+      "bms_max_soc": {
+        "name": "BMS max. SOC"
+      },
+      "bms_min_soc": {
+        "name": "BMS min. SOC"
+      },
+      "bms_derate_reason": {
+        "name": "Reden BMS-vermogenbeperking"
+      },
+      "bms_gauge_fcc_ah": {
+        "name": "BMS volle laadcapaciteit"
+      },
+      "bms_gauge_rm_ah": {
+        "name": "BMS resterende capaciteit"
+      },
+      "bms_protect1": {
+        "name": "BMS bescherming 1"
+      },
+      "bms_warn1": {
+        "name": "BMS waarschuwing 1"
+      },
+      "bms_fault1": {
+        "name": "BMS fout 1"
+      },
+      "bms_fault2": {
+        "name": "BMS fout 2"
+      },
+      "bms_status": {
+        "name": "BMS status"
+      },
+      "bms_protect2": {
+        "name": "BMS bescherming 2"
+      },
+      "bms_warn2": {
+        "name": "BMS waarschuwing 2"
+      },
+      "bms_soc": {
+        "name": "BMS SOC"
+      },
+      "bms_battery_voltage": {
+        "name": "BMS-batterijspanning"
+      },
+      "bms_battery_current": {
+        "name": "BMS-batterijstroom"
+      },
+      "bms_cell_max_temp": {
+        "name": "BMS max. celtemperatuur"
+      },
+      "bms_max_charge_current": {
+        "name": "BMS max. laadstroom"
+      },
+      "bms_max_discharge_current": {
+        "name": "BMS max. ontlaadstroom"
+      },
+      "bms_cycle_count": {
+        "name": "BMS cyclustelling"
+      },
+      "bms_soh": {
+        "name": "BMS SOH"
+      },
+      "bms_charge_volt_limit": {
+        "name": "BMS laadspanningslimiet"
+      },
+      "bms_discharge_volt_limit": {
+        "name": "BMS ontlaadspanningslimiet"
+      },
+      "bms_warn3": {
+        "name": "BMS waarschuwing 3"
+      },
+      "bms_protect3": {
+        "name": "BMS bescherming 3"
+      },
+      "bms_cell_volt_max": {
+        "name": "BMS max. celspanning"
+      },
+      "bms_cell_volt_min": {
+        "name": "BMS min. celspanning"
+      }
     }
+  },
+  "state": {
+    "growatt_local__status": {
+      "Offline": "Offline",
+      "not_connected": "Geen Verbinding",
+      "no_response": "Geen Reactie",
+      "Waiting": "Wachten",
+      "Normal": "Operationeel",
+      "Fault": "Fout"
+    }
+  }
 }

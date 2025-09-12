@@ -102,6 +102,9 @@
     "switch": {
       "inverter_enabled": {
         "name": "Power control"
+      },
+      "ac_charge_enabled": {
+        "name": "AC Charge"
       }
     }
   }
