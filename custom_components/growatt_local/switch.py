@@ -23,7 +23,7 @@ from .const import (
     DOMAIN,
 )
 from .sensor_types.inverter import INVERTER_POWER_SWITCH
-from .sensor_types.storage import STORAGE_SWITCH_TYPES
+from .sensor_types.storage import STORAGE_TL_XH_SWITCH_TYPES
 from .sensor_types.switch_entity_description import GrowattSwitchEntityDescription
 
 _LOGGER = logging.getLogger(__name__)
@@ -41,7 +41,7 @@ async def async_setup_entry(
     sensor_descriptions: list[GrowattSwitchEntityDescription] = []
     supported_key_names = coordinator.growatt_api.get_register_names()
 
-    for sensor in STORAGE_SWITCH_TYPES:
+    for sensor in STORAGE_TL_XH_SWITCH_TYPES:
         if sensor.key not in supported_key_names:
             continue
         sensor_descriptions.append(sensor)

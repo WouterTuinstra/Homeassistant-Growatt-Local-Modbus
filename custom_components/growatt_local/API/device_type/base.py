@@ -227,6 +227,7 @@ class GrowattDeviceRegisters:
     length: int = 1
     scale: int = 10
     function: Callable | None = None
+    read_write: bool = False
 
 
 @dataclass

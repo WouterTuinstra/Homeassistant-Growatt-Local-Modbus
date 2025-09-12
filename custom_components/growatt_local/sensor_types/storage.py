@@ -84,7 +84,7 @@ from ..API.device_type.base import (
     ATTR_BMS_CELL_VOLT_MIN,
 )
 
-STORAGE_SWITCH_TYPES: tuple[GrowattSwitchEntityDescription, ...] = (
+STORAGE_TL_XH_SWITCH_TYPES: tuple[GrowattSwitchEntityDescription, ...] = (
     GrowattSwitchEntityDescription(
         key=ATTR_AC_CHARGE_ENABLED,
         name="AC Charge",

@@ -124,6 +124,7 @@ STORAGE_HOLDING_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_INVERTER_ENABLED,
         register=0,
         value_type=int,
+        read_write=True,
     ),
     FIRMWARE_REGISTER,
     GrowattDeviceRegisters(
@@ -147,6 +148,7 @@ STORAGE_HOLDING_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
         register=3049,
         value_type=int,
         length=1,
+        read_write=True,
     ),
 )
 
