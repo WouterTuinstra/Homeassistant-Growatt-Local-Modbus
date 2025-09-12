@@ -33,6 +33,42 @@ from .base import (
     ATTR_COMM_BOARD_TEMPERATURE,
     ATTR_PRESENT_FFT_A,
     ATTR_INV_START_DELAY,
+    ATTR_BMS_MAX_VOLT_CELL_NO,
+    ATTR_BMS_MIN_VOLT_CELL_NO,
+    ATTR_BMS_AVG_TEMP_A,
+    ATTR_BMS_MAX_CELL_TEMP_A,
+    ATTR_BMS_AVG_TEMP_B,
+    ATTR_BMS_MAX_CELL_TEMP_B,
+    ATTR_BMS_AVG_TEMP_C,
+    ATTR_BMS_MAX_SOC,
+    ATTR_BMS_MIN_SOC,
+    ATTR_PARALLEL_BATTERY_NUM,
+    ATTR_BMS_DERATE_REASON,
+    ATTR_BMS_GAUGE_FCC_AH,
+    ATTR_BMS_GAUGE_RM_AH,
+    ATTR_BMS_PROTECT1,
+    ATTR_BMS_WARN1,
+    ATTR_BMS_FAULT1,
+    ATTR_BMS_FAULT2,
+    ATTR_BAT_ISO_STATUS,
+    ATTR_BATT_REQUEST_FLAGS,
+    ATTR_BMS_STATUS,
+    ATTR_BMS_PROTECT2,
+    ATTR_BMS_WARN2,
+    ATTR_BMS_SOC,
+    ATTR_BMS_BATTERY_VOLTAGE,
+    ATTR_BMS_BATTERY_CURRENT,
+    ATTR_BMS_CELL_MAX_TEMP,
+    ATTR_BMS_MAX_CHARGE_CURRENT,
+    ATTR_BMS_MAX_DISCHARGE_CURRENT,
+    ATTR_BMS_CYCLE_COUNT,
+    ATTR_BMS_SOH,
+    ATTR_BMS_CHARGE_VOLT_LIMIT,
+    ATTR_BMS_DISCHARGE_VOLT_LIMIT,
+    ATTR_BMS_WARN3,
+    ATTR_BMS_PROTECT3,
+    ATTR_BMS_CELL_VOLT_MAX,
+    ATTR_BMS_CELL_VOLT_MIN,
 )
 
 MAXIMUM_DATA_LENGTH = 100
@@ -209,6 +245,114 @@ STORAGE_INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
     ),
     GrowattDeviceRegisters(
         name=ATTR_CHARGE_ENERGY_TOTAL, register=3131, value_type=float, length=2
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_MAX_VOLT_CELL_NO, register=3189, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_MIN_VOLT_CELL_NO, register=3190, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_AVG_TEMP_A, register=3191, value_type=float
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_MAX_CELL_TEMP_A, register=3192, value_type=float
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_AVG_TEMP_B, register=3193, value_type=float
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_MAX_CELL_TEMP_B, register=3194, value_type=float
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_AVG_TEMP_C, register=3195, value_type=float
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_MAX_SOC, register=3196, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_MIN_SOC, register=3197, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_PARALLEL_BATTERY_NUM, register=3198, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_DERATE_REASON, register=3199, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_GAUGE_FCC_AH, register=3200, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_GAUGE_RM_AH, register=3201, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_PROTECT1, register=3202, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_WARN1, register=3203, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_FAULT1, register=3204, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_FAULT2, register=3205, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BAT_ISO_STATUS, register=3210, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BATT_REQUEST_FLAGS, register=3211, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_STATUS, register=3212, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_PROTECT2, register=3213, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_WARN2, register=3214, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_SOC, register=3215, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_BATTERY_VOLTAGE, register=3216, value_type=float, scale=100
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_BATTERY_CURRENT, register=3217, value_type=float, scale=100
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_CELL_MAX_TEMP, register=3218, value_type=float
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_MAX_CHARGE_CURRENT, register=3219, value_type=float, scale=100
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_MAX_DISCHARGE_CURRENT, register=3220, value_type=float, scale=100
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_CYCLE_COUNT, register=3221, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_SOH, register=3222, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_CHARGE_VOLT_LIMIT, register=3223, value_type=float, scale=100
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_DISCHARGE_VOLT_LIMIT, register=3224, value_type=float, scale=100
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_WARN3, register=3225, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_PROTECT3, register=3226, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_CELL_VOLT_MAX, register=3230, value_type=float, scale=1000
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BMS_CELL_VOLT_MIN, register=3231, value_type=float, scale=1000
     ),
 )
 
