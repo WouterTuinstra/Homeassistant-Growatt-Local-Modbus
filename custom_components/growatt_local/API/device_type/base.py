@@ -142,6 +142,14 @@ ATTR_COMM_BOARD_TEMPERATURE = "comm_board_temperature"  # C
 ATTR_PRESENT_FFT_A = "present_fft_a"
 ATTR_INV_START_DELAY = "inv_start_delay"  # s
 
+# TL-XH battery and bus attributes
+ATTR_BATTERY_VOLTAGE = "battery_voltage"  # V, 3169
+ATTR_BATTERY_CURRENT = "battery_current"  # A, 3170
+ATTR_VBUS1_VOLTAGE = "vbus1_voltage"  # V, 3172
+ATTR_VBUS2_VOLTAGE = "vbus2_voltage"  # V, 3173
+ATTR_BUCK_BOOST_CURRENT = "buck_boost_current"  # A, 3174
+ATTR_LLC_CURRENT = "llc_current"  # A, 3175
+
 # TL-XH BMS attributes
 ATTR_BMS_MAX_VOLT_CELL_NO = "bms_max_volt_cell_no"  # 3189
 ATTR_BMS_MIN_VOLT_CELL_NO = "bms_min_volt_cell_no"  # 3190
@@ -183,7 +191,6 @@ ATTR_BMS_CELL_VOLT_MIN = "bms_cell_volt_min"  # V, 3231
 # Attribute names for values in the input register for Offgrid inverter
 ATTR_ACTIVE_POWER = "output_active_power"  # W
 
-ATTR_BATTERY_VOLTAGE = "battery_voltage"  # V
 ATTR_BUS_VOLTAGE = "bus_voltage"  # V
 ATTR_OUTPUT_FREQUENCY = "output_frequency"  # Hz
 ATTR_OUTPUT_DC_VOLTAGE = "output_dc_voltage"  # V

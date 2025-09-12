@@ -611,10 +611,15 @@ Use the list below to extend tables in your device modules (copy/paste). **All r
 - `ATTR_CHARGE_ENERGY_TODAY` → **3129–3130** (kWh), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
 - `ATTR_CHARGE_ENERGY_TOTAL` → **3131–3132** (kWh), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
 
-**Candidates (confirm spec / add new attributes if missing):**
+**Implemented from spec:**
 
-- `ATTR_BATTERY_VOLTAGE` / `ATTR_BATTERY_CURRENT` around **3172–3175**, **3183–3185**
-- `ATTR_BATTERY_CYCLE_COUNT` at **3212**; charge/discharge limits around **3200–3201**
+- `ATTR_BATTERY_VOLTAGE` → **3169** (0.01 V), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
+- `ATTR_BATTERY_CURRENT` → **3170** (0.1 A), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
+- `ATTR_VBUS1_VOLTAGE` → **3172** (0.1 V), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
+- `ATTR_VBUS2_VOLTAGE` → **3173** (0.1 V), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
+- `ATTR_BUCK_BOOST_CURRENT` → **3174** (0.1 A), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
+- `ATTR_LLC_CURRENT` → **3175** (0.1 A), set: `STORAGE_INPUT_REGISTERS_120_TL_XH`
+- `ATTR_BMS_CYCLE_COUNT` → **3221** (count, spec offset from earlier 3212 note)
 - Extended hybrid block **3250–3280** (reserve until named by a newer spec)
 
 ---

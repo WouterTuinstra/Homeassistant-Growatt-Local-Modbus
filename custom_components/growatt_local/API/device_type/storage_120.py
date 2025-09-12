@@ -33,6 +33,12 @@ from .base import (
     ATTR_COMM_BOARD_TEMPERATURE,
     ATTR_PRESENT_FFT_A,
     ATTR_INV_START_DELAY,
+    ATTR_BATTERY_VOLTAGE,
+    ATTR_BATTERY_CURRENT,
+    ATTR_VBUS1_VOLTAGE,
+    ATTR_VBUS2_VOLTAGE,
+    ATTR_BUCK_BOOST_CURRENT,
+    ATTR_LLC_CURRENT,
     ATTR_BMS_MAX_VOLT_CELL_NO,
     ATTR_BMS_MIN_VOLT_CELL_NO,
     ATTR_BMS_AVG_TEMP_A,
@@ -181,12 +187,30 @@ STORAGE_INPUT_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
 )
 
 STORAGE_INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
+    # BDC presence flag (soms nuttig bij debugging/mapping)
+    GrowattDeviceRegisters(
+        name=ATTR_BDC_NEW_FLAG, register=3164, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BATTERY_VOLTAGE, register=3169, value_type=float, scale=100
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BATTERY_CURRENT, register=3170, value_type=float, scale=10
+    ),
     GrowattDeviceRegisters(
         name=ATTR_SOC_PERCENTAGE, register=3171, value_type=int
     ),
-    # BDC presence flag (soms nuttig bij debugging/mapping)
     GrowattDeviceRegisters(
-        name=ATTR_BDC_NEW_FLAG,     register=3164, value_type=int
+        name=ATTR_VBUS1_VOLTAGE, register=3172, value_type=float, scale=10
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_VBUS2_VOLTAGE, register=3173, value_type=float, scale=10
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_BUCK_BOOST_CURRENT, register=3174, value_type=float, scale=10
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_LLC_CURRENT, register=3175, value_type=float, scale=10
     ),
     # Batterijtemperaturen (0.1 C schaal, integration hanteert doorgaans *0.1 naar float)
     GrowattDeviceRegisters(
