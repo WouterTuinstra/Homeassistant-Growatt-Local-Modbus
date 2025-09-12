@@ -66,10 +66,11 @@ def parse_registers(md_path: pathlib.Path):
             notes = cols[4] if len(cols) > 4 else (cols[3] if len(cols) > 3 else "")
 
             scale = 1
-            m_scale = re.search(r"×\s?(\d+)", desc) or re.search(r"×\s?(\d+)", notes)
+            m_scale = re.search(r"×\s?([\d.]+)", desc) or re.search(r"×\s?([\d.]+)", notes)
             if m_scale:
                 try:
-                    scale = int(m_scale.group(1))
+                    val = float(m_scale.group(1))
+                    scale = int(val) if val.is_integer() else val
                 except ValueError:
                     pass
 

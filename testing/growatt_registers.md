@@ -108,6 +108,35 @@ Mirror of 0–124, but also includes:
 | 3178–3179| Battery discharge power | W | `ATTR_DISCHARGE_POWER` |
 | 3180–3181| Battery charge power | W | `ATTR_CHARGE_POWER` |
 
+### BMS Diagnostics (3202–3231)
+| Register | Description | Unit | Attribute | Notes |
+|----------|-------------|------|-----------|-------|
+| 3202     | BMS Protect1 | - | `ATTR_BMS_PROTECT1` | |
+| 3203     | BMS Warn1 | - | `ATTR_BMS_WARN1` | |
+| 3204     | BMS Fault1 | - | `ATTR_BMS_FAULT1` | |
+| 3205     | BMS Fault2 | - | `ATTR_BMS_FAULT2` | |
+| 3210     | Battery ISO detect status | - | `ATTR_BAT_ISO_STATUS` | 0:not detected, 1:detected |
+| 3211     | Battery request flags | - | `ATTR_BATT_REQUEST_FLAGS` | |
+| 3212     | BMS status | - | `ATTR_BMS_STATUS` | |
+| 3213     | BMS Protect2 | - | `ATTR_BMS_PROTECT2` | |
+| 3214     | BMS Warn2 | - | `ATTR_BMS_WARN2` | |
+| 3215     | BMS SOC | % | `ATTR_BMS_SOC` | |
+| 3216     | BMS battery voltage | V | `ATTR_BMS_BATTERY_VOLTAGE` | ×100 |
+| 3217     | BMS battery current | A | `ATTR_BMS_BATTERY_CURRENT` | ×100 |
+| 3218     | BMS cell max temperature | °C | `ATTR_BMS_CELL_MAX_TEMP` | |
+| 3219     | BMS max charge current | A | `ATTR_BMS_MAX_CHARGE_CURRENT` | ×100 |
+| 3220     | BMS max discharge current | A | `ATTR_BMS_MAX_DISCHARGE_CURRENT` | ×100 |
+| 3221     | BMS cycle count | - | `ATTR_BMS_CYCLE_COUNT` | |
+| 3222     | BMS state of health | % | `ATTR_BMS_SOH` | |
+| 3223     | BMS charge voltage limit | V | `ATTR_BMS_CHARGE_VOLT_LIMIT` | ×100 |
+| 3224     | BMS discharge voltage limit | V | `ATTR_BMS_DISCHARGE_VOLT_LIMIT` | ×100 |
+| 3225     | BMS Warn3 | - | `ATTR_BMS_WARN3` | |
+| 3226     | BMS Protect3 | - | `ATTR_BMS_PROTECT3` | |
+| 3230     | BMS cell voltage max | V | `ATTR_BMS_CELL_VOLT_MAX` | ×1000 |
+| 3231     | BMS cell voltage min | V | `ATTR_BMS_CELL_VOLT_MIN` | ×1000 |
+
+Unknown or zeroed on hardware: 3227–3229.
+
 ### Reserved / Misc (3250–3280)
 Registers are undocumented in spec but active in scans (SOC, currents, extra power flows). Candidate mapping area for future attributes.
 

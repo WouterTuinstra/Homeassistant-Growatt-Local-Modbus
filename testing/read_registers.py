@@ -78,10 +78,11 @@ async def main():
     await dev.connect()
 
     ranges = [
-        (0, 124),
-        (3000, 3124),
-        (3125, 3249),
-        (3250, 3374),
+        (0, 124),                 # core input block
+        (3000, 3124),             # mirror of low range
+        (3125, 3199),             # battery energy counters
+        (3200, 3231),             # BMS diagnostics
+        (3232, 3374),             # remaining TL-XH block / reserved
     ]
     reg_map = dev.input_register
 
