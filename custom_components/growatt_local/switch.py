@@ -41,13 +41,20 @@ async def async_setup_entry(
     sensor_descriptions: list[GrowattSwitchEntityDescription] = []
     supported_key_names = coordinator.growatt_api.get_register_names()
 
-    if config_entry.options.get(CONF_INVERTER_POWER_CONTROL, False):
-        sensor_descriptions.append(INVERTER_POWER_SWITCH) 
-
     for sensor in STORAGE_SWITCH_TYPES:
         if sensor.key not in supported_key_names:
             continue
         sensor_descriptions.append(sensor)
+
+    if (
+        config_entry.options.get(CONF_INVERTER_POWER_CONTROL, False)
+        and INVERTER_POWER_SWITCH.key in supported_key_names
+        and all(
+            description.key != INVERTER_POWER_SWITCH.key
+            for description in sensor_descriptions
+        )
+    ):
+        sensor_descriptions.append(INVERTER_POWER_SWITCH)
 
     coordinator.get_keys_by_name({sensor.key for sensor in sensor_descriptions}, True)
 

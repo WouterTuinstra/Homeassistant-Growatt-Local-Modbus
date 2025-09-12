@@ -89,5 +89,12 @@
         }
       }
     }
+  },
+  "entity": {
+    "switch": {
+      "inverter_enabled": {
+        "name": "Vermogensregeling"
+      }
+    }
   }
 }
