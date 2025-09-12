@@ -189,6 +189,90 @@
       },
       "bms_cell_volt_min": {
         "name": "BMS min. celspanning"
+      },
+      "input_1_voltage": {
+        "name": "PV1 spanning"
+      },
+      "input_1_amperage": {
+        "name": "PV1 buck-stroom"
+      },
+      "input_1_power": {
+        "name": "PV1 laadvermogen"
+      },
+      "input_1_energy_today": {
+        "name": "PV1 energie geproduceerd vandaag"
+      },
+      "input_1_energy_total": {
+        "name": "PV1 energie geproduceerd (totaal)"
+      },
+      "input_2_voltage": {
+        "name": "PV2 spanning"
+      },
+      "input_2_amperage": {
+        "name": "PV2 buck-stroom"
+      },
+      "input_2_power": {
+        "name": "PV2 laadvermogen"
+      },
+      "input_2_energy_today": {
+        "name": "PV2 energie geproduceerd vandaag"
+      },
+      "input_2_energy_total": {
+        "name": "PV2 energie geproduceerd (totaal)"
+      },
+      "operation_hours": {
+        "name": "Draaiuren"
+      },
+      "grid_voltage": {
+        "name": "Netspanning"
+      },
+      "grid_frequency": {
+        "name": "Netfrequentie"
+      },
+      "output_1_voltage": {
+        "name": "Uitgangsspanning"
+      },
+      "output_1_amperage": {
+        "name": "Uitgangsstroom"
+      },
+      "output_frequency": {
+        "name": "Uitgangsfrequentie"
+      },
+      "output_dc_voltage": {
+        "name": "Uitgang DC-spanning"
+      },
+      "ac_charge_amperage": {
+        "name": "AC laadstroom accu"
+      },
+      "battery_discharge_amperage": {
+        "name": "Accu ontlaadstroom"
+      },
+      "ac_discharge_energy_today": {
+        "name": "AC ontladen vandaag"
+      },
+      "ac_discharge_energy_total": {
+        "name": "Net ontladen (totaal)"
+      },
+      "output_active_power": {
+        "name": "Actief uitgangsvermogen"
+      },
+      "inverter_temperature": {
+        "name": "Temperatuur"
+      },
+      "dc_dc_temperature": {
+        "name": "DC-DC temperatuur"
+      },
+      "load_percent": {
+        "name": "Omvormerbelasting"
+      },
+      "bus_voltage": {
+        "name": "Busspanning"
+      },
+      "battery_port_voltage": {
+        "name": "Batterijpoortspanning"
+      },
+      "battery_bus_voltage": {
+        "name": "Batterijbusspanning"
       }
     }
   },

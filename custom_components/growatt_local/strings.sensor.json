@@ -189,6 +189,90 @@
       },
       "bms_cell_volt_min": {
         "name": "BMS cell voltage min"
+      },
+      "input_1_voltage": {
+        "name": "PV1 voltage"
+      },
+      "input_1_amperage": {
+        "name": "PV1 buck current"
+      },
+      "input_1_power": {
+        "name": "PV1 charge power"
+      },
+      "input_1_energy_today": {
+        "name": "PV1 energy produced today"
+      },
+      "input_1_energy_total": {
+        "name": "PV1 energy produced Lifetime"
+      },
+      "input_2_voltage": {
+        "name": "PV2 voltage"
+      },
+      "input_2_amperage": {
+        "name": "PV2 buck current"
+      },
+      "input_2_power": {
+        "name": "PV2 charge power"
+      },
+      "input_2_energy_today": {
+        "name": "PV2 energy produced today"
+      },
+      "input_2_energy_total": {
+        "name": "PV2 energy produced Lifetime"
+      },
+      "operation_hours": {
+        "name": "Running hours"
+      },
+      "grid_voltage": {
+        "name": "Grid voltage"
+      },
+      "grid_frequency": {
+        "name": "Grid frequency"
+      },
+      "output_1_voltage": {
+        "name": "Output voltage"
+      },
+      "output_1_amperage": {
+        "name": "Output amperage"
+      },
+      "output_frequency": {
+        "name": "Output frequency"
+      },
+      "output_dc_voltage": {
+        "name": "Output DC voltage"
+      },
+      "ac_charge_amperage": {
+        "name": "AC charge battery current"
+      },
+      "battery_discharge_amperage": {
+        "name": "Battery discharge current"
+      },
+      "ac_discharge_energy_today": {
+        "name": "AC Discharged Today"
+      },
+      "ac_discharge_energy_total": {
+        "name": "Grid Discharged Lifetime"
+      },
+      "output_active_power": {
+        "name": "Output active power"
+      },
+      "inverter_temperature": {
+        "name": "Temperature"
+      },
+      "dc_dc_temperature": {
+        "name": "DC-DC temperature"
+      },
+      "load_percent": {
+        "name": "Inverter load"
+      },
+      "bus_voltage": {
+        "name": "Bus voltage"
+      },
+      "battery_port_voltage": {
+        "name": "Battery port voltage"
+      },
+      "battery_bus_voltage": {
+        "name": "Battery bus voltage"
       }
     }
   },
