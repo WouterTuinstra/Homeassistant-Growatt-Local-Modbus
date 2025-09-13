@@ -13,6 +13,8 @@ COPY requirements_dev.txt /tmp/requirements_dev.txt
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	libjpeg-dev zlib1g-dev libturbojpeg0-dev libffi-dev libssl-dev \
 	bluez libbluetooth-dev libudev-dev build-essential \
+	ffmpeg \
+	libpcap-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /workspace && chown vscode:vscode /workspace
