@@ -1,3 +1,4 @@
+import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from homeassistant.const import (
@@ -21,8 +22,10 @@ from custom_components.growatt_local.API.const import DeviceTypes
 from custom_components.growatt_local import sensor
 
 
+pytestmark = pytest.mark.enable_socket
+
+
 async def test_sensor_setup(hass, coordinator):
-    """Test setting up the sensor platform."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={
@@ -50,6 +53,8 @@ async def test_sensor_setup(hass, coordinator):
         entities.extend(new_entities)
 
     await sensor.async_setup_entry(hass, entry, async_add_entities)
+    await coordinator.async_request_refresh()
 
     assert entities
     assert entities[0].entity_description.key == "input_power"
+    assert coordinator.data["input_power"] == (1 << 16) | 2
