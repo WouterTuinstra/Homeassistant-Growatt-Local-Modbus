@@ -1,4 +1,12 @@
-"""Device defaults for a Growatt Inverter."""
+"""Register mappings for storage inverters (MIX/SPA/SPH).
+
+Per Growatt Modbus protocol v1.24 the base ranges are:
+- FC03: ``0–124`` and ``1000–1124``
+- FC04: ``0–124`` and ``1000–1124`` (``1125–1249`` plus ``2000–2124`` for SPA)
+
+TL-XH models mirror these registers in the ``3000+`` range which is mapped
+below.
+"""
 
 from .base import (
     GrowattDeviceRegisters,

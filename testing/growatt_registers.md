@@ -6,6 +6,21 @@ Registers are clearly split between **Holding Registers (FC=03/06/16)** and **In
 
 ---
 
+## Supported inverter types
+
+The protocol defines different register ranges for each inverter family. The
+table below summarises the ranges from the vendor specification and points to
+the API modules that implement the mapping.
+
+| Inverter family | FC03 ranges | FC04 ranges | API module |
+|-----------------|-------------|-------------|------------|
+| TL-X/TL-XH/TL-XH US (MIN) | 0–124, 3000–3124 (3125–3249 TL-XH US) | 3000–3124, 3125–3249, 3250–3374 (TL-XH) | `device_type/inverter_120.py`, `device_type/storage_120.py` |
+| TL3-X/MAX/MID/MAC | 0–124, 125–249 | 0–124, 125–249 | `device_type/inverter_315.py` |
+| Storage (MIX/SPA/SPH) | 0–124, 1000–1124 | 0–124, 1000–1124 (1125–1249; 2000–2124 for SPA) | `device_type/storage_120.py` |
+| Offgrid (SPF) | vendor-specific | vendor-specific | `device_type/offgrid.py` |
+
+---
+
 ## 📖 Function Codes
 - **Input Registers (Read-only)** – Function code 04
 - **Holding Registers (Read/Write)** – Function codes 03 (read), 06 (write single), 16 (write multiple)

@@ -1,4 +1,9 @@
-"""Device defaults for a Growatt Offgrid Inverter SPF."""
+"""Device defaults for a Growatt Offgrid (SPF) inverter.
+
+Register offsets for these units are vendor-specific and not covered in the
+main Modbus protocol document. ``INPUT_REGISTERS_OFFGRID`` below captures the
+observed mapping starting at address ``0``.
+"""
 
 from enum import Enum
 from typing import Any
