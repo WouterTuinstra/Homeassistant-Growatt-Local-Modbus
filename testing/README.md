@@ -271,4 +271,40 @@ and description for the corresponding device type.
 
 ---
 
+## Dataset provenance (simulation)
+
+The default simulator dataset `datasets/min_6000xh_tl.json` was generated from
+`scan3.txt` contained in this repository under `python-modbus-scanner/`.
+That scan originated from (and the scanner utility lives at):
+
+  https://github.com/l4m4re/python-modbus-scanner
+
+`scan3.txt` only logs registers with non-zero values (plus some negatives), so
+the dataset represents a realistic snapshot of a running **MIN 6000XH‑TL**.
+
+If you regenerate it, you can run:
+
+```bash
+python testing/build_dataset_from_scan.py \
+  --scan-file testing/python-modbus-scanner/scan3.txt \
+  --out testing/datasets/min_6000xh_tl.json
+```
+
+Then restart any running simulator instance.
+
+To annotate a dataset with a provenance tag without breaking the loader you
+may add a top‑level `_source` field, e.g.:
+
+```jsonc
+{
+  "_source": "Derived from scan3.txt (python-modbus-scanner commit <hash>)",
+  "holding": { ... },
+  "input": { ... }
+}
+```
+
+The simulator ignores unknown top‑level keys.
+
+---
+
 *Happy hacking and safe debugging!*
