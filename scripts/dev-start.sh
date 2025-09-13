@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ACTION=${1:-start}
-VENVDIR=/workspace/.venv
-BASE=/workspace
+ACTION=${1:-noop}
+DEFAULT_BASE=/workspace
+if [ -w /workspace ] || [ ! -e /workspace ]; then
+  BASE=$DEFAULT_BASE
+else
+  BASE=$(pwd)
+  echo "[dev-start] /workspace not writable; using $BASE" >&2
+fi
+VENVDIR=$BASE/.venv
 HACONF=$BASE/ha_config
 BROKER_LOG=$HACONF/broker.out
 HA_LOG=$HACONF/hass.out
@@ -12,7 +18,7 @@ PIDDIR=$BASE/.pids
 HA_PID_FILE=$PIDDIR/ha.pid
 BROKER_PID_FILE=$PIDDIR/broker.pid
 
-mkdir -p "$HACONF" "$PIDDIR"
+mkdir -p "$HACONF" "$PIDDIR" 2>/dev/null || true
 
 activate() {
   if [ ! -f "$VENVDIR/bin/activate" ]; then
@@ -62,6 +68,9 @@ status() {
 }
 
 case "$ACTION" in
+  noop)
+    echo "[dev-start] No action (explicit start required). Available: start|stop|restart|status|logs";
+    ;;
   start)
     start_ha
     start_broker
