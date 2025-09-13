@@ -124,7 +124,7 @@ This project includes a VS Code Dev Container configuration.
 1. Install [Visual Studio Code](https://code.visualstudio.com/) and the Dev Containers extension.
 2. Open this repository in VS Code and choose **Reopen in Container** when prompted.
 3. After the container builds, dependencies from `requirements_dev.txt` are installed automatically.
-4. Run the tests inside the container:
+4. Run the tests inside the container by executing `pytest` in the project root:
 
 ```bash
 pytest
