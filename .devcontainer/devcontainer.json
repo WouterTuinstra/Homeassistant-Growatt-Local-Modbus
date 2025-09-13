@@ -7,6 +7,7 @@
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
   "workspaceFolder": "/workspace",
   "forwardPorts": [8123, 5020],
+  "onCreateCommand": "bash .devcontainer/scripts/postCreate.sh",
   "postCreateCommand": "bash .devcontainer/scripts/postCreate.sh",
   "remoteEnv": {
     "VIRTUAL_ENV": "/workspace/.venv",
