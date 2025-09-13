@@ -1,4 +1,4 @@
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, Mock, patch
 
 from homeassistant import config_entries
 from homeassistant.const import (
@@ -58,8 +58,9 @@ async def test_network_flow_creates_entry(hass):
 
     mock_network = AsyncMock()
     mock_network.connect.return_value = None
-    mock_network.connected.return_value = True
-    mock_network.close.return_value = None
+    # connected and close are synchronous in implementation; use normal Mock to avoid un-awaited coroutine warnings
+    mock_network.connected = Mock(return_value=True)
+    mock_network.close = Mock(return_value=None)
 
     with patch(
         "custom_components.growatt_local.config_flow.GrowattNetwork",

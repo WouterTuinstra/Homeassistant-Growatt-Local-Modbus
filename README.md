@@ -80,6 +80,21 @@ The simulator serves a static register dataset, enabling dry runs before connect
 
 For advanced register parsing and debugging utilities, see the files in the [`testing`](testing) directory.
 
+## Modbus Simulator (Development & Testing)
+
+This repository includes a lightweight Modbus TCP simulator (see `testing/` directory) used by the automated tests to exercise register parsing and mutation logic without real hardware.
+
+Key points:
+* Address Base: All dataset register addresses are treated as starting at Modbus address `0`. When you seed a dataset JSON (or the built‑in default), tests (and example probes) read starting at `0` (e.g. `read_input_registers(0, count=...)`). No offset translation is currently applied.
+* Datasets: A dataset provides two optional top‑level objects: `"input"` and `"holding"`, each a mapping of register address (as string) to value. Missing registers implicitly read back as `0`.
+* Mutation Loop: When mutators are enabled a background asyncio task wakes roughly once per second, increments an internal tick counter, and gives each mutator a chance to update in‑memory register dictionaries in place. This keeps I/O operations (client reads) simple and non‑blocking.
+* Clean Shutdown: The simulator context manager cancels the mutation task before closing the server so tests do not leak tasks. Always keep Modbus client operations inside the simulator `async with` block.
+* Client Usage Notes: Use keyword form `count=<n>` with `pymodbus` async client methods (e.g. `await client.read_input_registers(0, count=10)`). Do not pass unsupported kwargs like `unit`/`slave` to the high‑level async client in this test harness.
+
+If you create additional mutators, ensure they are pure (no long blocking awaits) and idempotent per tick. For deterministic tests, keep mutation math simple and bounded.
+
+Future enhancements (not yet implemented): optional configurable tick interval, address base normalization, and capture replay integration.
+
 # Example: Testing the API and Requesting Register Values Without Home Assistant
 
 You can test the API directly without Home Assistant by running a Python script. This is useful for development, debugging, or exploring register values.
