@@ -13,6 +13,10 @@ from testing.modbus_simulator import start_simulator
 
 @pytest.fixture(scope="session")
 async def modbus_simulator():
+    import pytest_socket
+
+    pytest_socket.enable_socket()
+
     sock = socket.socket()
     sock.bind(("localhost", 0))
     port = sock.getsockname()[1]
@@ -64,6 +68,12 @@ def auto_enable_custom_integrations(enable_custom_integrations):
 @pytest.fixture(autouse=True)
 def expected_lingering_timers():
     return True
+
+
+@pytest.fixture(autouse=True)
+def _enable_socket(socket_enabled):
+    """Allow network access for tests requiring sockets."""
+    yield
 
 
 def pytest_configure(config):
