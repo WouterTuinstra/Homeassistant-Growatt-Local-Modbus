@@ -1,25 +1,39 @@
-import pytest
+import socket
 from datetime import timedelta
+
+import pytest
+from pymodbus.client import AsyncModbusTcpClient
+from pymodbus.framer import FramerType
 
 from custom_components.growatt_local import GrowattLocalCoordinator
 from custom_components.growatt_local.API.const import DeviceTypes
 from custom_components.growatt_local.API.utils import RegisterKeys
+from testing.modbus_simulator import start_simulator
 
 
-@pytest.fixture
-def hass_instance(hass):
-    """Return Home Assistant instance for tests."""
-    return hass
+@pytest.fixture(scope="session")
+async def modbus_simulator():
+    sock = socket.socket()
+    sock.bind(("localhost", 0))
+    port = sock.getsockname()[1]
+    sock.close()
+    async with start_simulator(port) as (host, port):
+        yield {"host": host, "port": port}
 
 
 class MockGrowattDevice:
     device = DeviceTypes.INVERTER_120
 
+    def __init__(self, host: str, port: int):
+        self._client = AsyncModbusTcpClient(host, port=port, framer=FramerType.SOCKET)
+
     async def connect(self):
-        return None
+        await self._client.connect()
 
     async def update(self, keys):
-        return {"input_power": 0}
+        rr = await self._client.read_input_registers(1, count=2, unit=1)
+        value = (rr.registers[0] << 16) | rr.registers[1]
+        return {"input_power": value}
 
     def status(self, data):
         return "online"
@@ -28,28 +42,42 @@ class MockGrowattDevice:
         return {"input_power"}
 
     def get_keys_by_name(self, names):
-        return RegisterKeys()
+        return RegisterKeys(input={1, 2})
 
 
 @pytest.fixture
-def mock_growatt_device():
-    """Return a mocked Growatt device."""
-    return MockGrowattDevice()
+async def mock_growatt_device(modbus_simulator):
+    device = MockGrowattDevice(modbus_simulator["host"], modbus_simulator["port"])
+    await device.connect()
+    return device
 
 
 @pytest.fixture
 def coordinator(hass, mock_growatt_device):
-    """Coordinator using the mocked device."""
     return GrowattLocalCoordinator(hass, mock_growatt_device, timedelta(seconds=60))
 
 
 @pytest.fixture(autouse=True)
 def auto_enable_custom_integrations(enable_custom_integrations):
-    """Enable custom integrations loaded from this repository."""
     yield
 
 
 @pytest.fixture(autouse=True)
 def expected_lingering_timers():
-    """Allow lingering timers during shutdown."""
     return True
+
+
+def pytest_configure(config):
+    try:
+        import pytest_socket
+        socket.socket = pytest_socket._true_socket
+    except Exception:  # pragma: no cover
+        pass
+
+
+def pytest_load_initial_conftests(early_config, parser, args):
+    try:
+        import pytest_socket
+        socket.socket = pytest_socket._true_socket
+    except Exception:  # pragma: no cover
+        pass
