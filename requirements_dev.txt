@@ -1,0 +1,3 @@
+pymodbus
+pytest
+pytest-homeassistant-custom-component
