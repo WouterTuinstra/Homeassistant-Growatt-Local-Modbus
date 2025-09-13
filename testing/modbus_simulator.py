@@ -198,12 +198,9 @@ async def start_simulator(
         holding_def, input_def, holding_values, input_values, strict_defs=strict_defs
     )
 
-    store = {
-        1: ModbusDeviceContext(
-            hr=ModbusSequentialDataBlock(0, hr_values),
-            ir=ModbusSequentialDataBlock(0, ir_values),
-        )
-    }
+    hr_block = ModbusSequentialDataBlock(0, hr_values)
+    ir_block = ModbusSequentialDataBlock(0, ir_values)
+    store = {1: ModbusDeviceContext(hr=hr_block, ir=ir_block)}
     # Pass mapping as first positional arg; current pymodbus expects this without 'slaves=' kw
     context = ModbusServerContext(store, single=False)
 
@@ -240,6 +237,11 @@ async def start_simulator(
                     m.mutate(regs, _tick)
                 except Exception as e:  # pragma: no cover
                     print(f"[SIM] mutator error: {e}")
+            # Apply any changes from mutators back to value arrays
+            for reg, val in holding_values.items():
+                hr_block.setValues(reg, [val])
+            for reg, val in input_values.items():
+                ir_block.setValues(reg, [val])
             try:
                 await asyncio.wait_for(_stop.wait(), timeout=1.0)
             except asyncio.TimeoutError:
