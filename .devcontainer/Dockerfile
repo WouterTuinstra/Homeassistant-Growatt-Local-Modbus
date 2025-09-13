@@ -15,19 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	bluez libbluetooth-dev libudev-dev build-essential \
 	&& rm -rf /var/lib/apt/lists/*
 
-## Create venv as the vscode user to avoid slow chown
-USER vscode
-RUN python -m venv /home/vscode/ha-venv && \
-	. /home/vscode/ha-venv/bin/activate && \
-	pip install --upgrade pip && \
-	pip install --no-cache-dir -r /tmp/requirements_dev.txt
-
-ENV PATH="/home/vscode/ha-venv/bin:${PATH}"
-
-# Auto-activate venv for interactive shells
-RUN echo '\n# Auto-activate integration dev venv\nif [ -d $HOME/ha-venv ]; then . $HOME/ha-venv/bin/activate; fi' >> /home/vscode/.bashrc
-
-USER root
+# (Venv created post-create inside workspace as /workspace/.venv)
 
 EXPOSE 8123 5020
 

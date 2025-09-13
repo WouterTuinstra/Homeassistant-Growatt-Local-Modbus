@@ -4,7 +4,24 @@
     "dockerfile": "Dockerfile",
     "context": ".."
   },
-  "postCreateCommand": "pip install -r requirements_dev.txt",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
-  "workspaceFolder": "/workspace"
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [8123, 5020],
+  "postCreateCommand": "python -m venv .venv && . .venv/bin/activate && pip install --upgrade pip && pip install -r requirements_dev.txt && pip install -e external/growatt-rtu-broker || true",
+  "remoteEnv": {
+    "VIRTUAL_ENV": "/workspace/.venv",
+    "PATH": "/workspace/.venv/bin:${containerEnv:PATH}"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/workspace/.venv/bin/python",
+        "python.analysis.typeCheckingMode": "basic"
+      }
+    }
+  }
 }
