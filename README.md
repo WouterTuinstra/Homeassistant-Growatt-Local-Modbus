@@ -117,3 +117,16 @@ result = await growatt.update(RegisterKeys(
 
 - Make sure your user has permission to access the serial port.
 - For TCP/UDP, use `GrowattTCP` or `GrowattUDP` instead of `GrowattSerial`.
+## Development
+
+This project includes a VS Code Dev Container configuration.
+
+1. Install [Visual Studio Code](https://code.visualstudio.com/) and the Dev Containers extension.
+2. Open this repository in VS Code and choose **Reopen in Container** when prompted.
+3. After the container builds, dependencies from `requirements_dev.txt` are installed automatically.
+4. Run the tests inside the container:
+
+```bash
+pytest
+```
+
