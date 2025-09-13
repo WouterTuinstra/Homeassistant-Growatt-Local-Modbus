@@ -157,24 +157,30 @@ Registers are undocumented in spec but active in scans (SOC, currents, extra pow
 
 ---
 
-# ✅ Attributes To Add (from scans & spec)
+# 🔮 Future mapping ideas
 
-These registers should eventually be mapped in HA:
-- `ATTR_INPUT_3_*`, `ATTR_INPUT_4_*` … up to PV8 (addresses 11–33, 61–89)
-- `ATTR_OUTPUT_2_*`, `ATTR_OUTPUT_3_*` (AC2/AC3 volt/amp/power)
-- `ATTR_ENERGY_TO_USER_TODAY` / `_TOTAL` (3067–3070)
-- `ATTR_ENERGY_TO_GRID_TODAY` / `_TOTAL` (3071–3074)
-- `ATTR_DISCHARGE_ENERGY_TODAY` / `_TOTAL` (3125–3128)
-- `ATTR_CHARGE_ENERGY_TODAY` / `_TOTAL` (3129–3132)
-- `ATTR_BDC_NEW_FLAG` (3164)
-- `ATTR_SOC_PERCENTAGE` (3171)
-- `ATTR_BATTERY_TEMPERATURE_A/B` (3176–3177)
-- `ATTR_DISCHARGE_POWER` (3178)
-- `ATTR_CHARGE_POWER` (3180)
+The core TL‑XH attributes above are now implemented.  Additional registers that
+could be surfaced in Home Assistant include:
+
+**TL‑XH series**
+
+- `ATTR_INPUT_3_*` … `ATTR_INPUT_8_*` – PV strings 3‑8 (registers 11–33, 61–89)
+- `ATTR_OUTPUT_2_*` and `ATTR_OUTPUT_3_*` – AC2/AC3 phase voltage, current and power
+- Reactive energy counters (e.g. registers 69–72) for tracking exported/imported Varh
+
+**Other inverter families**
+
+- TL3‑X/MAX/MID: additional PV strings and per‑phase AC metrics beyond phase 1
+- Storage MIX/SPA/SPH: grid protection thresholds and power‑factor/Volt‑VAR curve parameters
+- Off‑grid SPF: battery port voltage, bus voltage and load percentage already exist,
+  but alarm/status bitfields from the spec could be mapped for finer diagnostics
+
+These suggestions are derived from the Growatt Modbus spec (v1.24) and observed
+scans.  Contributions expanding the mapping are welcome.
 
 ---
 
-📌 With this mapping, you now have a **nearly complete overview** of MIN 6000TL-XH registers (input & holding), up to 3280. BDC/BMS registers >4000 are ignored for now.
+📌 With this mapping you now have a **nearly complete overview** of MIN 6000TL-XH registers (input & holding), up to 3280. BDC/BMS registers >4000 are ignored for now.
 
 
 ---

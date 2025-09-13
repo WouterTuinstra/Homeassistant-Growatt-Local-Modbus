@@ -28,6 +28,13 @@ Customizable control of the update rate of sensor values.
 
 For inverters a optional switch can be set active if you want control when the inverter may produces power to the grid.
 
+Recent updates expose additional energy-flow information for hybrid models:
+
+* Energy delivered to the user and grid (today and total)
+* Battery charge/discharge energy and instantaneous power
+* Battery state of charge and dual temperature sensors
+
+
 ## Manual Installation by ssh
 
 1. Open the `\share` directory.
