@@ -1,7 +1,8 @@
 {
   "name": "Homeassistant Growatt Local Modbus",
   "build": {
-    "dockerfile": "Dockerfile"
+    "dockerfile": "Dockerfile",
+    "context": ".."
   },
   "postCreateCommand": "pip install -r requirements_dev.txt",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
