@@ -382,4 +382,172 @@ Add a short paragraph: “If you run the optional Growatt RTU Broker, configure 
 
 ---
 
-*Happy hacking and safe debugging!*
+## 12) Using the external RTU Broker from a Dev Container or Test Run
+
+You can point the dev container (or a local laptop) at a **live inverter** through the **external Growatt RTU Broker** instead of the in‑repo simulator.
+
+### 12.1 Start (or verify) the broker on your HA host
+Assuming the broker runs on the Home Assistant machine and exposes Modbus TCP on port 5020:
+
+```bash
+# On the HA host (example)
+# Broker already launched earlier, or:
+# growatt-broker --inverter /dev/ttyUSB0 --shine /dev/ttyUSB1 --baud 9600 --bytes 8E1 --tcp 0.0.0.0:5020
+ss -tnlp | grep 5020   # should show LISTEN
+```
+
+Make sure your development machine (laptop / dev container) can reach the HA host’s IP on that port.
+
+### 12.2 Dev container: configure integration against broker
+Inside the VS Code dev container (or any HA Core instance you run locally):
+1. Start Home Assistant (dev container already does this via `hass --script`).
+2. In the UI add the integration “Growatt Local Modbus”.
+3. Choose **TCP** as connection type.
+4. Set Host = `HA_HOST_IP` (the machine running the broker) and Port = `5020`.
+5. Keep Modbus address = `1` (unless your inverter address differs).
+
+No USB devices need to be mapped into the dev container; all serial handling is performed remotely by the broker.
+
+### 12.3 Running pytest against the live broker
+If you want selected tests to use the broker instead of the simulator:
+1. Stop (or avoid) the simulator fixtures if they auto‑start.
+2. Provide environment variables consumed by a custom fixture (recommended):
+
+```bash
+export GROWATT_LIVE_HOST=192.168.1.50
+export GROWATT_LIVE_PORT=5020
+export GROWATT_LIVE_UNIT=1
+pytest -k live --maxfail=1
+```
+
+If such a fixture does not yet exist, a simple pattern you can add (example only):
+
+```python
+# tests/fixtures_live.py
+import os, pytest
+from pymodbus.client import AsyncModbusTcpClient
+
+@pytest.fixture(scope="session")
+async def live_modbus():
+    host = os.environ.get("GROWATT_LIVE_HOST")
+    port = int(os.environ.get("GROWATT_LIVE_PORT", 5020))
+    client = AsyncModbusTcpClient(host, port=port)
+    await client.connect()
+    yield client
+    client.close()
+```
+
+Then a test can directly query registers to sanity‑check connectivity:
+
+```python
+async def test_live_read_basic(live_modbus):
+    rr = await live_modbus.read_input_registers(0, count=10, device_id=1)
+    assert hasattr(rr, "registers")
+```
+
+### 12.4 Switching between simulator and broker
+| Mode | Action |
+|------|--------|
+| Simulator (offline) | Run existing `start_simulator` fixture / script |
+| Live broker | Skip simulator fixture; set integration to TCP host:5020 |
+| Capture future dataset | Run broker in capture mode (planned) then compact JSONL → dataset |
+
+### 12.5 Recommended workflow during mapping changes
+1. Run broker live; browse new / unknown registers with a raw Modbus probe (or enhancement to `probe_simulator.py` adding TCP mode).
+2. Add new `GrowattDeviceRegisters` to the appropriate device type file.
+3. Add sensor entity descriptions.
+4. Restart HA in the dev container (or use Reload) pointing at the broker—new sensors appear if keys resolve.
+5. (Optional) Capture a snapshot to evolve the simulator dataset for regression tests.
+
+### 12.6 Notes / Caveats
+- Latency: Live broker round‑trip will be slightly higher than local simulator; keep test timeouts modestly larger.
+- Exclusivity: Broker must be the **only** RTU master; do not connect the inverter directly to another serial client simultaneously.
+- Consistency: The broker may pace (throttle) requests; tests expecting instantaneous multi‑burst reads should be tolerant of minor delays.
+
+### 12.7 Future enhancements (roadmap tie‑in)
+- Add `--capture` mode to broker and `compact_capture.py` here (see Section 11 roadmap step 2–3).
+- Provide a `--tcp-host/--tcp-port` option for `probe_simulator.py` so the same probe script works against simulator **and** broker without code changes.
+- Add a pytest marker (e.g. `@pytest.mark.live_broker`) to selectively include live tests in CI (skipped by default unless env vars set).
+
+---
+
+## 13) Adding the external RTU Broker as a Git Submodule (for agents / automation)
+
+To let automated agents (or CI) seamlessly use the **external Growatt RTU Broker** alongside this repository—without merging code—add it as a **git submodule**. This preserves clear boundaries but gives local tooling a predictable path.
+
+### 13.1 Add submodule
+Choose a target path (example: `external/growatt-rtu-broker`):
+
+```bash
+git submodule add https://github.com/your-org-or-user/growatt-rtu-broker external/growatt-rtu-broker
+git commit -m "chore: add growatt-rtu-broker submodule"
+```
+
+# Already present in this branch via .gitmodules
+# To initialize after cloning:
+git submodule update --init --recursive external/growatt-rtu-broker
+```
+
+Later clones need:
+```bash
+git clone <this-repo>
+cd <this-repo>
+git submodule update --init --recursive
+```
+
+### 13.2 Recommended directory layout
+```
+Homeassistant-Growatt-Local-Modbus/
+  custom_components/
+  testing/
+  external/
+    growatt-rtu-broker/
+```
+An agent can detect presence of the broker by checking for `external/growatt-rtu-broker/pyproject.toml` (or `setup.cfg`).
+
+**Automation / agent hint:** Because `.gitmodules` is committed, any CI or AI agent cloning this branch only needs to run `git submodule update --init --recursive` to fetch the private broker project (provided SSH key / token access is configured for `git@github.com:l4m4re/...`).
+
+### 13.3 Dev container integration (optional)
+Add to a future devcontainer postCreateCommand (example):
+```bash
+pip install -e external/growatt-rtu-broker
+```
+This makes the broker CLI (e.g. `growatt-broker`) available inside the container for live or capture modes.
+
+### 13.4 Using broker from tests
+Environment switch pattern (no code change needed in core tests):
+```bash
+export GROWATT_BROKER_PATH=external/growatt-rtu-broker
+export GROWATT_LIVE_HOST=127.0.0.1
+export GROWATT_LIVE_PORT=5020
+pytest -k live_broker
+```
+A fixture can:
+1. If `GROWATT_BROKER_PATH` is set and no TCP listener found, spawn the broker subprocess (`subprocess.Popen([...])`).
+2. Wait for TCP port readiness.
+3. Yield host/port to tests.
+4. Terminate broker after session.
+
+### 13.5 Capture + compact workflow via submodule
+```bash
+# Start broker in capture mode (planned feature)
+growatt-broker --inverter /dev/ttyUSB0 --capture session.jsonl --tcp 0.0.0.0:5020 &
+# Run HA or probe tooling for N minutes
+python testing/compact_capture.py --in session.jsonl --out testing/datasets/min_6000xh_tl_new.json --device min_6000xh_tl --source-tag "capture $(date +%F)"
+```
+Produces a dataset JSON you can rename / replace after validation.
+
+**If --out omitted** the default path is:
+```
+testing/datasets/<device>.json
+```
+
+---
+
+## 14) Acknowledgements
+
+Thanks to the Home Assistant community and contributors for their support and for the amazing platform that makes these integrations possible.
+
+---
+
+*End of extended developer & integration notes.*
