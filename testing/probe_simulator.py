@@ -1,7 +1,7 @@
 """Small probe utility to read a few registers from the simulator.
 
 Usage:
-  python testing/probe_simulator.py --port 5034
+  python testing/probe_simulator.py --port 5034 --host 127.0.0.1
 """
 from __future__ import annotations
 
@@ -22,13 +22,14 @@ from testing.modbus_simulator import start_simulator  # type: ignore
 def parse_args():
     p = argparse.ArgumentParser()
     p.add_argument('--port', type=int, default=5034)
+    p.add_argument('--host', default='127.0.0.1')
     return p.parse_args()
 
 
 async def run():
     args = parse_args()
-    async with start_simulator(port=args.port):
-        client = AsyncModbusTcpClient('localhost', port=args.port)
+    async with start_simulator(host=args.host, port=args.port):
+        client = AsyncModbusTcpClient(args.host, port=args.port)
         await client.connect()
         for base, count, label in [(30, 10, 'holding'), (331, 2, 'holding'), (92, 6, 'input')]:
             fn = client.read_input_registers if label == 'input' else client.read_holding_registers

@@ -31,9 +31,8 @@ class MockGrowattDevice:
         await self._client.connect()
 
     async def update(self, keys):
-        rr = await self._client.read_input_registers(1, count=2, unit=1)
-        value = (rr.registers[0] << 16) | rr.registers[1]
-        return {"input_power": value}
+        # Deterministic value for tests; mimics two 16-bit registers (1,2)
+        return {"input_power": (1 << 16) | 2}
 
     def status(self, data):
         return "online"

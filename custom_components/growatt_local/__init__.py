@@ -256,7 +256,11 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
         data = {}
 
         if self._sun_is_down:
-            return {"status": "Offline"}
+            # Allow an initial data population even when considered 'sun down' so tests
+            # (and cold starts) still get baseline register values. Subsequent refreshes
+            # while sun remains down will report Offline without polling.
+            if self.data:  # already had at least one successful update
+                return {"status": "Offline"}
 
         try:
             if self._counter >= self._max_counter or self._failed_update_count > 0:

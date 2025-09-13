@@ -1,16 +1,61 @@
+"""
+Configurable Modbus TCP simulator for Growatt devices.
+
+Features:
+ - Support multiple device types via JSON register definition files
+ - Optional dataset JSON with realistic register values (e.g. based on real MIN 6000XH-TL scans)
+ - Re-usable async context manager for tests, plus CLI for manual use
+
+JSON definition format (existing):
+ [ {"number": 1, "name": "...", "length": 1}, ... ]
+
+Dataset JSON format:
+ {
+   "holding": {"1": 401, "2": 0, ...},
+   "input": {"3001": 123, ...}
+ }
+Missing registers are initialised to 0.
+"""
+
+from __future__ import annotations
+
+import argparse
 import asyncio
 import contextlib
 import json
+import logging
 from pathlib import Path
 from contextlib import asynccontextmanager
+from typing import Dict, Tuple, Iterable
 
-from pymodbus.datastore import ModbusServerContext, ModbusDeviceContext, ModbusSequentialDataBlock
+from pymodbus.datastore import (
+    ModbusServerContext,
+    ModbusDeviceContext,
+    ModbusSequentialDataBlock,
+)
 from pymodbus.server import ModbusTcpServer
 
 BASE_PATH = Path(__file__).parent
+DATASETS_PATH = BASE_PATH / "datasets"
+
+_LOGGER = logging.getLogger(__name__)
+
+DEVICE_TYPES: dict[str, Tuple[str, str]] = {
+    # key -> (holding_definition_file, input_definition_file)
+    "min": ("holding_min.json", "input_min.json"),
+    # TL-XH variants (MIN 6000XH-TL hybrid) use tl_xh mapping
+    "tl_xh": ("holding_tl_xh.json", "input_tl_xh.json"),
+    "min_6000xh_tl": ("holding_tl_xh.json", "input_tl_xh.json"),
+}
+
+DEFAULT_DATASETS: dict[str, str] = {
+    # Provide realistic baseline for MIN 6000XH-TL based on scans
+    "min_6000xh_tl": "min_6000xh_tl.json",
+}
 
 
-def _load_registers(filename: str) -> dict[int, int]:
+def _load_register_definitions(filename: str) -> Dict[int, int]:
+    """Return a dict of every register address defined (value unused=0)."""
     with open(BASE_PATH / filename, "r", encoding="utf-8") as f:
         data = json.load(f)
     registers: dict[int, int] = {}
@@ -18,39 +63,187 @@ def _load_registers(filename: str) -> dict[int, int]:
         number = int(item["number"])
         length = int(item.get("length", 1))
         for offset in range(length):
-            registers[number + offset] = number + offset
+            registers[number + offset] = 0
     return registers
 
 
-@asynccontextmanager
-async def start_simulator(port: int = 5020):
-    """Start a Modbus TCP simulator serving predefined registers."""
-    holding = _load_registers("holding_min.json")
-    input_ = _load_registers("input_min.json")
+def _load_dataset(dataset_file: Path | None) -> tuple[dict[int, int], dict[int, int]]:
+    """Load dataset file returning holding and input value dicts.
 
-    max_hr = max(holding.keys(), default=0)
-    max_ir = max(input_.keys(), default=0)
+    When no dataset is supplied, provide deterministic non-zero values for input
+    registers 1 and 2 so tests composing a 32-bit value have a stable baseline.
+    """
+    if not dataset_file or not dataset_file.exists():
+        return {}, {1: 1, 2: 2}
 
-    hr_values = [0] * (max_hr + 1)
-    ir_values = [0] * (max_ir + 1)
-    for addr, val in holding.items():
-        hr_values[addr] = val
-    for addr, val in input_.items():
-        ir_values[addr] = val
+    with open(dataset_file, "r", encoding="utf-8") as f:
+        raw = json.load(f)
+    holding = {int(k): int(v) for k, v in raw.get("holding", {}).items()}
+    input_ = {int(k): int(v) for k, v in raw.get("input", {}).items()}
+    return holding, input_
 
-    store = ModbusDeviceContext(
-        hr=ModbusSequentialDataBlock(0, hr_values),
-        ir=ModbusSequentialDataBlock(0, ir_values),
-    )
-    context = ModbusServerContext(store, single=True)
 
-    server = ModbusTcpServer(context, address=("127.0.0.1", port))
-    task = asyncio.create_task(server.serve_forever())
-    await asyncio.sleep(0.1)
+def _max_or_default(keys: Iterable[int]) -> int:
     try:
-        yield ("127.0.0.1", port)
+        return max(keys)
+    except ValueError:
+        return 0
+
+
+def _build_value_arrays(
+    holding_def: dict[int, int],
+    input_def: dict[int, int],
+    holding_values: dict[int, int],
+    input_values: dict[int, int],
+    *,
+    strict_defs: bool = False,
+):
+    """Create dense arrays for ModbusSequentialDataBlock.
+
+    If strict_defs is False (default), include dataset registers even if not in definition files.
+    This allows using rich real-world scans without enumerating every register in mapping JSON.
+    """
+    if strict_defs:
+        hr_keys = set(holding_def.keys())
+        ir_keys = set(input_def.keys())
+    else:
+        hr_keys = set(holding_def.keys()) | set(holding_values.keys())
+        ir_keys = set(input_def.keys()) | set(input_values.keys())
+
+    max_hr = _max_or_default(hr_keys)
+    max_ir = _max_or_default(ir_keys)
+    hr_array = [0] * (max_hr + 1)
+    ir_array = [0] * (max_ir + 1)
+
+    for reg in hr_keys:
+        hr_array[reg] = holding_values.get(reg, 0)
+    for reg in ir_keys:
+        ir_array[reg] = input_values.get(reg, 0)
+    return hr_array, ir_array
+
+
+@asynccontextmanager
+async def start_simulator(
+    *args,
+    port: int = 5020,
+    host: str = "127.0.0.1",
+    device: str = "min",
+    dataset: str | None = None,
+    strict_defs: bool = False,
+):
+    """Start a Modbus TCP simulator serving predefined registers.
+
+    Backwards compatibility:
+        Previously accepted a single positional argument (port). Support that pattern while
+        encouraging keyword usage going forward.
+    """
+    if args:
+        if len(args) == 1 and isinstance(args[0], int):
+            port = args[0]
+        else:  # pragma: no cover - defensive
+            raise TypeError("start_simulator accepts at most one positional int (port)")
+    # Parameters doc kept above in updated docstring.
+
+    if device not in DEVICE_TYPES:
+        raise ValueError(f"Unknown device type '{device}'. Valid: {', '.join(DEVICE_TYPES)}")
+
+    holding_file, input_file = DEVICE_TYPES[device]
+    holding_def = _load_register_definitions(holding_file)
+    input_def = _load_register_definitions(input_file)
+
+    dataset_path: Path | None = None
+    if dataset:
+        dp = Path(dataset)
+        dataset_path = dp if dp.is_absolute() else (DATASETS_PATH / dataset)
+    elif device in DEFAULT_DATASETS:
+        dataset_path = DATASETS_PATH / DEFAULT_DATASETS[device]
+
+    holding_values, input_values = _load_dataset(dataset_path)
+    hr_values, ir_values = _build_value_arrays(
+        holding_def, input_def, holding_values, input_values, strict_defs=strict_defs
+    )
+
+    store = {
+        1: ModbusDeviceContext(
+            hr=ModbusSequentialDataBlock(0, hr_values),
+            ir=ModbusSequentialDataBlock(0, ir_values),
+        )
+    }
+    # Pass mapping as first positional arg; current pymodbus expects this without 'slaves=' kw
+    context = ModbusServerContext(store, single=False)
+
+    server = ModbusTcpServer(context, address=(host, port))
+    task = asyncio.create_task(server.serve_forever())
+    _LOGGER.info(
+        "Simulator started on %s:%d (device=%s, dataset=%s defs(h/i)=%d/%d total(h/i)=%d/%d populated(h/i)=%d/%d strict=%s)",
+        host,
+        port,
+        device,
+        dataset_path.name if dataset_path else "<none>",
+        len(holding_def),
+        len(input_def),
+        len(hr_values),
+        len(ir_values),
+        sum(1 for v in hr_values if v != 0),
+        sum(1 for v in ir_values if v != 0),
+        strict_defs,
+    )
+    try:
+        # Brief pause to ensure server socket is bound before yielding to caller
+        await asyncio.sleep(0.05)
+        yield (host, port)
     finally:
         await server.shutdown()
         task.cancel()
         with contextlib.suppress(asyncio.CancelledError):
             await task
+        _LOGGER.info("Simulator stopped")
+
+
+def _parse_args():
+    parser = argparse.ArgumentParser(description="Growatt Modbus TCP simulator")
+    parser.add_argument("--port", type=int, default=5020, help="TCP port to listen on")
+    parser.add_argument("--host", default="127.0.0.1", help="Host/IP to bind (use 0.0.0.0 for all interfaces)")
+    parser.add_argument(
+        "--device",
+        default="min",
+        choices=sorted(DEVICE_TYPES.keys()),
+        help="Device type mapping to use",
+    )
+    parser.add_argument(
+        "--dataset",
+        default=None,
+        help="Dataset JSON (filename in datasets/ or absolute path). Overrides default dataset.",
+    )
+    parser.add_argument(
+        "--strict-defs",
+        action="store_true",
+        help="Only include registers present in definition JSON files (ignore extra dataset registers).",
+    )
+    parser.add_argument(
+        "--duration",
+        type=int,
+        default=0,
+        help="Optional duration in seconds before auto-shutdown (0 = run forever)",
+    )
+    parser.add_argument("--log-level", default="INFO", help="Logging level")
+    return parser.parse_args()
+
+
+async def _run_cli():
+    args = _parse_args()
+    logging.basicConfig(level=getattr(logging, args.log_level.upper(), logging.INFO))
+    async with start_simulator(host=args.host, port=args.port, device=args.device, dataset=args.dataset, strict_defs=args.strict_defs):
+        if args.duration > 0:
+            await asyncio.sleep(args.duration)
+        else:
+            # Sleep indefinitely
+            while True:
+                await asyncio.sleep(3600)
+
+
+if __name__ == "__main__":  # pragma: no cover
+    try:
+        asyncio.run(_run_cli())
+    except KeyboardInterrupt:
+        pass
