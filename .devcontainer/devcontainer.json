@@ -7,7 +7,7 @@
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
   "workspaceFolder": "/workspace",
   "forwardPorts": [8123, 5020],
-  "postCreateCommand": "pip install -e external/growatt-rtu-broker",
+  "postCreateCommand": "pip install -e external/growatt-rtu-broker --no-warn-script-location",
   "remoteEnv": {
     "VIRTUAL_ENV": "/workspace/.venv",
     "PATH": "/workspace/.venv/bin:${containerEnv:PATH}"
