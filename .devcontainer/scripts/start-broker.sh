@@ -4,7 +4,7 @@ set -euo pipefail
 # Autostart script for growatt broker inside devcontainer.
 # Idempotent: will not start a second copy if one is already listening on the TCP port.
 
-VENVDIR=/workspace/.venv
+VENVDIR=""
 LOGDIR=/workspace/ha_config
 LOGFILE="$LOGDIR/broker.out"
 PORT=${GROWATT_BROKER_PORT:-5020}
@@ -15,7 +15,6 @@ mkdir -p "$LOGDIR"
 if ! lsof -i TCP:"$PORT" -sTCP:LISTEN -Fp >/dev/null 2>&1; then
   echo "[start-broker] Starting broker on port $PORT ..." | tee -a "$LOGFILE"
   # shellcheck disable=SC1091
-  . "$VENVDIR/bin/activate"
   # Use dataset mode (simulator) by default; allow override via env var GROWATT_BROKER_MODE
   MODE=${GROWATT_BROKER_MODE:-dataset}
   # Allow selecting CLI (prototype vs bus) via GROWATT_BROKER_CLI (growatt-broker|growatt-broker-bus)
