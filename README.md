@@ -87,6 +87,48 @@ The simulator serves a static register dataset, enabling dry runs before connect
 
 For advanced register parsing and debugging utilities, see the files in the [`testing`](testing) directory.
 
+### Helper script: start HA + simulated broker
+
+Inside the devcontainer you can launch Home Assistant and the dataset broker prototype together:
+
+```bash
+scripts/dev-start.sh start
+```
+
+Other commands:
+
+```bash
+scripts/dev-start.sh status
+scripts/dev-start.sh logs
+scripts/dev-start.sh stop
+scripts/dev-start.sh restart
+```
+
+Defaults:
+* Dataset: `testing/datasets/min_6000xh_tl.json`
+* Logs: `ha_config/hass.out`, `ha_config/broker.out`
+
+Override dataset path:
+
+```bash
+GROWATT_DATASET=/workspace/testing/datasets/min_6000xh_tl.json scripts/dev-start.sh start
+```
+
+Use the serial bus implementation (requires real devices):
+
+```bash
+GROWATT_BROKER_CLI=growatt-broker-bus \
+GROWATT_INV_DEV=/dev/ttyUSB0 \
+GROWATT_SHINE_DEV=/dev/ttyUSB1 \
+scripts/dev-start.sh start
+```
+
+Stopping both processes:
+
+```bash
+scripts/dev-start.sh stop
+```
+
 ## Modbus Simulator (Development & Testing)
 
 This repository includes a lightweight Modbus TCP simulator (see `testing/` directory) used by the automated tests to exercise register parsing and mutation logic without real hardware.
