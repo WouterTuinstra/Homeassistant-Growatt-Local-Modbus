@@ -56,6 +56,30 @@ git clone https://github.com/WouterTuinstra/Homeassistant-Growatt-Local-Modbus.g
 ln -s /share/custom_components/Homeassistant-Growatt-Local-Modbus/custom_components/growatt_local /config/custom_components/growatt_local
 ```
 
+## Development
+
+This project ships with a VS Code Dev Container configuration.
+
+1. Install [Visual Studio Code](https://code.visualstudio.com/) and the Dev Containers extension.
+2. Open this repository in VS Code and choose **Reopen in Container** when prompted.
+3. After the container finishes building, dependencies from `requirements_dev.txt` are installed.
+
+Run the tests from inside the container:
+
+```bash
+pytest
+```
+
+To run the integration without hardware, start the Modbus simulator and probe a few registers:
+
+```bash
+python testing/probe_simulator.py
+```
+
+The simulator serves a static register dataset, enabling dry runs before connecting to real devices.
+
+For advanced register parsing and debugging utilities, see the files in the [`testing`](testing) directory.
+
 # Example: Testing the API and Requesting Register Values Without Home Assistant
 
 You can test the API directly without Home Assistant by running a Python script. This is useful for development, debugging, or exploring register values.
@@ -117,16 +141,3 @@ result = await growatt.update(RegisterKeys(
 
 - Make sure your user has permission to access the serial port.
 - For TCP/UDP, use `GrowattTCP` or `GrowattUDP` instead of `GrowattSerial`.
-## Development
-
-This project includes a VS Code Dev Container configuration.
-
-1. Install [Visual Studio Code](https://code.visualstudio.com/) and the Dev Containers extension.
-2. Open this repository in VS Code and choose **Reopen in Container** when prompted.
-3. After the container builds, dependencies from `requirements_dev.txt` are installed automatically.
-4. Run the tests inside the container by executing `pytest` in the project root:
-
-```bash
-pytest
-```
-

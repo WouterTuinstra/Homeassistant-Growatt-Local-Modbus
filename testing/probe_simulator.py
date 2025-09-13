@@ -1,7 +1,7 @@
 """Small probe utility to read a few registers from the simulator.
 
 Usage:
-  python testing/probe_simulator.py --port 5034 --device min_6000xh_tl --dataset min_6000xh_tl_scan3.json
+  python testing/probe_simulator.py --port 5034
 """
 from __future__ import annotations
 
@@ -22,14 +22,12 @@ from testing.modbus_simulator import start_simulator  # type: ignore
 def parse_args():
     p = argparse.ArgumentParser()
     p.add_argument('--port', type=int, default=5034)
-    p.add_argument('--device', default='min_6000xh_tl')
-    p.add_argument('--dataset', default='min_6000xh_tl_scan3.json')
     return p.parse_args()
 
 
 async def run():
     args = parse_args()
-    async with start_simulator(port=args.port, device=args.device, dataset=args.dataset):
+    async with start_simulator(port=args.port):
         client = AsyncModbusTcpClient('localhost', port=args.port)
         await client.connect()
         for base, count, label in [(30, 10, 'holding'), (331, 2, 'holding'), (92, 6, 'input')]:

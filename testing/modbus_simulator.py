@@ -44,10 +44,11 @@ async def start_simulator(port: int = 5020):
     )
     context = ModbusServerContext(store, single=True)
 
-    server = ModbusTcpServer(context, address=("localhost", port))
+    server = ModbusTcpServer(context, address=("127.0.0.1", port))
     task = asyncio.create_task(server.serve_forever())
+    await asyncio.sleep(0.1)
     try:
-        yield ("localhost", port)
+        yield ("127.0.0.1", port)
     finally:
         await server.shutdown()
         task.cancel()
