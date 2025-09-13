@@ -1,10 +1,35 @@
 ## Previous images (home-assistant/devcontainer and ludeeus/devcontainer) lacked manifests.
 ## Use the official Microsoft devcontainers Python image as a stable base.
-FROM mcr.microsoft.com/devcontainers/python:3.12
+FROM mcr.microsoft.com/devcontainers/python:3.13
 
-# Install development dependencies
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
+	PYTHONDONTWRITEBYTECODE=1 \
+	PYTHONUNBUFFERED=1
+
+# Copy requirement spec early for layer caching
 COPY requirements_dev.txt /tmp/requirements_dev.txt
-RUN pip install --no-cache-dir -r /tmp/requirements_dev.txt && rm /tmp/requirements_dev.txt
 
-# Optional: install Home Assistant core (for richer integration linting) lightweight extras.
-RUN pip install --no-cache-dir homeassistant==2025.2.0 || true
+# Install OS packages useful for Home Assistant & imaging/audio features
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	libjpeg-dev zlib1g-dev libturbojpeg0-dev libffi-dev libssl-dev \
+	bluez libbluetooth-dev libudev-dev build-essential \
+	&& rm -rf /var/lib/apt/lists/*
+
+## Create venv as the vscode user to avoid slow chown
+USER vscode
+RUN python -m venv /home/vscode/ha-venv && \
+	. /home/vscode/ha-venv/bin/activate && \
+	pip install --upgrade pip && \
+	pip install --no-cache-dir -r /tmp/requirements_dev.txt
+
+ENV PATH="/home/vscode/ha-venv/bin:${PATH}"
+
+# Auto-activate venv for interactive shells
+RUN echo '\n# Auto-activate integration dev venv\nif [ -d $HOME/ha-venv ]; then . $HOME/ha-venv/bin/activate; fi' >> /home/vscode/.bashrc
+
+USER root
+
+EXPOSE 8123 5020
+
+# Default shell; use tasks or manual hass start
+CMD ["bash"]
