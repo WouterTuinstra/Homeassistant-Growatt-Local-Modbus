@@ -7,8 +7,8 @@
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
   "workspaceFolder": "/workspace",
   "forwardPorts": [8123, 5020],
-  "onCreateCommand": "bash .devcontainer/scripts/postCreate.sh",
   "postCreateCommand": "bash .devcontainer/scripts/postCreate.sh",
+  // NOTE: onCreateCommand intentionally omitted to prevent double venv provisioning race
   "remoteEnv": {
     "VIRTUAL_ENV": "/workspace/.venv",
     "PATH": "/workspace/.venv/bin:${containerEnv:PATH}"
