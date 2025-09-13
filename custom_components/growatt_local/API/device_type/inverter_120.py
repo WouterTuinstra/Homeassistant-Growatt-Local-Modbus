@@ -1,4 +1,9 @@
-"""Device defaults for a Growatt Inverter."""
+"""Device defaults for TL-X/TL-XH (MIN) inverters.
+
+Per Growatt Modbus protocol v1.24 the register ranges are:
+- FC03: ``0–124`` and ``3000–3124`` (``3125–3249`` for TL-XH US)
+- FC04: ``3000–3124``, ``3125–3249`` and ``3250–3374`` (TL-XH)
+"""
 
 from .base import (
     GrowattDeviceRegisters,
