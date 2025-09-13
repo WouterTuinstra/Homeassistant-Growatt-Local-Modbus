@@ -307,4 +307,79 @@ The simulator ignores unknown top‑level keys.
 
 ---
 
+## 11) Broker ↔ Simulator synergy proposal
+
+A separate companion project (Growatt RTU Broker) can complement this repository without being merged into it. Keeping concerns separated reduces review friction while unlocking advanced workflows.
+
+### Roles at a glance
+- This repo (integration + simulator):
+  - Defines register maps / ATTR_* constants.
+  - Provides static & replayable datasets for dry runs (CI, dev container).
+  - Offers tooling to parse protocol specs and build JSON datasets.
+- Broker project (separate repo):
+  - Mediates a *live* RS‑485 inverter connection and (optionally) the ShineWiFi dongle simultaneously.
+  - Exposes a Modbus TCP endpoint for Home Assistant (and other tools) while enforcing safe pacing.
+  - (Capture mode) Records every successful response into an incremental dataset you can feed back into this simulator.
+
+### Unified backend model (concept)
+```
+Backend (abstract)
+  read_input(unit, addr, count) -> list[int]
+  read_holding(unit, addr, count) -> list[int]
+  write_single(...)
+  write_multiple(...)
+
+Implementations:
+  LiveSerialBackend (broker)
+  DatasetBackend (simulator)
+  CaptureBackend (wraps LiveSerialBackend, stores dataset deltas)
+```
+Both simulator and broker CLIs choose the backend; higher‑level frontends (Modbus TCP server, Shine pass‑through) remain unchanged.
+
+### Capture → dataset workflow
+1. Run broker in capture mode while HA (or any Modbus client) polls.
+2. Broker appends JSONL events (unit, func, addr, values, timestamp).
+3. A helper script (shared or here) compacts events into `holding` / `input` dicts, preserving last‑seen value per register.
+4. Write `testing/datasets/<device>.json` (optionally add `_source`).
+5. Simulator consumes the new dataset for offline regression or CI.
+
+### Why keep projects separate?
+- Different release cadence (broker is operational infra; integration is HA‑facing).
+- Easier upstream PR acceptance (no serial concurrency code inside the HA custom component repo).
+- Enables non‑Home‑Assistant users (pure Modbus tooling) to reuse the broker.
+
+### Example use cases
+| Scenario | Tool | Mode |
+|----------|------|------|
+| Develop new sensor mapping | Simulator | dataset
+| Reverse engineer unknown registers | Broker | capture
+| Run HA + Shine simultaneously (shared RS‑485) | Broker | live
+| CI regression without hardware | Simulator | dataset
+| Generate realistic snapshot for docs | Broker -> script | capture→dataset
+
+### Proposed roadmap
+1. Broker repo: introduce `DatasetBackend` & `CaptureBackend` (no breaking changes).  
+2. Export a simple dataset capture CLI: `growatt-broker capture --out session.jsonl`.
+3. Add compaction script here: `python testing/compact_capture.py --in session.jsonl --out testing/datasets/min_6000xh_tl_new.json`.
+4. Extend simulator to accept a mutation plug‑in (e.g., auto‑increment energy counters) for long‑running test realism.
+5. Add README section (this one) linking broker usage; document optional Modbus TCP integration.
+6. Provide a minimal Home Assistant add‑on definition for the broker (optional future).
+7. Optional: shared tiny PyPI package (`growatt-rtu-core`) with CRC, framing, backend ABC to eliminate duplication.
+
+### Minimal dataset capture JSONL shape (example)
+```
+{"ts":"2025-09-13T12:34:56.789","unit":1,"func":4,"addr":0,"count":124,"regs":[...]} 
+{"ts":"2025-09-13T12:34:57.820","unit":1,"func":3,"addr":331,"count":2,"regs":[5075,0]}
+```
+
+### Compaction heuristics
+- Keep last value per (func, addr+index).  
+- Optionally discard pure zero blocks except when a non‑zero was previously observed (avoids sparse noise).  
+- Preserve negative values and large jumps (potential fault codes).
+
+### Integration README note (future PR)
+Add a short paragraph: “If you run the optional Growatt RTU Broker, configure this integration in TCP mode pointing at the broker host:port to enable simultaneous Shine + HA access.”
+
+---
+
 *Happy hacking and safe debugging!*
