@@ -544,7 +544,48 @@ testing/datasets/<device>.json
 
 ---
 
-## 14) Acknowledgements
+## 15) Simulator mutation plug‑ins (dynamic values)
+
+The simulator can optionally apply *mutation plug‑ins* each tick to make register values change over time (useful for UI demos or stressing logic expecting deltas).
+
+### 15.1 Plug‑in API
+A plug‑in is referenced with `--mutator module[:attr]` and must provide either:
+- A callable `mutate(registers: dict[str, dict[int,int]], tick: int) -> None`, OR
+- A class named in the attr position exposing `.mutate(registers, tick)`.
+
+`registers` contains two dicts: `{'holding': {...}, 'input': {...}}` (integer keys).
+`tick` increments once per simulator loop (currently 1 second in the placeholder loop).
+
+### 15.2 Sample plug‑in
+See `testing/mutators/sample_mutator.py`:
+- Class `EnergyIncrement` bumps holding register 331 by 5 each tick and energy total registers (>=1050) every 6 ticks.
+- Function `mutate()` increments holding register 30.
+
+### 15.3 Usage examples
+Increment totals using the class:
+```bash
+python testing/modbus_simulator.py --mutator testing.mutators.sample_mutator:EnergyIncrement
+```
+Use the function form:
+```bash
+python testing/modbus_simulator.py --mutator testing.mutators.sample_mutator
+```
+Combine multiple mutators:
+```bash
+python testing/modbus_simulator.py \
+  --mutator testing.mutators.sample_mutator:EnergyIncrement \
+  --mutator testing.mutators.sample_mutator
+```
+
+### 15.4 Notes
+- Mutators run sequentially each tick; later mutators see earlier changes.
+- Values are masked to 16‑bit (0xFFFF) after each write.
+- Avoid expensive I/O in mutate functions—keep them fast.
+- Future enhancement: configurable tick interval & scheduling.
+
+---
+
+## 16) Acknowledgements
 
 Thanks to the Home Assistant community and contributors for their support and for the amazing platform that makes these integrations possible.
 

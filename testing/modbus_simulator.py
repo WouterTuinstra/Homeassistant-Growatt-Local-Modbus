@@ -24,9 +24,10 @@ import asyncio
 import contextlib
 import json
 import logging
+import importlib, inspect
 from pathlib import Path
 from contextlib import asynccontextmanager
-from typing import Dict, Tuple, Iterable
+from typing import Dict, Tuple, Iterable, Callable, Any
 
 from pymodbus.datastore import (
     ModbusServerContext,
@@ -122,6 +123,39 @@ def _build_value_arrays(
     return hr_array, ir_array
 
 
+# Mutation plug‑in API ---------------------------------------------------------
+# A mutator is either:
+#   - a callable mutate(registers: dict[str, dict[int,int]], tick: int) -> None
+#   - an object with method mutate(registers, tick)
+# It can adjust in‑memory holding/input register values each simulator tick.
+
+class _MutatorWrapper:
+    def __init__(self, target: Any):
+        if callable(target) and not hasattr(target, 'mutate'):
+            self._fn = target
+        else:
+            self._fn = getattr(target, 'mutate')
+        if not callable(self._fn):
+            raise TypeError('Mutator has no callable mutate()')
+    def mutate(self, registers: dict[str, dict[int,int]], tick: int):
+        self._fn(registers, tick)
+
+def _load_mutators(specs: list[str]) -> list[_MutatorWrapper]:
+    muts: list[_MutatorWrapper] = []
+    for spec in specs:
+        try:
+            mod_name, _, attr = spec.partition(':')
+            mod = importlib.import_module(mod_name)
+            obj = getattr(mod, attr) if attr else getattr(mod, 'mutate', mod)
+            # If attribute name given and is a class, instantiate; else use directly
+            if inspect.isclass(obj):
+                obj = obj()
+            muts.append(_MutatorWrapper(obj))
+        except Exception as e:  # pragma: no cover
+            print(f"[SIM] Failed to load mutator '{spec}': {e}")
+    return muts
+
+
 @asynccontextmanager
 async def start_simulator(
     *args,
@@ -130,6 +164,7 @@ async def start_simulator(
     device: str = "min",
     dataset: str | None = None,
     strict_defs: bool = False,
+    mutators: list[str] | None = None,
 ):
     """Start a Modbus TCP simulator serving predefined registers.
 
@@ -188,11 +223,38 @@ async def start_simulator(
         sum(1 for v in ir_values if v != 0),
         strict_defs,
     )
+    _mutators = _load_mutators(mutators or [])
+    _tick = 0
+    _stop = asyncio.Event()
+
+    async def _mutation_loop():
+        nonlocal _tick
+        if not _mutators:
+            await _stop.wait()
+            return
+        while not _stop.is_set():
+            _tick += 1
+            regs = { 'holding': holding_values, 'input': input_values }
+            for m in _mutators:
+                try:
+                    m.mutate(regs, _tick)
+                except Exception as e:  # pragma: no cover
+                    print(f"[SIM] mutator error: {e}")
+            try:
+                await asyncio.wait_for(_stop.wait(), timeout=1.0)
+            except asyncio.TimeoutError:
+                pass
+    mutation_task = asyncio.create_task(_mutation_loop())
+
     try:
         # Brief pause to ensure server socket is bound before yielding to caller
         await asyncio.sleep(0.05)
         yield (host, port)
     finally:
+        _stop.set()
+        mutation_task.cancel()
+        with contextlib.suppress(asyncio.CancelledError):
+            await mutation_task
         await server.shutdown()
         task.cancel()
         with contextlib.suppress(asyncio.CancelledError):
@@ -227,13 +289,14 @@ def _parse_args():
         help="Optional duration in seconds before auto-shutdown (0 = run forever)",
     )
     parser.add_argument("--log-level", default="INFO", help="Logging level")
+    parser.add_argument('--mutator', action='append', help='Mutation plug‑in spec module[:attr] (repeatable)')
     return parser.parse_args()
 
 
 async def _run_cli():
     args = _parse_args()
     logging.basicConfig(level=getattr(logging, args.log_level.upper(), logging.INFO))
-    async with start_simulator(host=args.host, port=args.port, device=args.device, dataset=args.dataset, strict_defs=args.strict_defs):
+    async with start_simulator(host=args.host, port=args.port, device=args.device, dataset=args.dataset, strict_defs=args.strict_defs, mutators=args.mutator):
         if args.duration > 0:
             await asyncio.sleep(args.duration)
         else:
