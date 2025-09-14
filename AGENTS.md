@@ -32,12 +32,12 @@ register set, focusing on the MIN 6000TL XH inverter with battery.
    - Compare results with external references and document discrepancies in
      `testing/growatt_registers.md`.
 
-5. **Debug via Modbus broker**
-   - Follow the strategy in `testing/Modbus sniffer adaptation.md`.
-   - Run the Home Assistant Pi4 as a man-in-the-middle between the inverter and
-     ShineWiFi, acting as the sole RTU master.
-   - The Pi exposes a Modbus-TCP endpoint so both Home Assistant and laptop
-     scripts in `testing/` can exercise the API without a full HA installation
+5. **Broker usage policy**
+  - The full broker project is not to be used directly in this repository for development or testing.
+  - For dry-run and container testing, always use the Modbus simulator (`testing/modbus_simulator.py`).
+  - The broker may be used only to generate static datasets for the simulator, which should then be copied into the Growatt repo.
+  - Do not add broker dependencies or startup logic to this repository.
+  - See `testing/README.md` for simulator usage and dataset provenance.
      while capturing bus traffic for analysis.
 
 These steps are expected to be iterative; each commit should strive to leave the

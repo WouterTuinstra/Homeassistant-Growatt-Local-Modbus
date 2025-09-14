@@ -63,71 +63,38 @@ git clone https://github.com/WouterTuinstra/Homeassistant-Growatt-Local-Modbus.g
 ln -s /share/custom_components/Homeassistant-Growatt-Local-Modbus/custom_components/growatt_local /config/custom_components/growatt_local
 ```
 
+
 ## Development
 
-This project ships with a VS Code Dev Container configuration.
+There are two main ways to develop and test this integration:
 
-1. Install [Visual Studio Code](https://code.visualstudio.com/) and the Dev Containers extension.
-2. Open this repository in VS Code and choose **Reopen in Container** when prompted.
-3. After the container finishes building, dependencies from `requirements_dev.txt` are installed.
+### 1. Standalone (limited)
 
-Run the tests from inside the container:
+You can check out this repository, install the requirements (optionally using a venv), and run pytest and scripts in the `testing` directory. This does not require a full Home Assistant installation, but only limited tests and scripts will work.
 
 ```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements_dev.txt
 pytest
-```
-
-To run the integration without hardware, start the Modbus simulator and probe a few registers:
-
-```bash
 python testing/probe_simulator.py
 ```
 
-The simulator serves a static register dataset, enabling dry runs before connecting to real devices.
+### 2. Home Assistant Core Devcontainer (recommended)
 
-For advanced register parsing and debugging utilities, see the files in the [`testing`](testing) directory.
-
-### Helper script: start HA + simulated broker
-
-Inside the devcontainer you can launch Home Assistant and the dataset broker prototype together:
+Clone the official Home Assistant core repository, add this repository as a submodule under `external/`, and symlink the `custom_components/growatt_local` directory into your HA config directory. This allows you to test the integration as if on a live system, with full Home Assistant infrastructure and code quality checks.
 
 ```bash
-scripts/dev-start.sh start
+ln -s /share/custom_components/Homeassistant-Growatt-Local-Modbus/custom_components/growatt_local /config/custom_components/growatt_local
 ```
 
-Other commands:
+Run tests from the HA core root:
 
 ```bash
-scripts/dev-start.sh status
-scripts/dev-start.sh logs
-scripts/dev-start.sh stop
-scripts/dev-start.sh restart
+pytest external/Homeassistant-Growatt-Local-Modbus/tests
 ```
 
-Defaults:
-* Dataset: `testing/datasets/min_6000xh_tl.json`
-* Logs: `ha_config/hass.out`, `ha_config/broker.out`
-
-Override dataset path:
-
-```bash
-GROWATT_DATASET=/workspace/testing/datasets/min_6000xh_tl.json scripts/dev-start.sh start
-```
-
-Use the serial bus implementation (requires real devices):
-
-```bash
-GROWATT_BROKER_CLI=growatt-broker-bus \
-GROWATT_INV_DEV=/dev/ttyUSB0 \
-GROWATT_SHINE_DEV=/dev/ttyUSB1 \
-scripts/dev-start.sh start
-```
-
-Stopping both processes:
-
-```bash
-scripts/dev-start.sh stop
-```
+For more details, see the Home Assistant core documentation and the integration README.
 
 ## Modbus Simulator (Development & Testing)
 

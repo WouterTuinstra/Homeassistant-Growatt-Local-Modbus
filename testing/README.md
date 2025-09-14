@@ -292,6 +292,8 @@ python testing/build_dataset_from_scan.py \
 
 Then restart any running simulator instance.
 
+**Note:** The full broker project is only used to generate static datasets for the simulator. All dry-run and container testing should use the Modbus simulator (`testing/modbus_simulator.py`). Do not use the broker directly for development or testing in this repository.
+
 To annotate a dataset with a provenance tag without breaking the loader you
 may add a top‑level `_source` field, e.g.:
 

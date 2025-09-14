@@ -1,6 +1,6 @@
 pymodbus
 pytest
 pytest-homeassistant-custom-component
-homeassistant==2025.9.2
+homeassistant
 hassil
 mutagen

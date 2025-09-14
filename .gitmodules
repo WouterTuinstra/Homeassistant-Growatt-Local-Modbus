@@ -1,4 +1,0 @@
-[submodule "external/growatt-rtu-broker"]
-	path = external/growatt-rtu-broker
-	url = https://github.com/l4m4re/growatt-rtu-broker.git
-	branch = main
