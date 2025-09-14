@@ -20,7 +20,6 @@ from .base import (
     ATTR_SOC_PERCENTAGE,
     ATTR_DISCHARGE_POWER,
     ATTR_CHARGE_POWER,
-    ATTR_OUTPUT_REACTIVE_POWER,
     ATTR_POWER_TO_USER,
     ATTR_POWER_TO_GRID,
     ATTR_POWER_USER_LOAD,
@@ -240,9 +239,6 @@ STORAGE_INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
     ),
     GrowattDeviceRegisters(
         name=ATTR_CHARGE_POWER, register=3180, value_type=float, length=2
-    ),
-    GrowattDeviceRegisters(
-        name=ATTR_OUTPUT_REACTIVE_POWER, register=3021, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
         name=ATTR_POWER_TO_USER, register=3041, value_type=float, length=2

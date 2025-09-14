@@ -42,7 +42,6 @@ from ..API.device_type.base import (
     ATTR_BDC_NEW_FLAG,
     ATTR_PRESENT_FFT_A,
     ATTR_INV_START_DELAY,
-    ATTR_OUTPUT_REACTIVE_POWER,
     ATTR_BATTERY_VOLTAGE,
     ATTR_BATTERY_CURRENT,
     ATTR_VBUS1_VOLTAGE,
@@ -245,12 +244,6 @@ STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
     GrowattSensorEntityDescription(
         key=ATTR_PAC_TO_GRID_TOTAL,
         name="AC to grid total",
-        native_unit_of_measurement=UnitOfPower.WATT,
-        device_class=SensorDeviceClass.POWER,
-    ),
-    GrowattSensorEntityDescription(
-        key=ATTR_OUTPUT_REACTIVE_POWER,
-        name="Reactive power",
         native_unit_of_measurement=UnitOfPower.WATT,
         device_class=SensorDeviceClass.POWER,
     ),

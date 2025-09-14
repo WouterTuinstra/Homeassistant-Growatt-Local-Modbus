@@ -70,9 +70,6 @@
       "pac_to_grid_total": {
         "name": "AC naar net totaal"
       },
-      "output_reactive_power": {
-        "name": "Blindvermogen"
-      },
       "battery_voltage": {
         "name": "Batterijspanning"
       },

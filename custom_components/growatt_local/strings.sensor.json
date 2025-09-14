@@ -70,9 +70,6 @@
       "pac_to_grid_total": {
         "name": "AC to grid total"
       },
-      "output_reactive_power": {
-        "name": "Reactive power"
-      },
       "battery_voltage": {
         "name": "Battery voltage"
       },
