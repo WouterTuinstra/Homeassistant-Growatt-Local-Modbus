@@ -68,14 +68,20 @@ def _load_register_definitions(filename: str) -> Dict[int, int]:
     return registers
 
 
-def _load_dataset(dataset_file: Path | None) -> tuple[dict[int, int], dict[int, int]]:
+def _load_dataset(
+    dataset_file: Path | None, force_deterministic: bool = False
+) -> tuple[dict[int, int], dict[int, int]]:
     """Load dataset file returning holding and input value dicts.
 
     When no dataset is supplied, provide deterministic non-zero values for input
     registers 1 and 2 so tests composing a 32-bit value have a stable baseline.
+    If force_deterministic is True, set first 32 input registers to 1..32 for test stability.
     """
     if not dataset_file or not dataset_file.exists():
-        return {}, {1: 1, 2: 2}
+        input_regs = {1: 1, 2: 2}
+        if force_deterministic:
+            input_regs = {i: i for i in range(1, 33)}
+        return {}, input_regs
 
     with open(dataset_file, "r", encoding="utf-8") as f:
         raw = json.load(f)
@@ -86,10 +92,10 @@ def _load_dataset(dataset_file: Path | None) -> tuple[dict[int, int], dict[int, 
 
     holding = {int(k): to_uint16(v) for k, v in raw.get("holding", {}).items()}
     input_ = {int(k): to_uint16(v) for k, v in raw.get("input", {}).items()}
-    # Force deterministic values for the first two input registers regardless
-    # of dataset contents so tests have a stable baseline.
-    input_[1] = 1
-    input_[2] = 2
+    if force_deterministic:
+        # Force deterministic values for the first 32 input registers
+        for i in range(1, 33):
+            input_[i] = i
     return holding, input_
 
 
@@ -172,6 +178,7 @@ async def start_simulator(
     host: str = "127.0.0.1",
     device: str = "min_6000xh_tl",
     dataset: str | None = None,
+    force_deterministic: bool = False,
     strict_defs: bool = False,
     mutators: list[str] | None = None,
     debug_wire: bool = False,
@@ -205,7 +212,9 @@ async def start_simulator(
     elif device in DEFAULT_DATASETS:
         dataset_path = DATASETS_PATH / DEFAULT_DATASETS[device]
 
-    holding_values, input_values = _load_dataset(dataset_path)
+    holding_values, input_values = _load_dataset(
+        dataset_path, force_deterministic=force_deterministic
+    )
     hr_values, ir_values = _build_value_arrays(
         holding_def, input_def, holding_values, input_values, strict_defs=strict_defs
     )
@@ -218,12 +227,24 @@ async def start_simulator(
         def getValues(self, address, count=1):  # type: ignore[override]
             result = super().getValues(address, count)
             if debug_wire:
-                _LOGGER.debug("%s read %d:%d -> %s", self._kind, address, address + count - 1, result)
+                _LOGGER.debug(
+                    "%s read %d:%d -> %s",
+                    self._kind,
+                    address,
+                    address + count - 1,
+                    result,
+                )
             return result
 
         def setValues(self, address, values):  # type: ignore[override]
             if debug_wire:
-                _LOGGER.debug("%s write %d:%d <- %s", self._kind, address, address + len(values) - 1, values)
+                _LOGGER.debug(
+                    "%s write %d:%d <- %s",
+                    self._kind,
+                    address,
+                    address + len(values) - 1,
+                    values,
+                )
             return super().setValues(address, values)
 
     # Pymodbus offsets holding-register addresses by +1 for TCP servers.
@@ -322,6 +343,11 @@ def _parse_args():
         help="Only include registers present in definition JSON files (ignore extra dataset registers).",
     )
     parser.add_argument(
+        "--force-deterministic",
+        action="store_true",
+        help="Force first 32 input registers to values 1..32 for test stability.",
+    )
+    parser.add_argument(
         "--duration",
         type=int,
         default=0,
@@ -359,6 +385,7 @@ async def _run_cli():
         strict_defs=args.strict_defs,
         mutators=args.mutator,
         debug_wire=args.debug_wire,
+        force_deterministic=args.force_deterministic,
     ):
         if args.duration > 0:
             await asyncio.sleep(args.duration)

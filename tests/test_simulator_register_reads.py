@@ -40,7 +40,9 @@ async def test_simulator_register_reads():
         (3232, 3374),  # remaining TL-XH block / reserved
     ]
 
-    async with start_simulator(port=port, debug_wire=True) as (host, real_port):
+    async with start_simulator(
+        port=port, debug_wire=True, force_deterministic=True
+    ) as (host, real_port):
         client = AsyncModbusTcpClient(
             host,
             port=real_port,
@@ -77,7 +79,9 @@ async def test_simulator_register_reads():
                     rr = await client.read_holding_registers(
                         offset, count=chunk, device_id=1
                     )
-                    assert not rr.isError(), f"Read error at range {offset}-{offset+chunk-1}"
+                    assert not rr.isError(), (
+                        f"Read error at range {offset}-{offset + chunk - 1}"
+                    )
                     for i, reg_val in enumerate(rr.registers):
                         addr = offset + i
                         expected_val = expected.get(addr, 0)
