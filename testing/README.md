@@ -1,30 +1,65 @@
-# README — Run & Debug the Growatt Register Reader on Home Assistant OS (Raspberry Pi)
 
+# Growatt Local Modbus Integration — Developer & Test Guide
 
-Note: Quick&Dirty AI generated draft. Stopping HA is not required, but it is
-wise to disable the local growatt integration while running the script to avoid
-conflicts on the serial port. Most important is how to get the docker python
-container up&running.
+This guide describes how to use, test, and extend the Growatt Local Modbus integration and simulator, with a focus on the MIN 6000XH-TL inverter. It covers devcontainer usage, simulator operation, pytest, broker synergy, and register mapping.
 
 ---
 
-This guide shows how to run the provided `read_registers.py` directly **on your
-Home Assistant OS (Pi)** inside a **clean Docker container**, using the
-**Advanced SSH & Web Terminal** add‑on. It’s designed for quick register
-inspection and for debugging the Growatt Local Modbus integration without
-modifying HA Core.
+## Devcontainer Workflow (Recommended)
 
-> TL;DR — One‑liner:
->
-> ```bash
-> REPO=/mnt/data/supervisor/homeassistant/growatt-local
-> ha core stop && \
-> docker run --rm -it \
->   --device=/dev/ttyUSB0:/dev/ttyUSB0 \
->   -v "$REPO":/app -w /app python:3.11 \
->   sh -lc 'pip install -q "pymodbus[serial]>=3.8,<3.9" && PYTHONPATH=/app SERIAL_PORT=/dev/ttyUSB0 python /app/read_registers.py' && \
-> ha core start
-> ```
+1. **Clone the devcontainer fork:**
+  ```bash
+  git clone -b growatt-local-test https://github.com/l4m4re/HA-core.git
+  cd HA-core
+  ```
+
+2. **Open in VS Code (with devcontainer support):**
+  - VS Code will prompt to reopen in the container.
+  - All dependencies are pre-installed.
+
+3. **Run the simulator:**
+  ```bash
+  cd external/Homeassistant-Growatt-Local-Modbus/testing
+  python modbus_simulator.py
+  ```
+  - By default, this simulates a MIN 6000XH-TL inverter on TCP port 5020.
+
+4. **Start Home Assistant Core:**
+  ```bash
+  hass -c config
+  ```
+  - Open Home Assistant in your browser (usually at `http://localhost:8123`).
+
+5. **Add the Growatt device in Home Assistant:**
+  - Use TCP transport.
+  - Host: `localhost`
+  - Port: `5020`
+  - Slave address: `1`
+
+## Register Map Completeness
+
+- The register mapping for MIN 6000XH-TL is complete as far as currently determined. See [`growatt_registers.md`](growatt_registers.md) for details.
+
+## Simulator Usage
+
+- The simulator (`modbus_simulator.py`) supports static and deterministic datasets, mutation plug-ins, and is used for both manual and automated tests.
+- By default, it simulates a MIN 6000XH-TL with battery.
+- Use the `--force-deterministic` flag for stable test values.
+- See below for advanced usage, mutation plug-ins, and dataset provenance.
+
+## Pytest Environment
+
+- Run tests with:
+  ```bash
+  pytest external/Homeassistant-Growatt-Local-Modbus/tests
+  ```
+- Several tests are provided, including register value checks and unique ID validation.
+
+## Broker Synergy
+
+- The project is designed to work with a separate broker (not included directly), which can generate datasets for the simulator.
+- The broker is **not** a runtime or test dependency.
+- See below for details on dataset provenance and broker usage policy.
 
 ---
 
@@ -360,7 +395,7 @@ Both simulator and broker CLIs choose the backend; higher‑level frontends (Mod
 | Generate realistic snapshot for docs | Broker -> script | capture→dataset
 
 ### Proposed roadmap
-1. Broker repo: introduce `DatasetBackend` & `CaptureBackend` (no breaking changes).  
+1. Broker repo: introduce `DatasetBackend` & `CaptureBackend` (no breaking changes).
 2. Export a simple dataset capture CLI: `growatt-broker capture --out session.jsonl`.
 3. Add compaction script here: `python testing/compact_capture.py --in session.jsonl --out testing/datasets/min_6000xh_tl_new.json`.
 4. Extend simulator to accept a mutation plug‑in (e.g., auto‑increment energy counters) for long‑running test realism.
@@ -370,13 +405,13 @@ Both simulator and broker CLIs choose the backend; higher‑level frontends (Mod
 
 ### Minimal dataset capture JSONL shape (example)
 ```
-{"ts":"2025-09-13T12:34:56.789","unit":1,"func":4,"addr":0,"count":124,"regs":[...]} 
+{"ts":"2025-09-13T12:34:56.789","unit":1,"func":4,"addr":0,"count":124,"regs":[...]}
 {"ts":"2025-09-13T12:34:57.820","unit":1,"func":3,"addr":331,"count":2,"regs":[5075,0]}
 ```
 
 ### Compaction heuristics
-- Keep last value per (func, addr+index).  
-- Optionally discard pure zero blocks except when a non‑zero was previously observed (avoids sparse noise).  
+- Keep last value per (func, addr+index).
+- Optionally discard pure zero blocks except when a non‑zero was previously observed (avoids sparse noise).
 - Preserve negative values and large jumps (potential fault codes).
 
 ### Integration README note (future PR)

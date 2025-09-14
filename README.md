@@ -34,6 +34,24 @@ Recent updates expose additional energy-flow information for hybrid models:
 * Battery charge/discharge energy and instantaneous power
 * Battery state of charge and dual temperature sensors
 
+### Recently added features
+
+- **Complete register map** for MIN 6000XH-TL (see `testing/growatt_registers.md`)
+- **Static simulator** (`testing/modbus_simulator.py`) with deterministic and realistic datasets
+- **VS Code devcontainer forked from HA core** ([repo](https://github.com/l4m4re/HA-core/tree/growatt-local-test))
+- **Pytest environment** with comprehensive tests
+- **Synergy with external broker project** for dataset generation (not a runtime dependency)
+
+### Register Map
+
+The register mapping for MIN 6000XH-TL is complete as far as currently determined. See [`testing/growatt_registers.md`](testing/growatt_registers.md) for details.
+
+### Simulator
+
+- The simulator (`testing/modbus_simulator.py`) supports static and deterministic datasets, mutation plug-ins, and is used for both manual and automated tests.
+- By default, it simulates a MIN 6000XH-TL with battery.
+- See [`testing/README.md`](testing/README.md) for advanced usage, mutation plug-ins, and dataset provenance.
+
 
 ## Manual Installation by ssh
 
@@ -66,7 +84,8 @@ ln -s /share/custom_components/Homeassistant-Growatt-Local-Modbus/custom_compone
 
 ## Development
 
-There are two main ways to develop and test this integration:
+You can develop and test this integration either standalone (limited) or inside the Home Assistant Core devcontainer (recommended). See [`testing/README.md`](testing/README.md) for details.
+
 
 ### 1. Standalone (limited)
 
@@ -81,6 +100,41 @@ python testing/probe_simulator.py
 ```
 
 ### 2. Home Assistant Core Devcontainer (recommended)
+
+
+## Quick Start (Dev Container)
+
+1. **Clone the devcontainer fork:**
+    ```bash
+    git clone -b growatt-local-test https://github.com/l4m4re/HA-core.git
+    cd HA-core
+    ```
+
+2. **Open in VS Code (with devcontainer support):**
+    - VS Code will prompt to reopen in the container.
+    - All dependencies are pre-installed.
+
+3. **Run the simulator:**
+    ```bash
+    cd external/Homeassistant-Growatt-Local-Modbus/testing
+    python modbus_simulator.py
+    ```
+    - By default, this simulates a MIN 6000XH-TL inverter on TCP port 5020.
+
+4. **Start Home Assistant Core:**
+    ```bash
+    hass -c config
+    ```
+    - Open Home Assistant in your browser (usually at `http://localhost:8123`).
+
+5. **Add the Growatt device in Home Assistant:**
+    - Use TCP transport.
+    - Host: `localhost`
+    - Port: `5020`
+    - Slave address: `1`
+
+
+## Manual Dev Container Setup
 
 Clone the official Home Assistant core repository, add this repository as a submodule under `external/`, and symlink the `custom_components/growatt_local` directory into your HA config directory. This allows you to test the integration as if on a live system, with full Home Assistant infrastructure and code quality checks.
 

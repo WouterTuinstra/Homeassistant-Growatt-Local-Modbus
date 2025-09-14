@@ -9,8 +9,11 @@ Registers are clearly split between **Holding Registers (FC=03/06/16)** and **In
 ## Supported inverter types
 
 The protocol defines different register ranges for each inverter family. The
-table below summarises the ranges from the vendor specification and points to
 the API modules that implement the mapping.
+
+## Project Register Map Status
+
+This document provides the most complete register mapping for the Growatt MIN 6000TL-XH inverter (Modbus v1.20/v1.24) as currently determined. All known holding and input registers are listed and described below. For simulator and integration usage, see the updated `README.md` and `testing/README.md`.
 
 | Inverter family | FC03 ranges | FC04 ranges | API module |
 |-----------------|-------------|-------------|------------|
@@ -19,15 +22,11 @@ the API modules that implement the mapping.
 | Storage (MIX/SPA/SPH) | 0–124, 1000–1124 | 0–124, 1000–1124 (1125–1249; 2000–2124 for SPA) | `device_type/storage_120.py` |
 | Offgrid (SPF) | vendor-specific | vendor-specific | `device_type/offgrid.py` |
 
----
 
 ## 📖 Function Codes
-- **Input Registers (Read-only)** – Function code 04
-- **Holding Registers (Read/Write)** – Function codes 03 (read), 06 (write single), 16 (write multiple)
 
 Reference: [Ozeki Modbus function codes](https://ozeki.hu/p_5873-modbus-function-codes.html)
 
----
 
 # Holding Registers (FC=03/06/16)
 
@@ -75,7 +74,6 @@ Registers 52–80 define Vac/Freq protections, cycle times, and thresholds. Thes
 ### Country/Grid Codes & PF/QV Models (89–120+)
 Various PF/Q(V) models, grid curves, and frequency derating settings appear here. These are advanced features not yet mapped.
 
----
 
 # Input Registers (FC=04)
 
@@ -106,8 +104,6 @@ Various PF/Q(V) models, grid curves, and frequency derating settings appear here
 ### Extended Measurements (3000–3124)
 Mirror of 0–124, but also includes:
  - 3021: Reactive power (Var) → `ATTR_OUTPUT_REACTIVE_POWER` (`INPUT_REGISTERS_120_TL_XH`)
-- 3047: Operation hours (duplicate)
-- 3067–3074: To-user / To-grid energy stats → `ATTR_ENERGY_TO_*`
 
 ### Battery & Hybrid (3125–3249)
 | Register | Description | Unit | Attribute |
@@ -155,7 +151,6 @@ Unknown or zeroed on hardware: 3227–3229.
 ### Reserved / Misc (3250–3280)
 Registers are undocumented in spec but active in scans (SOC, currents, extra power flows). Candidate mapping area for future attributes.
 
----
 
 # 🔮 Future mapping ideas
 
@@ -164,40 +159,27 @@ could be surfaced in Home Assistant include:
 
 **TL‑XH series**
 
-- `ATTR_INPUT_3_*` … `ATTR_INPUT_8_*` – PV strings 3‑8 (registers 11–33, 61–89)
-- `ATTR_OUTPUT_2_*` and `ATTR_OUTPUT_3_*` – AC2/AC3 phase voltage, current and power
-- Reactive energy counters (e.g. registers 69–72) for tracking exported/imported Varh
 
 **Other inverter families**
 
-- TL3‑X/MAX/MID: additional PV strings and per‑phase AC metrics beyond phase 1
-- Storage MIX/SPA/SPH: grid protection thresholds and power‑factor/Volt‑VAR curve parameters
-- Off‑grid SPF: battery port voltage, bus voltage and load percentage already exist,
   but alarm/status bitfields from the spec could be mapped for finer diagnostics
 
 These suggestions are derived from the Growatt Modbus spec (v1.24) and observed
 scans.  Contributions expanding the mapping are welcome.
 
----
 
 📌 With this mapping you now have a **nearly complete overview** of MIN 6000TL-XH registers (input & holding), up to 3280. BDC/BMS registers >4000 are ignored for now.
 
 
----
 
 # 🔄 Update: TL‑XH Input vs Holding, Expanded Ranges (up to 3280)
 
 ## Function Codes & Access
 
-- **Input registers (FC=04)**: read‑only measurements & counters.
-- **Holding registers (FC=03)**: readable configuration/state; write via **FC=06** (single) or **FC=16** (multiple). Matches Growatt v1.24 and standard Modbus usage.
 
 ## Scope & Ranges (MIN 6000TL‑XH observed)
 
-- **Input (RO)**: `0–124`, and **TL‑XH input blocks `≥3000`**: `3000–3124`, `3125–3249`, `3250–3280` (observed active). *All input registers ≥3000 are treated as TL‑XH sets.*
-- **Holding (R/W)**: `0–120+` core, plus model/feature blocks (e.g., `28–31`, `34–45`, `52–80`, `88–99`) and **TL‑XH holding blocks `≥3000`** (e.g., `3001+`, `3049`).
 
----
 
 
 # Input Registers (RO)
