@@ -112,23 +112,19 @@ def _build_value_arrays(
     If strict_defs is False (default), include dataset registers even if not in definition files.
     This allows using rich real-world scans without enumerating every register in mapping JSON.
     """
-    if strict_defs:
-        hr_keys = set(holding_def.keys())
-        ir_keys = set(input_def.keys())
-    else:
-        hr_keys = set(holding_def.keys()) | set(holding_values.keys())
-        ir_keys = set(input_def.keys()) | set(input_values.keys())
-
     MAX_REGISTERS = 4000
-    max_hr = max(_max_or_default(hr_keys), MAX_REGISTERS - 1)
-    max_ir = max(_max_or_default(ir_keys), MAX_REGISTERS - 1)
-    hr_array = [0] * (max_hr + 1)
-    ir_array = [0] * (max_ir + 1)
+    hr_array = [0] * MAX_REGISTERS
+    ir_array = [0] * MAX_REGISTERS
 
+    # Overwrite with values from definition and dataset
+    hr_keys = set(holding_def.keys()) | set(holding_values.keys())
+    ir_keys = set(input_def.keys()) | set(input_values.keys())
     for reg in hr_keys:
-        hr_array[reg] = holding_values.get(reg, 0)
+        if 0 <= reg < MAX_REGISTERS:
+            hr_array[reg] = holding_values.get(reg, 0)
     for reg in ir_keys:
-        ir_array[reg] = input_values.get(reg, 0)
+        if 0 <= reg < MAX_REGISTERS:
+            ir_array[reg] = input_values.get(reg, 0)
     return hr_array, ir_array
 
 
