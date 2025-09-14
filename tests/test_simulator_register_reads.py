@@ -18,7 +18,6 @@ UNIT_ID = 1
 
 @pytest.mark.asyncio
 async def test_simulator_register_reads(modbus_simulator):
-    pytest.skip("Modbus simulation test disabled due to unreliable pymodbus behavior in CI")
     # Load expected values from dataset
     with DATASET_PATH.open("r", encoding="utf-8") as f:
         dataset = json.load(f)
@@ -32,7 +31,9 @@ async def test_simulator_register_reads(modbus_simulator):
         import pytest_socket
 
         pytest_socket.enable_socket()
-        client = ModbusTcpClient(modbus_simulator["host"], port=modbus_simulator["port"])
+        client = ModbusTcpClient(
+            modbus_simulator["host"], port=modbus_simulator["port"]
+        )
         client.connect()
         try:
             return client.read_holding_registers(address - 1, count=1, device_id=1)
