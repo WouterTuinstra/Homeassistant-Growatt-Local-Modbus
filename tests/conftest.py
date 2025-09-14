@@ -2,6 +2,9 @@ import socket
 from datetime import timedelta
 
 import pytest
+import zoneinfo
+from unittest.mock import patch
+import homeassistant.util.dt as dt_util
 from pymodbus.client import AsyncModbusTcpClient
 from pymodbus.framer import FramerType
 
@@ -9,6 +12,23 @@ from custom_components.growatt_local import GrowattLocalCoordinator
 from custom_components.growatt_local.API.const import DeviceTypes
 from custom_components.growatt_local.API.utils import RegisterKeys
 from testing.modbus_simulator import start_simulator
+
+
+@pytest.fixture(autouse=True, scope="session")
+def _timezone_alias():
+    """Provide fallback when zoneinfo lacks the US/Pacific alias."""
+    original = dt_util.get_time_zone
+
+    def _get_time_zone(tz: str):
+        if tz == "US/Pacific":
+            try:
+                return zoneinfo.ZoneInfo("America/Los_Angeles")
+            except zoneinfo.ZoneInfoNotFoundError:  # pragma: no cover - defensive
+                return None
+        return original(tz)
+
+    with patch("homeassistant.util.dt.get_time_zone", side_effect=_get_time_zone):
+        yield
 
 
 @pytest.fixture(scope="session")
