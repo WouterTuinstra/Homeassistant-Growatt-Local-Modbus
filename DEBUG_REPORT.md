@@ -59,3 +59,13 @@
 - Document findings and changes in this file.
 - Ensure all register reads succeed and values match expectations.
 - Leave detailed logs and comments for future debugging.
+
+## Updates
+
+- Corrected simulator address base for holding registers (start at 1) to resolve
+  off-by-one reads where address `2` returned the value for register `3`.
+- Normalized dataset loading to store 16-bit unsigned values ensuring negative
+  register data does not break responses.
+- Adjusted tests to mask dataset values to 16 bits and to chunk large block
+  reads within the Modbus limit of 125 registers.
+- All tests now pass, and sequential register reads complete without connection loss.

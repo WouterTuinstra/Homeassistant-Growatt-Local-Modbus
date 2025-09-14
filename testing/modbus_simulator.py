@@ -80,13 +80,14 @@ def _load_dataset(dataset_file: Path | None) -> tuple[dict[int, int], dict[int, 
     with open(dataset_file, "r", encoding="utf-8") as f:
         raw = json.load(f)
 
-    def to_int16(val):
-        val = int(val)
-        return (val + 2**15) % 2**16 - 2**15
+    def to_uint16(val: int) -> int:
+        """Coerce any value into an unsigned 16-bit representation."""
+        return int(val) & 0xFFFF
 
-    holding = {int(k): to_int16(v) for k, v in raw.get("holding", {}).items()}
-    input_ = {int(k): to_int16(v) for k, v in raw.get("input", {}).items()}
-    # Force input[1] and input[2] for test compatibility regardless of dataset
+    holding = {int(k): to_uint16(v) for k, v in raw.get("holding", {}).items()}
+    input_ = {int(k): to_uint16(v) for k, v in raw.get("input", {}).items()}
+    # Force deterministic values for the first two input registers regardless
+    # of dataset contents so tests have a stable baseline.
     input_[1] = 1
     input_[2] = 2
     return holding, input_
@@ -225,7 +226,11 @@ async def start_simulator(
                 _LOGGER.debug("%s write %d:%d <- %s", self._kind, address, address + len(values) - 1, values)
             return super().setValues(address, values)
 
-    hr_block = LoggingDataBlock(0, hr_values, kind="holding")
+    # Pymodbus offsets holding-register addresses by +1 for TCP servers.
+    # Starting the holding block at ``1`` aligns client address ``0`` with
+    # index ``0`` of ``hr_values``. Input registers do not require this
+    # offset and therefore retain a base address of ``0``.
+    hr_block = LoggingDataBlock(1, hr_values, kind="holding")
     ir_block = LoggingDataBlock(0, ir_values, kind="input")
     store = {1: ModbusDeviceContext(hr=hr_block, ir=ir_block)}
     # Pass mapping as first positional arg; current pymodbus expects this without 'slaves=' kw

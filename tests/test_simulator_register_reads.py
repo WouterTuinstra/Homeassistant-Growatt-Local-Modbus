@@ -30,7 +30,7 @@ async def test_simulator_register_reads():
     # Load expected values from dataset
     with DATASET_PATH.open("r", encoding="utf-8") as f:
         dataset = json.load(f)
-    expected = {int(k): int(v) for k, v in dataset["holding"].items()}
+    expected = {int(k): int(v) & 0xFFFF for k, v in dataset["holding"].items()}
 
     ranges = [
         (0, 124),  # core input block
@@ -70,16 +70,21 @@ async def test_simulator_register_reads():
                     )
             # Second: test block reads for each range
             for start, end in ranges:
-                count = end - start + 1
-                rr = await client.read_holding_registers(
-                    start, count=count, device_id=1
-                )
-                assert not rr.isError(), f"Read error at range {start}-{end}"
-                for i, reg_val in enumerate(rr.registers):
-                    addr = start + i
-                    expected_val = expected.get(addr, 0)
-                    assert reg_val == expected_val, (
-                        f"Mismatch at address {addr}: got {reg_val}, expected {expected_val}"
+                total = end - start + 1
+                offset = start
+                while total > 0:
+                    chunk = min(total, 125)
+                    rr = await client.read_holding_registers(
+                        offset, count=chunk, device_id=1
                     )
+                    assert not rr.isError(), f"Read error at range {offset}-{offset+chunk-1}"
+                    for i, reg_val in enumerate(rr.registers):
+                        addr = offset + i
+                        expected_val = expected.get(addr, 0)
+                        assert reg_val == expected_val, (
+                            f"Mismatch at address {addr}: got {reg_val}, expected {expected_val}"
+                        )
+                    offset += chunk
+                    total -= chunk
         finally:
             client.close()
