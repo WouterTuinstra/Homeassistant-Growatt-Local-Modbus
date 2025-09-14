@@ -79,8 +79,13 @@ def _load_dataset(dataset_file: Path | None) -> tuple[dict[int, int], dict[int, 
 
     with open(dataset_file, "r", encoding="utf-8") as f:
         raw = json.load(f)
-    holding = {int(k): int(v) for k, v in raw.get("holding", {}).items()}
-    input_ = {int(k): int(v) for k, v in raw.get("input", {}).items()}
+
+    def to_int16(val):
+        val = int(val)
+        return (val + 2**15) % 2**16 - 2**15
+
+    holding = {int(k): to_int16(v) for k, v in raw.get("holding", {}).items()}
+    input_ = {int(k): to_int16(v) for k, v in raw.get("input", {}).items()}
     return holding, input_
 
 
@@ -111,8 +116,9 @@ def _build_value_arrays(
         hr_keys = set(holding_def.keys()) | set(holding_values.keys())
         ir_keys = set(input_def.keys()) | set(input_values.keys())
 
-    max_hr = _max_or_default(hr_keys)
-    max_ir = _max_or_default(ir_keys)
+    MAX_REGISTERS = 4000
+    max_hr = max(_max_or_default(hr_keys), MAX_REGISTERS - 1)
+    max_ir = max(_max_or_default(ir_keys), MAX_REGISTERS - 1)
     hr_array = [0] * (max_hr + 1)
     ir_array = [0] * (max_ir + 1)
 
@@ -129,24 +135,27 @@ def _build_value_arrays(
 #   - an object with method mutate(registers, tick)
 # It can adjust in‑memory holding/input register values each simulator tick.
 
+
 class _MutatorWrapper:
     def __init__(self, target: Any):
-        if callable(target) and not hasattr(target, 'mutate'):
+        if callable(target) and not hasattr(target, "mutate"):
             self._fn = target
         else:
-            self._fn = getattr(target, 'mutate')
+            self._fn = getattr(target, "mutate")
         if not callable(self._fn):
-            raise TypeError('Mutator has no callable mutate()')
-    def mutate(self, registers: dict[str, dict[int,int]], tick: int):
+            raise TypeError("Mutator has no callable mutate()")
+
+    def mutate(self, registers: dict[str, dict[int, int]], tick: int):
         self._fn(registers, tick)
+
 
 def _load_mutators(specs: list[str]) -> list[_MutatorWrapper]:
     muts: list[_MutatorWrapper] = []
     for spec in specs:
         try:
-            mod_name, _, attr = spec.partition(':')
+            mod_name, _, attr = spec.partition(":")
             mod = importlib.import_module(mod_name)
-            obj = getattr(mod, attr) if attr else getattr(mod, 'mutate', mod)
+            obj = getattr(mod, attr) if attr else getattr(mod, "mutate", mod)
             # If attribute name given and is a class, instantiate; else use directly
             if inspect.isclass(obj):
                 obj = obj()
@@ -161,7 +170,7 @@ async def start_simulator(
     *args,
     port: int = 5020,
     host: str = "127.0.0.1",
-    device: str = "min",
+    device: str = "min_6000xh_tl",
     dataset: str | None = None,
     strict_defs: bool = False,
     mutators: list[str] | None = None,
@@ -180,7 +189,9 @@ async def start_simulator(
     # Parameters doc kept above in updated docstring.
 
     if device not in DEVICE_TYPES:
-        raise ValueError(f"Unknown device type '{device}'. Valid: {', '.join(DEVICE_TYPES)}")
+        raise ValueError(
+            f"Unknown device type '{device}'. Valid: {', '.join(DEVICE_TYPES)}"
+        )
 
     holding_file, input_file = DEVICE_TYPES[device]
     holding_def = _load_register_definitions(holding_file)
@@ -231,7 +242,7 @@ async def start_simulator(
             return
         while not _stop.is_set():
             _tick += 1
-            regs = { 'holding': holding_values, 'input': input_values }
+            regs = {"holding": holding_values, "input": input_values}
             for m in _mutators:
                 try:
                     m.mutate(regs, _tick)
@@ -246,6 +257,7 @@ async def start_simulator(
                 await asyncio.wait_for(_stop.wait(), timeout=1.0)
             except asyncio.TimeoutError:
                 pass
+
     mutation_task = asyncio.create_task(_mutation_loop())
 
     try:
@@ -267,10 +279,14 @@ async def start_simulator(
 def _parse_args():
     parser = argparse.ArgumentParser(description="Growatt Modbus TCP simulator")
     parser.add_argument("--port", type=int, default=5020, help="TCP port to listen on")
-    parser.add_argument("--host", default="127.0.0.1", help="Host/IP to bind (use 0.0.0.0 for all interfaces)")
+    parser.add_argument(
+        "--host",
+        default="127.0.0.1",
+        help="Host/IP to bind (use 0.0.0.0 for all interfaces)",
+    )
     parser.add_argument(
         "--device",
-        default="min",
+        default="min_6000xh_tl",
         choices=sorted(DEVICE_TYPES.keys()),
         help="Device type mapping to use",
     )
@@ -291,14 +307,32 @@ def _parse_args():
         help="Optional duration in seconds before auto-shutdown (0 = run forever)",
     )
     parser.add_argument("--log-level", default="INFO", help="Logging level")
-    parser.add_argument('--mutator', action='append', help='Mutation plug‑in spec module[:attr] (repeatable)')
+    parser.add_argument(
+        "--mutator",
+        action="append",
+        help="Mutation plug‑in spec module[:attr] (repeatable)",
+    )
+    parser.add_argument(
+        "--debug-modbus",
+        action="store_true",
+        help="Enable debug logging for all Modbus requests and replies",
+    )
     return parser.parse_args()
 
 
 async def _run_cli():
     args = _parse_args()
     logging.basicConfig(level=getattr(logging, args.log_level.upper(), logging.INFO))
-    async with start_simulator(host=args.host, port=args.port, device=args.device, dataset=args.dataset, strict_defs=args.strict_defs, mutators=args.mutator):
+    if args.debug_modbus:
+        logging.getLogger("pymodbus").setLevel(logging.DEBUG)
+    async with start_simulator(
+        host=args.host,
+        port=args.port,
+        device=args.device,
+        dataset=args.dataset,
+        strict_defs=args.strict_defs,
+        mutators=args.mutator,
+    ):
         if args.duration > 0:
             await asyncio.sleep(args.duration)
         else:
