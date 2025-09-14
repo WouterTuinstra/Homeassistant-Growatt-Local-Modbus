@@ -22,14 +22,23 @@ async def test_simulator_register_reads():
     import socket
 
     # Find free port
-    s = socket.socket(); s.bind(("127.0.0.1", 0)); port = s.getsockname()[1]; s.close()
+    s = socket.socket()
+    s.bind(("127.0.0.1", 0))
+    port = s.getsockname()[1]
+    s.close()
 
     # Load expected values from dataset
     with DATASET_PATH.open("r", encoding="utf-8") as f:
         dataset = json.load(f)
     expected = {int(k): int(v) for k, v in dataset["holding"].items()}
 
-    address, value = next(iter(expected.items()))
+    ranges = [
+        (0, 124),  # core input block
+        (3000, 3124),  # mirror of low range
+        (3125, 3199),  # battery energy counters
+        (3200, 3231),  # BMS diagnostics
+        (3232, 3374),  # remaining TL-XH block / reserved
+    ]
 
     async with start_simulator(port=port, debug_wire=True) as (host, real_port):
         client = AsyncModbusTcpClient(
@@ -41,11 +50,36 @@ async def test_simulator_register_reads():
         await client.connect()
         await asyncio.sleep(0.05)
         try:
-            rr = await client.read_holding_registers(address - 1, count=1, device_id=1)
+            # First: test every register individually
+            for start, end in ranges:
+                for addr in range(start, end + 1):
+                    # rr = await client.read_holding_registers(addr, 1, device_id=1)
+                    rr = await client.read_holding_registers(addr, count=1, device_id=1)
+                    assert not rr.isError(), f"Read error at address {addr}"
+                    reg_val = rr.registers[0]
+                    expected_val = expected.get(addr, 0)
+
+                    # @agent (DEBUG_REPORT.md) : when commenting out the next line,
+                    # communication gets lost after a certain amount of reads.
+                    # with line as is, a mismatch is reported, which is another problem
+                    # alltogether that has to be investigated separately.
+                    # First problem is to make sure we can read all registers without
+                    # communication loss.
+                    assert reg_val == expected_val, (
+                        f"Mismatch at address {addr}: got {reg_val}, expected {expected_val}"
+                    )
+            # Second: test block reads for each range
+            for start, end in ranges:
+                count = end - start + 1
+                rr = await client.read_holding_registers(
+                    start, count=count, device_id=1
+                )
+                assert not rr.isError(), f"Read error at range {start}-{end}"
+                for i, reg_val in enumerate(rr.registers):
+                    addr = start + i
+                    expected_val = expected.get(addr, 0)
+                    assert reg_val == expected_val, (
+                        f"Mismatch at address {addr}: got {reg_val}, expected {expected_val}"
+                    )
         finally:
             client.close()
-    assert not rr.isError(), f"Read error at address {address}"
-    read_val = rr.registers[0]
-    assert read_val == value, (
-        f"Mismatch at address {address}: got {read_val}, expected {value}"
-    )
