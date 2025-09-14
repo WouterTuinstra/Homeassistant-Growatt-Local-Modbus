@@ -173,6 +173,7 @@ async def start_simulator(
     dataset: str | None = None,
     strict_defs: bool = False,
     mutators: list[str] | None = None,
+    debug_wire: bool = False,
 ):
     """Start a Modbus TCP simulator serving predefined registers.
 
@@ -208,8 +209,24 @@ async def start_simulator(
         holding_def, input_def, holding_values, input_values, strict_defs=strict_defs
     )
 
-    hr_block = ModbusSequentialDataBlock(0, hr_values)
-    ir_block = ModbusSequentialDataBlock(0, ir_values)
+    class LoggingDataBlock(ModbusSequentialDataBlock):
+        def __init__(self, start, values, *, kind: str):
+            super().__init__(start, values)
+            self._kind = kind
+
+        def getValues(self, address, count=1):  # type: ignore[override]
+            result = super().getValues(address, count)
+            if debug_wire:
+                _LOGGER.debug("%s read %d:%d -> %s", self._kind, address, address + count - 1, result)
+            return result
+
+        def setValues(self, address, values):  # type: ignore[override]
+            if debug_wire:
+                _LOGGER.debug("%s write %d:%d <- %s", self._kind, address, address + len(values) - 1, values)
+            return super().setValues(address, values)
+
+    hr_block = LoggingDataBlock(0, hr_values, kind="holding")
+    ir_block = LoggingDataBlock(0, ir_values, kind="input")
     store = {1: ModbusDeviceContext(hr=hr_block, ir=ir_block)}
     # Pass mapping as first positional arg; current pymodbus expects this without 'slaves=' kw
     context = ModbusServerContext(store, single=False)
@@ -316,6 +333,11 @@ def _parse_args():
         action="store_true",
         help="Enable debug logging for all Modbus requests and replies",
     )
+    parser.add_argument(
+        "--debug-wire",
+        action="store_true",
+        help="Log register reads/writes at the simulator layer",
+    )
     return parser.parse_args()
 
 
@@ -331,6 +353,7 @@ async def _run_cli():
         dataset=args.dataset,
         strict_defs=args.strict_defs,
         mutators=args.mutator,
+        debug_wire=args.debug_wire,
     ):
         if args.duration > 0:
             await asyncio.sleep(args.duration)
