@@ -55,9 +55,16 @@ Two options are supported:
    git clone https://github.com/l4m4re/growatt-rtu-broker
    ```
 
+The devcontainer setup (`script/bootstrap`) automatically installs the broker
+package in editable mode when the directory exists. For manual environments you
+can run `pip install -e external/growatt-rtu-broker` to achieve the same.
+
 Both layouts give the simulator predictable access to the broker sources when
 needed for dataset capture. Keep broker dependencies out of the Home Assistant
 integration itself.
+
+Developers with SSH write access can switch the submodule remotes by running
+`script/use-submodule-ssh.sh` once from the repository root.
 
 ---
 
