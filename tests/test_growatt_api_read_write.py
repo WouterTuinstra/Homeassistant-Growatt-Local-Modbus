@@ -31,6 +31,9 @@ def ensure_pkg(name: str, path: Path):
 ensure_pkg("custom_components", CC_DIR)
 ensure_pkg("custom_components.growatt_local", GL_DIR)
 ensure_pkg("custom_components.growatt_local.API", API_DIR)
+ensure_pkg(
+    "custom_components.growatt_local.API.device_type", API_DIR / "device_type"
+)
 
 
 def import_api(name: str):
@@ -47,6 +50,7 @@ def import_api(name: str):
 
 growatt = import_api("growatt")
 utils = import_api("utils")
+from custom_components.growatt_local.API.device_type.base import ATTR_INVERTER_ENABLED
 
 
 import socket
@@ -79,7 +83,7 @@ async def test_growatt_api_read_write():
         # Read initial value
         keys = utils.RegisterKeys(holding={reg_addr})
         result = await device.update(keys)
-        initial = result.get("Remote On/Off", None)
+        initial = result.get(ATTR_INVERTER_ENABLED, None)
         # Write a new value (toggle)
         new_val = 1 if initial == 0 else 0
         # Try writing using the API
@@ -89,7 +93,7 @@ async def test_growatt_api_read_write():
             pytest.fail(f"TypeError in write_register: {e}")
         # Read back and verify
         result2 = await device.update(keys)
-        after = result2.get("Remote On/Off", None)
+        after = result2.get(ATTR_INVERTER_ENABLED, None)
         assert after == new_val, f"Write did not persist: wrote {new_val}, got {after}"
         # Try writing with extra kwargs to catch argument errors
         with pytest.raises(TypeError):

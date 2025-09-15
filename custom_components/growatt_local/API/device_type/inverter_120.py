@@ -115,7 +115,7 @@ HOLDING_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(
         name=ATTR_INVERTER_ENABLED,
         register=0,
-        value_type=int
+        value_type=int,
     ),
     FIRMWARE_REGISTER,
     SERIAL_NUMBER_REGISTER,
