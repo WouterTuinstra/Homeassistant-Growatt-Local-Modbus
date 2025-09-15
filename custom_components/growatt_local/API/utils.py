@@ -245,17 +245,19 @@ def process_registers(
         if (register := registers.get(key)) is None:
             continue
 
+        processed_value: Any
+
         if register.value_type == int:
-            result[register.name] = value
+            processed_value = value
 
         elif register.value_type == float and register.length == 2:
             if (second_value := register_values.get(key + 1, None)) is None:
                 continue
             signed_value = ctypes.c_int32((value << 16) | second_value).value
-            result[register.name] = round(float(signed_value) / register.scale, 3)
+            processed_value = round(float(signed_value) / register.scale, 3)
 
         elif register.value_type == float:
-            result[register.name] = round(float(value) / register.scale, 3)
+            processed_value = round(float(value) / register.scale, 3)
 
         elif register.value_type == str:
             string = ""
@@ -264,21 +266,26 @@ def process_registers(
                     string += chr(item >> 8)
                     string += chr(item & 0x00FF)
 
-            result[register.name] = string
+            processed_value = string
 
         elif register.value_type == bool:
-            result[register.name] = bool(value)
+            processed_value = bool(value)
 
         elif register.value_type == custom_function:
             if register.function is None:
                 continue
 
             if register.length == 1:
-                result[register.name] = register.function(value)
+                processed_value = register.function(value)
             else:
-                result[register.name] = register.function([
+                processed_value = register.function([
                     register_values.get(i) for i in range(key, key + register.length)
                 ])
+
+        else:
+            continue
+
+        result[register.name] = processed_value
 
     return result
 

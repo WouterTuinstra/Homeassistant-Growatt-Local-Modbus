@@ -144,9 +144,15 @@ class GrowattModbusBase:
         await self.client.write_register(49, minute)
         await self.client.write_register(50, second)
 
-    async def write_register(self, register, value, slave) -> ModbusPDU:  
-        payload = ModbusBaseClient.convert_to_registers(value, ModbusBaseClient.DATATYPE.INT16)
-        return await self.client.write_register(register, payload[0], slave=slave)
+    async def write_register(
+        self, register: int, value: int | Sequence[int], slave: int
+    ) -> ModbusPDU:
+        payload = ModbusBaseClient.convert_to_registers(
+            value, ModbusBaseClient.DATATYPE.INT16
+        )
+        return await self.client.write_register(
+            register, payload[0], device_id=slave
+        )
 
     async def read_holding_registers(self, start_address, count, slave) -> dict[int, int]:
         data = await self.client.read_holding_registers(start_address, count=count, device_id=slave)
@@ -328,8 +334,15 @@ class GrowattDevice:
 
         return results
 
-    async def write_register(self, register, payload) -> ModbusPDU:
-        _LOGGER.info("Write register %d with payload %d and unit %d", register, payload, self.slave)
+    async def write_register(
+        self, register: int, payload: int | Sequence[int]
+    ) -> ModbusPDU:
+        _LOGGER.info(
+            "Write register %s with payload %s and unit %s",
+            register,
+            payload,
+            self.slave,
+        )
         data = await self.modbus.write_register(register, payload, self.slave)
         _LOGGER.info("Write response done")
         return data
