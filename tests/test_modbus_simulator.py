@@ -7,10 +7,11 @@ import json
 from pathlib import Path
 
 import pytest
-from pymodbus.client import AsyncModbusTcpClient
+from pymodbus.client import AsyncModbusSerialClient, AsyncModbusTcpClient
 from pymodbus.framer import FramerType
 
 from testing.modbus_simulator import start_simulator
+from .serial_helpers import virtual_serial_pair
 
 pytestmark = pytest.mark.enable_socket
 
@@ -46,6 +47,36 @@ async def test_default_dataset_values():
         assert not rr.isError()
         assert rr.registers == [1, 2]
     client.close()
+
+
+@pytest.mark.asyncio
+async def test_default_dataset_values_serial():
+    async with virtual_serial_pair() as (sim_port, client_port):
+        async with start_simulator(
+            mode="serial",
+            serial_port=sim_port,
+            force_deterministic=True,
+        ) as endpoint:
+            assert endpoint.mode == "serial"
+            assert endpoint.serial_port == sim_port
+            client = AsyncModbusSerialClient(
+                client_port,
+                framer=FramerType.RTU,
+                baudrate=9600,
+                stopbits=1,
+                bytesize=8,
+                parity="N",
+                timeout=1,
+                reconnect_delay=0,
+            )
+            try:
+                await client.connect()
+                await asyncio.sleep(0.1)
+                rr = await client.read_input_registers(0, count=2, device_id=1)
+                assert not rr.isError()
+                assert rr.registers == [1, 2]
+            finally:
+                client.close()
 
 
 @pytest.mark.asyncio
@@ -86,6 +117,51 @@ async def test_mutation_plugin_application(tmp_path, monkeypatch):
 
 
 @pytest.mark.asyncio
+async def test_mutation_plugin_application_serial(tmp_path):
+    mod_path = tmp_path / "temp_mutator.py"
+    mod_path.write_text(
+        "tick_values = []\n"
+        "def mutate(registers, tick):\n"
+        "    registers['input'][1] = registers['input'].get(1, 0) + 5\n"
+        "    tick_values.append(registers['input'][1])\n"
+    )
+    sys.path.insert(0, str(tmp_path))
+    try:
+        async with virtual_serial_pair() as (sim_port, client_port):
+            async with start_simulator(
+                mode="serial",
+                serial_port=sim_port,
+                mutators=["temp_mutator"],
+            ):
+                client = AsyncModbusSerialClient(
+                    client_port,
+                    framer=FramerType.RTU,
+                    baudrate=9600,
+                    stopbits=1,
+                    bytesize=8,
+                    parity="N",
+                    timeout=1,
+                    reconnect_delay=0,
+                )
+                try:
+                    await client.connect()
+                    await asyncio.sleep(1.2)
+                    rr1 = await client.read_input_registers(0, count=1, device_id=1)
+                    first = rr1.registers[0]
+                    await asyncio.sleep(1.1)
+                    rr2 = await client.read_input_registers(0, count=1, device_id=1)
+                    second = rr2.registers[0]
+                    assert second > first >= 5
+                finally:
+                    client.close()
+        temp_mod = importlib.import_module("temp_mutator")
+        assert len(temp_mod.tick_values) >= 2
+    finally:
+        if str(tmp_path) in sys.path:
+            sys.path.remove(str(tmp_path))
+
+
+@pytest.mark.asyncio
 async def test_strict_defs_ignores_extra_dataset(tmp_path):
     # Create a minimal dataset with an extra register not in defs
     dataset = {"input": {"9999": 123}, "holding": {}}
@@ -100,3 +176,35 @@ async def test_strict_defs_ignores_extra_dataset(tmp_path):
         if not rr.isError():
             assert rr.registers[0] == 0
     client.close()
+
+
+@pytest.mark.asyncio
+async def test_strict_defs_ignores_extra_dataset_serial(tmp_path):
+    dataset = {"input": {"9999": 123}, "holding": {}}
+    dataset_path = tmp_path / "ds.json"
+    dataset_path.write_text(json.dumps(dataset))
+    async with virtual_serial_pair() as (sim_port, client_port):
+        async with start_simulator(
+            mode="serial",
+            serial_port=sim_port,
+            dataset=str(dataset_path),
+            strict_defs=True,
+        ):
+            client = AsyncModbusSerialClient(
+                client_port,
+                framer=FramerType.RTU,
+                baudrate=9600,
+                stopbits=1,
+                bytesize=8,
+                parity="N",
+                timeout=1,
+                reconnect_delay=0,
+            )
+            try:
+                await client.connect()
+                await asyncio.sleep(0.1)
+                rr = await client.read_input_registers(9999, count=1, device_id=1)
+                if not rr.isError():
+                    assert rr.registers[0] == 0
+            finally:
+                client.close()
