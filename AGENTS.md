@@ -24,10 +24,9 @@ This repository tracks work on expanding Growatt inverter support for Home Assis
   - Compare results with external references and document discrepancies in `testing/growatt_registers.md`.
 
 5. **Broker usage policy**
-  - The broker project is **not** to be used directly in this repository for development or testing.
-  - For dry-run and container testing, always use the Modbus simulator (`testing/modbus_simulator.py`).
-  - The broker may be used only to generate static datasets for the simulator, which should then be copied into the Growatt repo.
-  - Do not add broker dependencies or startup logic to this repository.
-  - See `testing/README.md` for simulator usage and dataset provenance.
+  - Keep this repo simulator-only. The external broker now lives beside this repository at `../growatt-rtu-broker` (under `external/`) and is used to create datasets or proxy live hardware; never add runtime dependencies on it inside `custom_components/growatt_local`.
+  - When hardware access is required, run the broker (for example via its included Docker setup) and connect Home Assistant using TCP mode. All developer tests remain backed by `testing/modbus_simulator.py`.
+  - Capture sessions with the broker's JSONL logging, convert them via `testing/compact_capture.py`, and commit only the curated datasets here.
+  - Planned features such as virtual tty fan-out or capture helpers belong in the broker repo. This repository should only document how to consume them.
 
 These steps are iterative; each commit should leave the repository in a working state with tests executed. For full developer and usage instructions, see the updated `README.md` and `testing/README.md`.

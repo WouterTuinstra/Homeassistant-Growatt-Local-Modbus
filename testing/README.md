@@ -1,631 +1,277 @@
+# Growatt Local Modbus Integration - Developer & Test Guide
 
-# Growatt Local Modbus Integration — Developer & Test Guide
+This document explains how to work on the Growatt Local Modbus integration and
+its simulator. It covers the repository layout, the devcontainer workflow,
+available tooling, how to run automated tests, and how the external RTU broker
+fits into development and hardware validation.
 
-This guide describes how to use, test, and extend the Growatt Local Modbus integration and simulator, with a focus on the MIN 6000XH-TL inverter. It covers devcontainer usage, simulator operation, pytest, broker synergy, and register mapping.
-
----
-
-## Devcontainer Workflow (Recommended)
-
-1. **Clone the devcontainer fork:**
-  ```bash
-  git clone -b growatt-local-test https://github.com/l4m4re/HA-core.git
-  cd HA-core
-  ```
-
-2. **Open in VS Code (with devcontainer support):**
-  - VS Code will prompt to reopen in the container.
-  - All dependencies are pre-installed.
-
-3. **Run the simulator:**
-  ```bash
-  cd external/Homeassistant-Growatt-Local-Modbus/testing
-  python modbus_simulator.py
-  ```
-  - By default, this simulates a MIN 6000XH-TL inverter on TCP port 5020.
-
-4. **Start Home Assistant Core:**
-  ```bash
-  hass -c config
-  ```
-  - Open Home Assistant in your browser (usually at `http://localhost:8123`).
-
-5. **Add the Growatt device in Home Assistant:**
-  - Use TCP transport.
-  - Host: `localhost`
-  - Port: `5020`
-  - Slave address: `1`
-
-## Register Map Completeness
-
-- The register mapping for MIN 6000XH-TL is complete as far as currently determined. See [`growatt_registers.md`](growatt_registers.md) for details.
-
-## Simulator Usage
-
-- The simulator (`modbus_simulator.py`) supports static and deterministic datasets, mutation plug-ins, and is used for both manual and automated tests.
-- By default, it simulates a MIN 6000XH-TL with battery.
-- Use the `--force-deterministic` flag for stable test values.
-- See below for advanced usage, mutation plug-ins, and dataset provenance.
-
-## Pytest Environment
-
-- Run tests with:
-  ```bash
-  pytest external/Homeassistant-Growatt-Local-Modbus/tests
-  ```
-- Several tests are provided, including register value checks and unique ID validation.
-
-## Broker Synergy
-
-- The project is designed to work with a separate broker (not included directly), which can generate datasets for the simulator.
-- The broker is **not** a runtime or test dependency.
-- See below for details on dataset provenance and broker usage policy.
+The examples focus on the MIN 6000XH-TL inverter because it is currently the
+most complete data set, but the same tooling applies to other models once their
+register maps are supplied.
 
 ---
 
-## 0) Prerequisites
+## 1. Repository layout
 
-* You’re running **Home Assistant OS** or **Supervised** on a Raspberry Pi.
-* Your Growatt inverter is connected via **USB‑RS485** to the Pi.
-* You can access the Pi via the **Advanced SSH & Web Terminal** add‑on.
-
----
-
-## 1) Install & configure the Advanced SSH add‑on
-
-1. In Home Assistant: **Settings → Add‑ons → Add‑on Store →** install **SSH & Web Terminal (Community)**.
-2. Open the add‑on **Configuration** and set at least one of:
-
-   * `password: <your-strong-password>` **or** add your public key in `authorized_keys`.
-3. **Disable Protection mode** (toggle off) so the Docker CLI can talk to the host daemon.
-4. Start the add‑on and open the Web Terminal. If you see the limited `ha >` prompt, type `login` to drop to the host shell.
-
-> **Note**: The HA OS config directory on the host is `/mnt/data/supervisor/homeassistant`. Inside add‑ons it’s often bind‑mounted as `/config`. For Docker `-v` binds, **always use the host path** (`/mnt/data/supervisor/homeassistant/...`).
-
----
-
-## 2) Put the repo in a persistent location
-
-Clone your repo under the HA config directory so it survives reboots:
-
-```bash
-cd /mnt/data/supervisor/homeassistant
-# Your repo should contain custom_components/growatt_local and read_registers.py
-git clone -b fix/min-6000xh https://github.com/l4m4re/Homeassistant-Growatt-Local-Modbus growatt-local
+```
+external/
+  Homeassistant-Growatt-Local-Modbus/     Home Assistant integration + simulator
+    custom_components/growatt_local/
+    testing/
+    tests/
+  growatt-rtu-broker/                     External broker (submodule or clone)
 ```
 
-The script path will then be `/mnt/data/supervisor/homeassistant/growatt-local/read_registers.py`.
+Key helper scripts:
+
+- `testing/modbus_simulator.py` - Modbus TCP/RTU simulator with dataset support.
+- `testing/read_registers.py` - Direct serial probe script that loads the
+  integration code without Home Assistant.
+- `testing/compact_capture.py` - Converts broker JSONL captures into dataset
+  JSON files suitable for the simulator.
 
 ---
 
-## 3) Find your serial device
+## 2. Getting the code
 
-In the **host shell** (not inside a container):
+Clone the Home Assistant fork (contains the integration, datasets, and
+recommended devcontainer).
 
-```bash
-ls -l /dev/serial/by-id/  # preferred stable path (if present)
-ls -l /dev/ttyUSB*        # fallback path
+```
+git clone -b growatt-local-test https://github.com/l4m4re/HA-core.git
+cd HA-core
 ```
 
-If `/dev/serial/by-id` isn’t available inside a minimal container, use `/dev/ttyUSB0` (or your actual tty) in the `--device` mapping and in the `SERIAL_PORT` env var.
+The broker resides in `external/growatt-rtu-broker` alongside this repository.
+Two options are supported:
+
+1. **Git submodule (preferred for automation):**
+   ```
+   git submodule update --init --recursive external/growatt-rtu-broker
+   ```
+2. **Manual clone:**
+   ```
+   cd external
+   git clone https://github.com/l4m4re/growatt-rtu-broker
+   ```
+
+Both layouts give the simulator predictable access to the broker sources when
+needed for dataset capture. Keep broker dependencies out of the Home Assistant
+integration itself.
 
 ---
 
-## 4) Run the script in a clean Docker container (interactive)
+## 3. Devcontainer workflow
 
-1. Stop HA Core (frees the serial port):
+The repository ships with a devcontainer that installs all Python dependencies,
+starts Home Assistant, and exposes the simulator tools.
 
-```bash
-ha core stop
+1. Open the repository in VS Code.
+2. Reopen in the devcontainer when prompted.
+3. Inside the container shell:
+   ```
+   cd external/Homeassistant-Growatt-Local-Modbus/testing
+   python modbus_simulator.py
+   ```
+   This launches a Modbus TCP simulator on port 5020 using the default dataset.
+4. Start Home Assistant Core (if it is not already running):
+   ```
+   hass -c config
+   ```
+5. In the Home Assistant UI add the integration, choose **TCP**, and point it to
+   `localhost:5020` with unit id 1.
+
+The simulator supports both TCP and serial transports, optional mutators, and
+multiple device profiles. See section 5 for details.
+
+---
+
+## 4. Running the test suite
+
+The pytest collection focuses on simulator behaviour, dataset loaders, and
+supporting utilities. From the repository root (host or container):
+
+```
+pytest external/Homeassistant-Growatt-Local-Modbus/tests
 ```
 
-2. Launch an interactive Python 3.11 container with your code mounted and the serial device passed through:
+Relevant fixtures spin up the simulator automatically. Use
+`pytest -k <pattern>` to scope tests while iterating.
 
-```bash
-REPO=/mnt/data/supervisor/homeassistant/growatt-local
-SER=/dev/ttyUSB0   # or your /dev/serial/by-id/… path; inside the container it will also be /dev/ttyUSB0
+---
 
-docker run -it --rm \
-  --device=$SER:/dev/ttyUSB0 \
-  -v "$REPO":/app -w /app \
-  python:3.11 bash
+## 5. Simulator reference
+
+`testing/modbus_simulator.py` offers several options:
+
+- `--dataset` to load a specific dataset JSON.
+- `--device` to pick an alternate register map (for example `min`, `tl_xh`).
+- `--force-deterministic` to seed predictable values for tests.
+- `--mutator` to load mutation plug-ins that adjust register values over time.
+- `--serial` / `--tcp` to choose the transport the simulator exposes.
+
+The dataset format is a JSON object with `holding` and `input` dictionaries whose
+keys are register numbers stored as strings. Missing entries default to zero.
+
+Example CLI usage:
+
 ```
-
-3. Inside the container, install deps and run:
-
-```bash
-pip install --upgrade pip
-pip install "pymodbus[serial]>=3.8,<3.9"
-export PYTHONPATH=/app
-SERIAL_PORT=/dev/ttyUSB0 python /app/read_registers.py
-```
-
-4. When finished, `exit`, then:
-
-```bash
-ha core start
+python testing/modbus_simulator.py --dataset testing/datasets/min_6000xh_tl.json
+python testing/modbus_simulator.py --tcp 0.0.0.0:5020 --mutator testing.mutators.energy_tick
 ```
 
 ---
 
-## 5) Non‑interactive one‑liner (copy/paste)
+## 6. Dataset management
 
-```bash
-REPO=/mnt/data/supervisor/homeassistant/growatt-local
-SER=/dev/ttyUSB0
-ha core stop && \
-  docker run --rm -it \
-    --device=$SER:/dev/ttyUSB0 \
-    -v "$REPO":/app -w /app \
-    python:3.11 sh -lc 'pip install -q "pymodbus[serial]>=3.8,<3.9" && PYTHONPATH=/app SERIAL_PORT=/dev/ttyUSB0 python /app/read_registers.py' && \
-  ha core start
-```
+### 6.1 Default dataset
 
-* Change `SER` to match your device.
-* If you prefer the by‑id path and it exists on the host, you can bind it directly:
+`testing/datasets/min_6000xh_tl.json` is the baseline dataset bundled with the
+simulator. It represents a realistic snapshot of a MIN 6000XH-TL inverter. Older
+snapshots (such as `scan3.txt`) are retained only for historical reference; new
+work should rely on the capture workflow below.
 
-  ```bash
-  --device=/dev/serial/by-id/usb-…:/dev/ttyUSB0
-  ```
+### 6.2 Capturing from live hardware
 
----
+The preferred pipeline for refreshing datasets is:
 
-## 6) About the script
+1. Run the broker in capture mode against live hardware (see section 7 for
+   deployment options).
+2. Point Home Assistant or a probe script at the broker so it exchanges Modbus
+   traffic with the inverter.
+3. Use `testing/compact_capture.py` to transform the JSONL capture into a
+   dataset.
+   ```
+   python testing/compact_capture.py --in session.jsonl --device min_6000xh_tl --out testing/datasets/min_6000xh_tl.json --source-tag "capture $(date +%F)"
+   ```
+4. Commit the updated dataset and document the provenance in
+   `testing/growatt_registers.md` if new registers are mapped.
 
-The provided **`read_registers.py`**:
-
-* Bootstraps imports for `custom_components/growatt_local/API` without loading Home Assistant.
-* Auto‑detects `/dev/serial/by-id/*` on the host if available; otherwise uses `/dev/ttyUSB0`. You can override with `SERIAL_PORT=/your/device`.
-* Connects using: 115200 8N1, Modbus address 1, device type `HYBRID_120_TL_XH`.
-* Scans the TL‑XH register windows: `0–124`, `3000–3124`, `3125–3249`, `3250–3374` and prints a table with Address, Name, and Value.
-
-> The mapping names come from the integration’s `input_register` descriptions. Unmapped addresses show as `?` with `-` value.
+`compact_capture.py` keeps the last value seen for each register per function
+(read input and read holding). The optional `_source` tag records where the data
+came from.
 
 ---
 
-## 7) Troubleshooting
+## 7. Broker integration
 
-**Port busy / cannot open serial**
+The external broker mediates between the RS-485 inverter bus, the ShineWiFi
+serial dongle, and TCP clients such as Home Assistant or analysis tools.
 
-* Stop HA Core: `ha core stop`.
-* Ensure no other add‑on (e.g., ser2net) is holding the port.
-* Verify the device appears in the container: `ls -l /dev/ttyUSB0`.
+### 7.1 Deployment on Home Assistant OS
 
-**No `/dev/serial/by-id` in container**
+`external/growatt-rtu-broker/docker-compose.yml` runs the broker beside Home
+Assistant on a supervised Raspberry Pi:
 
-* Use `/dev/ttyUSB0` in both `--device` and `SERIAL_PORT`.
+1. Copy the `growatt-rtu-broker` directory to
+   `/mnt/data/supervisor/homeassistant/growatt-rtu-broker` using the Advanced SSH
+   add-on.
+2. In that directory configure environment variables in `.env` or the shell:
+   - `INV_DEV` -> inverter serial path (for example `/dev/serial/by-path/...`).
+   - `SHINE_DEV` -> Shine dongle path; use the same value as `INV_DEV` to disable
+     Shine pass-through.
+   - Optional overrides: `TCP_BIND`, `MIN_PERIOD`, `RTIMEOUT`, `LOG_PATH`.
+3. Start the container:
+   ```
+   docker compose up -d
+   ```
 
-**`ModuleNotFoundError: pymodbus…`**
+The container binds port 5020 on the host and logs JSONL traffic to
+`/var/log/growatt_broker.jsonl`. Point local or remote Home Assistant instances
+at `HOST_IP:5020` using TCP transport.
 
-* Re‑install: `pip install "pymodbus[serial]>=3.8,<3.9"` (inside the container you run in).
+### 7.2 Remote devcontainer against live hardware
 
-**Permission denied**
+A devcontainer session can connect to a broker that runs on your Home Assistant
+host. Configure the integration inside the container with:
 
-* Using Docker `--device` avoids udev group issues. If you still see perms errors, confirm the device mapping and that HA Core is stopped.
+- Transport: TCP
+- Host: the LAN IP of the machine running the broker
+- Port: 5020 (or the value you configured)
+- Unit id: match the inverter address (usually 1)
 
-**Keep your host clean**
+This mirrors the Shine + Home Assistant sharing use case while keeping physical
+serial access restricted to the broker host.
 
-* This approach installs Python packages only **inside the ephemeral container**; your HA OS host remains untouched.
+### 7.3 Dataset capture
 
----
+To record live traffic for later replay, enable capture mode when launching the
+broker (see broker documentation for current flags) or tail the JSONL wire log.
+Then run `testing/compact_capture.py` as described in section 6.2.
 
-## 8) Optional: VS Code debugging against HA on the Pi
+### 7.4 Multi-inverter roadmap
 
-If you also want to debug your **custom component** while HA runs on the Pi:
+Issue #53 highlights the need to expose multiple virtual serial endpoints so
+separate Home Assistant integrations can share one RS-485 line without fighting
+for `/dev/ttyUSB0`. Planned broker work will create pseudo terminal devices
+(`/run/growatt-broker/inverter<N>`) that funnel requests through the existing
+mutex-protected downstream. Until that lands, prefer the TCP transport for
+multiple inverters (one broker instance, many HA entries with different unit
+ids).
 
-1. Add to `/config/configuration.yaml` on the Pi:
+### 7.5 Use cases at a glance
 
-```yaml
-debugpy:
-  start: true
-  wait: false
-logger:
-  default: info
-  logs:
-    custom_components.growatt_local: debug
-    pymodbus: debug  # optional but very useful
-```
-
-2. In VS Code on your laptop, create `.vscode/launch.json`:
-
-```json
-{
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Attach to HA on Pi (debugpy)",
-      "type": "debugpy",
-      "request": "attach",
-      "connect": { "host": "<PI_IP>", "port": 5678 },
-      "pathMappings": [
-        { "localRoot": "${workspaceFolder}", "remoteRoot": "/config" }
-      ]
-    }
-  ]
-}
-```
-
-3. Put your integration on the Pi at `/config/custom_components/growatt_local`, restart HA, then **Attach**.
-
-> Combine this with the Docker runner above for quick register peeks when HA isn’t running.
-
----
-
-## 9) Safety notes
-
-* Always **restart HA Core** after tests so automations resume.
-* Double‑check the Modbus address, port, and wiring (A/B swapped is a common culprit).
-* Keep Protection mode **off** only while you need Docker CLI access; turn it back on afterwards if desired.
+| Scenario                                    | Recommended tool | Mode             |
+|---------------------------------------------|------------------|------------------|
+| Develop new sensor mapping                  | Simulator        | Dataset          |
+| Reverse engineer unknown registers          | Broker           | Capture          |
+| Run HA + Shine simultaneously               | Broker           | Live             |
+| Devcontainer HA against remote live inverter| Broker           | Live (TCP)       |
+| CI regression without hardware              | Simulator        | Dataset          |
+| Generate realistic datasets for docs/tests  | Broker + script  | Capture -> Dataset |
 
 ---
 
-## 10) Commands reference (copy‑ready)
+## 8. Working with live hardware without the broker
 
-```bash
-# Paths
-REPO=/mnt/data/supervisor/homeassistant/growatt-local
-SER=/dev/ttyUSB0   # or /dev/serial/by-id/usb-…
+`testing/read_registers.py` is a convenience script for quick serial reads when
+you do not need Home Assistant running:
 
-# Stop Home Assistant Core (frees the serial port)
-ha core stop
-
-# Interactive container
-docker run -it --rm --device=$SER:/dev/ttyUSB0 -v "$REPO":/app -w /app python:3.11 bash
-# Inside container
-pip install --upgrade pip
-pip install "pymodbus[serial]>=3.8,<3.9"
-export PYTHONPATH=/app
-SERIAL_PORT=/dev/ttyUSB0 python /app/read_registers.py
-# Exit container, then
-ha core start
-
-# Non-interactive one-liner
-ha core stop && docker run --rm -it --device=$SER:/dev/ttyUSB0 -v "$REPO":/app -w /app python:3.11 \
-  sh -lc 'pip install -q "pymodbus[serial]>=3.8,<3.9" && PYTHONPATH=/app SERIAL_PORT=/dev/ttyUSB0 python /app/read_registers.py' && ha core start
+```
+SERIAL_PORT=/dev/ttyUSB0 python testing/read_registers.py
 ```
 
-## Parsing register specification
+The script auto-detects `/dev/serial/by-id/*` paths, loads the integration's
+register definitions, and prints register values. It respects the integration's
+scaling logic, making it a useful sanity check before building new entities.
 
-`parse_registers.py` converts the in-repo documentation
-`growatt_registers.md` into machine readable JSON files. Run from this
-directory:
+When running on Home Assistant OS, use the Advanced SSH add-on to launch a
+Python container that mounts the repository and passes through the serial
+device. The legacy instructions from earlier versions (interactive container,
+non-interactive one-liner) still apply if needed but are no longer the
+recommended workflow now that the broker handles serial access.
 
-```bash
-python parse_registers.py
-```
-
-The script writes four outputs:
-
-* `holding_min.json`
-* `holding_tl_xh.json`
-* `input_min.json`
-* `input_tl_xh.json`
-
-Each entry records register number, function code, length, scale, unit,
-and description for the corresponding device type.
+**Devcontainer note:** The VS Code container does not expose host USB devices by
+default. Either run this script directly on the host (or inside the broker
+container) or reconfigure the devcontainer to map the serial device (for example
+by adding `--device /dev/ttyUSB0:/dev/ttyUSB0` to the devcontainer settings).
+Otherwise the script will fail with `ModbusPortException: USB port /dev/ttyUSB0
+is not available`.
 
 ---
 
-## Dataset provenance (simulation)
+## 9. Troubleshooting
 
-The default simulator dataset `datasets/min_6000xh_tl.json` was generated from
-`scan3.txt` contained in this repository under `python-modbus-scanner/`.
-That scan originated from (and the scanner utility lives at):
-
-  https://github.com/l4m4re/python-modbus-scanner
-
-`scan3.txt` only logs registers with non-zero values (plus some negatives), so
-the dataset represents a realistic snapshot of a running **MIN 6000XH‑TL**.
-
-If you regenerate it, you can run:
-
-```bash
-python testing/build_dataset_from_scan.py \
-  --scan-file testing/python-modbus-scanner/scan3.txt \
-  --out testing/datasets/min_6000xh_tl.json
-```
-
-Then restart any running simulator instance.
-
-**Note:** The full broker project is only used to generate static datasets for the simulator. All dry-run and container testing should use the Modbus simulator (`testing/modbus_simulator.py`). Do not use the broker directly for development or testing in this repository.
-
-To annotate a dataset with a provenance tag without breaking the loader you
-may add a top‑level `_source` field, e.g.:
-
-```jsonc
-{
-  "_source": "Derived from scan3.txt (python-modbus-scanner commit <hash>)",
-  "holding": { ... },
-  "input": { ... }
-}
-```
-
-The simulator ignores unknown top‑level keys.
+- **Port busy / cannot open serial** - Stop Home Assistant Core or the broker
+  and confirm the device path is correct.
+- **Inconsistent values during tests** - Run the simulator with
+  `--force-deterministic` and avoid mutators when comparing snapshots.
+- **TCP client connection errors** - Verify the broker is listening (e.g.
+  `ss -tnlp | grep 5020`) and that firewalls allow access from your devcontainer
+  or workstation.
+- **Dataset missing registers** - Regenerate the dataset via capture so the last
+  observed values are recorded, then update entity mappings accordingly.
 
 ---
 
-## 11) Broker ↔ Simulator synergy proposal
+## 10. Related documentation
 
-A separate companion project (Growatt RTU Broker) can complement this repository without being merged into it. Keeping concerns separated reduces review friction while unlocking advanced workflows.
+- `testing/growatt_registers.md` - Register mapping status and provenance notes.
+- `external/growatt-rtu-broker/README.md` - Broker features, deployment, and
+  roadmap.
+- `AGENTS.md` (both repositories) - Guidance for automated agents and
+  contributors about division of responsibilities between the simulator and the
+  broker.
 
-### Roles at a glance
-- This repo (integration + simulator):
-  - Defines register maps / ATTR_* constants.
-  - Provides static & replayable datasets for dry runs (CI, dev container).
-  - Offers tooling to parse protocol specs and build JSON datasets.
-- Broker project (separate repo):
-  - Mediates a *live* RS‑485 inverter connection and (optionally) the ShineWiFi dongle simultaneously.
-  - Exposes a Modbus TCP endpoint for Home Assistant (and other tools) while enforcing safe pacing.
-  - (Capture mode) Records every successful response into an incremental dataset you can feed back into this simulator.
-
-### Unified backend model (concept)
-```
-Backend (abstract)
-  read_input(unit, addr, count) -> list[int]
-  read_holding(unit, addr, count) -> list[int]
-  write_single(...)
-  write_multiple(...)
-
-Implementations:
-  LiveSerialBackend (broker)
-  DatasetBackend (simulator)
-  CaptureBackend (wraps LiveSerialBackend, stores dataset deltas)
-```
-Both simulator and broker CLIs choose the backend; higher‑level frontends (Modbus TCP server, Shine pass‑through) remain unchanged.
-
-### Capture → dataset workflow
-1. Run broker in capture mode while HA (or any Modbus client) polls.
-2. Broker appends JSONL events (unit, func, addr, values, timestamp).
-3. A helper script (shared or here) compacts events into `holding` / `input` dicts, preserving last‑seen value per register.
-4. Write `testing/datasets/<device>.json` (optionally add `_source`).
-5. Simulator consumes the new dataset for offline regression or CI.
-
-### Why keep projects separate?
-- Different release cadence (broker is operational infra; integration is HA‑facing).
-- Easier upstream PR acceptance (no serial concurrency code inside the HA custom component repo).
-- Enables non‑Home‑Assistant users (pure Modbus tooling) to reuse the broker.
-
-### Example use cases
-| Scenario | Tool | Mode |
-|----------|------|------|
-| Develop new sensor mapping | Simulator | dataset
-| Reverse engineer unknown registers | Broker | capture
-| Run HA + Shine simultaneously (shared RS‑485) | Broker | live
-| CI regression without hardware | Simulator | dataset
-| Generate realistic snapshot for docs | Broker -> script | capture→dataset
-
-### Proposed roadmap
-1. Broker repo: introduce `DatasetBackend` & `CaptureBackend` (no breaking changes).
-2. Export a simple dataset capture CLI: `growatt-broker capture --out session.jsonl`.
-3. Add compaction script here: `python testing/compact_capture.py --in session.jsonl --out testing/datasets/min_6000xh_tl_new.json`.
-4. Extend simulator to accept a mutation plug‑in (e.g., auto‑increment energy counters) for long‑running test realism.
-5. Add README section (this one) linking broker usage; document optional Modbus TCP integration.
-6. Provide a minimal Home Assistant add‑on definition for the broker (optional future).
-7. Optional: shared tiny PyPI package (`growatt-rtu-core`) with CRC, framing, backend ABC to eliminate duplication.
-
-### Minimal dataset capture JSONL shape (example)
-```
-{"ts":"2025-09-13T12:34:56.789","unit":1,"func":4,"addr":0,"count":124,"regs":[...]}
-{"ts":"2025-09-13T12:34:57.820","unit":1,"func":3,"addr":331,"count":2,"regs":[5075,0]}
-```
-
-### Compaction heuristics
-- Keep last value per (func, addr+index).
-- Optionally discard pure zero blocks except when a non‑zero was previously observed (avoids sparse noise).
-- Preserve negative values and large jumps (potential fault codes).
-
-### Integration README note (future PR)
-Add a short paragraph: “If you run the optional Growatt RTU Broker, configure this integration in TCP mode pointing at the broker host:port to enable simultaneous Shine + HA access.”
-
----
-
-## 12) Using the external RTU Broker from a Dev Container or Test Run
-
-You can point the dev container (or a local laptop) at a **live inverter** through the **external Growatt RTU Broker** instead of the in‑repo simulator.
-
-### 12.1 Start (or verify) the broker on your HA host
-Assuming the broker runs on the Home Assistant machine and exposes Modbus TCP on port 5020:
-
-```bash
-# On the HA host (example)
-# Broker already launched earlier, or:
-# growatt-broker --inverter /dev/ttyUSB0 --shine /dev/ttyUSB1 --baud 9600 --bytes 8E1 --tcp 0.0.0.0:5020
-ss -tnlp | grep 5020   # should show LISTEN
-```
-
-Make sure your development machine (laptop / dev container) can reach the HA host’s IP on that port.
-
-### 12.2 Dev container: configure integration against broker
-Inside the VS Code dev container (or any HA Core instance you run locally):
-1. Start Home Assistant (dev container already does this via `hass --script`).
-2. In the UI add the integration “Growatt Local Modbus”.
-3. Choose **TCP** as connection type.
-4. Set Host = `HA_HOST_IP` (the machine running the broker) and Port = `5020`.
-5. Keep Modbus address = `1` (unless your inverter address differs).
-
-No USB devices need to be mapped into the dev container; all serial handling is performed remotely by the broker.
-
-### 12.3 Running pytest against the live broker
-If you want selected tests to use the broker instead of the simulator:
-1. Stop (or avoid) the simulator fixtures if they auto‑start.
-2. Provide environment variables consumed by a custom fixture (recommended):
-
-```bash
-export GROWATT_LIVE_HOST=192.168.1.50
-export GROWATT_LIVE_PORT=5020
-export GROWATT_LIVE_UNIT=1
-pytest -k live --maxfail=1
-```
-
-If such a fixture does not yet exist, a simple pattern you can add (example only):
-
-```python
-# tests/fixtures_live.py
-import os, pytest
-from pymodbus.client import AsyncModbusTcpClient
-
-@pytest.fixture(scope="session")
-async def live_modbus():
-    host = os.environ.get("GROWATT_LIVE_HOST")
-    port = int(os.environ.get("GROWATT_LIVE_PORT", 5020))
-    client = AsyncModbusTcpClient(host, port=port)
-    await client.connect()
-    yield client
-    client.close()
-```
-
-Then a test can directly query registers to sanity‑check connectivity:
-
-```python
-async def test_live_read_basic(live_modbus):
-    rr = await live_modbus.read_input_registers(0, count=10, device_id=1)
-    assert hasattr(rr, "registers")
-```
-
-### 12.4 Switching between simulator and broker
-| Mode | Action |
-|------|--------|
-| Simulator (offline) | Run existing `start_simulator` fixture / script |
-| Live broker | Skip simulator fixture; set integration to TCP host:5020 |
-| Capture future dataset | Run broker in capture mode (planned) then compact JSONL → dataset |
-
-### 12.5 Recommended workflow during mapping changes
-1. Run broker live; browse new / unknown registers with a raw Modbus probe (or enhancement to `probe_simulator.py` adding TCP mode).
-2. Add new `GrowattDeviceRegisters` to the appropriate device type file.
-3. Add sensor entity descriptions.
-4. Restart HA in the dev container (or use Reload) pointing at the broker—new sensors appear if keys resolve.
-5. (Optional) Capture a snapshot to evolve the simulator dataset for regression tests.
-
-### 12.6 Notes / Caveats
-- Latency: Live broker round‑trip will be slightly higher than local simulator; keep test timeouts modestly larger.
-- Exclusivity: Broker must be the **only** RTU master; do not connect the inverter directly to another serial client simultaneously.
-- Consistency: The broker may pace (throttle) requests; tests expecting instantaneous multi‑burst reads should be tolerant of minor delays.
-
-### 12.7 Future enhancements (roadmap tie‑in)
-- Add `--capture` mode to broker and `compact_capture.py` here (see Section 11 roadmap step 2–3).
-- Provide a `--tcp-host/--tcp-port` option for `probe_simulator.py` so the same probe script works against simulator **and** broker without code changes.
-- Add a pytest marker (e.g. `@pytest.mark.live_broker`) to selectively include live tests in CI (skipped by default unless env vars set).
-
----
-
-## 13) Adding the external RTU Broker as a Git Submodule (for agents / automation)
-
-To let automated agents (or CI) seamlessly use the **external Growatt RTU Broker** alongside this repository—without merging code—add it as a **git submodule**. This preserves clear boundaries but gives local tooling a predictable path.
-
-### 13.1 Add submodule
-Choose a target path (example: `external/growatt-rtu-broker`):
-
-```bash
-git submodule add https://github.com/your-org-or-user/growatt-rtu-broker external/growatt-rtu-broker
-git commit -m "chore: add growatt-rtu-broker submodule"
-```
-
-# Already present in this branch via .gitmodules
-# To initialize after cloning:
-git submodule update --init --recursive external/growatt-rtu-broker
-```
-
-Later clones need:
-```bash
-git clone <this-repo>
-cd <this-repo>
-git submodule update --init --recursive
-```
-
-### 13.2 Recommended directory layout
-```
-Homeassistant-Growatt-Local-Modbus/
-  custom_components/
-  testing/
-  external/
-    growatt-rtu-broker/
-```
-An agent can detect presence of the broker by checking for `external/growatt-rtu-broker/pyproject.toml` (or `setup.cfg`).
-
-**Automation / agent hint:** Because `.gitmodules` is committed, any CI or AI agent cloning this branch only needs to run `git submodule update --init --recursive` to fetch the private broker project (provided SSH key / token access is configured for `git@github.com:l4m4re/...`).
-
-### 13.3 Dev container integration (optional)
-Add to a future devcontainer postCreateCommand (example):
-```bash
-pip install -e external/growatt-rtu-broker
-```
-This makes the broker CLI (e.g. `growatt-broker`) available inside the container for live or capture modes.
-
-### 13.4 Using broker from tests
-Environment switch pattern (no code change needed in core tests):
-```bash
-export GROWATT_BROKER_PATH=external/growatt-rtu-broker
-export GROWATT_LIVE_HOST=127.0.0.1
-export GROWATT_LIVE_PORT=5020
-pytest -k live_broker
-```
-A fixture can:
-1. If `GROWATT_BROKER_PATH` is set and no TCP listener found, spawn the broker subprocess (`subprocess.Popen([...])`).
-2. Wait for TCP port readiness.
-3. Yield host/port to tests.
-4. Terminate broker after session.
-
-### 13.5 Capture + compact workflow via submodule
-```bash
-# Start broker in capture mode (planned feature)
-growatt-broker --inverter /dev/ttyUSB0 --capture session.jsonl --tcp 0.0.0.0:5020 &
-# Run HA or probe tooling for N minutes
-python testing/compact_capture.py --in session.jsonl --out testing/datasets/min_6000xh_tl_new.json --device min_6000xh_tl --source-tag "capture $(date +%F)"
-```
-Produces a dataset JSON you can rename / replace after validation.
-
-**If --out omitted** the default path is:
-```
-testing/datasets/<device>.json
-```
-
----
-
-## 15) Simulator mutation plug‑ins (dynamic values)
-
-The simulator can optionally apply *mutation plug‑ins* each tick to make register values change over time (useful for UI demos or stressing logic expecting deltas).
-
-### 15.1 Plug‑in API
-A plug‑in is referenced with `--mutator module[:attr]` and must provide either:
-- A callable `mutate(registers: dict[str, dict[int,int]], tick: int) -> None`, OR
-- A class named in the attr position exposing `.mutate(registers, tick)`.
-
-`registers` contains two dicts: `{'holding': {...}, 'input': {...}}` (integer keys).
-`tick` increments once per simulator loop (currently 1 second in the placeholder loop).
-
-### 15.2 Sample plug‑in
-See `testing/mutators/sample_mutator.py`:
-- Class `EnergyIncrement` bumps holding register 331 by 5 each tick and energy total registers (>=1050) every 6 ticks.
-- Function `mutate()` increments holding register 30.
-
-### 15.3 Usage examples
-Increment totals using the class:
-```bash
-python testing/modbus_simulator.py --mutator testing.mutators.sample_mutator:EnergyIncrement
-```
-Use the function form:
-```bash
-python testing/modbus_simulator.py --mutator testing.mutators.sample_mutator
-```
-Combine multiple mutators:
-```bash
-python testing/modbus_simulator.py \
-  --mutator testing.mutators.sample_mutator:EnergyIncrement \
-  --mutator testing.mutators.sample_mutator
-```
-
-### 15.4 Notes
-- Mutators run sequentially each tick; later mutators see earlier changes.
-- Values are masked to 16‑bit (0xFFFF) after each write.
-- Avoid expensive I/O in mutate functions—keep them fast.
-- Future enhancement: configurable tick interval & scheduling.
-
----
-
-## 16) Acknowledgements
-
-Thanks to the Home Assistant community and contributors for their support and for the amazing platform that makes these integrations possible.
-
----
-
-*End of extended developer & integration notes.*
+Keep this guide up to date as workflows evolve, especially when new capture
+features or datasets land.
