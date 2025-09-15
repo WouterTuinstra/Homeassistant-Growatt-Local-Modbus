@@ -1,9 +1,10 @@
 """
-Configurable Modbus TCP simulator for Growatt devices.
+Configurable Modbus TCP/RTU simulator for Growatt devices.
 
 Features:
  - Support multiple device types via JSON register definition files
  - Optional dataset JSON with realistic register values (e.g. based on real MIN 6000XH-TL scans)
+ - Supports TCP and serial (RTU) transports for integration and testing
  - Re-usable async context manager for tests, plus CLI for manual use
 
 JSON definition format (existing):
@@ -25,16 +26,18 @@ import contextlib
 import json
 import logging
 import importlib, inspect
+from dataclasses import dataclass
 from pathlib import Path
 from contextlib import asynccontextmanager
-from typing import Dict, Tuple, Iterable, Callable, Any
+from typing import Any, Callable, Dict, Iterable, Tuple
 
 from pymodbus.datastore import (
     ModbusServerContext,
     ModbusDeviceContext,
     ModbusSequentialDataBlock,
 )
-from pymodbus.server import ModbusTcpServer
+from pymodbus.framer import FramerType
+from pymodbus.server import ModbusSerialServer, ModbusTcpServer
 
 BASE_PATH = Path(__file__).parent
 DATASETS_PATH = BASE_PATH / "datasets"
@@ -171,6 +174,26 @@ def _load_mutators(specs: list[str]) -> list[_MutatorWrapper]:
     return muts
 
 
+@dataclass
+class SimulatorEndpoint:
+    """Information about the simulator endpoint."""
+
+    mode: str
+    host: str | None
+    port: int | None
+    serial_port: str | None
+
+    def __iter__(self):
+        return iter((self.host, self.port))
+
+    def __getitem__(self, index: int):
+        if index == 0:
+            return self.host
+        if index == 1:
+            return self.port
+        raise IndexError(index)
+
+
 @asynccontextmanager
 async def start_simulator(
     *args,
@@ -182,8 +205,16 @@ async def start_simulator(
     strict_defs: bool = False,
     mutators: list[str] | None = None,
     debug_wire: bool = False,
+    mode: str = "tcp",
+    serial_port: str | None = None,
+    serial_baudrate: int = 9600,
+    serial_stopbits: int = 1,
+    serial_bytesize: int = 8,
+    serial_parity: str = "N",
+    serial_timeout: float = 1.0,
+    serial_handle_local_echo: bool = False,
 ):
-    """Start a Modbus TCP simulator serving predefined registers.
+    """Start a Modbus simulator serving predefined registers over TCP or serial.
 
     Backwards compatibility:
         Previously accepted a single positional argument (port). Support that pattern while
@@ -257,12 +288,54 @@ async def start_simulator(
     # Pass mapping as first positional arg; current pymodbus expects this without 'slaves=' kw
     context = ModbusServerContext(store, single=False)
 
-    server = ModbusTcpServer(context, address=(host, port))
+    mode_normalized = mode.lower()
+    if mode_normalized not in {"tcp", "serial"}:
+        raise ValueError("mode must be 'tcp' or 'serial'")
+
+    if mode_normalized == "serial":
+        if not serial_port:
+            raise ValueError("serial_port must be provided when mode='serial'")
+        parity = (serial_parity or "N").upper()[0]
+        server = ModbusSerialServer(
+            context,
+            framer=FramerType.RTU,
+            port=serial_port,
+            baudrate=serial_baudrate,
+            stopbits=serial_stopbits,
+            bytesize=serial_bytesize,
+            parity=parity,
+            timeout=serial_timeout,
+            handle_local_echo=serial_handle_local_echo,
+        )
+        endpoint = SimulatorEndpoint(
+            mode="serial",
+            host=None,
+            port=None,
+            serial_port=serial_port,
+        )
+        location = serial_port
+    else:
+        server = ModbusTcpServer(context, address=(host, port))
+        endpoint = SimulatorEndpoint(
+            mode="tcp",
+            host=host,
+            port=port,
+            serial_port=None,
+        )
+        location = f"{host}:{port}"
+
     task = asyncio.create_task(server.serve_forever())
+    log_suffix = ""
+    if mode_normalized == "serial":
+        log_suffix = (
+            f" serial(bps={serial_baudrate},bytes={serial_bytesize},"
+            f"parity={parity},stop={serial_stopbits},timeout={serial_timeout})"
+        )
     _LOGGER.info(
-        "Simulator started on %s:%d (device=%s, dataset=%s defs(h/i)=%d/%d total(h/i)=%d/%d populated(h/i)=%d/%d strict=%s)",
-        host,
-        port,
+        "Simulator started in %s mode at %s%s (device=%s, dataset=%s defs(h/i)=%d/%d total(h/i)=%d/%d populated(h/i)=%d/%d strict=%s)",
+        mode_normalized,
+        location,
+        log_suffix,
         device,
         dataset_path.name if dataset_path else "<none>",
         len(holding_def),
@@ -305,7 +378,7 @@ async def start_simulator(
     try:
         # Brief pause to ensure server socket is bound before yielding to caller
         await asyncio.sleep(0.05)
-        yield (host, port)
+        yield endpoint
     finally:
         _stop.set()
         mutation_task.cancel()
@@ -319,7 +392,13 @@ async def start_simulator(
 
 
 def _parse_args():
-    parser = argparse.ArgumentParser(description="Growatt Modbus TCP simulator")
+    parser = argparse.ArgumentParser(description="Growatt Modbus simulator")
+    parser.add_argument(
+        "--mode",
+        choices=["tcp", "serial"],
+        default="tcp",
+        help="Transport to expose (tcp or serial)",
+    )
     parser.add_argument("--port", type=int, default=5020, help="TCP port to listen on")
     parser.add_argument(
         "--host",
@@ -369,6 +448,44 @@ def _parse_args():
         action="store_true",
         help="Log register reads/writes at the simulator layer",
     )
+    parser.add_argument(
+        "--serial-port",
+        help="Serial device path to bind when --mode=serial",
+    )
+    parser.add_argument(
+        "--serial-baudrate",
+        type=int,
+        default=9600,
+        help="Serial baudrate when --mode=serial",
+    )
+    parser.add_argument(
+        "--serial-stopbits",
+        type=int,
+        default=1,
+        help="Serial stop bits when --mode=serial",
+    )
+    parser.add_argument(
+        "--serial-bytesize",
+        type=int,
+        default=8,
+        help="Serial byte size when --mode=serial",
+    )
+    parser.add_argument(
+        "--serial-parity",
+        default="N",
+        help="Serial parity (N/E/O) when --mode=serial",
+    )
+    parser.add_argument(
+        "--serial-timeout",
+        type=float,
+        default=1.0,
+        help="Serial timeout in seconds when --mode=serial",
+    )
+    parser.add_argument(
+        "--serial-handle-local-echo",
+        action="store_true",
+        help="Discard local echo when running in serial mode",
+    )
     return parser.parse_args()
 
 
@@ -377,6 +494,8 @@ async def _run_cli():
     logging.basicConfig(level=getattr(logging, args.log_level.upper(), logging.INFO))
     if args.debug_modbus:
         logging.getLogger("pymodbus").setLevel(logging.DEBUG)
+    if args.mode == "serial" and not args.serial_port:
+        raise SystemExit("--serial-port is required when --mode=serial")
     async with start_simulator(
         host=args.host,
         port=args.port,
@@ -386,6 +505,14 @@ async def _run_cli():
         mutators=args.mutator,
         debug_wire=args.debug_wire,
         force_deterministic=args.force_deterministic,
+        mode=args.mode,
+        serial_port=args.serial_port,
+        serial_baudrate=args.serial_baudrate,
+        serial_stopbits=args.serial_stopbits,
+        serial_bytesize=args.serial_bytesize,
+        serial_parity=args.serial_parity,
+        serial_timeout=args.serial_timeout,
+        serial_handle_local_echo=args.serial_handle_local_echo,
     ):
         if args.duration > 0:
             await asyncio.sleep(args.duration)
