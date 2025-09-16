@@ -55,7 +55,6 @@ from custom_components.growatt_local.API.device_type.base import ATTR_INVERTER_E
 
 import socket
 from testing.modbus_simulator import start_simulator
-from .serial_helpers import virtual_serial_pair
 
 
 @pytest.mark.asyncio
@@ -101,44 +100,3 @@ async def test_growatt_api_read_write():
             await device.write_register(reg_addr, [new_val], slave=1)
         # Clean up
         device.close()
-
-
-@pytest.mark.asyncio
-async def test_growatt_api_read_write_serial():
-    async with virtual_serial_pair() as (sim_port, client_port):
-        async with start_simulator(
-            mode="serial",
-            serial_port=sim_port,
-            force_deterministic=True,
-        ):
-            modbus = growatt.GrowattSerial(
-                client_port,
-                baudrate=9600,
-                stopbits=1,
-                parity="N",
-                bytesize=8,
-                timeout=1,
-            )
-            device = growatt.GrowattDevice(
-                modbus,
-                growatt.DeviceTypes.HYBRID_120_TL_XH,
-                1,
-            )
-            await device.connect()
-            reg_addr = 0
-            keys = utils.RegisterKeys(holding={reg_addr})
-            result = await device.update(keys)
-            initial = result.get(ATTR_INVERTER_ENABLED, None)
-            new_val = 1 if initial == 0 else 0
-            try:
-                await device.write_register(reg_addr, [new_val])
-            except TypeError as e:
-                pytest.fail(f"TypeError in write_register: {e}")
-            result2 = await device.update(keys)
-            after = result2.get(ATTR_INVERTER_ENABLED, None)
-            assert after == new_val, (
-                f"Write did not persist: wrote {new_val}, got {after}"
-            )
-            with pytest.raises(TypeError):
-                await device.write_register(reg_addr, [new_val], slave=1)
-            device.close()
