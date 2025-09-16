@@ -11,9 +11,10 @@ from pymodbus.client import AsyncModbusSerialClient, AsyncModbusTcpClient
 from pymodbus.framer import FramerType
 
 from testing.modbus_simulator import start_simulator
-from .serial_helpers import virtual_serial_pair
+from .serial_helpers import serial_environment_available, virtual_serial_pair
 
 pytestmark = pytest.mark.enable_socket
+SERIAL_AVAILABLE = serial_environment_available()
 
 
 @pytest.mark.asyncio
@@ -50,6 +51,7 @@ async def test_default_dataset_values():
 
 
 @pytest.mark.asyncio
+@pytest.mark.skipif(not SERIAL_AVAILABLE, reason="virtual serial ports unavailable")
 async def test_default_dataset_values_serial():
     async with virtual_serial_pair() as (sim_port, client_port):
         async with start_simulator(
@@ -117,6 +119,7 @@ async def test_mutation_plugin_application(tmp_path, monkeypatch):
 
 
 @pytest.mark.asyncio
+@pytest.mark.skipif(not SERIAL_AVAILABLE, reason="virtual serial ports unavailable")
 async def test_mutation_plugin_application_serial(tmp_path):
     mod_path = tmp_path / "temp_mutator.py"
     mod_path.write_text(
@@ -179,6 +182,7 @@ async def test_strict_defs_ignores_extra_dataset(tmp_path):
 
 
 @pytest.mark.asyncio
+@pytest.mark.skipif(not SERIAL_AVAILABLE, reason="virtual serial ports unavailable")
 async def test_strict_defs_ignores_extra_dataset_serial(tmp_path):
     dataset = {"input": {"9999": 123}, "holding": {}}
     dataset_path = tmp_path / "ds.json"
