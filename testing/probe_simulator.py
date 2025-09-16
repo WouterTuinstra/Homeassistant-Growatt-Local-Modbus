@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from testing.modbus_simulator import start_simulator  # type: ignore
+from growatt_broker.simulator import start_simulator  # type: ignore
 
 
 def parse_args():

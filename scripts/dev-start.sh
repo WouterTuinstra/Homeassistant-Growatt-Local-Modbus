@@ -12,7 +12,6 @@ fi
 VENVDIR=$BASE/.venv
 HACONF=$BASE/ha_config
 BROKER_LOG=$HACONF/broker.out
-DATASET=$BASE/testing/datasets/min_6000xh_tl.json
 PIDDIR=$BASE/.pids
 SIM_PID_FILE=$PIDDIR/sim.pid
 
@@ -40,7 +39,7 @@ start_simulator() {
     echo "[dev-start] Simulator already running (PID $(cat "$SIM_PID_FILE"))"; return 0; fi
   activate
   echo "[dev-start] Starting Modbus simulator..."
-  nohup python testing/modbus_simulator.py --dataset "$DATASET" & echo $! > "$SIM_PID_FILE"
+  nohup python -m growatt_broker.simulator.modbus_simulator & echo $! > "$SIM_PID_FILE"
   sleep 2
   if is_running "$SIM_PID_FILE"; then echo "[dev-start] Simulator started PID $(cat "$SIM_PID_FILE")"; else echo "[dev-start] Simulator failed"; fi
 }

@@ -54,7 +54,7 @@ from custom_components.growatt_local.API.device_type.base import ATTR_INVERTER_E
 
 
 import socket
-from testing.modbus_simulator import start_simulator
+from growatt_broker.simulator import start_simulator
 
 
 @pytest.mark.asyncio

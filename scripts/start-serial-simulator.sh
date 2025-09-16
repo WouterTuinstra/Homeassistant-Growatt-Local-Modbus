@@ -53,7 +53,7 @@ echo "Client serial port: ${CLIENT_PORT}" >&2
 printf '%s\n' "${CLIENT_PORT}"
 
 PYTHON_BIN=${PYTHON:-python}
-"${PYTHON_BIN}" "${REPO_ROOT}/testing/modbus_simulator.py" --mode serial --serial-port "${SIM_PORT}" "$@" &
+"${PYTHON_BIN}" -m growatt_broker.simulator.modbus_simulator --mode serial --serial-port "${SIM_PORT}" "$@" &
 SIM_PID=$!
 
 wait "${SIM_PID}"

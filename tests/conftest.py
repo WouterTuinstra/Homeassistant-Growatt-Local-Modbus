@@ -11,7 +11,7 @@ from pymodbus.framer import FramerType
 from custom_components.growatt_local import GrowattLocalCoordinator
 from custom_components.growatt_local.API.const import DeviceTypes
 from custom_components.growatt_local.API.utils import RegisterKeys
-from testing.modbus_simulator import start_simulator
+from growatt_broker.simulator import start_simulator
 
 
 @pytest.fixture(autouse=True, scope="session")

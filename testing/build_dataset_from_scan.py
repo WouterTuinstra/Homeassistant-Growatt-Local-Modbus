@@ -4,14 +4,15 @@ Parses lines like:
   found holding register 331, value=4900
   found input   register 2, value=14
 
-Outputs JSON structure consumable by `modbus_simulator.py` datasets:
+Outputs JSON structure consumable by `growatt_broker.simulator.modbus_simulator` datasets:
 {
   "holding": {"331": 4900, ...},
   "input": {"2": 14, ...}
 }
 
 Usage:
-  python build_dataset_from_scan.py --scan-file python-modbus-scanner/scan3.txt --out datasets/min_6000xh_tl_from_scan3.json
+  python build_dataset_from_scan.py --scan-file python-modbus-scanner/scan3.txt \
+    --out ../external/growatt-rtu-broker/growatt_broker/simulator/datasets/min_6000xh_tl_from_scan3.json
 """
 
 from __future__ import annotations

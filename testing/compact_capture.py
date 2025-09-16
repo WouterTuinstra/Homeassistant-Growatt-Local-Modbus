@@ -2,15 +2,23 @@
 
 Usage:
   python testing/compact_capture.py --in session.jsonl --device min_6000xh_tl \
-      --out testing/datasets/min_6000xh_tl_new.json
+      --out ../external/growatt-rtu-broker/growatt_broker/simulator/datasets/min_6000xh_tl_new.json
 
-If --out is omitted it writes to testing/datasets/<device>.json
+If --out is omitted it writes to the broker simulator datasets directory (<repo>/external/growatt-rtu-broker/growatt_broker/simulator/datasets/<device>.json)
 Keeps the *last* observed value for each register per function.
 Accepts events produced by CaptureBackend (ops: read_input, read_holding).
 """
 from __future__ import annotations
 import argparse, json, pathlib, sys
 from typing import Dict, List
+
+DEFAULT_DATASET_DIR = (
+    pathlib.Path(__file__).resolve().parents[2]
+    / "growatt-rtu-broker"
+    / "growatt_broker"
+    / "simulator"
+    / "datasets"
+)
 
 OP_MAP = {"read_input": "input", "read_holding": "holding"}
 
@@ -46,7 +54,12 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="Compact capture JSONL to dataset JSON")
     ap.add_argument("--in", required=True, dest="inp", help="Input capture JSONL file")
     ap.add_argument("--device", required=True, help="Device key used for default output name")
-    ap.add_argument("--out", help="Output dataset JSON file (default: testing/datasets/<device>.json)")
+    ap.add_argument(
+        "--out",
+        help=(
+            "Output dataset JSON file (default: broker simulator datasets/<device>.json)"
+        ),
+    )
     ap.add_argument("--source-tag", help="Optional provenance tag (_source field)")
     args = ap.parse_args(argv)
 
@@ -55,7 +68,11 @@ def main(argv=None):
         print(f"[ERROR] input file not found: {in_path}", file=sys.stderr)
         return 2
 
-    out_path = pathlib.Path(args.out) if args.out else pathlib.Path("testing/datasets") / f"{args.device}.json"
+    out_path = (
+        pathlib.Path(args.out)
+        if args.out
+        else DEFAULT_DATASET_DIR / f"{args.device}.json"
+    )
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     data = compact(load_events(in_path))

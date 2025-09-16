@@ -37,7 +37,7 @@ Recent updates expose additional energy-flow information for hybrid models:
 ### Recently added features
 
 - **Complete register map** for MIN 6000XH-TL (see `testing/growatt_registers.md`)
-- **Static simulator** (`testing/modbus_simulator.py`) with deterministic and realistic datasets
+- **Static simulator** (`growatt_broker.simulator.modbus_simulator`) with deterministic and realistic datasets
 - **VS Code devcontainer forked from HA core** ([repo](https://github.com/l4m4re/HA-core/tree/growatt-local-test))
 - **Pytest environment** with comprehensive tests
 - **Synergy with external broker project** for dataset generation (not a runtime dependency)
@@ -48,7 +48,7 @@ The register mapping for MIN 6000XH-TL is complete as far as currently determine
 
 ### Simulator
 
-- The simulator (`testing/modbus_simulator.py`) supports static and deterministic datasets, mutation plug-ins, and is used for both manual and automated tests.
+- The simulator (`growatt_broker.simulator.modbus_simulator`) supports static and deterministic datasets, mutation plug-ins, and is used for both manual and automated tests.
 - By default, it simulates a MIN 6000XH-TL with battery.
 - See [`testing/README.md`](testing/README.md) for advanced usage, mutation plug-ins, and dataset provenance.
 
@@ -116,8 +116,8 @@ python testing/probe_simulator.py
 
 3. **Run the simulator:**
     ```bash
-    cd external/Homeassistant-Growatt-Local-Modbus/testing
-    python modbus_simulator.py
+    cd external/Homeassistant-Growatt-Local-Modbus
+    python -m growatt_broker.simulator.modbus_simulator
     ```
     - By default, this simulates a MIN 6000XH-TL inverter on TCP port 5020.
 

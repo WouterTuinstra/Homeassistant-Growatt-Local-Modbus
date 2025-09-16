@@ -1,7 +1,7 @@
 """Sample mutation plug‑in for the simulator.
 
 Usage:
-  python testing/modbus_simulator.py --mutator testing.mutators.sample_mutator:EnergyIncrement
+  python -m growatt_broker.simulator.modbus_simulator --mutator testing.mutators.sample_mutator:EnergyIncrement
 or shorter if mutate function exported as mutate.
 
 Effect:

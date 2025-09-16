@@ -25,7 +25,7 @@ This repository tracks work on expanding Growatt inverter support for Home Assis
 
 5. **Broker usage policy**
   - The broker project is **not** to be used directly in this repository for development or testing.
-  - For dry-run and container testing, always use the Modbus simulator (`testing/modbus_simulator.py`).
+  - For dry-run and container testing, always use the Modbus simulator now provided by the broker package (`python -m growatt_broker.simulator.modbus_simulator`).
   - The broker may be used only to generate static datasets for the simulator, which should then be copied into the Growatt repo.
   - Do not add broker dependencies or startup logic to this repository.
   - See `testing/README.md` for simulator usage and dataset provenance.

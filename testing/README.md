@@ -19,8 +19,8 @@ This guide describes how to use, test, and extend the Growatt Local Modbus integ
 
 3. **Run the simulator:**
   ```bash
-  cd external/Homeassistant-Growatt-Local-Modbus/testing
-  python modbus_simulator.py
+  cd external/Homeassistant-Growatt-Local-Modbus
+  python -m growatt_broker.simulator.modbus_simulator
   ```
   - By default, this simulates a MIN 6000XH-TL inverter on TCP port 5020.
 
@@ -42,7 +42,7 @@ This guide describes how to use, test, and extend the Growatt Local Modbus integ
 
 ## Simulator Usage
 
-- The simulator (`modbus_simulator.py`) supports static and deterministic datasets, mutation plug-ins, and is used for both manual and automated tests.
+- The simulator (`growatt_broker.simulator.modbus_simulator`) supports static and deterministic datasets, mutation plug-ins, and is used for both manual and automated tests.
 - By default, it simulates a MIN 6000XH-TL with battery.
 - Use the `--force-deterministic` flag for stable test values.
 - See below for advanced usage, mutation plug-ins, and dataset provenance.
@@ -301,6 +301,8 @@ The script writes four outputs:
 * `input_min.json`
 * `input_tl_xh.json`
 
+After generating new definitions, copy them into `../external/growatt-rtu-broker/growatt_broker/simulator/` so the shared simulator picks up the updates.
+
 Each entry records register number, function code, length, scale, unit,
 and description for the corresponding device type.
 
@@ -308,7 +310,7 @@ and description for the corresponding device type.
 
 ## Dataset provenance (simulation)
 
-The default simulator dataset `datasets/min_6000xh_tl.json` was generated from
+The default simulator dataset `growatt_broker/simulator/datasets/min_6000xh_tl.json` was generated from
 `scan3.txt` contained in this repository under `python-modbus-scanner/`.
 That scan originated from (and the scanner utility lives at):
 
@@ -322,12 +324,12 @@ If you regenerate it, you can run:
 ```bash
 python testing/build_dataset_from_scan.py \
   --scan-file testing/python-modbus-scanner/scan3.txt \
-  --out testing/datasets/min_6000xh_tl.json
+  --out ../external/growatt-rtu-broker/growatt_broker/simulator/datasets/min_6000xh_tl.json
 ```
 
 Then restart any running simulator instance.
 
-**Note:** The full broker project is only used to generate static datasets for the simulator. All dry-run and container testing should use the Modbus simulator (`testing/modbus_simulator.py`). Do not use the broker directly for development or testing in this repository.
+**Note:** The full broker project is only used to generate static datasets for the simulator. All dry-run and container testing should use the Modbus simulator provided by the broker package (`python -m growatt_broker.simulator.modbus_simulator`). Do not use the broker directly for development or testing in this repository.
 
 To annotate a dataset with a provenance tag without breaking the loader you
 may add a top‑level `_source` field, e.g.:
@@ -377,7 +379,7 @@ Both simulator and broker CLIs choose the backend; higher‑level frontends (Mod
 1. Run broker in capture mode while HA (or any Modbus client) polls.
 2. Broker appends JSONL events (unit, func, addr, values, timestamp).
 3. A helper script (shared or here) compacts events into `holding` / `input` dicts, preserving last‑seen value per register.
-4. Write `testing/datasets/<device>.json` (optionally add `_source`).
+4. Write `../external/growatt-rtu-broker/growatt_broker/simulator/datasets/<device>.json` (optionally add `_source`).
 5. Simulator consumes the new dataset for offline regression or CI.
 
 ### Why keep projects separate?
@@ -397,7 +399,7 @@ Both simulator and broker CLIs choose the backend; higher‑level frontends (Mod
 ### Proposed roadmap
 1. Broker repo: introduce `DatasetBackend` & `CaptureBackend` (no breaking changes).
 2. Export a simple dataset capture CLI: `growatt-broker capture --out session.jsonl`.
-3. Add compaction script here: `python testing/compact_capture.py --in session.jsonl --out testing/datasets/min_6000xh_tl_new.json`.
+3. Add compaction script here: `python testing/compact_capture.py --in session.jsonl --out ../external/growatt-rtu-broker/growatt_broker/simulator/datasets/min_6000xh_tl_new.json`.
 4. Extend simulator to accept a mutation plug‑in (e.g., auto‑increment energy counters) for long‑running test realism.
 5. Add README section (this one) linking broker usage; document optional Modbus TCP integration.
 6. Provide a minimal Home Assistant add‑on definition for the broker (optional future).
@@ -570,13 +572,13 @@ A fixture can:
 # Start broker in capture mode (planned feature)
 growatt-broker --inverter /dev/ttyUSB0 --capture session.jsonl --tcp 0.0.0.0:5020 &
 # Run HA or probe tooling for N minutes
-python testing/compact_capture.py --in session.jsonl --out testing/datasets/min_6000xh_tl_new.json --device min_6000xh_tl --source-tag "capture $(date +%F)"
+python testing/compact_capture.py --in session.jsonl --out ../external/growatt-rtu-broker/growatt_broker/simulator/datasets/min_6000xh_tl_new.json --device min_6000xh_tl --source-tag "capture $(date +%F)"
 ```
 Produces a dataset JSON you can rename / replace after validation.
 
 **If --out omitted** the default path is:
 ```
-testing/datasets/<device>.json
+../external/growatt-rtu-broker/growatt_broker/simulator/datasets/<device>.json
 ```
 
 ---
@@ -601,15 +603,15 @@ See `testing/mutators/sample_mutator.py`:
 ### 15.3 Usage examples
 Increment totals using the class:
 ```bash
-python testing/modbus_simulator.py --mutator testing.mutators.sample_mutator:EnergyIncrement
+python -m growatt_broker.simulator.modbus_simulator --mutator testing.mutators.sample_mutator:EnergyIncrement
 ```
 Use the function form:
 ```bash
-python testing/modbus_simulator.py --mutator testing.mutators.sample_mutator
+python -m growatt_broker.simulator.modbus_simulator --mutator testing.mutators.sample_mutator
 ```
 Combine multiple mutators:
 ```bash
-python testing/modbus_simulator.py \
+python -m growatt_broker.simulator.modbus_simulator \
   --mutator testing.mutators.sample_mutator:EnergyIncrement \
   --mutator testing.mutators.sample_mutator
 ```
