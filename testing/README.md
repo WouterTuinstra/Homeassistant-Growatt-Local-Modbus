@@ -348,14 +348,14 @@ The simulator ignores unknown top‑level keys.
 
 ## 11) Broker ↔ Simulator synergy proposal
 
-A separate companion project (Growatt RTU Broker) can complement this repository without being merged into it. Keeping concerns separated reduces review friction while unlocking advanced workflows.
+A separate companion project (Modbus Workbench, formerly Growatt RTU Broker) can complement this repository without being merged into it. Keeping concerns separated reduces review friction while unlocking advanced workflows.
 
 ### Roles at a glance
 - This repo (integration + simulator):
   - Defines register maps / ATTR_* constants.
   - Provides static & replayable datasets for dry runs (CI, dev container).
   - Offers tooling to parse protocol specs and build JSON datasets.
-- Broker project (separate repo):
+- Modbus Workbench project (separate repo):
   - Mediates a *live* RS‑485 inverter connection and (optionally) the ShineWiFi dongle simultaneously.
   - Exposes a Modbus TCP endpoint for Home Assistant (and other tools) while enforcing safe pacing.
   - (Capture mode) Records every successful response into an incremental dataset you can feed back into this simulator.
@@ -417,13 +417,13 @@ Both simulator and broker CLIs choose the backend; higher‑level frontends (Mod
 - Preserve negative values and large jumps (potential fault codes).
 
 ### Integration README note (future PR)
-Add a short paragraph: “If you run the optional Growatt RTU Broker, configure this integration in TCP mode pointing at the broker host:port to enable simultaneous Shine + HA access.”
+Add a short paragraph: “If you run the optional Modbus Workbench (formerly Growatt RTU Broker), configure this integration in TCP mode pointing at the broker host:port to enable simultaneous Shine + HA access.”
 
 ---
 
 ## 12) Using the external RTU Broker from a Dev Container or Test Run
 
-You can point the dev container (or a local laptop) at a **live inverter** through the **external Growatt RTU Broker** instead of the in‑repo simulator.
+You can point the dev container (or a local laptop) at a **live inverter** through the **external Modbus Workbench** (formerly Growatt RTU Broker) instead of the in‑repo simulator.
 
 ### 12.1 Start (or verify) the broker on your HA host
 Assuming the broker runs on the Home Assistant machine and exposes Modbus TCP on port 5020:
@@ -512,7 +512,7 @@ async def test_live_read_basic(live_modbus):
 
 ## 13) Adding the external RTU Broker as a Git Submodule (for agents / automation)
 
-To let automated agents (or CI) seamlessly use the **external Growatt RTU Broker** alongside this repository—without merging code—add it as a **git submodule**. This preserves clear boundaries but gives local tooling a predictable path.
+To let automated agents (or CI) seamlessly use the **external Modbus Workbench** (formerly Growatt RTU Broker) alongside this repository—without merging code—add it as a **git submodule**. This preserves clear boundaries but gives local tooling a predictable path.
 
 ### 13.1 Add submodule
 Choose a target path (example: `external/growatt-rtu-broker`):
