@@ -187,7 +187,11 @@ def load_json(path: Path) -> dict:
 def normalize_entries(entries: list[dict]) -> list[dict]:
     normalised: list[dict] = []
     for entry in entries:
-        reg_text = entry.get("register", "").replace(" ", "")
+        register_field = entry.get("register")
+        if isinstance(register_field, int):
+            reg_text = str(register_field)
+        else:
+            reg_text = (register_field or "").replace(" ", "")
         start: int | None
         end: int | None
         if match := REG_RANGE.match(reg_text):
@@ -355,7 +359,17 @@ def render_markdown(spec: dict, mapping: dict) -> str:
             initial = clean_text(entry.get("initial"))
             notes = clean_text(entry.get("note"))
             attrs, sensors = collect_attribute_info(category, entry, mapping, attribute_to_sensors)
-            row = [register, name, description, access, range_unit, initial, notes, attrs, sensors]
+            row = [
+                str(register),
+                name,
+                description,
+                access,
+                range_unit,
+                initial,
+                notes,
+                attrs,
+                sensors,
+            ]
             lines.append("| " + " | ".join(row) + " |")
         lines.append("")
     return "\n".join(lines)

@@ -1,0 +1,2320 @@
+{
+  "types": {
+    "u16_scale10": {
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "read_write": false
+    },
+    "u16_scale100": {
+      "registers": 1,
+      "bits": 16,
+      "scale": 100,
+      "read_write": false
+    },
+    "u16_scale1000": {
+      "registers": 1,
+      "bits": 16,
+      "scale": 1000,
+      "read_write": false
+    },
+    "u16_scale10_rw": {
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "read_write": true
+    },
+    "u240_scale10": {
+      "registers": 15,
+      "bits": 240,
+      "scale": 10,
+      "read_write": false
+    },
+    "u32_scale10": {
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "read_write": false
+    },
+    "u32_scale7200": {
+      "registers": 2,
+      "bits": 32,
+      "scale": 7200,
+      "read_write": false
+    },
+    "u80_scale10": {
+      "registers": 5,
+      "bits": 80,
+      "scale": 10,
+      "read_write": false
+    },
+    "u96_scale10": {
+      "registers": 6,
+      "bits": 96,
+      "scale": 10,
+      "read_write": false
+    }
+  },
+  "register_types": [
+    {
+      "register": 0,
+      "type": "u16_scale10",
+      "attributes": [
+        "inverter_enabled",
+        "status_code"
+      ],
+      "families": [
+        "offgrid",
+        "storage",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 1,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_1_voltage",
+        "input_power"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 2,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_2_voltage"
+      ],
+      "families": [
+        "offgrid"
+      ]
+    },
+    {
+      "register": 3,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_1_power",
+        "input_1_voltage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 4,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_1_amperage"
+      ],
+      "families": [
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 5,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_1_power",
+        "input_2_power"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 7,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_1_amperage",
+        "input_2_voltage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 8,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_2_amperage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 9,
+      "type": "u96_scale10",
+      "attributes": [
+        "firmware",
+        "input_2_power",
+        "output_active_power"
+      ],
+      "families": [
+        "offgrid",
+        "storage",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 11,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_3_voltage",
+        "output_power"
+      ],
+      "families": [
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 12,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_3_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 13,
+      "type": "u32_scale10",
+      "attributes": [
+        "charge_power",
+        "grid_frequency",
+        "input_3_power"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 14,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_1_voltage"
+      ],
+      "families": [
+        "tl3"
+      ]
+    },
+    {
+      "register": 15,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_4_voltage",
+        "output_1_amperage"
+      ],
+      "families": [
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 16,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_4_amperage",
+        "output_1_power"
+      ],
+      "families": [
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 17,
+      "type": "u32_scale10",
+      "attributes": [
+        "battery_voltage",
+        "input_4_power"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "register": 18,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_2_voltage",
+        "soc"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "register": 19,
+      "type": "u16_scale10",
+      "attributes": [
+        "bus_voltage",
+        "input_5_voltage",
+        "output_2_amperage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 20,
+      "type": "u16_scale10",
+      "attributes": [
+        "grid_voltage",
+        "input_5_amperage",
+        "output_2_power"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 21,
+      "type": "u32_scale10",
+      "attributes": [
+        "grid_frequency",
+        "input_5_power"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "register": 22,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_1_voltage",
+        "output_3_voltage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "register": 23,
+      "type": "u80_scale10",
+      "attributes": [
+        "input_6_voltage",
+        "output_3_amperage",
+        "output_frequency",
+        "serial number"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 24,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_6_amperage",
+        "output_3_power",
+        "output_dc_voltage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 25,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_6_power",
+        "inverter_temperature"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "register": 26,
+      "type": "u32_scale10",
+      "attributes": [
+        "dc_dc_temperature",
+        "output_energy_today"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "register": 27,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_7_voltage",
+        "load_percent"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "register": 28,
+      "type": "u32_scale10",
+      "attributes": [
+        "Inverter model",
+        "battery_port_voltage",
+        "input_7_amperage",
+        "output_energy_total"
+      ],
+      "families": [
+        "offgrid",
+        "storage",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 29,
+      "type": "u32_scale10",
+      "attributes": [
+        "battery_bus_voltage",
+        "input_7_power"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "register": 30,
+      "type": "u32_scale7200",
+      "attributes": [
+        "operation_hours"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "register": 31,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_8_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 32,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_8_amperage",
+        "inverter_temperature"
+      ],
+      "families": [
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 33,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_8_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 34,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_1_amperage"
+      ],
+      "families": [
+        "offgrid"
+      ]
+    },
+    {
+      "register": 35,
+      "type": "u32_scale10",
+      "attributes": [
+        "output_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 37,
+      "type": "u16_scale100",
+      "attributes": [
+        "grid_frequency"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 38,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_1_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 39,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_1_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 40,
+      "type": "u32_scale10",
+      "attributes": [
+        "fault_code",
+        "output_1_power"
+      ],
+      "families": [
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 41,
+      "type": "u16_scale10",
+      "attributes": [
+        "ipm_temperature"
+      ],
+      "families": [
+        "tl3"
+      ]
+    },
+    {
+      "register": 42,
+      "type": "u16_scale10",
+      "attributes": [
+        "fault_code",
+        "output_2_voltage",
+        "p_bus_voltage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 43,
+      "type": "u16_scale10",
+      "attributes": [
+        "device type code",
+        "n_bus_voltage",
+        "output_2_amperage",
+        "warning_code"
+      ],
+      "families": [
+        "offgrid",
+        "storage",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 44,
+      "type": "u16_scale10",
+      "attributes": [
+        "number of trackers and phases",
+        "output_2_power"
+      ],
+      "families": [
+        "storage",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 46,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_3_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 47,
+      "type": "u16_scale10",
+      "attributes": [
+        "constant_power",
+        "derating_mode",
+        "output_3_amperage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 48,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_1_energy_today",
+        "output_3_power"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 50,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_1_energy_total"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "register": 52,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_2_energy_today"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "register": 53,
+      "type": "u32_scale10",
+      "attributes": [
+        "output_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 54,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_2_energy_total"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "register": 55,
+      "type": "u32_scale10",
+      "attributes": [
+        "output_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 56,
+      "type": "u32_scale10",
+      "attributes": [
+        "charge_energy_today",
+        "input_energy_total"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "register": 57,
+      "type": "u32_scale7200",
+      "attributes": [
+        "operation_hours"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 58,
+      "type": "u32_scale10",
+      "attributes": [
+        "charge_energy_total",
+        "output_reactive_power"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "register": 59,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_1_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 60,
+      "type": "u32_scale10",
+      "attributes": [
+        "discharge_energy_today",
+        "output_reactive_energy_today"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "register": 61,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_1_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 62,
+      "type": "u32_scale10",
+      "attributes": [
+        "discharge_energy_total",
+        "output_reactive_energy_total"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "register": 63,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_2_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 64,
+      "type": "u16_scale10",
+      "attributes": [
+        "ac_discharge_energy_today",
+        "warning_code"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "register": 65,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_2_energy_total",
+        "warning_value"
+      ],
+      "families": [
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 66,
+      "type": "u16_scale10",
+      "attributes": [
+        "ac_discharge_energy_total",
+        "real_output_power_percent"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "register": 67,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_3_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 68,
+      "type": "u16_scale10",
+      "attributes": [
+        "ac_charge_amperage"
+      ],
+      "families": [
+        "offgrid"
+      ]
+    },
+    {
+      "register": 69,
+      "type": "u32_scale10",
+      "attributes": [
+        "discharge_power",
+        "input_3_energy_total"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "register": 71,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_4_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 73,
+      "type": "u32_scale10",
+      "attributes": [
+        "battery_discharge_amperage",
+        "input_4_energy_total",
+        "modbus version"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "register": 75,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_5_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 77,
+      "type": "u32_scale10",
+      "attributes": [
+        "battery_power",
+        "input_5_energy_total"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "register": 79,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_6_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 81,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_6_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 83,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_7_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 85,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_7_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 87,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_8_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 88,
+      "type": "u16_scale100",
+      "attributes": [
+        "modbus version"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 89,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_8_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 91,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 93,
+      "type": "u16_scale10",
+      "attributes": [
+        "inverter_temperature"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 94,
+      "type": "u16_scale10",
+      "attributes": [
+        "ipm_temperature"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 95,
+      "type": "u16_scale10",
+      "attributes": [
+        "boost_temperature"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 98,
+      "type": "u16_scale10",
+      "attributes": [
+        "p_bus_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 99,
+      "type": "u16_scale10",
+      "attributes": [
+        "n_bus_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 101,
+      "type": "u16_scale10",
+      "attributes": [
+        "real_output_power_percent"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 104,
+      "type": "u16_scale10",
+      "attributes": [
+        "derating_mode"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 105,
+      "type": "u16_scale10",
+      "attributes": [
+        "fault_code"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 110,
+      "type": "u32_scale10",
+      "attributes": [
+        "warning_code"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 234,
+      "type": "u32_scale10",
+      "attributes": [
+        "output_reactive_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 236,
+      "type": "u32_scale10",
+      "attributes": [
+        "output_reactive_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 1009,
+      "type": "u32_scale10",
+      "attributes": [
+        "discharge_power"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "register": 1011,
+      "type": "u32_scale10",
+      "attributes": [
+        "charge_power"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "register": 1014,
+      "type": "u16_scale10",
+      "attributes": [
+        "soc"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "register": 1021,
+      "type": "u32_scale10",
+      "attributes": [
+        "pac_to_user_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "register": 1029,
+      "type": "u32_scale10",
+      "attributes": [
+        "pac_to_grid_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "register": 1044,
+      "type": "u32_scale10",
+      "attributes": [
+        "energy_to_user_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "register": 1046,
+      "type": "u32_scale10",
+      "attributes": [
+        "energy_to_user_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "register": 1048,
+      "type": "u32_scale10",
+      "attributes": [
+        "energy_to_grid_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "register": 1050,
+      "type": "u32_scale10",
+      "attributes": [
+        "energy_to_grid_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "register": 1052,
+      "type": "u32_scale10",
+      "attributes": [
+        "discharge_energy_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "register": 1054,
+      "type": "u32_scale10",
+      "attributes": [
+        "discharge_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "register": 1056,
+      "type": "u32_scale10",
+      "attributes": [
+        "charge_energy_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "register": 1058,
+      "type": "u32_scale10",
+      "attributes": [
+        "charge_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "register": 3000,
+      "type": "u16_scale10",
+      "attributes": [
+        "status_code"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3001,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_power",
+        "serial number"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3003,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_1_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3004,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_1_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3005,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_1_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3007,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_2_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3008,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_2_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3009,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_2_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3011,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_3_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3012,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_3_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3013,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_3_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3015,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_4_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3016,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_4_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3017,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_4_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3021,
+      "type": "u32_scale10",
+      "attributes": [
+        "output_reactive_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3023,
+      "type": "u32_scale10",
+      "attributes": [
+        "output_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3025,
+      "type": "u16_scale100",
+      "attributes": [
+        "grid_frequency"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3026,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_1_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3027,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_1_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3028,
+      "type": "u32_scale10",
+      "attributes": [
+        "output_1_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3030,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_2_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3031,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_2_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3032,
+      "type": "u32_scale10",
+      "attributes": [
+        "output_2_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3034,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_3_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3035,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_3_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3036,
+      "type": "u32_scale10",
+      "attributes": [
+        "output_3_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3041,
+      "type": "u32_scale10",
+      "attributes": [
+        "power_to_user"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3043,
+      "type": "u32_scale10",
+      "attributes": [
+        "power_to_grid"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3045,
+      "type": "u32_scale10",
+      "attributes": [
+        "power_user_load"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3047,
+      "type": "u32_scale7200",
+      "attributes": [
+        "operation_hours"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3049,
+      "type": "u32_scale10",
+      "attributes": [
+        "ac_charge_enabled",
+        "output_energy_today"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3051,
+      "type": "u32_scale10",
+      "attributes": [
+        "output_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3053,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3055,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_1_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3057,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_1_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3059,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_2_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3061,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_2_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3063,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_3_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3065,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_3_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3067,
+      "type": "u32_scale10",
+      "attributes": [
+        "energy_to_user_today"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3069,
+      "type": "u32_scale10",
+      "attributes": [
+        "energy_to_user_total"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3071,
+      "type": "u32_scale10",
+      "attributes": [
+        "energy_to_grid_today"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3073,
+      "type": "u32_scale10",
+      "attributes": [
+        "energy_to_grid_total"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3086,
+      "type": "u16_scale10",
+      "attributes": [
+        "derating_mode"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3093,
+      "type": "u16_scale10",
+      "attributes": [
+        "inverter_temperature"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3094,
+      "type": "u16_scale10",
+      "attributes": [
+        "ipm_temperature"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3095,
+      "type": "u16_scale10",
+      "attributes": [
+        "boost_temperature"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3097,
+      "type": "u16_scale10",
+      "attributes": [
+        "comm_board_temperature"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3098,
+      "type": "u16_scale10",
+      "attributes": [
+        "p_bus_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3099,
+      "type": "u16_scale10",
+      "attributes": [
+        "n_bus_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3101,
+      "type": "u16_scale10",
+      "attributes": [
+        "real_output_power_percent"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3105,
+      "type": "u16_scale10",
+      "attributes": [
+        "fault_code"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3110,
+      "type": "u32_scale10",
+      "attributes": [
+        "warning_code"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "register": 3111,
+      "type": "u16_scale10",
+      "attributes": [
+        "present_fft_a"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3115,
+      "type": "u16_scale10",
+      "attributes": [
+        "inv_start_delay"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3125,
+      "type": "u32_scale10",
+      "attributes": [
+        "discharge_energy_today"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3127,
+      "type": "u32_scale10",
+      "attributes": [
+        "discharge_energy_total"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3129,
+      "type": "u32_scale10",
+      "attributes": [
+        "charge_energy_today"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3131,
+      "type": "u32_scale10",
+      "attributes": [
+        "charge_energy_total"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3164,
+      "type": "u16_scale10",
+      "attributes": [
+        "bdc_new_flag"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3169,
+      "type": "u16_scale100",
+      "attributes": [
+        "battery_voltage"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3170,
+      "type": "u16_scale10",
+      "attributes": [
+        "battery_current"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3171,
+      "type": "u16_scale10",
+      "attributes": [
+        "soc"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3172,
+      "type": "u16_scale10",
+      "attributes": [
+        "vbus1_voltage"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3173,
+      "type": "u16_scale10",
+      "attributes": [
+        "vbus2_voltage"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3174,
+      "type": "u16_scale10",
+      "attributes": [
+        "buck_boost_current"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3175,
+      "type": "u16_scale10",
+      "attributes": [
+        "llc_current"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3176,
+      "type": "u16_scale10",
+      "attributes": [
+        "battery_temperature_a"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3177,
+      "type": "u16_scale10",
+      "attributes": [
+        "battery_temperature_b"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3178,
+      "type": "u32_scale10",
+      "attributes": [
+        "discharge_power"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3180,
+      "type": "u32_scale10",
+      "attributes": [
+        "charge_power"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3189,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_max_volt_cell_no"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3190,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_min_volt_cell_no"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3191,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_avg_temp_a"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3192,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_max_cell_temp_a"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3193,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_avg_temp_b"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3194,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_max_cell_temp_b"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3195,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_avg_temp_c"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3196,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_max_soc"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3197,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_min_soc"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3198,
+      "type": "u16_scale10",
+      "attributes": [
+        "parallel_battery_num"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3199,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_derate_reason"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3200,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_gauge_fcc_ah"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3201,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_gauge_rm_ah"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3202,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_protect1"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3203,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_warn1"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3204,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_fault1"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3205,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_fault2"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3210,
+      "type": "u16_scale10",
+      "attributes": [
+        "bat_iso_status"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3211,
+      "type": "u16_scale10",
+      "attributes": [
+        "batt_request_flags"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3212,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_status"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3213,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_protect2"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3214,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_warn2"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3215,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_soc"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3216,
+      "type": "u16_scale100",
+      "attributes": [
+        "bms_battery_voltage"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3217,
+      "type": "u16_scale100",
+      "attributes": [
+        "bms_battery_current"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3218,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_cell_max_temp"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3219,
+      "type": "u16_scale100",
+      "attributes": [
+        "bms_max_charge_current"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3220,
+      "type": "u16_scale100",
+      "attributes": [
+        "bms_max_discharge_current"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3221,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_cycle_count"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3222,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_soh"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3223,
+      "type": "u16_scale100",
+      "attributes": [
+        "bms_charge_volt_limit"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3224,
+      "type": "u16_scale100",
+      "attributes": [
+        "bms_discharge_volt_limit"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3225,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_warn3"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3226,
+      "type": "u16_scale10",
+      "attributes": [
+        "bms_protect3"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3230,
+      "type": "u16_scale1000",
+      "attributes": [
+        "bms_cell_volt_max"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 3231,
+      "type": "u16_scale1000",
+      "attributes": [
+        "bms_cell_volt_min"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    }
+  ]
+}

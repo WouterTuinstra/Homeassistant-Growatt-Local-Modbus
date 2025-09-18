@@ -15,6 +15,12 @@ reference docs for the Home Assistant `growatt_local` integration.
 - `growatt_local_registers.json` – snapshot of the integration's register
   mappings, used when cross-referencing coverage.
 - `render_register_spec.py` – regeneration script for the Markdown document.
+- `normalize_register_spec.py` – cleans the spec JSON and enriches it with
+  integration attribute metadata.
+- `build_register_data_types.py` – derives reusable data type/scale definitions
+  from the integration mapping.
+- `growatt_register_data_types.json` – output catalogue produced by
+  `build_register_data_types.py`.
 - `growatt_registers_spec.md` – rendered human-friendly reference. Generated via
   `python render_register_spec.py` and should not be edited by hand.
 
@@ -25,9 +31,13 @@ into register records. The Markdown output is rendered programmatically to stay
 in sync with those JSON sources.
 
 1. Modify `growatt_registers_spec.json` and/or `growatt_local_registers.json` as
-   required.
-2. Run `python render_register_spec.py` from this directory (or `script/bootstrap`
-   activated environment).
-3. Commit the updated JSON and the regenerated Markdown together.
+   required (or refresh them from the PDF extraction pipeline).
+2. Run `python normalize_register_spec.py` to tidy the JSON and attach updated
+   attribute mappings.
+3. Run `python build_register_data_types.py` if the type catalogue needs to be
+   refreshed.
+4. Run `python render_register_spec.py` from this directory (or inside the
+   `script/bootstrap` virtualenv).
+5. Commit the updated JSON artefacts and the regenerated Markdown together.
 
 Regenerating each time keeps the Markdown and the source JSON in sync.
