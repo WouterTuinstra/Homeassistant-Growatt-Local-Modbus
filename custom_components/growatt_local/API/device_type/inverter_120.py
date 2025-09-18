@@ -90,6 +90,7 @@ from .base import (
     ATTR_ENERGY_TO_GRID_TODAY,
     ATTR_ENERGY_TO_GRID_TOTAL,
 )
+from .storage_120 import STORAGE_INPUT_REGISTERS_120_TL_XH
 
 
 
@@ -466,3 +467,14 @@ INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_WARNING_CODE, register=3110, value_type=int, length=2
     ),
 )
+
+# Reuse the TL-XH storage register block for hybrid telemetry (battery energy,
+# power flow and BMS data). Avoid duplicates where the base inverter list
+# already provides a mapping.
+_EXISTING_TL_XH_REGS = {register.register for register in INPUT_REGISTERS_120_TL_XH}
+_STORAGE_EXTENSIONS = tuple(
+    register
+    for register in STORAGE_INPUT_REGISTERS_120_TL_XH
+    if register.register not in _EXISTING_TL_XH_REGS
+)
+INPUT_REGISTERS_120_TL_XH = INPUT_REGISTERS_120_TL_XH + _STORAGE_EXTENSIONS
