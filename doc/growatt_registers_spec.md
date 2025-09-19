@@ -9,7 +9,7 @@ This file is generated from `growatt_registers_spec.json` (parsed from the offic
 ## Coverage Summary
 | Section | Spec Registers | Covered | Missing |
 | --- | --- | --- | --- |
-| Common Holding Registers (0–124) | 125 | 8 | 117 |
+| Common Holding Registers (0–124) | 116 | 8 | 108 |
 | TL-X/TL-XH Holding Registers (3000–3124) | 109 | 0 | 109 |
 | TL-XH US Holding Registers (3125–3249) | 64 | 0 | 64 |
 | TL3/MAX/MID/MAC Holding Registers (125–249) | 108 | 0 | 108 |
@@ -32,34 +32,24 @@ Applies to TL-X/TL-XH, TL3/MAX/MID/MAC, and MIX/SPA/SPH storage families.
 
 | Register | Name | Description | Access | Range/Unit | Initial | Notes | Attributes | Sensors |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 0 | Inverter Enabled | Remote On/Off . On(1);Off(0)Inverter On(3);Off(2)BDC | W | — | 1 | The inverter can be switched on and off, and the BDC can be switched on and off for the batt ready function. | tlx:inverter_enabled, tl3:inverter_enabled | — |
-| 1 | Safty Func En Bit Bit Bit Bit Ena Bit Bit Bit Ena Bit Bit Bit Fre Ena | 0: SPI enable 1: Auto Test Start 2: LVFRT enable 3:Freq Derating ble 4: Softstart enable 5: DRMS enable 6:Power Volt Func ble 7: HVFRT enable 8:ROCOF enable 9: Recover q Derating Mode ble Bit 10:Split phase enable Bit 10~15:预留 | W | — | — | SPI: system protection interface Bit 0~3:for CEI 0-21 Bit 4~6:for SAA | — | — |
-| 2 | PF CMD Set memory regis state will not(1 setti initi | Holding ter 3,4,5,99 CMD be memory or /0), if not, these ngs are the al value. | W | — | 0 | Means these settings will be acting or not when next power on | — | — |
-| 3 | Active P I Rate a | nverter Max output ctive power percent | W | — | 255 | 255: power is not be limited | — | — |
-| 4 | Reactive P Rate | Inverter max output reactive power percent | W | — | 255 | 255: power is not be limited | — | — |
-| 5 | Power factor In fa | verter output power ctor’s 10000 times | W | — | 0 | — | — | — |
-| 6 | Pmax H | Normal power (high) | — | — | — | — | — | — |
-| 7 | Pmax L | Normal power (low) | — | — | — | — | — | — |
-| 8 | Vnormal | Normal work PV voltage | — | — | — | — | — | — |
-| 9 | Firmware | rmware version igh) | — | — | — | — | tlx:firmware, tl3:firmware, storage:firmware | — |
-| 10 | Fw version F M ( | irmware version middle) | — | — | — | — | — | — |
-| 11 | Fw version L Fi | rmware version (low) | — | — | — | — | — | — |
-| 12 | Fw version 2 Con H ver | trol Firmware sion (high) | — | — | — | — | — | — |
-| 13 | Fw version 2 Con M ver | trol Firmware sion (middle) | — | — | — | — | — | — |
-| 14 | Fw version 2 Con L ver | trol Firmware sion (low) | — | — | — | — | — | — |
-| 15 | LCD language | LCD language | W | — | — | 0: Italian; 1: English; 2: German; 3: Spanish; 4: French; 5: Chinese; 6:Polish 7:Portugues 8:Hungary | — | — |
-| 16 | Country Sele Cou cted not | ntry Selected or | W | — | — | — | — | — |
-| 17 | Vpv start | Input start voltage | W | — | — | — | — | — |
-| 18 | Time start | Start time | W | — | — | — | — | — |
-| 19 | Restart Delay Re Time af | start Delay Time ter fault back; | W | — | — | — | — | — |
-| 20 | w Power Start Pow Slope | er start slope W | 1- | — | — | — | — | — |
-| 21 | w Power Rest Powe art Slope EE | r restart slope W | 1- | — | — | — | — | — |
-| 22 | w Select Baud Sel rate com e 0: 1:3 | ect W municationbaudrat 9600 bps 8400 bps | 0- | — | — | — | — | — |
-| 23 | Serial Number | Serial number 1-2 | — | — | — | — | tlx:serial number, tl3:serial number | — |
-| 24 | Serial NO | Serial number 3-4 | — | — | — | — | — | — |
-| 25 | Serial NO | Serial number 5-6 | — | — | — | — | — | — |
-| 26 | Serial NO | Serial number 7-8 | — | — | — | — | — | — |
-| 27 | Serial NO | Serial number 9-10 | — | — | — | — | — | — |
+| 0 | Inverter and BDC enable | Bitfield controlling remote enable of the inverter (bit 0) and the battery DC converter or BDC ready mode (bit 1). Write the combined value 0-3; 1 turns on the inverter, 2 turns on only the BDC, 3 turns on both. | W | — | 1 | Home Assistant preserves other control bits when toggling this value. | tlx:inverter_enabled, tl3:inverter_enabled | — |
+| 1 | Safety function enable flags | Bit mask that enables regional grid-protection functions. Set a bit to 1 to enable the corresponding feature (SPI, LVFRT, DRMS, Volt-Var, ROCOF, recovery, split-phase). | W | — | — | Bits 0-3 cover CEI 0-21 compliance; bits 4-6 cover AS/NZS/SAA requirements; bits 11-15 are reserved. | — | — |
+| 2 | Persist power-factor commands | Choose whether the power-factor and derating commands in registers 3, 4, 5, and 99 are stored to NVRAM (1) or revert to defaults after the next restart (0). | W | — | 0 | — | — | — |
+| 3 | Active power limit setpoint | Maximum active power output as a percentage of rated power. Values 0-100 cap the output; 255 removes the limit. | W | — % | 255 | — | — | — |
+| 4 | Reactive power limit setpoint | Maximum reactive power magnitude as a percent of rated capacity. Negative values request capacitive (leading) support, positive values inductive (lagging). 255 removes the limit. | W | — % | 255 | — | — | — |
+| 5 | Power factor target | Requested power factor multiplied by 10,000 (e.g. 9900 equals 0.99). Values below 10,000 lead (capacitive); values above 10,000 lag (inductive). | W | — | 0 | — | — | — |
+| 6 | Rated apparent power | Apparent power capability encoded as an unsigned 32-bit value with 0.1 VA resolution (register 6 is the high word, register 7 the low word). | R | — VA | — | — | — | — |
+| 8 | Nominal PV voltage | Target PV input voltage for maximum power point tracking, stored in 0.1 V increments. | R | — V | — | — | — | — |
+| 9 | Firmware identification string | Six registers containing ASCII characters that describe the running firmware. Registers 9-11 hold the DSP identifier; registers 12-14 hold the control-board identifier. Home Assistant reads the combined 12-character string for the reported firmware version. | R | — ASCII | — | — | tlx:firmware, tl3:firmware, storage:firmware | — |
+| 15 | LCD language selection | Language index used by the local LCD interface: 0=Italian, 1=English, 2=German, 3=Spanish, 4=French, 5=Chinese, 6=Polish, 7=Portuguese, 8=Hungarian. | W | — | — | — | — | — |
+| 16 | Country profile configured | Indicates whether a regional grid profile has been selected (1) or still needs to be chosen (0). | W | — | — | — | — | — |
+| 17 | PV start voltage threshold | Minimum DC input voltage required before the inverter starts, stored in 0.1 V increments. | W | — V | — | — | — | — |
+| 18 | Start-up delay | Delay between meeting the PV start voltage and enabling the inverter output, measured in seconds. | W | — s | — | — | — | — |
+| 19 | Restart delay | Time to wait after a fault clears before restarting the inverter, in seconds. | W | — s | — | — | — | — |
+| 20 | Active power ramp rate (startup) | Slope for increasing active power after startup in 0.1% increments per second (1-1000). | W | — %/s | — | — | — | — |
+| 21 | Active power ramp rate (restart) | Slope for returning to full power after curtailment or a cleared fault, expressed in 0.1% per second. | W | — %/s | — | — | — | — |
+| 22 | Modbus RTU baud rate | Selects the RS-485 serial line baud rate: 0=9600 bps, 1=38400 bps. | W | — | 0 | — | — | — |
+| 23 | Inverter serial number | ASCII-encoded 10-character serial number spanning registers 23-27. | R | — ASCII | — | The Home Assistant integration exposes this as the device serial number and reuses it as the unique identifier. | tlx:serial number, tl3:serial number | — |
 | 28 | Inverter Model | Inverter Module (high) | &* | — | — | — | tlx:Inverter model, tl3:Inverter model, storage:Inverter model | — |
 | 29 | Module L | Inverter Module (low) | &* | — | — | — | — | — |
 | 30 | Com Address | Communicate address W | 1- | — | — | — | — | — |

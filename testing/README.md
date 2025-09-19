@@ -86,15 +86,32 @@ This guide describes how to use, test, and extend the Growatt Local Modbus integ
 
 ## 2) Put the repo in a persistent location
 
-Clone your repo under the HA config directory so it survives reboots:
+
+**Important: Persistent Storage in Home Assistant Add-ons**
+
+When using the **Advanced SSH & Web Terminal** add-on, you are inside a Docker container. Most directories (such as `/root` or `/mnt/data/supervisor/homeassistant`) are transient and will be lost on reboot or add-on restart. Only a few directories are mapped to persistent storage on the host and will survive reboots:
+
+- `/config` (your Home Assistant configuration directory)
+- `/share` (shared data, good for custom scripts and add-ons)
+- `/addons`, `/backups`, `/media`, `/ssl` (other special purposes)
+
+**Do not use `/root` or `/mnt/data/supervisor/homeassistant` inside the SSH add-on for persistent files.**
+
+**Recommended: Use `/config` or `/share` for custom components, scripts, and cloned repositories.**
+
+For example, to clone your repo persistently:
 
 ```bash
-cd /mnt/data/supervisor/homeassistant
-# Your repo should contain custom_components/growatt_local and read_registers.py
+cd /config
+# Or: cd /share
 git clone -b fix/min-6000xh https://github.com/l4m4re/Homeassistant-Growatt-Local-Modbus growatt-local
 ```
 
-The script path will then be `/mnt/data/supervisor/homeassistant/growatt-local/read_registers.py`.
+The script path will then be `/config/growatt-local/read_registers.py` (or `/share/growatt-local/read_registers.py`).
+
+If you want to use the broker as a submodule or separate repo, also place it under `/config` or `/share`.
+
+For more details, see: https://community.home-assistant.io/t/user-file-changes-lost-on-reboot/545757/2
 
 ---
 
