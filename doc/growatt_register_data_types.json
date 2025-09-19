@@ -961,6 +961,13 @@
       },
       "read_write": true,
       "notes": "Vendor documentation references Australian anti-backflow modes without further detail."
+    },
+    "time_of_day_hhmm": {
+      "kind": "raw",
+      "registers": 1,
+      "bits": 16,
+      "read_write": true,
+      "notes": "High byte stores the hour (0-23); low byte stores the minute (0-59)."
     }
   },
   "register_types": [
