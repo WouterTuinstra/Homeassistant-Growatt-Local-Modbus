@@ -9,10 +9,10 @@ This file is generated from `growatt_registers_spec.json` (parsed from the offic
 ## Coverage Summary
 | Section | Spec Registers | Covered | Missing |
 | --- | --- | --- | --- |
-| Common Holding Registers (0–124) | 116 | 8 | 108 |
+| Common Holding Registers (0–124) | 100 | 8 | 92 |
 | TL-X/TL-XH Holding Registers (3000–3124) | 109 | 0 | 109 |
 | TL-XH US Holding Registers (3125–3249) | 64 | 0 | 64 |
-| TL3/MAX/MID/MAC Holding Registers (125–249) | 108 | 0 | 108 |
+| TL3/MAX/MID/MAC Holding Registers (125–249) | 80 | 0 | 80 |
 | Storage Holding Registers (1000–1124) | 99 | 0 | 99 |
 | Storage Holding Registers (1125–1249) | 15 | 0 | 15 |
 | Common Input Registers (0–124) | 100 | 80 | 20 |
@@ -50,103 +50,87 @@ Applies to TL-X/TL-XH, TL3/MAX/MID/MAC, and MIX/SPA/SPH storage families.
 | 21 | Active power ramp rate (restart) | Slope for returning to full power after curtailment or a cleared fault, expressed in 0.1% per second. | W | — %/s | — | — | — | — |
 | 22 | Modbus RTU baud rate | Selects the RS-485 serial line baud rate: 0=9600 bps, 1=38400 bps. | W | — | 0 | — | — | — |
 | 23 | Inverter serial number | ASCII-encoded 10-character serial number spanning registers 23-27. | R | — ASCII | — | The Home Assistant integration exposes this as the device serial number and reuses it as the unique identifier. | tlx:serial number, tl3:serial number | — |
-| 28 | Inverter Model | Inverter Module (high) | &* | — | — | — | tlx:Inverter model, tl3:Inverter model, storage:Inverter model | — |
-| 29 | Module L | Inverter Module (low) | &* | — | — | — | — | — |
-| 30 | Com Address | Communicate address W | 1- | — | — | — | — | — |
-| 31 | Flash Start | Update firmware W | 1 | — | — | — | — | — |
-| 32 | Reset User Info | Reset User Information W | 0x | — | — | — | — | — |
-| 33 | Reset to factory | Reset to factory W | 0x | — | — | — | — | — |
-| 34 | Manufacture Man r Info 8 inf | ufacturer ormation (high) | — | — | — | — | — | — |
-| 35 | Manufacture Man r Info 7 inf | ufacturer ormation (middle) | — | — | — | — | — | — |
-| 36 | Manufacture Man r Info 6 inf | ufacturer ormation (low) | — | — | — | — | — | — |
-| 37 | Manufacture Man r Info 5 inf | ufacturer ormation (high) | — | — | — | — | — | — |
-| 38 | Manufacture Man r Info 4 inf | ufacturer ormation (middle) | — | — | — | — | — | — |
-| 39 | Manufacture Man r Info 3 inf | ufacturer ormation (low) | — | — | — | — | — | — |
-| 40 | Manufacture Man r Info 2 inf | ufacturer ormation (low) | — | — | — | — | — | — |
-| 41 | Manufacture Man r Info 1 inf | ufacturer ormation (high) | — | — | — | — | — | — |
-| 42 | bfailsafe En; G 1 | 00 fail safe W | En Di | — | Engli | sh G 100 fail safe set | — | — |
-| 43 | Device Type Code | Device Type Code | &* | — | — | — | tlx:device type code, tl3:device type code, storage:device type code | — |
-| 44 | Number Of Trackers And Phases | Input tracker num and output phase num | — | — | — | — | tlx:number of trackers and phases, tl3:number of trackers and phases, storage:number of trackers and phases | — |
-| 45 | Sys Year | System time-year | W | — | Loc | al time | — | — |
-| 46 | Sys Month | System time- Month | W | — | — | — | — | — |
-| 47 | Sys Day | System time- Day | W | — | — | — | — | — |
-| 48 | Sys Hour | System time- Hour | W | — | — | — | — | — |
-| 49 | Sys Min | System time- Min | W | — | — | — | — | — |
-| 50 | Sys Sec | System time- Second | W | — | — | — | — | — |
-| 51 | Sys Weekly | System Weekly | W | — | — | — | — | — |
-| 52 | Vac low | Grid voltage low limit protect | W | — | — | — | — | — |
-| 53 | Vac high | Grid voltage high limit protect | W | — | — | — | — | — |
-| 54 | Fac low | Grid frequency low limit protect | W | — | — | — | — | — |
-| 55 | Fac high | Grid high frequencylimit protect | W | — | — | — | — | — |
-| 56 | Vac low 2 | Grid voltage low limit protect 2 | W | — | — | — | — | — |
-| 57 | Vac high 2 | Grid voltage high limit protect 2 | W | — | — | — | — | — |
-| 58 | Fac low 2 | Grid frequency low limit protect 2 | W | — | — | — | — | — |
-| 59 | Fac high 2 | Grid high frequency limit protect 2 | W | — | — | — | — | — |
-| 60 | Vac low 3 | Grid voltage low limit protect 3 | W | — | — | — | — | — |
-| 61 | Vac high 3 | Grid voltage high limit protect 3 | W | — | — | — | — | — |
-| 62 | Fac low 3 | Grid frequency low limit protect 3 | W | — | — | — | — | — |
-| 63 | Fac high 3 | Grid frequency high limit protect 3 | W | — | — | — | — | — |
-| 64 | Vac low C | Grid low voltage limit connect to Grid | W | — | — | — | — | — |
-| 65 | Vac high C | Grid high voltage limit connect to Grid | W | — | — | — | — | — |
-| 66 | Fac low C | Grid low frequency limit connect to Grid | W | — | — | — | — | — |
-| 67 | Fac high C | Grid high frequency limit connect to Grid | W | — | — | — | — | — |
-| 68 | Vac low 1 G time p | rid voltage low limit rotect time 1 | W | — | — | — | — | — |
-| 69 | Vac high 1 G time p | rid voltage high limit rotect time 1 | W | — | — | — | — | — |
-| 70 | Vac low 2 G time p | rid voltage low limit rotect time 2 | W | — | — | — | — | — |
-| 71 | Vac high 2 G time p | rid voltage high limit rotect time 2 | W | — | — | — | — | — |
-| 72 | Fac low 1 G time l | rid frequency low imit protect time 1 | W | — | — | — | — | — |
-| 73 | Modbus Version | rid frequency high imit protect time 1 | W | — | — | — | tl3:modbus version | — |
-| 74 | Fac low 2 G time l | rid frequency low imit protect time 2 | W | — | — | — | — | — |
-| 75 | Fac high 2 G time l | rid frequency high imit protect time 2 | W | — | — | — | — | — |
-| 76 | Vac low 3 G time p | rid voltage low limit rotect time 3 | W | — | — | — | — | — |
-| 77 | Vac high 3 G time p | rid voltage high limit rotect time 3 | W | — | — | — | — | — |
-| 78 | Fac low 3 G time l | rid frequency low imit protect time 3 | W | — | — | — | — | — |
-| 79 | Fac high 3 G time l | rid frequency high imit protect time 3 | W | — | — | — | — | — |
-| 80 | U 10 min | Volt protection for 10 min | W | — | — | — | — | — |
-| 81 | PV Voltage PV V High Fault | oltage High Fault | W | — | — | — | — | — |
-| 82 | FW Build No. Mo 5 nu | del letter version mber (TJ) | — | — | — | — | — | — |
-| 83 | FW Build No. Mo 4 nu | del letter version mber (AA) | — | — | — | — | — | — |
-| 84 | FW Build No. DS 3 | P 1 FW Build No. | — | — | — | — | — | — |
-| 85 | FW Build No. DS 2 | P 2/M 0 FW Build No. | — | — | — | — | — | — |
-| 86 | FW Build No. CP 1 No | LD/AFCI FW Build . | — | — | — | — | — | — |
-| 87 | FW Build No. M 3 0 | FW Build No. | — | — | — | — | — | — |
-| 88 | Modbus Version | us Version | E V | — | — | — | tlx:modbus version, storage:modbus version | — |
-| 89 | PFModel | Set PF function Model 0: PF=1 1: PF by set 2: default PF line 3: User PF line 4: Under Excited (Inda) Reactive Power 5: Over Excited(Capa) Reactive Power 6:Q(v)model 7:Direct Control mode 8. Static capacitive QV mode 9. Static inductive QV mode | W | — | — | — | — | — |
-| 90 | GPRS IP Flag Bi IP Wr Su Bi | t 0-3:read:1;Set GPRS Successed ite:2;Read GPRS IP ccessed t 4-7:GPRS status | W B o I B o G S | — | — | — | — | — |
-| 91 | Freq Derate S Fre tart sta | quency derating rt point | W | — | — | — | — | — |
-| 92 | FLrate | Frequency – load limit rate | W 0 | — | — | — | — | — |
-| 93 | V 1 S | CEI 021 V 1 S Q(v) | W V | — | — | — | — | — |
-| 94 | V 2 S | CEI 021 V 2 S Q(v) | W | — | — | — | — | — |
-| 95 | V 1 L | CEI 021 V 1 L Q(v) | W V | — | — | — | — | — |
-| 96 | V 2 L | CEI 021 V 2 L Q(v) | W V | — | — | — | — | — |
-| 97 | Qlockinpow Q(v) er powe | lock in active r of CEI 021 | W 0 | — | — | — | — | — |
-| 98 | Qlock Outpo Q(v) wer powe | lock Out active r of CEI 021 | W 0 | — | — | — | — | — |
-| 99 | LIGrid V | Lock in gird volt of CEI 021 PF line | W n | — | — | — | — | — |
-| 100 | LOGrid V | Lock out gird volt of CEI 021 PF line | W n | — | — | — | — | — |
-| 101 | PFAdj 1 | PF adjust value 1 | — | — | — | — | — | — |
-| 102 | PFAdj 2 | PF adjust value 2 | — | — | — | — | — | — |
-| 103 | PFAdj 3 | PF adjust value 3 | — | — | — | — | — | — |
-| 104 | PFAdj 4 | PF adjust value 4 | — | — | — | — | — | — |
-| 105 | PFAdj 5 | PF adjust value 5 | — | — | — | — | — | — |
-| 106 | PFAdj 6 | PF adjust value 6 | — | — | — | — | — | — |
-| 107 | QVRPDelay Ti QV me EE del | Reactive Power aytime | W | — | 3 S | — | — | — |
-| 108 | Over FDerat D Ove elay Time EE ngde | rfrequency derati laytime | W | — | — | — | — | — |
-| 109 | Qpercent Ma Qmax x | for Q(V) curve | W | — | — | — | — | — |
-| 110 | PFLine P 1_LP PF loa | limit line point 1 d percent | W | — | — | 255 means no this point | — | — |
-| 111 | PFLine P 1_PF PF pow | limit line point 1 er factor | W | — | — | — | — | — |
-| 112 | PFLine P 2_LP PF loa | limit line point 2 d percent | W | — | — | 255 means no this point | — | — |
-| 113 | PFLine P 2_PF PF 2 po | limit line point wer factor | W | — | — | — | — | — |
-| 114 | PFLine P 3_LP PF loa | limit line point 3 d percent | W | — | — | 255 means no this point | — | — |
-| 115 | PFLine P 3_PF PF pow | limit line point 3 er factor | W | — | — | — | — | — |
-| 116 | PFLine P 4_LP PF loa | limit line point 4 d percent | W | — | — | 255 means no this point | — | — |
-| 117 | PFLine P 4_PF PF pow | limit line point 4 er factor | W | — | — | — | — | — |
-| 118 | Module 4 | Inverter Module (4) | — | — | — | Sxx Bxx | — | — |
-| 119 | Module 3 | Inverter Module (3) | — | — | — | Dxx Txx | — | — |
-| 120 | Module 2 | Inverter Module (2) | — | — | — | Pxx Uxx | — | — |
-| 121 | Module 1 | Inverter Module (1) | — | — | — | Mxxxx Power | — | — |
-| 122 | Export Limit_ Ex En/dis | port Limit_En/dis | R/ | — | — | Export Limit enable, 0: Disable export Limit; 1: Enable 485 export Limit; 2: Enable 232 export Limit; 3: Enable CT export Limit; | — | — |
-| 123 | Export Limit P Ex ower Rate | port Limit Power Rate | R/ | — | — | Export Limit Power Rate | — | — |
-| 124 | Traker Model Tra | ker Model | W | — | — | 0:Independent 1:DC Source 2:Parallel | — | — |
+| 28 | Inverter module code | 32-bit hardware option mask encoded as eight nibbles (A, B, D, T, P, U, M, S). Register 28 holds the high word and register 29 the low word. | R | — | — | Home Assistant renders this value as the string A# B# D# T# P# U# M# S# via the integration's model() helper. | tlx:Inverter model, tl3:Inverter model, storage:Inverter model | — |
+| 30 | Modbus slave address | RS-485/Modbus RTU slave ID. Set a value between 1 and 254; 0 is reserved for broadcast frames. | W | — | — | — | — | — |
+| 31 | Firmware update trigger | Write 1 to arm the serial firmware update procedure. The inverter clears the flag after the bootloader handshake starts. | W | — | — | — | — | — |
+| 32 | Reset user configuration | Writing 1 clears user-configurable settings such as communication parameters and regional profiles. | W | — | — | Use with caution; the inverter immediately reboots and loses provisioning data. | — | — |
+| 33 | Factory reset | Writing 1 restores full factory defaults and restarts the inverter. | W | — | — | Equivalent to the front-panel factory reset. Requires re-commissioning afterwards. | — | — |
+| 34 | Manufacturer information string | Sixteen ASCII characters written at production time (batch, plant, or custom identifiers). | R | — ASCII | — | The original table lists these words as Manufacturer Info 8–1 (high/middle/low); combine them to read the full string. | — | — |
+| 42 | G 100 failsafe enable | Enable (1) or disable (0) the UK G 98/G 100 failsafe watchdog. | W | — | — | Leave off unless the interconnection agreement requires the G 100 failsafe mode. | — | — |
+| 43 | Device type code | Encodes the inverter family and tracker count. See data type for supported values. | R | — | — | — | tlx:device type code, tl3:device type code, storage:device type code | — |
+| 44 | MPPT trackers and grid phases | High byte holds the number of PV trackers; low byte holds the number of output phases. | R | — | — | — | tlx:number of trackers and phases, tl3:number of trackers and phases, storage:number of trackers and phases | — |
+| 45 | System clock year | Calendar year stored by the internal real-time clock. | W | — | — | Write the full year (for example 2024). | — | — |
+| 46 | System clock month | Calendar month for the internal clock. | W | — | — | — | — | — |
+| 47 | System clock day | Day of month for the internal clock. | W | — | — | — | — | — |
+| 48 | System clock hour | Hour of day in 24-hour format. | W | — | — | — | — | — |
+| 49 | System clock minute | Minute component of the internal clock. | W | — | — | — | — | — |
+| 50 | System clock second | Second component of the internal clock. | W | — | — | — | — | — |
+| 51 | System clock weekday | Day-of-week index for the internal clock (0=Sunday, 6=Saturday). | W | — | — | — | — | — |
+| 52 | Stage 1 undervoltage limit | Grid voltage threshold for stage 1 undervoltage protection, stored in 0.1 V increments. Delay configured by register 68. | W | — V | — | — | — | — |
+| 53 | Stage 1 overvoltage limit | Grid voltage threshold for stage 1 overvoltage protection (0.1 V increments). Delay configured by register 69. | W | — V | — | — | — | — |
+| 54 | Stage 1 underfrequency limit | Grid frequency threshold for stage 1 underfrequency protection (0.01 Hz increments). Delay configured by register 72. | W | — Hz | — | — | — | — |
+| 55 | Stage 1 overfrequency limit | Grid frequency threshold for stage 1 overfrequency protection (0.01 Hz increments). Delay configured by register 73. | W | — Hz | — | — | — | — |
+| 56 | Stage 2 undervoltage limit | Grid voltage threshold for stage 2 undervoltage protection, stored in 0.1 V increments. Delay configured by register 70. | W | — V | — | — | — | — |
+| 57 | Stage 2 overvoltage limit | Grid voltage threshold for stage 2 overvoltage protection (0.1 V increments). Delay configured by register 71. | W | — V | — | — | — | — |
+| 58 | Stage 2 underfrequency limit | Grid frequency threshold for stage 2 underfrequency protection (0.01 Hz increments). Delay configured by register 74. | W | — Hz | — | — | — | — |
+| 59 | Stage 2 overfrequency limit | Grid frequency threshold for stage 2 overfrequency protection (0.01 Hz increments). Delay configured by register 75. | W | — Hz | — | — | — | — |
+| 60 | Stage 3 undervoltage limit | Grid voltage threshold for stage 3 undervoltage protection, stored in 0.1 V increments. Delay configured by register 76. | W | — V | — | — | — | — |
+| 61 | Stage 3 overvoltage limit | Grid voltage threshold for stage 3 overvoltage protection (0.1 V increments). Delay configured by register 77. | W | — V | — | — | — | — |
+| 62 | Stage 3 underfrequency limit | Grid frequency threshold for stage 3 underfrequency protection (0.01 Hz increments). Delay configured by register 78. | W | — Hz | — | — | — | — |
+| 63 | Stage 3 overfrequency limit | Grid frequency threshold for stage 3 overfrequency protection (0.01 Hz increments). Delay configured by register 79. | W | — Hz | — | — | — | — |
+| 64 | Reconnect undervoltage limit | Minimum grid voltage (0.1 V increments) required before reconnecting after a trip. | W | — V | — | — | — | — |
+| 65 | Reconnect overvoltage limit | Maximum grid voltage (0.1 V increments) allowed when reconnecting after a trip. | W | — V | — | — | — | — |
+| 66 | Reconnect underfrequency limit | Minimum grid frequency (0.01 Hz increments) required for reconnection. | W | — Hz | — | — | — | — |
+| 67 | Reconnect overfrequency limit | Maximum grid frequency (0.01 Hz increments) allowed when reconnecting. | W | — Hz | — | — | — | — |
+| 68 | Stage 1 undervoltage trip delay | Number of cycles grid voltage must stay below the stage 1 undervoltage limit (register 52) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
+| 69 | Stage 1 overvoltage trip delay | Cycles grid voltage must stay above the stage 1 overvoltage limit (register 53) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
+| 70 | Stage 2 undervoltage trip delay | Cycles grid voltage must stay below the stage 2 undervoltage limit (register 56) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
+| 71 | Stage 2 overvoltage trip delay | Cycles grid voltage must stay above the stage 2 overvoltage limit (register 57) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
+| 72 | Stage 1 underfrequency trip delay | Cycles grid frequency must stay below the stage 1 underfrequency limit (register 54) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
+| 73 | Stage 1 overfrequency trip delay | Cycles grid frequency must stay above the stage 1 overfrequency limit (register 55) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | tl3:modbus version | — |
+| 74 | Stage 2 underfrequency trip delay | Cycles grid frequency must stay below the stage 2 underfrequency limit (register 58) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
+| 75 | Stage 2 overfrequency trip delay | Cycles grid frequency must stay above the stage 2 overfrequency limit (register 59) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
+| 76 | Stage 3 undervoltage trip delay | Cycles grid voltage must stay below the stage 3 undervoltage limit (register 60) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
+| 77 | Stage 3 overvoltage trip delay | Cycles grid voltage must stay above the stage 3 overvoltage limit (register 61) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
+| 78 | Stage 3 underfrequency trip delay | Cycles grid frequency must stay below the stage 3 underfrequency limit (register 62) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
+| 79 | Stage 3 overfrequency trip delay | Cycles grid frequency must stay above the stage 3 overfrequency limit (register 63) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
+| 80 | Ten-minute overvoltage limit | Maximum RMS grid voltage averaged over 10 minutes (0.1 V increments) before the inverter trips. | W | — V | — | — | — | — |
+| 81 | PV input high-voltage fault | PV array voltage threshold that triggers a DC over-voltage fault (0.1 V increments). | W | — V | — | — | — | — |
+| 82 | Controller firmware build string | Twelve ASCII characters summarising model and controller build revisions (model letters, DSP 1, DSP 2/M 0, CPLD/AFCI, M 3). | R | — ASCII | — | Positions: 0-1 model letters, 2-3 model variant, 4-5 DSP 1 build, 6-7 DSP 2/M 0 build, 8-9 CPLD/AFCI build, 10-11 M 3 build. | — | — |
+| 88 | Modbus protocol version | Modbus register map revision encoded as an integer (e.g. 207 equals version 2.07). | R | — | — | — | tlx:modbus version, storage:modbus version | — |
+| 89 | Power-factor control mode | Selects the reactive power or power-factor control curve. | W | — | — | 0=Unity PF, 1=Fixed PF setpoint, 2=Default PF line, 3=User-defined PF line, 4=Under-excited reactive power, 5=Over-excited reactive power, 6=Q(V) curve, 7=Direct control, 8=Static capacitive QV, 9=Static inductive QV. | — | — |
+| 90 | GPRS modem IP/status flags | Lower nibble reports the IP configuration handshake; upper nibble reports modem status. | W | — | — | Bit 0-3: 0=idle, 1=IP read requested, 2=set IP succeeded; Bit 4-7: 0=unknown, 1=modem OK, 2=no SIM, 3=no network, 4=TCP connect fail, 5=TCP connected, etc. | — | — |
+| 91 | Frequency derating start | Grid frequency at which active power derating begins (0.01 Hz increments). | W | — Hz | — | — | — | — |
+| 92 | Frequency derating slope | Slope of the frequency-based active power derating curve. Divide by 10 to obtain percent per hertz. | W | — %/Hz | — | — | — | — |
+| 93 | CEI 0-21 Q(V) point V 1 S | Upper voltage limit V 1 S for the CEI 0-21 Q(V) curve (0.1 V increments). | W | — V | — | — | — | — |
+| 94 | CEI 0-21 Q(V) point V 2 S | Upper voltage limit V 2 S for the CEI 0-21 Q(V) curve (0.1 V increments). | W | — V | — | — | — | — |
+| 95 | CEI 0-21 Q(V) point V 1 L | Lower voltage limit V 1 L for the CEI 0-21 Q(V) curve (0.1 V increments). | W | — V | — | — | — | — |
+| 96 | CEI 0-21 Q(V) point V 2 L | Lower voltage limit V 2 L for the CEI 0-21 Q(V) curve (0.1 V increments). | W | — V | — | — | — | — |
+| 97 | Q(V) lock-in active power | Active power percentage (0-100%) that enables CEI 0-21 Q(V) operation. | W | — % | — | — | — | — |
+| 98 | Q(V) lock-out active power | Active power percentage (0-100%) below which CEI 0-21 Q(V) control is disabled. | W | — % | — | — | — | — |
+| 99 | Power-factor curve lock-in voltage | Voltage threshold (0.1 V increments) for entering the CEI 0-21 power-factor curve. | W | — V | — | — | — | — |
+| 100 | Power-factor curve lock-out voltage | Voltage threshold (0.1 V increments) for leaving the CEI 0-21 power-factor curve. | W | — V | — | — | — | — |
+| 101 | Power-factor adjust value 1 | Fixed-point gain (1/4096 increments) applied when constructing the user-defined PF curve. | W | — | — | — | — | — |
+| 102 | Power-factor adjust value 2 | Fixed-point gain (1/4096 increments) applied when constructing the user-defined PF curve. | W | — | — | — | — | — |
+| 103 | Power-factor adjust value 3 | Fixed-point gain (1/4096 increments) applied when constructing the user-defined PF curve. | W | — | — | — | — | — |
+| 104 | Power-factor adjust value 4 | Fixed-point gain (1/4096 increments) applied when constructing the user-defined PF curve. | W | — | — | — | — | — |
+| 105 | Power-factor adjust value 5 | Fixed-point gain (1/4096 increments) applied when constructing the user-defined PF curve. | W | — | — | — | — | — |
+| 106 | Power-factor adjust value 6 | Fixed-point gain (1/4096 increments) applied when constructing the user-defined PF curve. | W | — | — | — | — | — |
+| 107 | Q(V) response delay | Delay before applying the Q(V) reactive power response, expressed in whole seconds. | W | — s | — | — | — | — |
+| 108 | Over-frequency derating delay | Delay before reducing power once frequency exceeds the derating start, in 50 ms increments. | W | — s | — | — | — | — |
+| 109 | Maximum reactive power magnitude | Upper bound for reactive power commands when using the Q(V) curve, stored in 0.1% increments of rated power. | W | — % | — | — | — | — |
+| 110 | PF curve point 1 load | Active power percentage for this PF curve waypoint. 255 disables the point. | W | — % | — | — | — | — |
+| 111 | PF curve point 1 target | Power-factor target for this PF curve waypoint (value / 10,000). Values below 1 are capacitive (leading). | W | — | — | — | — | — |
+| 112 | PF curve point 2 load | Active power percentage for this PF curve waypoint. 255 disables the point. | W | — % | — | — | — | — |
+| 113 | PF curve point 2 target | Power-factor target for this PF curve waypoint (value / 10,000). Values below 1 are capacitive (leading). | W | — | — | — | — | — |
+| 114 | PF curve point 3 load | Active power percentage for this PF curve waypoint. 255 disables the point. | W | — % | — | — | — | — |
+| 115 | PF curve point 3 target | Power-factor target for this PF curve waypoint (value / 10,000). Values below 1 are capacitive (leading). | W | — | — | — | — | — |
+| 116 | PF curve point 4 load | Active power percentage for this PF curve waypoint. 255 disables the point. | W | — % | — | — | — | — |
+| 117 | PF curve point 4 target | Power-factor target for this PF curve waypoint (value / 10,000). Values below 1 are capacitive (leading). | W | — | — | — | — | — |
+| 118 | Marketing module string | Eight ASCII characters that form the marketing SKU (segments for M, P, U, T, D, B, S codes). | R | — ASCII | — | Matches the printed module string pattern (e.g. Sxx Bxx, Dxx Txx, Pxx Uxx, Mxxxx Power) used on data labels. | — | — |
+| 122 | Export limit enable mode | Selects the export limiting method: disabled, RS-485 meter, RS-232 meter, or CT clamp. | R/W | — | — | 0=Disabled, 1=RS-485 meter, 2=RS-232 meter, 3=External CT. | — | — |
+| 123 | Export limit power setpoint | Active power limit applied by the export control subsystem, stored in 0.1% of rated power (negative values allow controlled export). | R/W | — % | — | — | — | — |
+| 124 | Tracker coupling mode | Defines how the PV trackers are electrically coupled: 0=Independent, 1=DC source sharing, 2=Parallel. | W | — | — | — | — | — |
 | 11 | 22~1124 Bat Serial NO. Produ | / ct serial number of / | / | — | — | reserve | — | — |
 
 ## TL-X/TL-XH Holding Registers (3000–3124)
@@ -345,156 +329,86 @@ Three-phase inverter specific holding registers.
 
 | Register | Name | Description | Access | Range/Unit | Initial | Notes | Attributes | Sensors |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 125 | INV Type-1 | Inverter type-1 R | — | — | Rese | rved | — | — |
-| 126 | INV Type-2 | Inverter type-2 R | — | — | — | — | — | — |
-| 127 | INV Type-3 | Inverter type-3 R | — | — | — | — | — | — |
-| 128 | INV Type-4 | Inverter type-4 R | — | — | — | — | — | — |
-| 129 | INV Type-5 | Inverter type-5 R | — | — | — | — | — | — |
-| 130 | INV Type-6 | Inverter type-6 R | — | — | — | — | — | — |
-| 131 | INV Type-7 | Inverter type-7 R | — | — | — | — | — | — |
-| 132 | INV Type-8 | Inverter type-8 R | — | — | — | — | — | — |
-| 133 | BLVersion 1 | Boot loader version 1 R | — | — | Rese | rved | — | — |
-| 134 | BLVersion 2 | Boot loader version 2 R | — | — | Rese | rved | — | — |
-| 135 | BLVersion 3 | Boot loader version 3 R | — | — | Rese | rved | — | — |
-| 136 | BLVersion 4 | Boot loader version 4 R | — | — | Rese | rved | — | — |
-| 137 | Reactive P Value H | Reactive Power H R/W | — | — | — | — | — | — |
-| 138 | Reactive P Value L | Reactive Power L R/W | — | — | — | — | — | — |
-| 139 | Reactive Out Rea put Priority E En nable | ctive Output Priority R/W able | — | — | 0:di 1:en | sable able | — | — |
-| 140 | Reactive P Reac Value(Ratio) | tive Power Ratio R/W | — | — | — | — | — | — |
-| 141 | Svg Function Svg Enable | enable on night R/W | — | — | 0:di 1:en | sable able | — | — |
-| 142 | uw Under FU Under pload Point | F Upload Point R/W | — | — | — | — | — | — |
-| 143 | uw OFDerate OFDe Recover Poin t | rate Recover Point R/W | — | — | — | — | — | — |
-| 144 | uw OFDerate OFDe Recover Dela Rec y Time | rate R/W over Delay Time | 0-30 | — | — | — | — | — |
-| 145 | Zero Current Zer Enable | o Current Enable R/W | 0- | — | — | — | — | — |
-| 146 | uw Zero Curre Zer nt Staticlow V St olt | o Current R/W aticlow Volt | 46 | — | — | — | — | — |
-| 147 | uw Zero Curre Zer nt Static High St Volt | o Current R/W atic High Volt | 23 | — | — | — | — | — |
-| 148 | uw HVolt Der HVol ate High Point | t Derate High Point R/W | 0- | — | — | — | — | — |
-| 149 | uw HVolt Der HVol ate Low Point | t Derate Low Point R/W | — | — | — | — | — | — |
-| 150 | uw QVPower QVPow Stable Time | er Stable Time R/ | W | — | — | — | — | — |
-| 151 | uw Under FU Under pload Stop Po Sto int | F Upload R p Point | /W | — | — | — | — | — |
-| 152 | f Under Freq P Und oint sta | erfrequency load R rt point | /W 46 00 | — | CEI | — | — | — |
-| 153 | f Under Freq E Und nd Point loa | erfrequency down R/W 46.00 d end point 00 | -50. | — | — | — | — | — |
-| 154 | f Over Freq Po Ove int sta | r frequency loading R/W 50 rt point 00 | .00-5 | — | — | — | — | — |
-| 155 | f Over Freq En Ove d Point end | r frequency loading R/W 50 point 00 | .00-5 | — | — | — | — | — |
-| 156 | f Under Volt P Und oint she | ervoltage load R/W 1 dding start point | 60-30 | — | .0 CEI | — | — | — |
-| 157 | f Under Volt E Und nd Point end | ervoltage derating R/W 160 point | -300 | — | .0 CEI | — | — | — |
-| 158 | f Over Volt Poi Ov nt st | ervoltage loading art point | R/W 1 | — | .0 CEI | — | — | — |
-| 159 | f Over Volt En Ove d Point end | rvoltage loading point | R/W 1 | — | .0 CEI | — | — | — |
-| 160 | uw Nominal Nomin Grid Volt | R/W al Grid Volt Select | — | — | UL | — | — | — |
-| 161 | uw Grid Watt Grid Delay | R/ Watt Delay Time | W | — | UL | — | — | — |
-| 162 | uw Reconnec Rec t Start Slope | R/ onnect Start Slope | W | — | UL | — | — | — |
-| 163 | uw LFRTEE | R/ LFRT 1 Freq | W | — | UL | — | — | — |
-| 164 | uw LFRTTime LFRT EE | R/ 1 Time | W | — | UL | — | — | — |
-| 165 | uw LFRT 2 EE LFRT 2 | R/ Freq | W | — | UL | — | — | — |
-| 166 | uw LFRTTime LFRT 2 EE | R/ 2 Time | W | — | UL | — | — | — |
-| 167 | uw HFRTEE | R/ HFRT 1 Freq | W | — | UL | — | — | — |
-| 168 | uw HFRTTim HFRT 1 e EE | R/ Time | W | — | UL | — | — | — |
-| 169 | uw HFRT 2 EE HFRT 2 | R/W Freq | 55 0 | — | UL | — | — | — |
-| 170 | uw HFRTTim HFRT 2 e 2 EE | R/W Time | — | — | UL | — | — | — |
-| 171 | uw HVRTEE | R/W HVRT 1 Volt | — | — | UL | — | — | — |
-| 172 | uw HVRTTim HVRT 1 e EE | R/W Time | — | — | UL | — | — | — |
-| 173 | uw HVRT 2 EE HVRT 2 | R/W Volt | — | — | UL | — | — | — |
-| 174 | uw HVRTTim HVRT 2 e 2 EE | R/W Time | — | — | UL | — | — | — |
-| 175 | uw Under FU Un pload Delay Ti Up me | R/W der F load Delay Time | 0-2s | — | 50549 | — | — | — |
-| 176 | uw Under FU Und pload Rate EE | R/W er F Upload Rate | — | — | 50549 | — | — | — |
-| 177 | uw Grid Resta Gri rt_H_Freq | d Restart High Freq R/W | — | — | 50549 | — | — | — |
-| 178 | Over FDerat R Ove esponse Tim Resp e | r FDerat W/R onse Time | 0-50 | — | — | — | — | — |
-| 179 | Under FUplo Unde ad Response Resp Time | r FUpload W/R onse Time | 0-50 | — | — | — | — | — |
-| 180 | Meter Link | Whether to elect the R/W meter | — | — | 0: Mis | sed, 1: Received | — | — |
-| 181 | OPT Number Numb opti | er of connection R/W mizers | 0- | — | The to connec | tal number of optimizers ted to the inverter | — | — |
-| 182 | OPT Config OK Flag | Optimizer R/W configuration completion flag | — | — | 0 x 00:N 0 x 01:C | ot configured success onfiguration is complete | — | — |
-| 183 | Pv Str Scan | String Num R/W | 0, 32 | — | 0:Not Other: | support Pv String Num | — | — |
-| 184 | BDCLink Num BDC | parallel Num R/W | — | — | The nu connec machin Defaul | mber of BDCs ted to the current e t is 0 | — | — |
-| 185 | Pack Num | Number of battery modules | R | — | Tot mod wit | al number of battery ules currently associated h all BDCs | — | — |
-| 186 | Reserved | — | — | — | — | — | — | — |
-| 187 | VPP function VP enable st status | P function enable atus | R | — | 0:D 1:E | isable nable | — | — |
-| 188 | data Log d Connect S Server status | ata Log Connect erver status | — | — | 0:c 1:C | onnection succeeded onnection failed | — | — |
-| 200 | Reserved | — | — | — | Res | erved | — | — |
-| 201 | PID Working PID Model | Operating mode | — | — | — | — | — | — |
-| 202 | PID On/Off Ctrl | PID Break control | — | — | — | — | — | — |
-| 203 | PID Volt PID Option opt | Output voltage ion | — | — | — | — | — | — |
-| 209 | New Serial NO | Serial number 1-2 | — | — | — | — | — | — |
-| 210 | New Serial NO | Serial number 3-4 | — | — | — | — | — | — |
-| 211 | New Serial NO | Serial number 5-6 | — | — | — | — | — | — |
-| 212 | New Serial NO | Serial number 7-8 | — | — | — | — | — | — |
-| 213 | New Serial NO | Serial number 9-10 | — | — | — | — | — | — |
-| 214 | New Serial NO | Serial number 11-12 | — | — | — | — | — | — |
-| 215 | New Serial NO | Serial number 13-14 | — | — | — | — | — | — |
-| 216 | New Serial NO | Serial number 15-16 | — | — | — | — | — | — |
-| 217 | New Serial NO | Serial number 17-18 | — | — | — | — | — | — |
-| 218 | New Serial NO | Serial number 19-20 | — | — | — | — | — | — |
-| 219 | New Serial NO | Serial number 21-22 | — | — | — | — | — | — |
-| 220 | New Serial NO | Serial number 23-24 | — | — | — | — | — | — |
-| 221 | New Serial NO | Serial number 25-26 | — | — | — | — | — | — |
-| 222 | New Serial NO | Serial number 27-28 | — | — | — | — | — | — |
-| 223 | New Serial NO | Serial number 29-30 | — | — | — | — | — | — |
-| 229 | Energy Adjus Pow t inc coe | er generation W/R remental calibration fficient | — | — | 1-1000 | ,(Percent ratio) | — | — |
-| 230 | 9 for growatt debug | setting | — | — | — | — | — | — |
-| 230 | Island Disabl Is e 1: | land Disable or not. W disable 0:Enable | 0,1 | — | — | — | — | — |
-| 231 | Fan Check | Start Fan Check W | 1 | — | — | — | — | — |
-| 232 | Enable NLine Ena | ble N Line of grid W | 1 | — | — | — | — | — |
-| 233 | w Check Hard w Che ware Bit 0 Bit 1 Bit 8 ng Bit 9 | ck Hardware: GFCIBreak;:SPSDamage:Eeprom Read Warni:EEWrite Warning …… | — | — | — | — | — | — |
-| 234 | w Check Hard ware 2 | — | — | — | reserv | ed | — | — |
-| 235 | ub NTo GNDD Dis/e etect detec | nable N to GND W t function | 1:e 0:d | — | — | — | — | — |
-| 236 | Non Std Vac E Enab nable Nons Grid | le/Disable W tandard voltage range | 0-2 | — | 0:Disa 1:Enab 2:Enab | ble; le Voltgrade 1 le Voltgrade 2 | — | — |
-| 237 | uw Enable Sp Disa ec Set appo | blse/enable W inted spec setting | 1:e 0:d | — | t 0: H | ungary | — | — |
-| 238 | Fast MPPT About enable | Fast mppt | — | — | Rese | rved | — | — |
-| 239 | / | / | / | — | Rese | rved | — | — |
-| 240 | Check Step | — | W | — | — | — | — | — |
-| 241 | INV-Lng | Inverter Longitude | W | — | Long | itude | — | — |
-| 242 | INV-Lat | Inverter Latitude | W | — | Lati | tude | — | — |
-| 132 | — | — | — | — | us) | — | — | — |
-| 134 | — | — | — | — | us) | — | — | — |
-| 136 | — | — | — | — | us) | — | — | — |
-| 138 | — | — | — | — | us) | — | — | — |
-| 140 | — | — | — | — | us) | — | — | — |
-| 142 | — | — | — | — | us) | — | — | — |
-| 144 | — | — | — | — | us) | — | — | — |
-| 146 | — | — | — | — | us) | — | — | — |
-| 148 | — | — | — | — | us) | — | — | — |
-| 150 | — | — | — | — | us) | — | — | — |
-| 152 | — | — | — | — | us) | — | — | — |
-| 154 | — | — | — | — | us) | — | — | — |
-| 156 | — | — | — | — | us) | — | — | — |
-| 158 | — | — | — | — | us) | — | — | — |
-| 160 | — | — | — | — | — | — | — | — |
-| 162 | — | — | — | — | — | — | — | — |
-| 164 | — | — | — | — | — | — | — | — |
-| 166 | — | — | — | — | — | — | — | — |
-| 168 | — | — | — | — | — | — | — | — |
-| 170 | — | — | — | — | — | — | — | — |
-| 172 | — | — | — | — | — | — | — | — |
-| 174 | — | — | — | — | — | — | — | — |
-| 176 | — | — | — | — | — | — | — | — |
-| 178 | — | — | — | — | — | — | — | — |
-| 180 | — | — | — | — | — | — | — | — |
-| 182 | — | — | — | — | — | — | — | — |
-| 184 | — | — | — | — | — | — | — | — |
-| 186 | — | — | — | — | — | — | — | — |
-| 188 | — | — | — | — | — | — | — | — |
+| 125 | Inverter type identifier | Sixteen-character ASCII string identifying the inverter hardware variant (register 125 high word, 132 low word). | R | — ASCII | — | Reserved for factory diagnostics; not currently surfaced by the Home Assistant integration. | — | — |
+| 133 | Bootloader identifier string | Eight ASCII characters recorded by the bootloader package. The words are ordered high to low across registers 133-136. | R | — ASCII | — | Usually reserved; populated only on development or service firmware builds. | — | — |
+| 137 | Reactive power direct-control setpoint | Signed 32-bit reactive power request used when the inverter operates in direct control mode (register 89 = 7). Values are stored in 0.1 var increments. | R/W | — var | — | Positive values command inductive (lagging) vars; negative values request capacitive (leading) vars. | — | — |
+| 139 | Reactive priority enable | Enable (1) to prioritise reactive power commands ahead of active power limits when they conflict. Disable (0) to favour active power output. | R/W | — | — | — | — | — |
+| 140 | Reactive priority ratio | Dimensionless scaling factor applied when reactive priority is enabled. Divide the register value by 10 to obtain the active-to-reactive trade-off ratio. | R/W | — | — | Tune together with the direct-control setpoint to limit how much active power is sacrificed for reactive support. | — | — |
+| 141 | Night reactive support (SVG) | Allows the inverter to remain energised overnight to provide reactive (static var generator) support. Set to 1 to enable, 0 to disable. | R/W | — | — | Enabling consumes a small amount of standby power and should only be used when mandated by the grid operator. | — | — |
+| 142 | Frequency-watt boost start | Grid frequency (in 0.01 Hz increments) below which the inverter begins boosting active power according to the frequency-watt curve. | R/W | — Hz | — | Pair with registers 151, 175, and 176 to set the under-frequency support profile. | — | — |
+| 143 | Over-frequency recovery point | Frequency threshold (0.01 Hz increments) at which active power recovers to nominal after an over-frequency derate event. | R/W | — Hz | — | Works with registers 154-155 and the recovery delay in register 144. | — | — |
+| 144 | Over-frequency recovery delay | Time to wait, in 50 ms increments, before restoring power once the frequency has dropped back below the recovery point (register 143). | R/W | — s | — | — | — | — |
+| 145 | Zero-current detection enable | Enable the anti-islanding zero-current detection routine (1) or leave it disabled (0). | R/W | — | — | Disable only when local interconnection rules explicitly forbid the zero-current method. | — | — |
+| 146 | Zero-current low voltage | Lower grid voltage limit for zero-current detection, stored in 0.1 V increments. | R/W | — V | 115.0 | — | — | — |
+| 147 | Zero-current high voltage | Upper grid voltage limit for zero-current detection, stored in 0.1 V increments. | R/W | — V | 276.0 | — | — | — |
+| 148 | High-voltage derate start | Grid voltage at which active power begins to derate because of over-voltage, stored in 0.1 V increments. | R/W | — V | — | — | — | — |
+| 149 | High-voltage derate end | Grid voltage at which the high-voltage derating curve reaches its minimum active power output. | R/W | — V | — | Configure together with register 148 to define the slope of the derating curve. | — | — |
+| 150 | Q(V) stabilisation time | Settling time applied when the inverter follows the Q(V) curve, in 0.1 s increments. | R/W | — s | — | — | — | — |
+| 151 | Frequency-watt boost stop | Upper frequency (0.01 Hz increments) where the under-frequency boost tapers back to nominal power. | R/W | — Hz | — | Defines the end point of the frequency-watt boost region together with register 142. | — | — |
+| 152 | CEI under-frequency ramp start | Start frequency for the CEI 0-21 under-frequency active power ramp (0.01 Hz increments). | R/W | — Hz | 49.80 | Applies when the CEI 0-21 grid profile is selected. | — | — |
+| 153 | CEI under-frequency ramp end | End frequency for the CEI 0-21 under-frequency ramp (0.01 Hz increments). | R/W | — Hz | 49.10 | — | — | — |
+| 154 | CEI over-frequency ramp start | Start frequency for the CEI 0-21 over-frequency derating ramp (0.01 Hz increments). | R/W | — Hz | 50.20 | — | — | — |
+| 155 | CEI over-frequency ramp end | End frequency for the CEI 0-21 over-frequency ramp (0.01 Hz increments). | R/W | — Hz | 51.50 | — | — | — |
+| 156 | CEI undervoltage ramp start | Start voltage for CEI 0-21 undervoltage load-shedding, stored in 0.1 V increments. | R/W | — V | 220.0 | — | — | — |
+| 157 | CEI undervoltage ramp end | End voltage for CEI 0-21 undervoltage load-shedding (0.1 V increments). | R/W | — V | 207.0 | — | — | — |
+| 158 | CEI overvoltage ramp start | Start voltage for CEI 0-21 overvoltage load reduction (0.1 V increments). | R/W | — V | 230.0 | — | — | — |
+| 159 | CEI overvoltage ramp end | End voltage for CEI 0-21 overvoltage load reduction (0.1 V increments). | R/W | — V | 245.0 | — | — | — |
+| 160 | Nominal grid voltage selection | Selects the nominal grid voltage preset used by the UL ride-through tables. | R/W | — | — | Mappings follow the UL parameter tables (e.g. 0=240 V split-phase, 1=208 V three-phase, 2=480 V three-phase, 3=reserved). | — | — |
+| 161 | Grid watt restoration delay | Delay before resuming active power export after a grid event, expressed in 20 ms increments. | R/W | — s | — | — | — | — |
+| 162 | Reconnect ramp slope | Slope of the active power ramp applied when reconnecting to the grid (value / 10 gives percent per second). | R/W | — %/s | — | — | — | — |
+| 163 | LFRT stage 1 frequency | Low-frequency ride-through stage 1 trigger, stored in 0.01 Hz increments (UL profile). | R/W | — Hz | — | — | — | — |
+| 164 | LFRT stage 1 duration | Ride-through time for LFRT stage 1, recorded in 20 ms increments. | R/W | — s | — | — | — | — |
+| 165 | LFRT stage 2 frequency | Low-frequency ride-through stage 2 trigger (0.01 Hz increments). | R/W | — Hz | — | — | — | — |
+| 166 | LFRT stage 2 duration | Ride-through time for LFRT stage 2, recorded in 20 ms increments. | R/W | — s | — | — | — | — |
+| 167 | HFRT stage 1 frequency | High-frequency ride-through stage 1 trigger (0.01 Hz increments). | R/W | — Hz | — | — | — | — |
+| 168 | HFRT stage 1 duration | Ride-through time for HFRT stage 1, recorded in 20 ms increments. | R/W | — s | — | — | — | — |
+| 169 | HFRT stage 2 frequency | High-frequency ride-through stage 2 trigger (0.01 Hz increments). | R/W | — Hz | — | — | — | — |
+| 170 | HFRT stage 2 duration | Ride-through time for HFRT stage 2, recorded in 20 ms increments. | R/W | — s | — | — | — | — |
+| 171 | HVRT stage 1 voltage | High-voltage ride-through stage 1 trigger expressed in per-unit (value / 1000). | R/W | — pu | — | — | — | — |
+| 172 | HVRT stage 1 duration | Ride-through time for HVRT stage 1, recorded in 20 ms increments. | R/W | — s | — | — | — | — |
+| 173 | HVRT stage 2 voltage | High-voltage ride-through stage 2 trigger in per-unit (value / 1000). | R/W | — pu | — | — | — | — |
+| 174 | HVRT stage 2 duration | Ride-through time for HVRT stage 2, recorded in 20 ms increments. | R/W | — s | — | — | — | — |
+| 175 | Under-frequency boost delay | Delay applied before increasing power during an under-frequency event, in 50 ms increments. | R/W | — s | 0 | — | — | — |
+| 176 | Under-frequency boost rate | Slope of the frequency-watt boost curve. Vendor documentation does not specify the unit; values are proportional to percent power per hertz. | R/W | — | — | Empirically values around 50 correspond to approximately 5% per hertz, but confirm on-site before changing. | — | — |
+| 177 | Grid restart high-frequency limit | Frequency threshold (0.01 Hz increments) above which reconnect is inhibited after a trip. | R/W | — Hz | — | — | — | — |
+| 178 | Over-frequency derate response time | Time constant controlling how quickly the inverter reduces power during an over-frequency event (0-500 steps). | R/W | — | — | Growatt documentation implies steps of roughly 0.1 s; confirm on-site before changing. | — | — |
+| 179 | Under-frequency boost response time | Time constant controlling how quickly the inverter increases power during an under-frequency event (0-500 steps). | R/W | — | — | Steps are vendor-defined; treat as a tuning knob for the frequency-watt boost ramp rate. | — | — |
+| 180 | Meter link status | Indicates whether an external energy meter is detected on the communication bus (0=not detected, 1=detected). | R/W | — | — | — | — | — |
+| 181 | Optimizer count | Number of optimisers currently paired with the inverter (0-64). | R/W | — | — | Used with Growatt smart optimiser strings. | — | — |
+| 182 | Optimizer configuration flag | Reports whether optimiser configuration has completed successfully (0=not configured, 1=complete). | R/W | — | — | — | — | — |
+| 183 | PV string scan mode | Number of PV strings supported by the connected optimiser system (0=not supported, 8/16/32 = string count). | R/W | — | — | — | — | — |
+| 184 | BDC parallel count | Number of battery DC converters (BDC) linked in parallel with the inverter. | R/W | — | — | — | — | — |
+| 185 | Battery pack count | Total number of battery packs discovered across all connected BDCs. | R | — | — | — | — | — |
+| 186 | Reserved | Reserved by the protocol for future use. | R | — | — | No documented function. | — | — |
+| 187 | VPP function enable status | Indicates whether the virtual power plant (VPP) interface is active (1) or disabled (0). | R | — | — | — | — | — |
+| 188 | Datalogger server status | State of the data logger connection to the remote server (0=connection succeeded, 1=connection failed). | R | — | — | — | — | — |
+| 200 | PID control reserved | Placeholder register reserved for future PID mitigation features. | R | — | — | No documented behaviour in protocol v 1.24. | — | — |
+| 201 | PID operating mode | Selects how the PID (potential induced degradation) mitigation circuit runs. | W | — | — | 0=Automatic on demand, 1=Continuous, 2=All-night forced run. | — | — |
+| 202 | PID breaker control | Engage (0) or disengage (1) the PID mitigation hardware. | W | — | — | Leave enabled unless servicing the PID circuit. | — | — |
+| 203 | PID output voltage setpoint | Target voltage for the PID mitigation supply in volts. | W | — V | — | — | — | — |
+| 209 | Alternate serial number | Extended 30-character serial number buffer stored as ASCII across registers 209-223. | R | — ASCII | — | Used by newer dataloggers; apply via commissioning tools when required. | — | — |
+| 229 | Energy calibration factor | Incremental calibration coefficient for the cumulative energy counters (0.1% increments). | R/W | — % | — | Adjust only during factory calibration; value / 10 applies as a percent multiplier. | — | — |
+| 230 | Anti-islanding override | Disables anti-islanding protection when set to 1. Intended solely for laboratory diagnostics. | W | — | 0 | Never disable anti-islanding on a grid-connected installation unless explicitly authorised. | — | — |
+| 231 | Fan self-test trigger | Write 1 to start the inverter cooling-fan diagnostic cycle. | W | — | — | The inverter clears the flag automatically once the test completes. | — | — |
+| 232 | Neutral line monitoring enable | Enable (1) or disable (0) neutral-line monitoring for split-phase grids. | W | — | — | — | — | — |
+| 233 | Hardware warning flags | Bitfield reporting hardware self-check issues (GFCI, SPS, EEPROM warnings). | R | — | — | — | — | — |
+| 234 | Hardware warning flags (reserved word) | Reserved second word for hardware diagnostics; values currently undocumented. | R | — | — | Monitor for future firmware updates. | — | — |
+| 235 | Neutral-to-ground detection | Enable (1) or disable (0) detection of unintended neutral-to-ground connections. | W | — | 1 | Should remain enabled for safety compliance. | — | — |
+| 236 | Non-standard voltage range | Selects alternative grid voltage windows for special approvals. | W | — | 0 | 0=Standard range, 1=Voltage grade 1, 2=Voltage grade 2. | — | — |
+| 237 | Appointed spec override | Enable (1) to apply a pre-programmed regional specification override. | W | — | — | Use only when instructed by Growatt support. | — | — |
+| 238 | Fast MPPT mode | Reserved selector for alternate MPPT tracking speeds. | W | — | 0 | Documented as reserved; leave at 0 unless provided specific guidance. | — | — |
+| 239 | Reserved | Reserved register with no documented function. | R | — | — | — | — | — |
+| 240 | Commissioning step index | Internal step counter used during factory self-check sequences. Installers should leave this value unchanged. | W | — | — | — | — | — |
+| 241 | Installer longitude word | Longitude component recorded for remote diagnostics. Scaling is vendor-defined and not used by Home Assistant. | W | — | — | — | — | — |
+| 242 | Installer latitude word | Latitude component recorded for remote diagnostics. Scaling is vendor-defined and not used by Home Assistant. | W | — | — | — | — | — |
 | 190 | — | — | — | — | — | — | — | — |
 | 192 | — | — | — | — | — | — | — | — |
 | 194 | — | — | — | — | — | — | — | — |
 | 196 | — | — | — | — | — | — | — | — |
 | 198 | — | — | — | — | — | — | — | — |
-| 200 | — | — | — | — | — | — | — | — |
-| 205 | Time 2 | — | — | — | l Day 1_ | Time | — | — |
-| 207 | Time 3 | — | — | — | l Day 1_ | Time | — | — |
-| 209 | Time 4 | — | — | — | l Day 1_ | Time | — | — |
-| 211 | Time 5 | — | — | — | l Day 1_ | Time | — | — |
-| 213 | Time 6 | — | — | — | l Day 1_ | Time | — | — |
-| 215 | Time 7 | — | — | — | l Day 1_ | Time | — | — |
-| 217 | Time 8 | — | — | — | l Day 1_ | Time | — | — |
-| 219 | Time 9 | — | — | — | l Day 1_ | Time | — | — |
 | 224 | Time 2 | — | — | — | l Day 2_ | Time | — | — |
 | 226 | Time 3 | — | — | — | l Day 2_ | Time | — | — |
 | 228 | Time 4 | — | — | — | l Day 2_ | Time | — | — |
-| 230 | Time 5 | — | — | — | l Day 2_ | Time | — | — |
-| 232 | Time 6 | — | — | — | l Day 2_ | Time | — | — |
-| 234 | Time 7 | — | — | — | l Day 2_ | Time | — | — |
-| 236 | Time 8 | — | — | — | l Day 2_ | Time | — | — |
-| 238 | Time 9 | — | — | — | l Day 2_ | Time | — | — |
-| 249 | — | — | — | — | — | — | — | — |
 
 ## Storage Holding Registers (1000–1124)
 Storage (MIX/SPA/SPH) battery configuration holding registers.
