@@ -1189,6 +1189,70 @@
       "bits": 16,
       "scale": 100,
       "unit": "A"
+    },
+    "u16_resistance_kiloohm": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 1,
+      "unit": "kΩ",
+      "notes": "PV insulation resistance reported in kilo-ohms."
+    },
+    "u16_current_decimilliamp": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "mA",
+      "notes": "Divide by 10 to obtain milliamps."
+    },
+    "u16_current_milliamp": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 1,
+      "unit": "mA"
+    },
+    "u32_apparent_power_decava": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "VA",
+      "notes": "Unsigned 32-bit apparent power value with 0.1 VA resolution (high word first)."
+    },
+    "u16_percent_decitenth": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "%",
+      "notes": "Divide by 10 for percent values."
+    },
+    "u16_power_factor_decitenth": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "pf",
+      "notes": "Divide by 10 to obtain the power factor."
+    },
+    "priority_mode": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "load_first"
+        },
+        "1": {
+          "label": "battery_first"
+        },
+        "2": {
+          "label": "grid_first"
+        }
+      },
+      "notes": "Hybrid priority mode selector."
     }
   },
   "register_types": [
@@ -3436,6 +3500,17 @@
     },
     {
       "table": "input",
+      "register": 3019,
+      "register_end": 3020,
+      "type": "u32_power_w_decawatt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
       "register": 3021,
       "register_end": 3022,
       "type": "s32_reactive_power_decivar",
@@ -3575,6 +3650,39 @@
         "output_3_power"
       ],
       "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3038,
+      "register_end": 3038,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3039,
+      "register_end": 3039,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3040,
+      "register_end": 3040,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
         "tlx"
       ]
     },
@@ -3791,6 +3899,61 @@
     },
     {
       "table": "input",
+      "register": 3075,
+      "register_end": 3076,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3077,
+      "register_end": 3078,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3079,
+      "register_end": 3080,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3081,
+      "register_end": 3082,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3083,
+      "register_end": 3084,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
       "register": 3086,
       "register_end": 3086,
       "type": "u16_raw_code",
@@ -3798,6 +3961,72 @@
         "derating_mode"
       ],
       "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3087,
+      "register_end": 3087,
+      "type": "u16_resistance_kiloohm",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3088,
+      "register_end": 3088,
+      "type": "u16_current_decimilliamp",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3089,
+      "register_end": 3089,
+      "type": "u16_current_decimilliamp",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3090,
+      "register_end": 3090,
+      "type": "u16_current_decimilliamp",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3091,
+      "register_end": 3091,
+      "type": "u16_current_milliamp",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3092,
+      "register_end": 3092,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
         "tlx"
       ]
     },
@@ -3876,6 +4105,17 @@
     },
     {
       "table": "input",
+      "register": 3100,
+      "register_end": 3100,
+      "type": "power_factor_x10000",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
       "register": 3101,
       "register_end": 3101,
       "type": "u16_percent",
@@ -3888,6 +4128,28 @@
     },
     {
       "table": "input",
+      "register": 3102,
+      "register_end": 3103,
+      "type": "u32_power_w_decawatt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3104,
+      "register_end": 3104,
+      "type": "u16_status_word",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
       "register": 3105,
       "register_end": 3105,
       "type": "u16_status_word",
@@ -3895,6 +4157,39 @@
         "fault_code"
       ],
       "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3106,
+      "register_end": 3106,
+      "type": "u16_raw_code",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3107,
+      "register_end": 3107,
+      "type": "u16_status_word",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3108,
+      "register_end": 3108,
+      "type": "u16_status_word",
+      "attributes": [],
+      "families": [
+        "storage",
         "tlx"
       ]
     },
@@ -3925,12 +4220,89 @@
     },
     {
       "table": "input",
+      "register": 3112,
+      "register_end": 3112,
+      "type": "u16_raw_code",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3113,
+      "register_end": 3113,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3114,
+      "register_end": 3114,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
       "register": 3115,
       "register_end": 3115,
       "type": "u16_raw",
       "attributes": [
         "inv_start_delay"
       ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3118,
+      "register_end": 3118,
+      "type": "bdc_onoff_state_flag",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3119,
+      "register_end": 3119,
+      "type": "boolean_flag",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3121,
+      "register_end": 3122,
+      "type": "u32_power_w_decawatt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3123,
+      "register_end": 3124,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
       "families": [
         "storage",
         "tlx"
@@ -3990,12 +4362,276 @@
     },
     {
       "table": "input",
+      "register": 3133,
+      "register_end": 3134,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3135,
+      "register_end": 3136,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3137,
+      "register_end": 3138,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3139,
+      "register_end": 3140,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3141,
+      "register_end": 3142,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3144,
+      "register_end": 3144,
+      "type": "priority_mode",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3145,
+      "register_end": 3145,
+      "type": "u16_frequency_centihz",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3146,
+      "register_end": 3146,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3147,
+      "register_end": 3147,
+      "type": "u16_current_deciamp",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3148,
+      "register_end": 3149,
+      "type": "u32_apparent_power_decava",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3150,
+      "register_end": 3150,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3151,
+      "register_end": 3151,
+      "type": "u16_current_deciamp",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3152,
+      "register_end": 3153,
+      "type": "u32_apparent_power_decava",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3154,
+      "register_end": 3154,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3155,
+      "register_end": 3155,
+      "type": "u16_current_deciamp",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3156,
+      "register_end": 3157,
+      "type": "u32_apparent_power_decava",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3158,
+      "register_end": 3159,
+      "type": "u32_apparent_power_decava",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3160,
+      "register_end": 3160,
+      "type": "u16_percent_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3161,
+      "register_end": 3161,
+      "type": "u16_power_factor_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3162,
+      "register_end": 3162,
+      "type": "u16_voltage_millivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
       "register": 3164,
       "register_end": 3164,
       "type": "u16_flag",
       "attributes": [
         "bdc_new_flag"
       ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3165,
+      "register_end": 3165,
+      "type": "u16_raw_code",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3166,
+      "register_end": 3166,
+      "type": "u16_raw_code",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3167,
+      "register_end": 3167,
+      "type": "u16_raw_code",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3168,
+      "register_end": 3168,
+      "type": "u16_raw_code",
+      "attributes": [],
       "families": [
         "storage",
         "tlx"
@@ -4139,6 +4775,50 @@
       "attributes": [
         "charge_power"
       ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3182,
+      "register_end": 3183,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3184,
+      "register_end": 3185,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3187,
+      "register_end": 3187,
+      "type": "u16_status_word",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3188,
+      "register_end": 3188,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
       "families": [
         "storage",
         "tlx"
@@ -4607,6 +5287,193 @@
       "attributes": [
         "bms_cell_volt_min"
       ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3232,
+      "register_end": 3232,
+      "type": "u16_voltage_centivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3234,
+      "register_end": 3234,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3235,
+      "register_end": 3235,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3236,
+      "register_end": 3236,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3237,
+      "register_end": 3237,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3238,
+      "register_end": 3238,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3239,
+      "register_end": 3239,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3240,
+      "register_end": 3240,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3241,
+      "register_end": 3241,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3242,
+      "register_end": 3242,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3243,
+      "register_end": 3243,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3244,
+      "register_end": 3244,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3245,
+      "register_end": 3245,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3246,
+      "register_end": 3246,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3247,
+      "register_end": 3247,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3248,
+      "register_end": 3248,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3249,
+      "register_end": 3249,
+      "type": "u16_raw",
+      "attributes": [],
       "families": [
         "storage",
         "tlx"

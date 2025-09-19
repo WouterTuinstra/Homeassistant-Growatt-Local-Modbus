@@ -6384,6 +6384,18 @@
     {
       "type": "entry",
       "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3019,
+      "register_start": 3019,
+      "register_end": 3020,
+      "name": "System output power",
+      "description": "AC output power reported by the TL-XH mirror block (0.1 W resolution). Mirrors the value at register 35.",
+      "access": "R",
+      "unit": "W",
+      "data_type": "u32_power_w_decawatt"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
       "register": 3021,
       "register_start": 3021,
       "register_end": 3022,
@@ -6560,6 +6572,42 @@
       "attributes": [
         "output_3_power"
       ]
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3038,
+      "register_start": 3038,
+      "register_end": 3038,
+      "name": "RS line voltage",
+      "description": "Line-to-line voltage between phases R and S measured on the AC output.",
+      "access": "R",
+      "unit": "V",
+      "data_type": "u16_voltage_decivolt"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3039,
+      "register_start": 3039,
+      "register_end": 3039,
+      "name": "ST line voltage",
+      "description": "Line-to-line voltage between phases S and T measured on the AC output.",
+      "access": "R",
+      "unit": "V",
+      "data_type": "u16_voltage_decivolt"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3040,
+      "register_start": 3040,
+      "register_end": 3040,
+      "name": "TR line voltage",
+      "description": "Line-to-line voltage between phases T and R measured on the AC output.",
+      "access": "R",
+      "unit": "V",
+      "data_type": "u16_voltage_decivolt"
     },
     {
       "type": "entry",
@@ -6820,6 +6868,66 @@
     {
       "type": "entry",
       "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3075,
+      "register_start": 3075,
+      "register_end": 3076,
+      "name": "User load energy today",
+      "description": "Energy delivered to on-site loads today (0.1 kWh resolution).",
+      "access": "R",
+      "unit": "kWh",
+      "data_type": "u32_energy_kwh_decitenth"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3077,
+      "register_start": 3077,
+      "register_end": 3078,
+      "name": "User load energy total",
+      "description": "Lifetime energy delivered to on-site loads (0.1 kWh resolution).",
+      "access": "R",
+      "unit": "kWh",
+      "data_type": "u32_energy_kwh_decitenth"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3079,
+      "register_start": 3079,
+      "register_end": 3080,
+      "name": "PV4 energy today",
+      "description": "Energy harvested by PV string 4 today (0.1 kWh resolution).",
+      "access": "R",
+      "unit": "kWh",
+      "data_type": "u32_energy_kwh_decitenth"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3081,
+      "register_start": 3081,
+      "register_end": 3082,
+      "name": "PV4 energy total",
+      "description": "Lifetime energy harvested by PV string 4 (0.1 kWh resolution).",
+      "access": "R",
+      "unit": "kWh",
+      "data_type": "u32_energy_kwh_decitenth"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3083,
+      "register_start": 3083,
+      "register_end": 3084,
+      "name": "PV energy today",
+      "description": "Total PV energy harvested across all strings today (0.1 kWh resolution).",
+      "access": "R",
+      "unit": "kWh",
+      "data_type": "u32_energy_kwh_decitenth"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
       "register": 3086,
       "register_start": 3086,
       "register_end": 3086,
@@ -6831,6 +6939,78 @@
       "attributes": [
         "derating_mode"
       ]
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3087,
+      "register_start": 3087,
+      "register_end": 3087,
+      "name": "PV insulation resistance",
+      "description": "DC insulation resistance measured on the PV inputs.",
+      "access": "R",
+      "unit": "kΩ",
+      "data_type": "u16_resistance_kiloohm"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3088,
+      "register_start": 3088,
+      "register_end": 3088,
+      "name": "Residual current R",
+      "description": "Ground fault residual current on phase R (0.1 mA resolution).",
+      "access": "R",
+      "unit": "mA",
+      "data_type": "u16_current_decimilliamp"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3089,
+      "register_start": 3089,
+      "register_end": 3089,
+      "name": "Residual current S",
+      "description": "Ground fault residual current on phase S (0.1 mA resolution).",
+      "access": "R",
+      "unit": "mA",
+      "data_type": "u16_current_decimilliamp"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3090,
+      "register_start": 3090,
+      "register_end": 3090,
+      "name": "Residual current T",
+      "description": "Ground fault residual current on phase T (0.1 mA resolution).",
+      "access": "R",
+      "unit": "mA",
+      "data_type": "u16_current_decimilliamp"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3091,
+      "register_start": 3091,
+      "register_end": 3091,
+      "name": "GFCI current",
+      "description": "Ground fault current measured by the GFCI sensor (1 mA resolution).",
+      "access": "R",
+      "unit": "mA",
+      "data_type": "u16_current_milliamp"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3092,
+      "register_start": 3092,
+      "register_end": 3092,
+      "name": "Total bus voltage",
+      "description": "Combined DC bus voltage measured at the inverter bridge (0.1 V resolution).",
+      "access": "R",
+      "unit": "V",
+      "data_type": "u16_voltage_decivolt"
     },
     {
       "type": "entry",
@@ -6925,6 +7105,18 @@
     {
       "type": "entry",
       "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3100,
+      "register_start": 3100,
+      "register_end": 3100,
+      "name": "Inverter output power factor",
+      "description": "Instantaneous output power factor encoded as value ×10 000 (10 000 = unity).",
+      "access": "R",
+      "unit": "pf",
+      "data_type": "power_factor_x10000"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
       "register": 3101,
       "register_start": 3101,
       "register_end": 3101,
@@ -6940,6 +7132,30 @@
     {
       "type": "entry",
       "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3102,
+      "register_start": 3102,
+      "register_end": 3103,
+      "name": "Output max power limit",
+      "description": "Current active output power limit enforced by the inverter (0.1 W resolution).",
+      "access": "R",
+      "unit": "W",
+      "data_type": "u32_power_w_decawatt"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3104,
+      "register_start": 3104,
+      "register_end": 3104,
+      "name": "Standby flags",
+      "description": "Bitmask reporting standby reasons for the inverter (vendor-defined).",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_status_word"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
       "register": 3105,
       "register_start": 3105,
       "register_end": 3105,
@@ -6951,6 +7167,42 @@
       "attributes": [
         "fault_code"
       ]
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3106,
+      "register_start": 3106,
+      "register_end": 3106,
+      "name": "Warning main code",
+      "description": "Current warning main code reported by the inverter controller.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw_code"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3107,
+      "register_start": 3107,
+      "register_end": 3107,
+      "name": "Fault subcode",
+      "description": "Fault detail bitmask identifying the root cause of the active fault.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_status_word"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3108,
+      "register_start": 3108,
+      "register_end": 3108,
+      "name": "Warning subcode",
+      "description": "Warning detail bitmask reported alongside the main warning code.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_status_word"
     },
     {
       "type": "entry",
@@ -6985,6 +7237,42 @@
     {
       "type": "entry",
       "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3112,
+      "register_start": 3112,
+      "register_end": 3112,
+      "name": "AFCI status",
+      "description": "Arc-fault detection controller status word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw_code"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3113,
+      "register_start": 3113,
+      "register_end": 3113,
+      "name": "AFCI strength (channel A)",
+      "description": "Arc-fault detection strength metric for channel A.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3114,
+      "register_start": 3114,
+      "register_end": 3114,
+      "name": "AFCI self-check (channel A)",
+      "description": "Result of the AFCI self-test for channel A.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
       "register": 3115,
       "register_start": 3115,
       "register_end": 3115,
@@ -6996,6 +7284,54 @@
       "attributes": [
         "inv_start_delay"
       ]
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3118,
+      "register_start": 3118,
+      "register_end": 3118,
+      "name": "BDC connect state",
+      "description": "Indicates whether the battery DC converter is connected (0 = off, 1 = on).",
+      "access": "R",
+      "unit": null,
+      "data_type": "bdc_onoff_state_flag"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3119,
+      "register_start": 3119,
+      "register_end": 3119,
+      "name": "Dry contact state",
+      "description": "Status of the dry contact output (0 = open, 1 = closed).",
+      "access": "R",
+      "unit": null,
+      "data_type": "boolean_flag"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3121,
+      "register_start": 3121,
+      "register_end": 3122,
+      "name": "Self-use power",
+      "description": "Real-time power consumed by on-site loads (0.1 W resolution).",
+      "access": "R",
+      "unit": "W",
+      "data_type": "u32_power_w_decawatt"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH PV/AC telemetry (3000–3124)",
+      "register": 3123,
+      "register_start": 3123,
+      "register_end": 3124,
+      "name": "System energy today",
+      "description": "Total energy processed by the hybrid system today (0.1 kWh resolution).",
+      "access": "R",
+      "unit": "kWh",
+      "data_type": "u32_energy_kwh_decitenth"
     },
     {
       "type": "section",
@@ -7064,6 +7400,246 @@
     {
       "type": "entry",
       "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3133,
+      "register_start": 3133,
+      "register_end": 3134,
+      "name": "AC charge energy today",
+      "description": "Energy charged into the battery from AC today (0.1 kWh resolution).",
+      "access": "R",
+      "unit": "kWh",
+      "data_type": "u32_energy_kwh_decitenth"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3135,
+      "register_start": 3135,
+      "register_end": 3136,
+      "name": "AC charge energy total",
+      "description": "Lifetime energy charged into the battery from AC (0.1 kWh resolution).",
+      "access": "R",
+      "unit": "kWh",
+      "data_type": "u32_energy_kwh_decitenth"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3137,
+      "register_start": 3137,
+      "register_end": 3138,
+      "name": "System energy total",
+      "description": "Lifetime hybrid system energy throughput (0.1 kWh resolution).",
+      "access": "R",
+      "unit": "kWh",
+      "data_type": "u32_energy_kwh_decitenth"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3139,
+      "register_start": 3139,
+      "register_end": 3140,
+      "name": "Self-use energy today",
+      "description": "Energy supplied to on-site loads today (0.1 kWh resolution).",
+      "access": "R",
+      "unit": "kWh",
+      "data_type": "u32_energy_kwh_decitenth"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3141,
+      "register_start": 3141,
+      "register_end": 3142,
+      "name": "Self-use energy total",
+      "description": "Lifetime energy supplied to on-site loads (0.1 kWh resolution).",
+      "access": "R",
+      "unit": "kWh",
+      "data_type": "u32_energy_kwh_decitenth"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3144,
+      "register_start": 3144,
+      "register_end": 3144,
+      "name": "Priority mode",
+      "description": "Operating priority mode: 0 = load-first, 1 = battery-first, 2 = grid-first.",
+      "access": "R",
+      "unit": null,
+      "data_type": "priority_mode"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3145,
+      "register_start": 3145,
+      "register_end": 3145,
+      "name": "EPS frequency",
+      "description": "Output frequency of the EPS (backup) inverter (0.01 Hz resolution).",
+      "access": "R",
+      "unit": "Hz",
+      "data_type": "u16_frequency_centihz"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3146,
+      "register_start": 3146,
+      "register_end": 3146,
+      "name": "EPS phase R voltage",
+      "description": "Phase R voltage on the EPS output (0.1 V resolution).",
+      "access": "R",
+      "unit": "V",
+      "data_type": "u16_voltage_decivolt"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3147,
+      "register_start": 3147,
+      "register_end": 3147,
+      "name": "EPS phase R current",
+      "description": "Phase R current on the EPS output (0.1 A resolution).",
+      "access": "R",
+      "unit": "A",
+      "data_type": "u16_current_deciamp"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3148,
+      "register_start": 3148,
+      "register_end": 3149,
+      "name": "EPS phase R apparent power",
+      "description": "Phase R apparent power on the EPS output (0.1 VA resolution).",
+      "access": "R",
+      "unit": "VA",
+      "data_type": "u32_apparent_power_decava"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3150,
+      "register_start": 3150,
+      "register_end": 3150,
+      "name": "EPS phase S voltage",
+      "description": "Phase S voltage on the EPS output (0.1 V resolution).",
+      "access": "R",
+      "unit": "V",
+      "data_type": "u16_voltage_decivolt"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3151,
+      "register_start": 3151,
+      "register_end": 3151,
+      "name": "EPS phase S current",
+      "description": "Phase S current on the EPS output (0.1 A resolution).",
+      "access": "R",
+      "unit": "A",
+      "data_type": "u16_current_deciamp"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3152,
+      "register_start": 3152,
+      "register_end": 3153,
+      "name": "EPS phase S apparent power",
+      "description": "Phase S apparent power on the EPS output (0.1 VA resolution).",
+      "access": "R",
+      "unit": "VA",
+      "data_type": "u32_apparent_power_decava"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3154,
+      "register_start": 3154,
+      "register_end": 3154,
+      "name": "EPS phase T voltage",
+      "description": "Phase T voltage on the EPS output (0.1 V resolution).",
+      "access": "R",
+      "unit": "V",
+      "data_type": "u16_voltage_decivolt"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3155,
+      "register_start": 3155,
+      "register_end": 3155,
+      "name": "EPS phase T current",
+      "description": "Phase T current on the EPS output (0.1 A resolution).",
+      "access": "R",
+      "unit": "A",
+      "data_type": "u16_current_deciamp"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3156,
+      "register_start": 3156,
+      "register_end": 3157,
+      "name": "EPS phase T apparent power",
+      "description": "Phase T apparent power on the EPS output (0.1 VA resolution).",
+      "access": "R",
+      "unit": "VA",
+      "data_type": "u32_apparent_power_decava"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3158,
+      "register_start": 3158,
+      "register_end": 3159,
+      "name": "EPS total apparent power",
+      "description": "Total apparent power delivered by the EPS output (0.1 VA resolution).",
+      "access": "R",
+      "unit": "VA",
+      "data_type": "u32_apparent_power_decava"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3160,
+      "register_start": 3160,
+      "register_end": 3160,
+      "name": "EPS load percentage",
+      "description": "Utilisation of the EPS output expressed as a percentage of rating (0.1 % resolution).",
+      "access": "R",
+      "unit": "%",
+      "data_type": "u16_percent_decitenth"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3161,
+      "register_start": 3161,
+      "register_end": 3161,
+      "name": "BDC power factor",
+      "description": "Battery DC converter power factor estimate (0.1 resolution).",
+      "access": "R",
+      "unit": "pf",
+      "data_type": "u16_power_factor_decitenth"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3162,
+      "register_start": 3162,
+      "register_end": 3162,
+      "name": "BDC DC voltage",
+      "description": "High-voltage DC bus measurement from the BDC (0.001 V resolution).",
+      "access": "R",
+      "unit": "V",
+      "data_type": "u16_voltage_millivolt"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
       "register": 3164,
       "register_start": 3164,
       "register_end": 3164,
@@ -7075,6 +7651,54 @@
       "attributes": [
         "bdc_new_flag"
       ]
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3165,
+      "register_start": 3165,
+      "register_end": 3165,
+      "name": "BDC derating mode",
+      "description": "Derating reason code reported by the battery DC converter.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw_code"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3166,
+      "register_start": 3166,
+      "register_end": 3166,
+      "name": "BDC system mode",
+      "description": "Operating state reported by the battery DC converter controller.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw_code"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3167,
+      "register_start": 3167,
+      "register_end": 3167,
+      "name": "BDC fault code",
+      "description": "Current fault code reported by the battery DC converter.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw_code"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3168,
+      "register_start": 3168,
+      "register_end": 3168,
+      "name": "BDC warning code",
+      "description": "Current warning code reported by the battery DC converter.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw_code"
     },
     {
       "type": "entry",
@@ -7244,6 +7868,54 @@
     {
       "type": "entry",
       "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3182,
+      "register_start": 3182,
+      "register_end": 3183,
+      "name": "BDC discharge energy total",
+      "description": "Lifetime energy discharged by the battery DC converter (0.1 kWh resolution).",
+      "access": "R",
+      "unit": "kWh",
+      "data_type": "u32_energy_kwh_decitenth"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3184,
+      "register_start": 3184,
+      "register_end": 3185,
+      "name": "BDC charge energy total",
+      "description": "Lifetime energy charged into the battery via the BDC (0.1 kWh resolution).",
+      "access": "R",
+      "unit": "kWh",
+      "data_type": "u32_energy_kwh_decitenth"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3187,
+      "register_start": 3187,
+      "register_end": 3187,
+      "name": "BDC flag word",
+      "description": "Diagnostic flag bitmask reported by the battery DC converter.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_status_word"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
+      "register": 3188,
+      "register_start": 3188,
+      "register_end": 3188,
+      "name": "VBUS2 low voltage",
+      "description": "Low-side DC bus voltage reported by the BDC (0.1 V resolution).",
+      "access": "R",
+      "unit": "V",
+      "data_type": "u16_voltage_decivolt"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH battery telemetry (3125–3199)",
       "register": 3189,
       "register_start": 3189,
       "register_end": 3189,
@@ -7408,11 +8080,11 @@
     },
     {
       "type": "section",
-      "title": "TL-X/TL-XH BMS diagnostics (3200–3231)"
+      "title": "TL-X/TL-XH BMS and debug telemetry (3200–3249)"
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3200,
       "register_start": 3200,
       "register_end": 3200,
@@ -7427,7 +8099,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3201,
       "register_start": 3201,
       "register_end": 3201,
@@ -7442,7 +8114,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3202,
       "register_start": 3202,
       "register_end": 3202,
@@ -7457,7 +8129,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3203,
       "register_start": 3203,
       "register_end": 3203,
@@ -7472,7 +8144,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3204,
       "register_start": 3204,
       "register_end": 3204,
@@ -7487,7 +8159,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3205,
       "register_start": 3205,
       "register_end": 3205,
@@ -7502,7 +8174,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3210,
       "register_start": 3210,
       "register_end": 3210,
@@ -7517,7 +8189,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3211,
       "register_start": 3211,
       "register_end": 3211,
@@ -7532,7 +8204,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3212,
       "register_start": 3212,
       "register_end": 3212,
@@ -7547,7 +8219,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3213,
       "register_start": 3213,
       "register_end": 3213,
@@ -7562,7 +8234,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3214,
       "register_start": 3214,
       "register_end": 3214,
@@ -7577,7 +8249,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3215,
       "register_start": 3215,
       "register_end": 3215,
@@ -7592,7 +8264,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3216,
       "register_start": 3216,
       "register_end": 3216,
@@ -7607,7 +8279,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3217,
       "register_start": 3217,
       "register_end": 3217,
@@ -7623,7 +8295,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3218,
       "register_start": 3218,
       "register_end": 3218,
@@ -7638,7 +8310,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3219,
       "register_start": 3219,
       "register_end": 3219,
@@ -7653,7 +8325,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3220,
       "register_start": 3220,
       "register_end": 3220,
@@ -7668,7 +8340,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3221,
       "register_start": 3221,
       "register_end": 3221,
@@ -7683,7 +8355,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3222,
       "register_start": 3222,
       "register_end": 3222,
@@ -7698,7 +8370,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3223,
       "register_start": 3223,
       "register_end": 3223,
@@ -7713,7 +8385,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3224,
       "register_start": 3224,
       "register_end": 3224,
@@ -7728,7 +8400,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3225,
       "register_start": 3225,
       "register_end": 3225,
@@ -7743,7 +8415,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3226,
       "register_start": 3226,
       "register_end": 3226,
@@ -7758,7 +8430,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3230,
       "register_start": 3230,
       "register_end": 3230,
@@ -7773,7 +8445,7 @@
     },
     {
       "type": "entry",
-      "section": "TL-X/TL-XH BMS diagnostics (3200–3231)",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
       "register": 3231,
       "register_start": 3231,
       "register_end": 3231,
@@ -7785,6 +8457,210 @@
       "attributes": [
         "bms_cell_volt_min"
       ]
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3232,
+      "register_start": 3232,
+      "register_end": 3232,
+      "name": "Battery load voltage",
+      "description": "Battery-side load voltage measurement (0.01 V resolution).",
+      "access": "R",
+      "unit": "V",
+      "data_type": "u16_voltage_centivolt"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3234,
+      "register_start": 3234,
+      "register_end": 3234,
+      "name": "Debug data 1",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3235,
+      "register_start": 3235,
+      "register_end": 3235,
+      "name": "Debug data 2",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3236,
+      "register_start": 3236,
+      "register_end": 3236,
+      "name": "Debug data 3",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3237,
+      "register_start": 3237,
+      "register_end": 3237,
+      "name": "Debug data 4",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3238,
+      "register_start": 3238,
+      "register_end": 3238,
+      "name": "Debug data 5",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3239,
+      "register_start": 3239,
+      "register_end": 3239,
+      "name": "Debug data 6",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3240,
+      "register_start": 3240,
+      "register_end": 3240,
+      "name": "Debug data 7",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3241,
+      "register_start": 3241,
+      "register_end": 3241,
+      "name": "Debug data 8",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3242,
+      "register_start": 3242,
+      "register_end": 3242,
+      "name": "Debug data 9",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3243,
+      "register_start": 3243,
+      "register_end": 3243,
+      "name": "Debug data 10",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3244,
+      "register_start": 3244,
+      "register_end": 3244,
+      "name": "Debug data 11",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3245,
+      "register_start": 3245,
+      "register_end": 3245,
+      "name": "Debug data 12",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3246,
+      "register_start": 3246,
+      "register_end": 3246,
+      "name": "Debug data 13",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3247,
+      "register_start": 3247,
+      "register_end": 3247,
+      "name": "Debug data 14",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3248,
+      "register_start": 3248,
+      "register_end": 3248,
+      "name": "Debug data 15",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
+    },
+    {
+      "type": "entry",
+      "section": "TL-X/TL-XH BMS and debug telemetry (3200–3249)",
+      "register": 3249,
+      "register_start": 3249,
+      "register_end": 3249,
+      "name": "Debug data 16",
+      "description": "Vendor-specific diagnostic word.",
+      "access": "R",
+      "unit": null,
+      "data_type": "u16_raw"
     }
   ]
 }

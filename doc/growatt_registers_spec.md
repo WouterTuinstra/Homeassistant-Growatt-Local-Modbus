@@ -17,14 +17,14 @@ This file is generated from `growatt_registers_spec.json` (parsed from the offic
 | Storage Holding Registers (1000–1124) | 35 | 0 | 35 |
 | Storage Holding Registers (1125–1249) | 15 | 0 | 15 |
 | Common Input Registers (0–124) | 66 | 66 | 0 |
-| TL-X/TL-XH Input Registers (3000–3124) | 55 | 55 | 0 |
-| TL-X/TL-XH Battery & Hybrid Input Registers (3125–3249) | 52 | 52 | 0 |
+| TL-X/TL-XH Input Registers (3000–3124) | 83 | 55 | 28 |
+| TL-X/TL-XH Battery & Hybrid Input Registers (3125–3249) | 97 | 52 | 45 |
 | TL-X/TL-XH Extended Input Registers (3250–3374) | 0 | 0 | 0 |
 | Storage Input Registers (1000–1124) | 0 | 0 | 0 |
 | Storage Input Registers (1125–1249) | 0 | 0 | 0 |
 | Storage Input Registers (2000–2124) | 0 | 0 | 0 |
-| Storage TL-XH Input Registers (3041–3231) | 81 | 62 | 19 |
-| Offgrid SPF Input Registers | 175 | 25 | 150 |
+| Storage TL-XH Input Registers (3041–3231) | 133 | 62 | 71 |
+| Offgrid SPF Input Registers | 248 | 25 | 223 |
 
 ## Common Holding Registers (0–124)
 Applies to TL-X/TL-XH, TL3/MAX/MID/MAC, and MIX/SPA/SPH storage families.
@@ -492,6 +492,7 @@ Primary TL-X/TL-XH telemetry mirror (PV/AC metrics).
 | 3015 | PV 4 DC voltage | Instantaneous PV 4 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | tlx:input_4_voltage | Input 4 voltage |
 | 3016 | PV 4 DC current | Instantaneous PV 4 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | tlx:input_4_amperage | Input 4 Amperage |
 | 3017 | PV 4 DC power | Real-time DC power from PV 4 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | tlx:input_4_power | Input 4 Wattage |
+| 3019 | System output power | AC output power reported by the TL-XH mirror block (0.1 W resolution). Mirrors the value at register 35. | R | — W | — | u 32_power_w_decawatt | — | — |
 | 3021 | Output reactive power | Instantaneous reactive power on the AC output (positive = inductive, negative = capacitive). | R | — var | — | s 32_reactive_power_decivar | tlx:output_reactive_power | Reactive wattage |
 | 3023 | AC output power | Active AC output power delivered by the inverter (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | tlx:output_power | Output power |
 | 3025 | Grid frequency | Measured grid frequency with 0.01 Hz resolution. | R | — Hz | — | u 16_frequency_centihz | tlx:grid_frequency | AC frequency, Grid frequency |
@@ -504,6 +505,9 @@ Primary TL-X/TL-XH telemetry mirror (PV/AC metrics).
 | 3034 | AC phase L 3 voltage | AC output voltage for phase L 3. | R | — V | — | u 16_voltage_decivolt | tlx:output_3_voltage | Output 3 voltage |
 | 3035 | AC phase L 3 current | AC output current for phase L 3. | R | — A | — | u 16_current_deciamp | tlx:output_3_amperage | Output 3 Amperage |
 | 3036 | AC phase L 3 power | Active power exported on phase L 3. | R | — W | — | u 32_power_w_decawatt | tlx:output_3_power | Output 3 Wattage |
+| 3038 | RS line voltage | Line-to-line voltage between phases R and S measured on the AC output. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3039 | ST line voltage | Line-to-line voltage between phases S and T measured on the AC output. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3040 | TR line voltage | Line-to-line voltage between phases T and R measured on the AC output. | R | — V | — | u 16_voltage_decivolt | — | — |
 | 3041 | Load supply power | Real-time active power delivered to on-site (self-consumption) loads. | R | — W | — | u 32_power_w_decawatt | tlx:power_to_user | Power to user |
 | 3043 | Grid export power | Active power exported to the utility grid. | R | — W | — | u 32_power_w_decawatt | tlx:power_to_grid | Power to grid |
 | 3045 | Home load power | Aggregate instantaneous demand from on-site loads. | R | — W | — | u 32_power_w_decawatt | tlx:power_user_load | Power user load |
@@ -521,18 +525,42 @@ Primary TL-X/TL-XH telemetry mirror (PV/AC metrics).
 | 3069 | Load energy total | Lifetime energy delivered to on-site loads (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:energy_to_user_total | Energy To User (Total) |
 | 3071 | Export energy today | Energy exported to the grid today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:energy_to_grid_today | Energy To Grid (Today) |
 | 3073 | Export energy total | Lifetime energy exported to the grid (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:energy_to_grid_total | Energy To Grid (Total) |
+| 3075 | User load energy today | Energy delivered to on-site loads today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3077 | User load energy total | Lifetime energy delivered to on-site loads (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3079 | PV 4 energy today | Energy harvested by PV string 4 today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3081 | PV 4 energy total | Lifetime energy harvested by PV string 4 (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3083 | PV energy today | Total PV energy harvested across all strings today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
 | 3086 | Derating mode | Active derating reason reported by the inverter controller. | R | — | — | u 16_raw_code | tlx:derating_mode | Derating mode |
+| 3087 | PV insulation resistance | DC insulation resistance measured on the PV inputs. | R | — kΩ | — | u 16_resistance_kiloohm | — | — |
+| 3088 | Residual current R | Ground fault residual current on phase R (0.1 m A resolution). | R | — m A | — | u 16_current_decimilliamp | — | — |
+| 3089 | Residual current S | Ground fault residual current on phase S (0.1 m A resolution). | R | — m A | — | u 16_current_decimilliamp | — | — |
+| 3090 | Residual current T | Ground fault residual current on phase T (0.1 m A resolution). | R | — m A | — | u 16_current_decimilliamp | — | — |
+| 3091 | GFCI current | Ground fault current measured by the GFCI sensor (1 m A resolution). | R | — m A | — | u 16_current_milliamp | — | — |
+| 3092 | Total bus voltage | Combined DC bus voltage measured at the inverter bridge (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
 | 3093 | Inverter temperature | Main inverter heatsink temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:inverter_temperature | Temperature |
 | 3094 | IPM temperature | IPM (power module) temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:ipm_temperature | Intelligent Power Management temperature |
 | 3095 | Boost temperature | Boost inductor temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:boost_temperature | Boost temperature |
 | 3097 | Communication board temperature | Temperature reported by the communication/control board (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:comm_board_temperature | Comm board temperature |
 | 3098 | P-bus voltage | Positive DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | tlx:p_bus_voltage | P-bus voltage |
 | 3099 | N-bus voltage | Negative DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | tlx:n_bus_voltage | N-bus voltage |
+| 3100 | Inverter output power factor | Instantaneous output power factor encoded as value ×10 000 (10 000 = unity). | R | — pf | — | power_factor_x 10000 | — | — |
 | 3101 | Output power percentage | Instantaneous AC output as a percentage of the inverter's rated power. | R | — % | — | u 16_percent | tlx:real_output_power_percent | Real power output percentage |
+| 3102 | Output max power limit | Current active output power limit enforced by the inverter (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3104 | Standby flags | Bitmask reporting standby reasons for the inverter (vendor-defined). | R | — | — | u 16_status_word | — | — |
 | 3105 | Fault code | Current inverter fault code (see protocol documentation). | R | — | — | u 16_status_word | tlx:fault_code | Fault code |
+| 3106 | Warning main code | Current warning main code reported by the inverter controller. | R | — | — | u 16_raw_code | — | — |
+| 3107 | Fault subcode | Fault detail bitmask identifying the root cause of the active fault. | R | — | — | u 16_status_word | — | — |
+| 3108 | Warning subcode | Warning detail bitmask reported alongside the main warning code. | R | — | — | u 16_status_word | — | — |
 | 3110 | Warning code | Current inverter warning code (vendor-defined bitmask). | R | — | — | u 16_status_word | tlx:warning_code | Warning code |
 | 3111 | Present FFT value (channel A) | Latest Fast Fourier Transform diagnostic value for channel A. | R | — | — | u 16_raw | tlx:present_fft_a | Present FFT A |
+| 3112 | AFCI status | Arc-fault detection controller status word. | R | — | — | u 16_raw_code | — | — |
+| 3113 | AFCI strength (channel A) | Arc-fault detection strength metric for channel A. | R | — | — | u 16_raw | — | — |
+| 3114 | AFCI self-check (channel A) | Result of the AFCI self-test for channel A. | R | — | — | u 16_raw | — | — |
 | 3115 | Inverter start delay | Seconds remaining before restart once grid conditions recover. | R | — s | — | u 16_raw | tlx:inv_start_delay | Inverter start delay |
+| 3118 | BDC connect state | Indicates whether the battery DC converter is connected (0 = off, 1 = on). | R | — | — | bdc_onoff_state_flag | — | — |
+| 3119 | Dry contact state | Status of the dry contact output (0 = open, 1 = closed). | R | — | — | boolean_flag | — | — |
+| 3121 | Self-use power | Real-time power consumed by on-site loads (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3123 | System energy today | Total energy processed by the hybrid system today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
 
 ## TL-X/TL-XH Battery & Hybrid Input Registers (3125–3249)
 Battery energy, power flow, and BMS telemetry for TL-XH hybrids.
@@ -545,7 +573,31 @@ Battery energy, power flow, and BMS telemetry for TL-XH hybrids.
 | 3127 | Battery discharge total | Total energy discharged from the battery (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:discharge_energy_total, storage:discharge_energy_total | Battery Discharged (Total), Battery Discharged Lifetime |
 | 3129 | Battery charge today | Energy charged into the battery today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:charge_energy_today, storage:charge_energy_today | Battery Charged (Today), Battery Charged Today |
 | 3131 | Battery charge total | Total energy charged into the battery (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:charge_energy_total, storage:charge_energy_total | Battery Charged (Total), Grid Charged Lifetime |
+| 3133 | AC charge energy today | Energy charged into the battery from AC today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3135 | AC charge energy total | Lifetime energy charged into the battery from AC (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3137 | System energy total | Lifetime hybrid system energy throughput (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3139 | Self-use energy today | Energy supplied to on-site loads today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3141 | Self-use energy total | Lifetime energy supplied to on-site loads (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3144 | Priority mode | Operating priority mode: 0 = load-first, 1 = battery-first, 2 = grid-first. | R | — | — | priority_mode | — | — |
+| 3145 | EPS frequency | Output frequency of the EPS (backup) inverter (0.01 Hz resolution). | R | — Hz | — | u 16_frequency_centihz | — | — |
+| 3146 | EPS phase R voltage | Phase R voltage on the EPS output (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3147 | EPS phase R current | Phase R current on the EPS output (0.1 A resolution). | R | — A | — | u 16_current_deciamp | — | — |
+| 3148 | EPS phase R apparent power | Phase R apparent power on the EPS output (0.1 VA resolution). | R | — VA | — | u 32_apparent_power_decava | — | — |
+| 3150 | EPS phase S voltage | Phase S voltage on the EPS output (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3151 | EPS phase S current | Phase S current on the EPS output (0.1 A resolution). | R | — A | — | u 16_current_deciamp | — | — |
+| 3152 | EPS phase S apparent power | Phase S apparent power on the EPS output (0.1 VA resolution). | R | — VA | — | u 32_apparent_power_decava | — | — |
+| 3154 | EPS phase T voltage | Phase T voltage on the EPS output (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3155 | EPS phase T current | Phase T current on the EPS output (0.1 A resolution). | R | — A | — | u 16_current_deciamp | — | — |
+| 3156 | EPS phase T apparent power | Phase T apparent power on the EPS output (0.1 VA resolution). | R | — VA | — | u 32_apparent_power_decava | — | — |
+| 3158 | EPS total apparent power | Total apparent power delivered by the EPS output (0.1 VA resolution). | R | — VA | — | u 32_apparent_power_decava | — | — |
+| 3160 | EPS load percentage | Utilisation of the EPS output expressed as a percentage of rating (0.1 % resolution). | R | — % | — | u 16_percent_decitenth | — | — |
+| 3161 | BDC power factor | Battery DC converter power factor estimate (0.1 resolution). | R | — pf | — | u 16_power_factor_decitenth | — | — |
+| 3162 | BDC DC voltage | High-voltage DC bus measurement from the BDC (0.001 V resolution). | R | — V | — | u 16_voltage_millivolt | — | — |
 | 3164 | BDC presence flag | Indicates whether a battery DC converter (BDC) has been detected. | R | — | — | u 16_flag | tlx:bdc_new_flag, storage:bdc_new_flag | BDC present |
+| 3165 | BDC derating mode | Derating reason code reported by the battery DC converter. | R | — | — | u 16_raw_code | — | — |
+| 3166 | BDC system mode | Operating state reported by the battery DC converter controller. | R | — | — | u 16_raw_code | — | — |
+| 3167 | BDC fault code | Current fault code reported by the battery DC converter. | R | — | — | u 16_raw_code | — | — |
+| 3168 | BDC warning code | Current warning code reported by the battery DC converter. | R | — | — | u 16_raw_code | — | — |
 | 3169 | Battery voltage | Pack voltage reported via the inverter-side measurements (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | tlx:battery_voltage, storage:battery_voltage | Battery voltage |
 | 3170 | Battery current | Current flowing between battery and inverter (positive = discharge) with 0.1 A resolution. | R | — A | — | s 16_current_deciamp | tlx:battery_current, storage:battery_current | Battery current |
 | 3171 | Battery SOC | Battery state of charge reported by the inverter. | R | — % | — | u 16_percent | tlx:soc, storage:soc | SOC |
@@ -557,6 +609,10 @@ Battery energy, power flow, and BMS telemetry for TL-XH hybrids.
 | 3177 | Battery temperature B | Battery temperature sensor B (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:battery_temperature_b, storage:battery_temperature_b | Battery temperature B |
 | 3178 | Battery discharge power | Real-time discharge power flowing from the battery (0.1 W resolution). | R | — W | — | s 32_power_w_decawatt | tlx:discharge_power, storage:discharge_power | Battery discharge power, Discharge Power |
 | 3180 | Battery charge power | Real-time charge power flowing into the battery (0.1 W resolution). | R | — W | — | s 32_power_w_decawatt | tlx:charge_power, storage:charge_power | Battery charge power, Charge Power |
+| 3182 | BDC discharge energy total | Lifetime energy discharged by the battery DC converter (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3184 | BDC charge energy total | Lifetime energy charged into the battery via the BDC (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3187 | BDC flag word | Diagnostic flag bitmask reported by the battery DC converter. | R | — | — | u 16_status_word | — | — |
+| 3188 | VBUS 2 low voltage | Low-side DC bus voltage reported by the BDC (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
 | 3189 | BMS max cell index | Cell index reporting the highest voltage in the battery stack (1-based). | R | — | — | u 16_raw | tlx:bms_max_volt_cell_no, storage:bms_max_volt_cell_no | BMS max volt cell no |
 | 3190 | BMS min cell index | Cell index reporting the lowest voltage in the battery stack (1-based). | R | — | — | u 16_raw | tlx:bms_min_volt_cell_no, storage:bms_min_volt_cell_no | BMS min volt cell no |
 | 3191 | BMS average temperature A | Average temperature reported by sensor group A (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:bms_avg_temp_a, storage:bms_avg_temp_a | BMS avg temp A |
@@ -593,6 +649,23 @@ Battery energy, power flow, and BMS telemetry for TL-XH hybrids.
 | 3226 | BMS protect flags 3 | Protection bitmask word 3 from the battery management system. | R | — | — | u 16_raw | tlx:bms_protect3, storage:bms_protect3 | BMS protect 3 |
 | 3230 | BMS max cell voltage | Highest individual cell voltage (0.001 V resolution). | R | — V | — | u 16_voltage_millivolt | tlx:bms_cell_volt_max, storage:bms_cell_volt_max | BMS cell voltage max |
 | 3231 | BMS min cell voltage | Lowest individual cell voltage (0.001 V resolution). | R | — V | — | u 16_voltage_millivolt | tlx:bms_cell_volt_min, storage:bms_cell_volt_min | BMS cell voltage min |
+| 3232 | Battery load voltage | Battery-side load voltage measurement (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | — | — |
+| 3234 | Debug data 1 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3235 | Debug data 2 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3236 | Debug data 3 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3237 | Debug data 4 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3238 | Debug data 5 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3239 | Debug data 6 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3240 | Debug data 7 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3241 | Debug data 8 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3242 | Debug data 9 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3243 | Debug data 10 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3244 | Debug data 11 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3245 | Debug data 12 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3246 | Debug data 13 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3247 | Debug data 14 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3248 | Debug data 15 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3249 | Debug data 16 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
 
 ## Storage TL-XH Input Registers (3041–3231)
 BDC telemetry (battery module data) for TL-XH hybrids.
@@ -618,23 +691,71 @@ BDC telemetry (battery module data) for TL-XH hybrids.
 | 3069 | Load energy total | Lifetime energy delivered to on-site loads (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:energy_to_user_total | Energy To User (Total) |
 | 3071 | Export energy today | Energy exported to the grid today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:energy_to_grid_today | Energy To Grid (Today) |
 | 3073 | Export energy total | Lifetime energy exported to the grid (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:energy_to_grid_total | Energy To Grid (Total) |
+| 3075 | User load energy today | Energy delivered to on-site loads today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3077 | User load energy total | Lifetime energy delivered to on-site loads (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3079 | PV 4 energy today | Energy harvested by PV string 4 today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3081 | PV 4 energy total | Lifetime energy harvested by PV string 4 (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3083 | PV energy today | Total PV energy harvested across all strings today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
 | 3086 | Derating mode | Active derating reason reported by the inverter controller. | R | — | — | u 16_raw_code | — | — |
+| 3087 | PV insulation resistance | DC insulation resistance measured on the PV inputs. | R | — kΩ | — | u 16_resistance_kiloohm | — | — |
+| 3088 | Residual current R | Ground fault residual current on phase R (0.1 m A resolution). | R | — m A | — | u 16_current_decimilliamp | — | — |
+| 3089 | Residual current S | Ground fault residual current on phase S (0.1 m A resolution). | R | — m A | — | u 16_current_decimilliamp | — | — |
+| 3090 | Residual current T | Ground fault residual current on phase T (0.1 m A resolution). | R | — m A | — | u 16_current_decimilliamp | — | — |
+| 3091 | GFCI current | Ground fault current measured by the GFCI sensor (1 m A resolution). | R | — m A | — | u 16_current_milliamp | — | — |
+| 3092 | Total bus voltage | Combined DC bus voltage measured at the inverter bridge (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
 | 3093 | Inverter temperature | Main inverter heatsink temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
 | 3094 | IPM temperature | IPM (power module) temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
 | 3095 | Boost temperature | Boost inductor temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
 | 3097 | Communication board temperature | Temperature reported by the communication/control board (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | storage:comm_board_temperature | Comm board temperature |
 | 3098 | P-bus voltage | Positive DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
 | 3099 | N-bus voltage | Negative DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3100 | Inverter output power factor | Instantaneous output power factor encoded as value ×10 000 (10 000 = unity). | R | — pf | — | power_factor_x 10000 | — | — |
 | 3101 | Output power percentage | Instantaneous AC output as a percentage of the inverter's rated power. | R | — % | — | u 16_percent | — | — |
+| 3102 | Output max power limit | Current active output power limit enforced by the inverter (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3104 | Standby flags | Bitmask reporting standby reasons for the inverter (vendor-defined). | R | — | — | u 16_status_word | — | — |
 | 3105 | Fault code | Current inverter fault code (see protocol documentation). | R | — | — | u 16_status_word | — | — |
+| 3106 | Warning main code | Current warning main code reported by the inverter controller. | R | — | — | u 16_raw_code | — | — |
+| 3107 | Fault subcode | Fault detail bitmask identifying the root cause of the active fault. | R | — | — | u 16_status_word | — | — |
+| 3108 | Warning subcode | Warning detail bitmask reported alongside the main warning code. | R | — | — | u 16_status_word | — | — |
 | 3110 | Warning code | Current inverter warning code (vendor-defined bitmask). | R | — | — | u 16_status_word | — | — |
 | 3111 | Present FFT value (channel A) | Latest Fast Fourier Transform diagnostic value for channel A. | R | — | — | u 16_raw | storage:present_fft_a | Present FFT A |
+| 3112 | AFCI status | Arc-fault detection controller status word. | R | — | — | u 16_raw_code | — | — |
+| 3113 | AFCI strength (channel A) | Arc-fault detection strength metric for channel A. | R | — | — | u 16_raw | — | — |
+| 3114 | AFCI self-check (channel A) | Result of the AFCI self-test for channel A. | R | — | — | u 16_raw | — | — |
 | 3115 | Inverter start delay | Seconds remaining before restart once grid conditions recover. | R | — s | — | u 16_raw | storage:inv_start_delay | Inverter start delay |
+| 3118 | BDC connect state | Indicates whether the battery DC converter is connected (0 = off, 1 = on). | R | — | — | bdc_onoff_state_flag | — | — |
+| 3119 | Dry contact state | Status of the dry contact output (0 = open, 1 = closed). | R | — | — | boolean_flag | — | — |
+| 3121 | Self-use power | Real-time power consumed by on-site loads (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3123 | System energy today | Total energy processed by the hybrid system today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
 | 3125 | Battery discharge today | Energy discharged from the battery into the AC system today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:discharge_energy_today | Battery Discharged (Today), Battery Discharged Today |
 | 3127 | Battery discharge total | Total energy discharged from the battery (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:discharge_energy_total | Battery Discharged (Total), Battery Discharged Lifetime |
 | 3129 | Battery charge today | Energy charged into the battery today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:charge_energy_today | Battery Charged (Today), Battery Charged Today |
 | 3131 | Battery charge total | Total energy charged into the battery (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:charge_energy_total | Battery Charged (Total), Grid Charged Lifetime |
+| 3133 | AC charge energy today | Energy charged into the battery from AC today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3135 | AC charge energy total | Lifetime energy charged into the battery from AC (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3137 | System energy total | Lifetime hybrid system energy throughput (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3139 | Self-use energy today | Energy supplied to on-site loads today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3141 | Self-use energy total | Lifetime energy supplied to on-site loads (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3144 | Priority mode | Operating priority mode: 0 = load-first, 1 = battery-first, 2 = grid-first. | R | — | — | priority_mode | — | — |
+| 3145 | EPS frequency | Output frequency of the EPS (backup) inverter (0.01 Hz resolution). | R | — Hz | — | u 16_frequency_centihz | — | — |
+| 3146 | EPS phase R voltage | Phase R voltage on the EPS output (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3147 | EPS phase R current | Phase R current on the EPS output (0.1 A resolution). | R | — A | — | u 16_current_deciamp | — | — |
+| 3148 | EPS phase R apparent power | Phase R apparent power on the EPS output (0.1 VA resolution). | R | — VA | — | u 32_apparent_power_decava | — | — |
+| 3150 | EPS phase S voltage | Phase S voltage on the EPS output (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3151 | EPS phase S current | Phase S current on the EPS output (0.1 A resolution). | R | — A | — | u 16_current_deciamp | — | — |
+| 3152 | EPS phase S apparent power | Phase S apparent power on the EPS output (0.1 VA resolution). | R | — VA | — | u 32_apparent_power_decava | — | — |
+| 3154 | EPS phase T voltage | Phase T voltage on the EPS output (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3155 | EPS phase T current | Phase T current on the EPS output (0.1 A resolution). | R | — A | — | u 16_current_deciamp | — | — |
+| 3156 | EPS phase T apparent power | Phase T apparent power on the EPS output (0.1 VA resolution). | R | — VA | — | u 32_apparent_power_decava | — | — |
+| 3158 | EPS total apparent power | Total apparent power delivered by the EPS output (0.1 VA resolution). | R | — VA | — | u 32_apparent_power_decava | — | — |
+| 3160 | EPS load percentage | Utilisation of the EPS output expressed as a percentage of rating (0.1 % resolution). | R | — % | — | u 16_percent_decitenth | — | — |
+| 3161 | BDC power factor | Battery DC converter power factor estimate (0.1 resolution). | R | — pf | — | u 16_power_factor_decitenth | — | — |
+| 3162 | BDC DC voltage | High-voltage DC bus measurement from the BDC (0.001 V resolution). | R | — V | — | u 16_voltage_millivolt | — | — |
 | 3164 | BDC presence flag | Indicates whether a battery DC converter (BDC) has been detected. | R | — | — | u 16_flag | storage:bdc_new_flag | BDC present |
+| 3165 | BDC derating mode | Derating reason code reported by the battery DC converter. | R | — | — | u 16_raw_code | — | — |
+| 3166 | BDC system mode | Operating state reported by the battery DC converter controller. | R | — | — | u 16_raw_code | — | — |
+| 3167 | BDC fault code | Current fault code reported by the battery DC converter. | R | — | — | u 16_raw_code | — | — |
+| 3168 | BDC warning code | Current warning code reported by the battery DC converter. | R | — | — | u 16_raw_code | — | — |
 | 3169 | Battery voltage | Pack voltage reported via the inverter-side measurements (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | storage:battery_voltage | Battery voltage |
 | 3170 | Battery current | Current flowing between battery and inverter (positive = discharge) with 0.1 A resolution. | R | — A | — | s 16_current_deciamp | storage:battery_current | Battery current |
 | 3171 | Battery SOC | Battery state of charge reported by the inverter. | R | — % | — | u 16_percent | storage:soc | SOC |
@@ -646,6 +767,10 @@ BDC telemetry (battery module data) for TL-XH hybrids.
 | 3177 | Battery temperature B | Battery temperature sensor B (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | storage:battery_temperature_b | Battery temperature B |
 | 3178 | Battery discharge power | Real-time discharge power flowing from the battery (0.1 W resolution). | R | — W | — | s 32_power_w_decawatt | storage:discharge_power | Battery discharge power, Discharge Power |
 | 3180 | Battery charge power | Real-time charge power flowing into the battery (0.1 W resolution). | R | — W | — | s 32_power_w_decawatt | storage:charge_power | Battery charge power, Charge Power |
+| 3182 | BDC discharge energy total | Lifetime energy discharged by the battery DC converter (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3184 | BDC charge energy total | Lifetime energy charged into the battery via the BDC (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3187 | BDC flag word | Diagnostic flag bitmask reported by the battery DC converter. | R | — | — | u 16_status_word | — | — |
+| 3188 | VBUS 2 low voltage | Low-side DC bus voltage reported by the BDC (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
 | 3189 | BMS max cell index | Cell index reporting the highest voltage in the battery stack (1-based). | R | — | — | u 16_raw | storage:bms_max_volt_cell_no | BMS max volt cell no |
 | 3190 | BMS min cell index | Cell index reporting the lowest voltage in the battery stack (1-based). | R | — | — | u 16_raw | storage:bms_min_volt_cell_no | BMS min volt cell no |
 | 3191 | BMS average temperature A | Average temperature reported by sensor group A (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | storage:bms_avg_temp_a | BMS avg temp A |
@@ -772,6 +897,7 @@ Observed off-grid register map (from integration implementation).
 | 3015 | PV 4 DC voltage | Instantaneous PV 4 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | — | — |
 | 3016 | PV 4 DC current | Instantaneous PV 4 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | — | — |
 | 3017 | PV 4 DC power | Real-time DC power from PV 4 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3019 | System output power | AC output power reported by the TL-XH mirror block (0.1 W resolution). Mirrors the value at register 35. | R | — W | — | u 32_power_w_decawatt | — | — |
 | 3021 | Output reactive power | Instantaneous reactive power on the AC output (positive = inductive, negative = capacitive). | R | — var | — | s 32_reactive_power_decivar | — | — |
 | 3023 | AC output power | Active AC output power delivered by the inverter (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | — | — |
 | 3025 | Grid frequency | Measured grid frequency with 0.01 Hz resolution. | R | — Hz | — | u 16_frequency_centihz | — | — |
@@ -784,6 +910,9 @@ Observed off-grid register map (from integration implementation).
 | 3034 | AC phase L 3 voltage | AC output voltage for phase L 3. | R | — V | — | u 16_voltage_decivolt | — | — |
 | 3035 | AC phase L 3 current | AC output current for phase L 3. | R | — A | — | u 16_current_deciamp | — | — |
 | 3036 | AC phase L 3 power | Active power exported on phase L 3. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3038 | RS line voltage | Line-to-line voltage between phases R and S measured on the AC output. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3039 | ST line voltage | Line-to-line voltage between phases S and T measured on the AC output. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3040 | TR line voltage | Line-to-line voltage between phases T and R measured on the AC output. | R | — V | — | u 16_voltage_decivolt | — | — |
 | 3041 | Load supply power | Real-time active power delivered to on-site (self-consumption) loads. | R | — W | — | u 32_power_w_decawatt | — | — |
 | 3043 | Grid export power | Active power exported to the utility grid. | R | — W | — | u 32_power_w_decawatt | — | — |
 | 3045 | Home load power | Aggregate instantaneous demand from on-site loads. | R | — W | — | u 32_power_w_decawatt | — | — |
@@ -801,23 +930,71 @@ Observed off-grid register map (from integration implementation).
 | 3069 | Load energy total | Lifetime energy delivered to on-site loads (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
 | 3071 | Export energy today | Energy exported to the grid today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
 | 3073 | Export energy total | Lifetime energy exported to the grid (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3075 | User load energy today | Energy delivered to on-site loads today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3077 | User load energy total | Lifetime energy delivered to on-site loads (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3079 | PV 4 energy today | Energy harvested by PV string 4 today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3081 | PV 4 energy total | Lifetime energy harvested by PV string 4 (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3083 | PV energy today | Total PV energy harvested across all strings today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
 | 3086 | Derating mode | Active derating reason reported by the inverter controller. | R | — | — | u 16_raw_code | — | — |
+| 3087 | PV insulation resistance | DC insulation resistance measured on the PV inputs. | R | — kΩ | — | u 16_resistance_kiloohm | — | — |
+| 3088 | Residual current R | Ground fault residual current on phase R (0.1 m A resolution). | R | — m A | — | u 16_current_decimilliamp | — | — |
+| 3089 | Residual current S | Ground fault residual current on phase S (0.1 m A resolution). | R | — m A | — | u 16_current_decimilliamp | — | — |
+| 3090 | Residual current T | Ground fault residual current on phase T (0.1 m A resolution). | R | — m A | — | u 16_current_decimilliamp | — | — |
+| 3091 | GFCI current | Ground fault current measured by the GFCI sensor (1 m A resolution). | R | — m A | — | u 16_current_milliamp | — | — |
+| 3092 | Total bus voltage | Combined DC bus voltage measured at the inverter bridge (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
 | 3093 | Inverter temperature | Main inverter heatsink temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
 | 3094 | IPM temperature | IPM (power module) temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
 | 3095 | Boost temperature | Boost inductor temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
 | 3097 | Communication board temperature | Temperature reported by the communication/control board (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
 | 3098 | P-bus voltage | Positive DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
 | 3099 | N-bus voltage | Negative DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3100 | Inverter output power factor | Instantaneous output power factor encoded as value ×10 000 (10 000 = unity). | R | — pf | — | power_factor_x 10000 | — | — |
 | 3101 | Output power percentage | Instantaneous AC output as a percentage of the inverter's rated power. | R | — % | — | u 16_percent | — | — |
+| 3102 | Output max power limit | Current active output power limit enforced by the inverter (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3104 | Standby flags | Bitmask reporting standby reasons for the inverter (vendor-defined). | R | — | — | u 16_status_word | — | — |
 | 3105 | Fault code | Current inverter fault code (see protocol documentation). | R | — | — | u 16_status_word | — | — |
+| 3106 | Warning main code | Current warning main code reported by the inverter controller. | R | — | — | u 16_raw_code | — | — |
+| 3107 | Fault subcode | Fault detail bitmask identifying the root cause of the active fault. | R | — | — | u 16_status_word | — | — |
+| 3108 | Warning subcode | Warning detail bitmask reported alongside the main warning code. | R | — | — | u 16_status_word | — | — |
 | 3110 | Warning code | Current inverter warning code (vendor-defined bitmask). | R | — | — | u 16_status_word | — | — |
 | 3111 | Present FFT value (channel A) | Latest Fast Fourier Transform diagnostic value for channel A. | R | — | — | u 16_raw | — | — |
+| 3112 | AFCI status | Arc-fault detection controller status word. | R | — | — | u 16_raw_code | — | — |
+| 3113 | AFCI strength (channel A) | Arc-fault detection strength metric for channel A. | R | — | — | u 16_raw | — | — |
+| 3114 | AFCI self-check (channel A) | Result of the AFCI self-test for channel A. | R | — | — | u 16_raw | — | — |
 | 3115 | Inverter start delay | Seconds remaining before restart once grid conditions recover. | R | — s | — | u 16_raw | — | — |
+| 3118 | BDC connect state | Indicates whether the battery DC converter is connected (0 = off, 1 = on). | R | — | — | bdc_onoff_state_flag | — | — |
+| 3119 | Dry contact state | Status of the dry contact output (0 = open, 1 = closed). | R | — | — | boolean_flag | — | — |
+| 3121 | Self-use power | Real-time power consumed by on-site loads (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3123 | System energy today | Total energy processed by the hybrid system today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
 | 3125 | Battery discharge today | Energy discharged from the battery into the AC system today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
 | 3127 | Battery discharge total | Total energy discharged from the battery (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
 | 3129 | Battery charge today | Energy charged into the battery today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
 | 3131 | Battery charge total | Total energy charged into the battery (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3133 | AC charge energy today | Energy charged into the battery from AC today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3135 | AC charge energy total | Lifetime energy charged into the battery from AC (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3137 | System energy total | Lifetime hybrid system energy throughput (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3139 | Self-use energy today | Energy supplied to on-site loads today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3141 | Self-use energy total | Lifetime energy supplied to on-site loads (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3144 | Priority mode | Operating priority mode: 0 = load-first, 1 = battery-first, 2 = grid-first. | R | — | — | priority_mode | — | — |
+| 3145 | EPS frequency | Output frequency of the EPS (backup) inverter (0.01 Hz resolution). | R | — Hz | — | u 16_frequency_centihz | — | — |
+| 3146 | EPS phase R voltage | Phase R voltage on the EPS output (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3147 | EPS phase R current | Phase R current on the EPS output (0.1 A resolution). | R | — A | — | u 16_current_deciamp | — | — |
+| 3148 | EPS phase R apparent power | Phase R apparent power on the EPS output (0.1 VA resolution). | R | — VA | — | u 32_apparent_power_decava | — | — |
+| 3150 | EPS phase S voltage | Phase S voltage on the EPS output (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3151 | EPS phase S current | Phase S current on the EPS output (0.1 A resolution). | R | — A | — | u 16_current_deciamp | — | — |
+| 3152 | EPS phase S apparent power | Phase S apparent power on the EPS output (0.1 VA resolution). | R | — VA | — | u 32_apparent_power_decava | — | — |
+| 3154 | EPS phase T voltage | Phase T voltage on the EPS output (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3155 | EPS phase T current | Phase T current on the EPS output (0.1 A resolution). | R | — A | — | u 16_current_deciamp | — | — |
+| 3156 | EPS phase T apparent power | Phase T apparent power on the EPS output (0.1 VA resolution). | R | — VA | — | u 32_apparent_power_decava | — | — |
+| 3158 | EPS total apparent power | Total apparent power delivered by the EPS output (0.1 VA resolution). | R | — VA | — | u 32_apparent_power_decava | — | — |
+| 3160 | EPS load percentage | Utilisation of the EPS output expressed as a percentage of rating (0.1 % resolution). | R | — % | — | u 16_percent_decitenth | — | — |
+| 3161 | BDC power factor | Battery DC converter power factor estimate (0.1 resolution). | R | — pf | — | u 16_power_factor_decitenth | — | — |
+| 3162 | BDC DC voltage | High-voltage DC bus measurement from the BDC (0.001 V resolution). | R | — V | — | u 16_voltage_millivolt | — | — |
 | 3164 | BDC presence flag | Indicates whether a battery DC converter (BDC) has been detected. | R | — | — | u 16_flag | — | — |
+| 3165 | BDC derating mode | Derating reason code reported by the battery DC converter. | R | — | — | u 16_raw_code | — | — |
+| 3166 | BDC system mode | Operating state reported by the battery DC converter controller. | R | — | — | u 16_raw_code | — | — |
+| 3167 | BDC fault code | Current fault code reported by the battery DC converter. | R | — | — | u 16_raw_code | — | — |
+| 3168 | BDC warning code | Current warning code reported by the battery DC converter. | R | — | — | u 16_raw_code | — | — |
 | 3169 | Battery voltage | Pack voltage reported via the inverter-side measurements (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | — | — |
 | 3170 | Battery current | Current flowing between battery and inverter (positive = discharge) with 0.1 A resolution. | R | — A | — | s 16_current_deciamp | — | — |
 | 3171 | Battery SOC | Battery state of charge reported by the inverter. | R | — % | — | u 16_percent | — | — |
@@ -829,6 +1006,10 @@ Observed off-grid register map (from integration implementation).
 | 3177 | Battery temperature B | Battery temperature sensor B (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
 | 3178 | Battery discharge power | Real-time discharge power flowing from the battery (0.1 W resolution). | R | — W | — | s 32_power_w_decawatt | — | — |
 | 3180 | Battery charge power | Real-time charge power flowing into the battery (0.1 W resolution). | R | — W | — | s 32_power_w_decawatt | — | — |
+| 3182 | BDC discharge energy total | Lifetime energy discharged by the battery DC converter (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3184 | BDC charge energy total | Lifetime energy charged into the battery via the BDC (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3187 | BDC flag word | Diagnostic flag bitmask reported by the battery DC converter. | R | — | — | u 16_status_word | — | — |
+| 3188 | VBUS 2 low voltage | Low-side DC bus voltage reported by the BDC (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
 | 3189 | BMS max cell index | Cell index reporting the highest voltage in the battery stack (1-based). | R | — | — | u 16_raw | — | — |
 | 3190 | BMS min cell index | Cell index reporting the lowest voltage in the battery stack (1-based). | R | — | — | u 16_raw | — | — |
 | 3191 | BMS average temperature A | Average temperature reported by sensor group A (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
@@ -865,4 +1046,21 @@ Observed off-grid register map (from integration implementation).
 | 3226 | BMS protect flags 3 | Protection bitmask word 3 from the battery management system. | R | — | — | u 16_raw | — | — |
 | 3230 | BMS max cell voltage | Highest individual cell voltage (0.001 V resolution). | R | — V | — | u 16_voltage_millivolt | — | — |
 | 3231 | BMS min cell voltage | Lowest individual cell voltage (0.001 V resolution). | R | — V | — | u 16_voltage_millivolt | — | — |
+| 3232 | Battery load voltage | Battery-side load voltage measurement (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | — | — |
+| 3234 | Debug data 1 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3235 | Debug data 2 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3236 | Debug data 3 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3237 | Debug data 4 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3238 | Debug data 5 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3239 | Debug data 6 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3240 | Debug data 7 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3241 | Debug data 8 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3242 | Debug data 9 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3243 | Debug data 10 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3244 | Debug data 11 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3245 | Debug data 12 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3246 | Debug data 13 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3247 | Debug data 14 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3248 | Debug data 15 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
+| 3249 | Debug data 16 | Vendor-specific diagnostic word. | R | — | — | u 16_raw | — | — |
 
