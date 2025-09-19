@@ -979,6 +979,216 @@
         }
       ],
       "notes": "Date enable register followed by up to nine override slots for the selected day."
+    },
+    "inverter_status_code": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "waiting"
+        },
+        "1": {
+          "label": "normal"
+        },
+        "3": {
+          "label": "fault"
+        },
+        "5": {
+          "label": "pv_charge"
+        },
+        "6": {
+          "label": "ac_charge"
+        },
+        "7": {
+          "label": "combined_charge"
+        },
+        "8": {
+          "label": "combined_charge_bypass"
+        },
+        "9": {
+          "label": "pv_charge_bypass"
+        },
+        "10": {
+          "label": "ac_charge_bypass"
+        },
+        "11": {
+          "label": "bypass"
+        },
+        "12": {
+          "label": "pv_charge_discharge"
+        }
+      },
+      "notes": "Enum derived from Growatt protocol inverter status codes."
+    },
+    "u16_voltage_decivolt": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "V"
+    },
+    "u16_voltage_centivolt": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 100,
+      "unit": "V"
+    },
+    "u16_voltage_millivolt": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 1000,
+      "unit": "V"
+    },
+    "u16_current_deciamp": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "A"
+    },
+    "s16_current_deciamp": {
+      "kind": "scaled_signed",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "A"
+    },
+    "u16_current_centiamp": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 100,
+      "unit": "A"
+    },
+    "s16_temperature_decic": {
+      "kind": "scaled_signed",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "°C"
+    },
+    "u16_percent": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 1,
+      "unit": "%"
+    },
+    "u16_ampere_hour": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 1,
+      "unit": "Ah"
+    },
+    "u16_flag": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "no"
+        },
+        "1": {
+          "label": "yes"
+        }
+      }
+    },
+    "u16_raw": {
+      "kind": "raw",
+      "registers": 1,
+      "bits": 16
+    },
+    "u16_raw_code": {
+      "kind": "raw",
+      "registers": 1,
+      "bits": 16,
+      "notes": "Vendor-specific state code."
+    },
+    "u16_status_word": {
+      "kind": "raw",
+      "registers": 1,
+      "bits": 16,
+      "notes": "Vendor-specific fault/warning bitmask."
+    },
+    "u32_power_w_decawatt": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "W",
+      "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution."
+    },
+    "s32_power_w_decawatt": {
+      "kind": "scaled_signed",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "W",
+      "notes": "Signed 32-bit value stored as high/low words with 0.1 W resolution."
+    },
+    "u16_power_decawatt": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "W"
+    },
+    "u32_energy_kwh_decitenth": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "kWh",
+      "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+    },
+    "u32_runtime_hours": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 7200,
+      "unit": "h",
+      "notes": "Divide raw seconds by 7200 to obtain hours."
+    },
+    "u16_scaled_100": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 100
+    },
+    "s32_reactive_power_decivar": {
+      "kind": "scaled_signed",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "var",
+      "notes": "Signed 32-bit reactive power measurement with 0.1 var resolution."
+    },
+    "u32_energy_kvarh_decitenth": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "kvarh",
+      "notes": "Cumulative reactive energy counter with 0.1 kvarh resolution (high word first)."
+    },
+    "u16_frequency_centihz": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 100,
+      "unit": "Hz",
+      "notes": "Divide by 100 to obtain the grid frequency in hertz."
+    },
+    "s16_current_centiamp": {
+      "kind": "scaled_signed",
+      "registers": 1,
+      "bits": 16,
+      "scale": 100,
+      "unit": "A"
     }
   },
   "register_types": [
@@ -1792,7 +2002,7 @@
       "table": "input",
       "register": 0,
       "register_end": 0,
-      "type": "u16_scale10",
+      "type": "inverter_status_code",
       "attributes": [
         "status_code"
       ],
@@ -1806,18 +2016,14 @@
       "table": "input",
       "register": 1,
       "register_end": 2,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
-        "input_1_voltage",
         "input_power"
       ],
       "families": [
         "offgrid",
         "tl3",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u16_scale10"
       ]
     },
     {
@@ -1835,26 +2041,22 @@
     {
       "table": "input",
       "register": 3,
-      "register_end": 4,
-      "type": "u16_scale10",
+      "register_end": 3,
+      "type": "u16_voltage_decivolt",
       "attributes": [
-        "input_1_power",
         "input_1_voltage"
       ],
       "families": [
         "offgrid",
         "tl3",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u32_scale10"
       ]
     },
     {
       "table": "input",
       "register": 4,
       "register_end": 4,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
         "input_1_amperage"
       ],
@@ -1867,10 +2069,9 @@
       "table": "input",
       "register": 5,
       "register_end": 6,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
-        "input_1_power",
-        "input_2_power"
+        "input_1_power"
       ],
       "families": [
         "offgrid",
@@ -1882,9 +2083,8 @@
       "table": "input",
       "register": 7,
       "register_end": 7,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
-        "input_1_amperage",
         "input_2_voltage"
       ],
       "families": [
@@ -1897,7 +2097,7 @@
       "table": "input",
       "register": 8,
       "register_end": 8,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
         "input_2_amperage"
       ],
@@ -1911,10 +2111,9 @@
       "table": "input",
       "register": 9,
       "register_end": 10,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
-        "input_2_power",
-        "output_active_power"
+        "input_2_power"
       ],
       "families": [
         "offgrid",
@@ -1925,25 +2124,21 @@
     {
       "table": "input",
       "register": 11,
-      "register_end": 12,
-      "type": "u16_scale10",
+      "register_end": 11,
+      "type": "u16_voltage_decivolt",
       "attributes": [
-        "input_3_voltage",
-        "output_power"
+        "input_3_voltage"
       ],
       "families": [
         "tl3",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u32_scale10"
       ]
     },
     {
       "table": "input",
       "register": 12,
       "register_end": 12,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
         "input_3_amperage"
       ],
@@ -1955,19 +2150,14 @@
       "table": "input",
       "register": 13,
       "register_end": 14,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
-        "charge_power",
-        "grid_frequency",
         "input_3_power"
       ],
       "families": [
         "offgrid",
         "tl3",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u16_scale100"
       ]
     },
     {
@@ -1986,10 +2176,9 @@
       "table": "input",
       "register": 15,
       "register_end": 15,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
-        "input_4_voltage",
-        "output_1_amperage"
+        "input_4_voltage"
       ],
       "families": [
         "tl3",
@@ -1999,35 +2188,27 @@
     {
       "table": "input",
       "register": 16,
-      "register_end": 17,
-      "type": "u16_scale10",
+      "register_end": 16,
+      "type": "u16_current_deciamp",
       "attributes": [
-        "input_4_amperage",
-        "output_1_power"
+        "input_4_amperage"
       ],
       "families": [
         "tl3",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u32_scale10"
       ]
     },
     {
       "table": "input",
       "register": 17,
       "register_end": 18,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
-        "battery_voltage",
         "input_4_power"
       ],
       "families": [
         "offgrid",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u16_scale100"
       ]
     },
     {
@@ -2048,11 +2229,9 @@
       "table": "input",
       "register": 19,
       "register_end": 19,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
-        "bus_voltage",
-        "input_5_voltage",
-        "output_2_amperage"
+        "input_5_voltage"
       ],
       "families": [
         "offgrid",
@@ -2063,37 +2242,28 @@
     {
       "table": "input",
       "register": 20,
-      "register_end": 21,
-      "type": "u16_scale10",
+      "register_end": 20,
+      "type": "u16_current_deciamp",
       "attributes": [
-        "grid_voltage",
-        "input_5_amperage",
-        "output_2_power"
+        "input_5_amperage"
       ],
       "families": [
         "offgrid",
         "tl3",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u32_scale10"
       ]
     },
     {
       "table": "input",
       "register": 21,
       "register_end": 22,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
-        "grid_frequency",
         "input_5_power"
       ],
       "families": [
         "offgrid",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u16_scale100"
       ]
     },
     {
@@ -2114,55 +2284,41 @@
       "table": "input",
       "register": 23,
       "register_end": 23,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
-        "input_6_voltage",
-        "output_3_amperage",
-        "output_frequency"
+        "input_6_voltage"
       ],
       "families": [
         "offgrid",
         "tl3",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u16_scale100"
       ]
     },
     {
       "table": "input",
       "register": 24,
-      "register_end": 25,
-      "type": "u16_scale10",
+      "register_end": 24,
+      "type": "u16_current_deciamp",
       "attributes": [
-        "input_6_amperage",
-        "output_3_power",
-        "output_dc_voltage"
+        "input_6_amperage"
       ],
       "families": [
         "offgrid",
         "tl3",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u32_scale10"
       ]
     },
     {
       "table": "input",
       "register": 25,
       "register_end": 26,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
-        "input_6_power",
-        "inverter_temperature"
+        "input_6_power"
       ],
       "families": [
         "offgrid",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u16_scale10"
       ]
     },
     {
@@ -2186,10 +2342,9 @@
       "table": "input",
       "register": 27,
       "register_end": 27,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
-        "input_7_voltage",
-        "load_percent"
+        "input_7_voltage"
       ],
       "families": [
         "offgrid",
@@ -2199,37 +2354,28 @@
     {
       "table": "input",
       "register": 28,
-      "register_end": 29,
-      "type": "u16_scale10",
+      "register_end": 28,
+      "type": "u16_current_deciamp",
       "attributes": [
-        "battery_port_voltage",
-        "input_7_amperage",
-        "output_energy_total"
+        "input_7_amperage"
       ],
       "families": [
         "offgrid",
         "tl3",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u32_scale10"
       ]
     },
     {
       "table": "input",
       "register": 29,
       "register_end": 30,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
-        "battery_bus_voltage",
         "input_7_power"
       ],
       "families": [
         "offgrid",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u16_scale10"
       ]
     },
     {
@@ -2249,7 +2395,7 @@
       "table": "input",
       "register": 31,
       "register_end": 31,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "input_8_voltage"
       ],
@@ -2261,10 +2407,9 @@
       "table": "input",
       "register": 32,
       "register_end": 32,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
-        "input_8_amperage",
-        "inverter_temperature"
+        "input_8_amperage"
       ],
       "families": [
         "tl3",
@@ -2275,7 +2420,7 @@
       "table": "input",
       "register": 33,
       "register_end": 34,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "input_8_power"
       ],
@@ -2299,7 +2444,7 @@
       "table": "input",
       "register": 35,
       "register_end": 36,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "output_power"
       ],
@@ -2311,7 +2456,7 @@
       "table": "input",
       "register": 37,
       "register_end": 37,
-      "type": "u16_scale100",
+      "type": "u16_frequency_centihz",
       "attributes": [
         "grid_frequency"
       ],
@@ -2323,7 +2468,7 @@
       "table": "input",
       "register": 38,
       "register_end": 38,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "output_1_voltage"
       ],
@@ -2335,7 +2480,7 @@
       "table": "input",
       "register": 39,
       "register_end": 39,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
         "output_1_amperage"
       ],
@@ -2347,17 +2492,13 @@
       "table": "input",
       "register": 40,
       "register_end": 41,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
-        "fault_code",
         "output_1_power"
       ],
       "families": [
         "tl3",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u16_scale10"
       ]
     },
     {
@@ -2376,11 +2517,9 @@
       "table": "input",
       "register": 42,
       "register_end": 42,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
-        "fault_code",
-        "output_2_voltage",
-        "p_bus_voltage"
+        "output_2_voltage"
       ],
       "families": [
         "offgrid",
@@ -2392,11 +2531,9 @@
       "table": "input",
       "register": 43,
       "register_end": 43,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
-        "n_bus_voltage",
-        "output_2_amperage",
-        "warning_code"
+        "output_2_amperage"
       ],
       "families": [
         "offgrid",
@@ -2408,7 +2545,7 @@
       "table": "input",
       "register": 44,
       "register_end": 45,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "output_2_power"
       ],
@@ -2420,7 +2557,7 @@
       "table": "input",
       "register": 46,
       "register_end": 46,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "output_3_voltage"
       ],
@@ -2432,10 +2569,8 @@
       "table": "input",
       "register": 47,
       "register_end": 47,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
-        "constant_power",
-        "derating_mode",
         "output_3_amperage"
       ],
       "families": [
@@ -2448,9 +2583,8 @@
       "table": "input",
       "register": 48,
       "register_end": 49,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
-        "input_1_energy_today",
         "output_3_power"
       ],
       "families": [
@@ -2489,7 +2623,7 @@
       "table": "input",
       "register": 53,
       "register_end": 54,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "output_energy_today"
       ],
@@ -2514,7 +2648,7 @@
       "table": "input",
       "register": 55,
       "register_end": 56,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "output_energy_total"
       ],
@@ -2540,7 +2674,7 @@
       "table": "input",
       "register": 57,
       "register_end": 58,
-      "type": "u32_scale7200",
+      "type": "u32_runtime_hours",
       "attributes": [
         "operation_hours"
       ],
@@ -2566,7 +2700,7 @@
       "table": "input",
       "register": 59,
       "register_end": 60,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_1_energy_today"
       ],
@@ -2592,7 +2726,7 @@
       "table": "input",
       "register": 61,
       "register_end": 62,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_1_energy_total"
       ],
@@ -2618,7 +2752,7 @@
       "table": "input",
       "register": 63,
       "register_end": 64,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_2_energy_today"
       ],
@@ -2647,17 +2781,13 @@
       "table": "input",
       "register": 65,
       "register_end": 66,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
-        "input_2_energy_total",
-        "warning_value"
+        "input_2_energy_total"
       ],
       "families": [
         "tl3",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u16_scale10"
       ]
     },
     {
@@ -2681,7 +2811,7 @@
       "table": "input",
       "register": 67,
       "register_end": 68,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_3_energy_today"
       ],
@@ -2705,9 +2835,8 @@
       "table": "input",
       "register": 69,
       "register_end": 70,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
-        "discharge_power",
         "input_3_energy_total"
       ],
       "families": [
@@ -2719,7 +2848,7 @@
       "table": "input",
       "register": 71,
       "register_end": 72,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_4_energy_today"
       ],
@@ -2731,24 +2860,20 @@
       "table": "input",
       "register": 73,
       "register_end": 74,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
-        "battery_discharge_amperage",
         "input_4_energy_total"
       ],
       "families": [
         "offgrid",
         "tlx"
-      ],
-      "type_conflicts": [
-        "u16_scale10"
       ]
     },
     {
       "table": "input",
       "register": 75,
       "register_end": 76,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_5_energy_today"
       ],
@@ -2760,9 +2885,8 @@
       "table": "input",
       "register": 77,
       "register_end": 78,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
-        "battery_power",
         "input_5_energy_total"
       ],
       "families": [
@@ -2774,7 +2898,7 @@
       "table": "input",
       "register": 79,
       "register_end": 80,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_6_energy_today"
       ],
@@ -2786,7 +2910,7 @@
       "table": "input",
       "register": 81,
       "register_end": 82,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_6_energy_total"
       ],
@@ -2798,7 +2922,7 @@
       "table": "input",
       "register": 83,
       "register_end": 84,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_7_energy_today"
       ],
@@ -2810,7 +2934,7 @@
       "table": "input",
       "register": 85,
       "register_end": 86,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_7_energy_total"
       ],
@@ -2822,7 +2946,7 @@
       "table": "input",
       "register": 87,
       "register_end": 88,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_8_energy_today"
       ],
@@ -2834,7 +2958,7 @@
       "table": "input",
       "register": 89,
       "register_end": 90,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_8_energy_total"
       ],
@@ -2846,7 +2970,7 @@
       "table": "input",
       "register": 91,
       "register_end": 92,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_energy_total"
       ],
@@ -2858,7 +2982,7 @@
       "table": "input",
       "register": 93,
       "register_end": 93,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "inverter_temperature"
       ],
@@ -2870,7 +2994,7 @@
       "table": "input",
       "register": 94,
       "register_end": 94,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "ipm_temperature"
       ],
@@ -2882,7 +3006,7 @@
       "table": "input",
       "register": 95,
       "register_end": 95,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "boost_temperature"
       ],
@@ -2894,7 +3018,7 @@
       "table": "input",
       "register": 98,
       "register_end": 98,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "p_bus_voltage"
       ],
@@ -2906,7 +3030,7 @@
       "table": "input",
       "register": 99,
       "register_end": 99,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "n_bus_voltage"
       ],
@@ -2918,7 +3042,7 @@
       "table": "input",
       "register": 101,
       "register_end": 101,
-      "type": "u16_scale10",
+      "type": "u16_percent",
       "attributes": [
         "real_output_power_percent"
       ],
@@ -2930,7 +3054,7 @@
       "table": "input",
       "register": 104,
       "register_end": 104,
-      "type": "u16_scale10",
+      "type": "u16_raw_code",
       "attributes": [
         "derating_mode"
       ],
@@ -2942,7 +3066,7 @@
       "table": "input",
       "register": 105,
       "register_end": 105,
-      "type": "u16_scale10",
+      "type": "u16_status_word",
       "attributes": [
         "fault_code"
       ],
@@ -2954,7 +3078,7 @@
       "table": "input",
       "register": 110,
       "register_end": 111,
-      "type": "u32_scale10",
+      "type": "u16_status_word",
       "attributes": [
         "warning_code"
       ],
@@ -2966,7 +3090,7 @@
       "table": "input",
       "register": 234,
       "register_end": 235,
-      "type": "u32_scale10",
+      "type": "s32_reactive_power_decivar",
       "attributes": [
         "output_reactive_power"
       ],
@@ -2978,7 +3102,7 @@
       "table": "input",
       "register": 236,
       "register_end": 237,
-      "type": "u32_scale10",
+      "type": "u32_energy_kvarh_decitenth",
       "attributes": [
         "output_reactive_energy_total"
       ],
@@ -3146,7 +3270,7 @@
       "table": "input",
       "register": 3000,
       "register_end": 3000,
-      "type": "u16_scale10",
+      "type": "inverter_status_code",
       "attributes": [
         "status_code"
       ],
@@ -3158,7 +3282,7 @@
       "table": "input",
       "register": 3001,
       "register_end": 3002,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "input_power"
       ],
@@ -3170,7 +3294,7 @@
       "table": "input",
       "register": 3003,
       "register_end": 3003,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "input_1_voltage"
       ],
@@ -3182,7 +3306,7 @@
       "table": "input",
       "register": 3004,
       "register_end": 3004,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
         "input_1_amperage"
       ],
@@ -3194,7 +3318,7 @@
       "table": "input",
       "register": 3005,
       "register_end": 3006,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "input_1_power"
       ],
@@ -3206,7 +3330,7 @@
       "table": "input",
       "register": 3007,
       "register_end": 3007,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "input_2_voltage"
       ],
@@ -3218,7 +3342,7 @@
       "table": "input",
       "register": 3008,
       "register_end": 3008,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
         "input_2_amperage"
       ],
@@ -3230,7 +3354,7 @@
       "table": "input",
       "register": 3009,
       "register_end": 3010,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "input_2_power"
       ],
@@ -3242,7 +3366,7 @@
       "table": "input",
       "register": 3011,
       "register_end": 3011,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "input_3_voltage"
       ],
@@ -3254,7 +3378,7 @@
       "table": "input",
       "register": 3012,
       "register_end": 3012,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
         "input_3_amperage"
       ],
@@ -3266,7 +3390,7 @@
       "table": "input",
       "register": 3013,
       "register_end": 3014,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "input_3_power"
       ],
@@ -3278,7 +3402,7 @@
       "table": "input",
       "register": 3015,
       "register_end": 3015,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "input_4_voltage"
       ],
@@ -3290,7 +3414,7 @@
       "table": "input",
       "register": 3016,
       "register_end": 3016,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
         "input_4_amperage"
       ],
@@ -3302,7 +3426,7 @@
       "table": "input",
       "register": 3017,
       "register_end": 3018,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "input_4_power"
       ],
@@ -3314,7 +3438,7 @@
       "table": "input",
       "register": 3021,
       "register_end": 3022,
-      "type": "u32_scale10",
+      "type": "s32_reactive_power_decivar",
       "attributes": [
         "output_reactive_power"
       ],
@@ -3326,7 +3450,7 @@
       "table": "input",
       "register": 3023,
       "register_end": 3024,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "output_power"
       ],
@@ -3338,7 +3462,7 @@
       "table": "input",
       "register": 3025,
       "register_end": 3025,
-      "type": "u16_scale100",
+      "type": "u16_frequency_centihz",
       "attributes": [
         "grid_frequency"
       ],
@@ -3350,7 +3474,7 @@
       "table": "input",
       "register": 3026,
       "register_end": 3026,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "output_1_voltage"
       ],
@@ -3362,7 +3486,7 @@
       "table": "input",
       "register": 3027,
       "register_end": 3027,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
         "output_1_amperage"
       ],
@@ -3374,7 +3498,7 @@
       "table": "input",
       "register": 3028,
       "register_end": 3029,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "output_1_power"
       ],
@@ -3386,7 +3510,7 @@
       "table": "input",
       "register": 3030,
       "register_end": 3030,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "output_2_voltage"
       ],
@@ -3398,7 +3522,7 @@
       "table": "input",
       "register": 3031,
       "register_end": 3031,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
         "output_2_amperage"
       ],
@@ -3410,7 +3534,7 @@
       "table": "input",
       "register": 3032,
       "register_end": 3033,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "output_2_power"
       ],
@@ -3422,7 +3546,7 @@
       "table": "input",
       "register": 3034,
       "register_end": 3034,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "output_3_voltage"
       ],
@@ -3434,7 +3558,7 @@
       "table": "input",
       "register": 3035,
       "register_end": 3035,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
         "output_3_amperage"
       ],
@@ -3446,7 +3570,7 @@
       "table": "input",
       "register": 3036,
       "register_end": 3037,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "output_3_power"
       ],
@@ -3458,7 +3582,7 @@
       "table": "input",
       "register": 3041,
       "register_end": 3042,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "power_to_user"
       ],
@@ -3471,7 +3595,7 @@
       "table": "input",
       "register": 3043,
       "register_end": 3044,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "power_to_grid"
       ],
@@ -3484,7 +3608,7 @@
       "table": "input",
       "register": 3045,
       "register_end": 3046,
-      "type": "u32_scale10",
+      "type": "u32_power_w_decawatt",
       "attributes": [
         "power_user_load"
       ],
@@ -3497,7 +3621,7 @@
       "table": "input",
       "register": 3047,
       "register_end": 3048,
-      "type": "u32_scale7200",
+      "type": "u32_runtime_hours",
       "attributes": [
         "operation_hours"
       ],
@@ -3509,7 +3633,7 @@
       "table": "input",
       "register": 3049,
       "register_end": 3050,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "output_energy_today"
       ],
@@ -3521,7 +3645,7 @@
       "table": "input",
       "register": 3051,
       "register_end": 3052,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "output_energy_total"
       ],
@@ -3533,7 +3657,7 @@
       "table": "input",
       "register": 3053,
       "register_end": 3054,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_energy_total"
       ],
@@ -3545,7 +3669,7 @@
       "table": "input",
       "register": 3055,
       "register_end": 3056,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_1_energy_today"
       ],
@@ -3557,7 +3681,7 @@
       "table": "input",
       "register": 3057,
       "register_end": 3058,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_1_energy_total"
       ],
@@ -3569,7 +3693,7 @@
       "table": "input",
       "register": 3059,
       "register_end": 3060,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_2_energy_today"
       ],
@@ -3581,7 +3705,7 @@
       "table": "input",
       "register": 3061,
       "register_end": 3062,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_2_energy_total"
       ],
@@ -3593,7 +3717,7 @@
       "table": "input",
       "register": 3063,
       "register_end": 3064,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_3_energy_today"
       ],
@@ -3605,7 +3729,7 @@
       "table": "input",
       "register": 3065,
       "register_end": 3066,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "input_3_energy_total"
       ],
@@ -3617,7 +3741,7 @@
       "table": "input",
       "register": 3067,
       "register_end": 3068,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "energy_to_user_today"
       ],
@@ -3630,7 +3754,7 @@
       "table": "input",
       "register": 3069,
       "register_end": 3070,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "energy_to_user_total"
       ],
@@ -3643,7 +3767,7 @@
       "table": "input",
       "register": 3071,
       "register_end": 3072,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "energy_to_grid_today"
       ],
@@ -3656,7 +3780,7 @@
       "table": "input",
       "register": 3073,
       "register_end": 3074,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "energy_to_grid_total"
       ],
@@ -3669,7 +3793,7 @@
       "table": "input",
       "register": 3086,
       "register_end": 3086,
-      "type": "u16_scale10",
+      "type": "u16_raw_code",
       "attributes": [
         "derating_mode"
       ],
@@ -3681,7 +3805,7 @@
       "table": "input",
       "register": 3093,
       "register_end": 3093,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "inverter_temperature"
       ],
@@ -3693,7 +3817,7 @@
       "table": "input",
       "register": 3094,
       "register_end": 3094,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "ipm_temperature"
       ],
@@ -3705,7 +3829,7 @@
       "table": "input",
       "register": 3095,
       "register_end": 3095,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "boost_temperature"
       ],
@@ -3717,7 +3841,7 @@
       "table": "input",
       "register": 3097,
       "register_end": 3097,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "comm_board_temperature"
       ],
@@ -3730,7 +3854,7 @@
       "table": "input",
       "register": 3098,
       "register_end": 3098,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "p_bus_voltage"
       ],
@@ -3742,7 +3866,7 @@
       "table": "input",
       "register": 3099,
       "register_end": 3099,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "n_bus_voltage"
       ],
@@ -3754,7 +3878,7 @@
       "table": "input",
       "register": 3101,
       "register_end": 3101,
-      "type": "u16_scale10",
+      "type": "u16_percent",
       "attributes": [
         "real_output_power_percent"
       ],
@@ -3766,7 +3890,7 @@
       "table": "input",
       "register": 3105,
       "register_end": 3105,
-      "type": "u16_scale10",
+      "type": "u16_status_word",
       "attributes": [
         "fault_code"
       ],
@@ -3778,7 +3902,7 @@
       "table": "input",
       "register": 3110,
       "register_end": 3111,
-      "type": "u32_scale10",
+      "type": "u16_status_word",
       "attributes": [
         "warning_code"
       ],
@@ -3790,7 +3914,7 @@
       "table": "input",
       "register": 3111,
       "register_end": 3111,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "present_fft_a"
       ],
@@ -3803,7 +3927,7 @@
       "table": "input",
       "register": 3115,
       "register_end": 3115,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "inv_start_delay"
       ],
@@ -3816,7 +3940,7 @@
       "table": "input",
       "register": 3125,
       "register_end": 3126,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "discharge_energy_today"
       ],
@@ -3829,7 +3953,7 @@
       "table": "input",
       "register": 3127,
       "register_end": 3128,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "discharge_energy_total"
       ],
@@ -3842,7 +3966,7 @@
       "table": "input",
       "register": 3129,
       "register_end": 3130,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "charge_energy_today"
       ],
@@ -3855,7 +3979,7 @@
       "table": "input",
       "register": 3131,
       "register_end": 3132,
-      "type": "u32_scale10",
+      "type": "u32_energy_kwh_decitenth",
       "attributes": [
         "charge_energy_total"
       ],
@@ -3868,7 +3992,7 @@
       "table": "input",
       "register": 3164,
       "register_end": 3164,
-      "type": "u16_scale10",
+      "type": "u16_flag",
       "attributes": [
         "bdc_new_flag"
       ],
@@ -3881,7 +4005,7 @@
       "table": "input",
       "register": 3169,
       "register_end": 3169,
-      "type": "u16_scale100",
+      "type": "u16_voltage_centivolt",
       "attributes": [
         "battery_voltage"
       ],
@@ -3894,7 +4018,7 @@
       "table": "input",
       "register": 3170,
       "register_end": 3170,
-      "type": "u16_scale10",
+      "type": "s16_current_deciamp",
       "attributes": [
         "battery_current"
       ],
@@ -3907,7 +4031,7 @@
       "table": "input",
       "register": 3171,
       "register_end": 3171,
-      "type": "u16_scale10",
+      "type": "u16_percent",
       "attributes": [
         "soc"
       ],
@@ -3920,7 +4044,7 @@
       "table": "input",
       "register": 3172,
       "register_end": 3172,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "vbus1_voltage"
       ],
@@ -3933,7 +4057,7 @@
       "table": "input",
       "register": 3173,
       "register_end": 3173,
-      "type": "u16_scale10",
+      "type": "u16_voltage_decivolt",
       "attributes": [
         "vbus2_voltage"
       ],
@@ -3946,7 +4070,7 @@
       "table": "input",
       "register": 3174,
       "register_end": 3174,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
         "buck_boost_current"
       ],
@@ -3959,7 +4083,7 @@
       "table": "input",
       "register": 3175,
       "register_end": 3175,
-      "type": "u16_scale10",
+      "type": "u16_current_deciamp",
       "attributes": [
         "llc_current"
       ],
@@ -3972,7 +4096,7 @@
       "table": "input",
       "register": 3176,
       "register_end": 3176,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "battery_temperature_a"
       ],
@@ -3985,7 +4109,7 @@
       "table": "input",
       "register": 3177,
       "register_end": 3177,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "battery_temperature_b"
       ],
@@ -3998,7 +4122,7 @@
       "table": "input",
       "register": 3178,
       "register_end": 3179,
-      "type": "u32_scale10",
+      "type": "s32_power_w_decawatt",
       "attributes": [
         "discharge_power"
       ],
@@ -4011,7 +4135,7 @@
       "table": "input",
       "register": 3180,
       "register_end": 3181,
-      "type": "u32_scale10",
+      "type": "s32_power_w_decawatt",
       "attributes": [
         "charge_power"
       ],
@@ -4024,7 +4148,7 @@
       "table": "input",
       "register": 3189,
       "register_end": 3189,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "bms_max_volt_cell_no"
       ],
@@ -4037,7 +4161,7 @@
       "table": "input",
       "register": 3190,
       "register_end": 3190,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "bms_min_volt_cell_no"
       ],
@@ -4050,7 +4174,7 @@
       "table": "input",
       "register": 3191,
       "register_end": 3191,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "bms_avg_temp_a"
       ],
@@ -4063,7 +4187,7 @@
       "table": "input",
       "register": 3192,
       "register_end": 3192,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "bms_max_cell_temp_a"
       ],
@@ -4076,7 +4200,7 @@
       "table": "input",
       "register": 3193,
       "register_end": 3193,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "bms_avg_temp_b"
       ],
@@ -4089,7 +4213,7 @@
       "table": "input",
       "register": 3194,
       "register_end": 3194,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "bms_max_cell_temp_b"
       ],
@@ -4102,7 +4226,7 @@
       "table": "input",
       "register": 3195,
       "register_end": 3195,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "bms_avg_temp_c"
       ],
@@ -4115,7 +4239,7 @@
       "table": "input",
       "register": 3196,
       "register_end": 3196,
-      "type": "u16_scale10",
+      "type": "u16_percent",
       "attributes": [
         "bms_max_soc"
       ],
@@ -4128,7 +4252,7 @@
       "table": "input",
       "register": 3197,
       "register_end": 3197,
-      "type": "u16_scale10",
+      "type": "u16_percent",
       "attributes": [
         "bms_min_soc"
       ],
@@ -4141,7 +4265,7 @@
       "table": "input",
       "register": 3198,
       "register_end": 3198,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "parallel_battery_num"
       ],
@@ -4154,7 +4278,7 @@
       "table": "input",
       "register": 3199,
       "register_end": 3199,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "bms_derate_reason"
       ],
@@ -4167,7 +4291,7 @@
       "table": "input",
       "register": 3200,
       "register_end": 3200,
-      "type": "u16_scale10",
+      "type": "u16_ampere_hour",
       "attributes": [
         "bms_gauge_fcc_ah"
       ],
@@ -4180,7 +4304,7 @@
       "table": "input",
       "register": 3201,
       "register_end": 3201,
-      "type": "u16_scale10",
+      "type": "u16_ampere_hour",
       "attributes": [
         "bms_gauge_rm_ah"
       ],
@@ -4193,7 +4317,7 @@
       "table": "input",
       "register": 3202,
       "register_end": 3202,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "bms_protect1"
       ],
@@ -4206,7 +4330,7 @@
       "table": "input",
       "register": 3203,
       "register_end": 3203,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "bms_warn1"
       ],
@@ -4219,7 +4343,7 @@
       "table": "input",
       "register": 3204,
       "register_end": 3204,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "bms_fault1"
       ],
@@ -4232,7 +4356,7 @@
       "table": "input",
       "register": 3205,
       "register_end": 3205,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "bms_fault2"
       ],
@@ -4245,7 +4369,7 @@
       "table": "input",
       "register": 3210,
       "register_end": 3210,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "bat_iso_status"
       ],
@@ -4258,7 +4382,7 @@
       "table": "input",
       "register": 3211,
       "register_end": 3211,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "batt_request_flags"
       ],
@@ -4271,7 +4395,7 @@
       "table": "input",
       "register": 3212,
       "register_end": 3212,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "bms_status"
       ],
@@ -4284,7 +4408,7 @@
       "table": "input",
       "register": 3213,
       "register_end": 3213,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "bms_protect2"
       ],
@@ -4297,7 +4421,7 @@
       "table": "input",
       "register": 3214,
       "register_end": 3214,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "bms_warn2"
       ],
@@ -4310,7 +4434,7 @@
       "table": "input",
       "register": 3215,
       "register_end": 3215,
-      "type": "u16_scale10",
+      "type": "u16_percent",
       "attributes": [
         "bms_soc"
       ],
@@ -4323,7 +4447,7 @@
       "table": "input",
       "register": 3216,
       "register_end": 3216,
-      "type": "u16_scale100",
+      "type": "u16_voltage_centivolt",
       "attributes": [
         "bms_battery_voltage"
       ],
@@ -4336,7 +4460,7 @@
       "table": "input",
       "register": 3217,
       "register_end": 3217,
-      "type": "u16_scale100",
+      "type": "s16_current_centiamp",
       "attributes": [
         "bms_battery_current"
       ],
@@ -4349,7 +4473,7 @@
       "table": "input",
       "register": 3218,
       "register_end": 3218,
-      "type": "u16_scale10",
+      "type": "s16_temperature_decic",
       "attributes": [
         "bms_cell_max_temp"
       ],
@@ -4362,7 +4486,7 @@
       "table": "input",
       "register": 3219,
       "register_end": 3219,
-      "type": "u16_scale100",
+      "type": "u16_current_centiamp",
       "attributes": [
         "bms_max_charge_current"
       ],
@@ -4375,7 +4499,7 @@
       "table": "input",
       "register": 3220,
       "register_end": 3220,
-      "type": "u16_scale100",
+      "type": "u16_current_centiamp",
       "attributes": [
         "bms_max_discharge_current"
       ],
@@ -4388,7 +4512,7 @@
       "table": "input",
       "register": 3221,
       "register_end": 3221,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "bms_cycle_count"
       ],
@@ -4401,7 +4525,7 @@
       "table": "input",
       "register": 3222,
       "register_end": 3222,
-      "type": "u16_scale10",
+      "type": "u16_percent",
       "attributes": [
         "bms_soh"
       ],
@@ -4414,7 +4538,7 @@
       "table": "input",
       "register": 3223,
       "register_end": 3223,
-      "type": "u16_scale100",
+      "type": "u16_voltage_centivolt",
       "attributes": [
         "bms_charge_volt_limit"
       ],
@@ -4427,7 +4551,7 @@
       "table": "input",
       "register": 3224,
       "register_end": 3224,
-      "type": "u16_scale100",
+      "type": "u16_voltage_centivolt",
       "attributes": [
         "bms_discharge_volt_limit"
       ],
@@ -4440,7 +4564,7 @@
       "table": "input",
       "register": 3225,
       "register_end": 3225,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "bms_warn3"
       ],
@@ -4453,7 +4577,7 @@
       "table": "input",
       "register": 3226,
       "register_end": 3226,
-      "type": "u16_scale10",
+      "type": "u16_raw",
       "attributes": [
         "bms_protect3"
       ],
@@ -4466,7 +4590,7 @@
       "table": "input",
       "register": 3230,
       "register_end": 3230,
-      "type": "u16_scale1000",
+      "type": "u16_voltage_millivolt",
       "attributes": [
         "bms_cell_volt_max"
       ],
@@ -4479,7 +4603,7 @@
       "table": "input",
       "register": 3231,
       "register_end": 3231,
-      "type": "u16_scale1000",
+      "type": "u16_voltage_millivolt",
       "attributes": [
         "bms_cell_volt_min"
       ],
