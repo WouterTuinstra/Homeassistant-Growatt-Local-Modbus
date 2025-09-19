@@ -1,5 +1,20 @@
 {
   "types": {
+    "ac_charge_enable_flag": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "disabled"
+        },
+        "1": {
+          "label": "enabled"
+        }
+      },
+      "read_write": true,
+      "notes": "0 disables AC-side charging; 1 allows grid charging when configured."
+    },
     "active_power_percent_limit": {
       "kind": "scaled",
       "registers": 1,
@@ -29,10 +44,22 @@
       "characters": 12,
       "read_write": false
     },
+    "ascii_2": {
+      "kind": "ascii",
+      "registers": 1,
+      "characters": 2,
+      "read_write": false
+    },
     "ascii_30": {
       "kind": "ascii",
       "registers": 15,
       "characters": 30,
+      "read_write": false
+    },
+    "ascii_4": {
+      "kind": "ascii",
+      "registers": 2,
+      "characters": 4,
       "read_write": false
     },
     "baud_rate_selection": {
@@ -49,6 +76,59 @@
       },
       "notes": "Applies to the RS-485 Modbus RTU interface."
     },
+    "bdc_onoff_state_flag": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "off"
+        },
+        "1": {
+          "label": "on"
+        }
+      }
+    },
+    "bdc_protocol_version_word": {
+      "kind": "raw",
+      "registers": 1,
+      "bits": 16,
+      "read_write": false,
+      "notes": "High byte = major version, low byte = minor version."
+    },
+    "bdc_reset_command": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "invalid"
+        },
+        "1": {
+          "label": "reset_settings"
+        },
+        "2": {
+          "label": "reset_calibration"
+        },
+        "3": {
+          "label": "clear_history"
+        }
+      },
+      "read_write": true
+    },
+    "bms_comm_interface_type": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "rs485"
+        },
+        "1": {
+          "label": "can"
+        }
+      }
+    },
     "boolean_flag": {
       "kind": "enum",
       "registers": 1,
@@ -61,6 +141,86 @@
           "label": "enabled"
         }
       }
+    },
+    "current_dec_ampere": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "A",
+      "read_write": true
+    },
+    "dry_contact_enable_flag": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "disabled"
+        },
+        "1": {
+          "label": "enabled"
+        }
+      },
+      "read_write": true
+    },
+    "export_limit_failure_percent": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "%",
+      "range": [
+        0,
+        100
+      ],
+      "read_write": true,
+      "notes": "Fallback output percentage used when the export-limit controller is unavailable."
+    },
+    "external_comm_offgrid_enable_flag": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "disabled"
+        },
+        "1": {
+          "label": "enabled"
+        }
+      },
+      "read_write": true
+    },
+    "grid_first_schedule_control": {
+      "kind": "raw",
+      "registers": 1,
+      "bits": 16,
+      "read_write": true,
+      "notes": "Bits 0–7 start minute, 8–12 start hour, 13–14 priority, bit 15 enable."
+    },
+    "grid_first_schedule_end": {
+      "kind": "raw",
+      "registers": 1,
+      "bits": 16,
+      "read_write": true,
+      "notes": "Bits 0–7 end minute, 8–12 end hour; other bits reserved."
+    },
+    "grid_topology_code": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "single_phase"
+        },
+        "1": {
+          "label": "three_phase"
+        },
+        "2": {
+          "label": "split_phase"
+        }
+      },
+      "read_write": true
     },
     "inverter_enable_flags": {
       "kind": "bitfield",
@@ -78,7 +238,7 @@
           "description": "Enable the BDC (battery DC converter) for battery-ready mode."
         }
       ],
-      "notes": "Write the combined bit mask (0\u20133). Bits 2\u201315 are reserved and should remain 0."
+      "notes": "Write the combined bit mask (0–3). Bits 2–15 are reserved and should remain 0."
     },
     "lcd_language_code": {
       "kind": "enum",
@@ -135,7 +295,7 @@
       "bits": 16,
       "scale": 10000,
       "unit": "pf",
-      "notes": "Divide by 10\u202f000 to obtain the power factor. Values <1 lead (capacitive), >1 lag (inductive)."
+      "notes": "Divide by 10 000 to obtain the power factor. Values <1 lead (capacitive), >1 lag (inductive)."
     },
     "ramp_percent_per_second": {
       "kind": "scaled",
@@ -238,7 +398,34 @@
           "description": "Enable split-phase operation."
         }
       ],
-      "notes": "Bits 0\u20133 relate to CEI 0-21 compliance; bits 4\u20136 to AS/NZS (SAA) requirements. Bits 11\u201315 are reserved."
+      "notes": "Bits 0–3 relate to CEI 0-21 compliance; bits 4–6 to AS/NZS (SAA) requirements. Bits 11–15 are reserved."
+    },
+    "storage_work_mode": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "default"
+        },
+        "1": {
+          "label": "system_retrofit"
+        },
+        "2": {
+          "label": "multi_parallel"
+        }
+      },
+      "read_write": true,
+      "notes": "Selects the hybrid operating mode for retrofits or parallel stacks."
+    },
+    "temperature_decicelsius_offset": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "°C",
+      "read_write": true,
+      "notes": "Values 0–200 map to 0–20 °C; subtract 1000 from values ≥1000 to obtain negative limits."
     },
     "u16_decivolt": {
       "kind": "scaled",
@@ -282,6 +469,13 @@
       "scale": 1,
       "unit": "s"
     },
+    "u32_decikwh": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "kWh"
+    },
     "u32_decivolt_ampere": {
       "kind": "scaled",
       "registers": 2,
@@ -289,6 +483,13 @@
       "scale": 10,
       "unit": "VA",
       "notes": "Unsigned 32-bit value stored in 0.1 VA increments (high word first)."
+    },
+    "u32_deciwatt": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "W"
     },
     "u32_scale10": {
       "kind": "scaled",
@@ -304,670 +505,21 @@
       "scale": 7200,
       "read_write": false
     },
-    "inverter_module_code": {
-      "kind": "raw",
+    "u32_work_hours_half_second": {
+      "kind": "scaled",
       "registers": 2,
       "bits": 32,
-      "read_write": false,
-      "notes": "Packed hardware option code; nibble order is A,B,D,T,P,U,M,S from the most-significant nibble to the least."
+      "scale": 7200,
+      "unit": "h",
+      "notes": "Value / 7200 gives operating hours with 0.5 s resolution."
     },
-    "modbus_slave_address": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 1,
-      "range": [
-        1,
-        254
-      ],
-      "read_write": true,
-      "notes": "Modbus RTU slave ID (1-254). 0 is reserved for broadcast."
-    },
-    "command_trigger_flag": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "idle"
-        },
-        "1": {
-          "label": "trigger"
-        }
-      },
-      "notes": "Write 1 momentarily to execute the associated command. The inverter resets the flag to 0 when complete."
-    },
-    "ascii_16": {
-      "kind": "ascii",
-      "registers": 8,
-      "characters": 16,
-      "read_write": false
-    },
-    "mppt_tracker_phase_descriptor": {
-      "kind": "raw",
-      "registers": 1,
-      "bits": 16,
-      "read_write": false,
-      "notes": "High byte = number of MPPT trackers, low byte = number of output phases."
-    },
-    "calendar_year": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 1,
-      "range": [
-        2000,
-        2099
-      ],
-      "read_write": true,
-      "notes": "Stores the absolute calendar year (e.g. 2024)."
-    },
-    "calendar_month": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 1,
-      "range": [
-        1,
-        12
-      ],
-      "read_write": true
-    },
-    "calendar_day": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 1,
-      "range": [
-        1,
-        31
-      ],
-      "read_write": true
-    },
-    "clock_hour_24": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 1,
-      "range": [
-        0,
-        23
-      ],
-      "read_write": true
-    },
-    "clock_minute_second": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 1,
-      "range": [
-        0,
-        59
-      ],
-      "read_write": true
-    },
-    "weekday_index": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "Sunday"
-        },
-        "1": {
-          "label": "Monday"
-        },
-        "2": {
-          "label": "Tuesday"
-        },
-        "3": {
-          "label": "Wednesday"
-        },
-        "4": {
-          "label": "Thursday"
-        },
-        "5": {
-          "label": "Friday"
-        },
-        "6": {
-          "label": "Saturday"
-        }
-      }
-    },
-    "u16_centihertz": {
+    "voltage_centivolt": {
       "kind": "scaled",
       "registers": 1,
       "bits": 16,
       "scale": 100,
-      "unit": "Hz",
-      "read_write": true
-    },
-    "grid_cycle_count": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 1,
-      "unit": "cycles",
-      "read_write": true,
-      "notes": "Counts AC cycles; at 50 Hz one cycle is 20 ms, at 60 Hz one cycle is 16.7 ms."
-    },
-    "modbus_version": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 100,
-      "read_write": false,
-      "notes": "Divide by 100 to obtain the Modbus protocol version (e.g. 207 => 2.07)."
-    },
-    "power_factor_mode": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "unity_pf"
-        },
-        "1": {
-          "label": "fixed_pf_setpoint"
-        },
-        "2": {
-          "label": "default_pf_line"
-        },
-        "3": {
-          "label": "user_pf_line"
-        },
-        "4": {
-          "label": "under_excited_q"
-        },
-        "5": {
-          "label": "over_excited_q"
-        },
-        "6": {
-          "label": "qv_curve"
-        },
-        "7": {
-          "label": "direct_control"
-        },
-        "8": {
-          "label": "static_capacitive_qv"
-        },
-        "9": {
-          "label": "static_inductive_qv"
-        }
-      },
-      "read_write": true
-    },
-    "gprs_ip_status": {
-      "kind": "raw",
-      "registers": 1,
-      "bits": 16,
-      "read_write": true,
-      "notes": "Low nibble conveys IP configuration handshake state; high nibble conveys modem/network status."
-    },
-    "frequency_derate_slope": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 10,
-      "unit": "%/Hz",
-      "range": [
-        0,
-        100
-      ],
-      "read_write": true,
-      "notes": "Divide by 10 to obtain the derating slope in percent per hertz."
-    },
-    "u16_percent": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 1,
-      "unit": "%",
-      "range": [
-        0,
-        100
-      ],
-      "read_write": true
-    },
-    "u16_decipercent": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 10,
-      "unit": "%",
-      "range": [
-        0,
-        1000
-      ],
-      "read_write": true,
-      "notes": "Value / 10 gives percent."
-    },
-    "pf_adjust_fixedpoint": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 4096,
-      "unit": "pf",
-      "read_write": true,
-      "notes": "Values are scaled by 1/4096 when constructing the PF curve."
-    },
-    "u16_delay_50ms": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 20,
-      "unit": "s",
-      "read_write": true,
-      "notes": "Each increment equals 0.05 seconds."
-    },
-    "pf_curve_load_percent": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 1,
-      "unit": "%",
-      "range": [
-        0,
-        255
-      ],
-      "read_write": true,
-      "special_values": {
-        "255": {
-          "label": "unused_point",
-          "description": "255 indicates that the corresponding PF curve waypoint is disabled."
-        }
-      }
-    },
-    "ascii_8": {
-      "kind": "ascii",
-      "registers": 4,
-      "characters": 8,
-      "read_write": false
-    },
-    "export_limit_mode": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "disabled"
-        },
-        "1": {
-          "label": "rs485_meter"
-        },
-        "2": {
-          "label": "rs232_meter"
-        },
-        "3": {
-          "label": "ct_sensor"
-        }
-      },
-      "read_write": true
-    },
-    "s16_decipercent": {
-      "kind": "scaled_signed",
-      "registers": 1,
-      "bits": 16,
-      "scale": 10,
-      "unit": "%",
-      "range": [
-        -1000,
-        1000
-      ],
-      "read_write": true,
-      "notes": "Value / 10 gives percent. Negative values represent permitted export."
-    },
-    "tracker_coupling_mode": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "independent"
-        },
-        "1": {
-          "label": "dc_source_shared"
-        },
-        "2": {
-          "label": "parallel"
-        }
-      },
-      "read_write": true
-    },
-    "reactive_power_decivar": {
-      "kind": "scaled_signed",
-      "registers": 2,
-      "bits": 32,
-      "scale": 10,
-      "unit": "var",
-      "read_write": true,
-      "notes": "Signed reactive power value stored in 0.1 var increments (high word first)."
-    },
-    "u16_deci_ratio": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 10,
-      "read_write": true,
-      "notes": "Divide by 10 to obtain a dimensionless ratio."
-    },
-    "u16_deci_seconds": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 10,
-      "unit": "s",
-      "read_write": true,
-      "notes": "Value / 10 gives seconds."
-    },
-    "u16_delay_20ms": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 50,
-      "unit": "s",
-      "read_write": true,
-      "notes": "Each increment equals 20 ms (value / 50 = seconds)."
-    },
-    "u16_milli_pu": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 1000,
-      "unit": "pu",
-      "read_write": true,
-      "notes": "Per-unit voltage expressed in milliper unit (value / 1000)."
-    },
-    "nominal_grid_voltage_mode": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "240V_split_phase"
-        },
-        "1": {
-          "label": "208V_three_phase"
-        },
-        "2": {
-          "label": "480V_three_phase"
-        },
-        "3": {
-          "label": "reserved"
-        }
-      },
-      "read_write": true,
-      "notes": "Mapping derived from Growatt UL ride-through presets; confirm for regional deployments."
-    },
-    "u16_decislope": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 10,
-      "unit": "%/s",
-      "read_write": true,
-      "notes": "Divide by 10 to obtain percent per second."
-    },
-    "meter_link_state": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "not_detected"
-        },
-        "1": {
-          "label": "detected"
-        }
-      },
-      "read_write": true
-    },
-    "u16_count": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 1,
-      "read_write": true,
-      "notes": "Unsigned count of devices or components."
-    },
-    "optimizer_configuration_flag": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "not_configured"
-        },
-        "1": {
-          "label": "configured"
-        }
-      },
-      "read_write": true
-    },
-    "pv_string_scan_mode": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "not_supported"
-        },
-        "8": {
-          "label": "scan_8_strings"
-        },
-        "16": {
-          "label": "scan_16_strings"
-        },
-        "32": {
-          "label": "scan_32_strings"
-        }
-      },
-      "read_write": true,
-      "notes": "Indicates optimiser PV string scanning capability."
-    },
-    "datalog_connection_status": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "connected"
-        },
-        "1": {
-          "label": "connection_failed"
-        }
-      },
-      "read_write": false
-    },
-    "pid_operating_mode": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "automatic"
-        },
-        "1": {
-          "label": "continuous"
-        },
-        "2": {
-          "label": "all_night"
-        }
-      },
-      "read_write": true,
-      "notes": "Selects how the PID mitigation circuit runs: automatic (on demand), continuous, or forced all-night operation."
-    },
-    "pid_enable_state": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "enabled"
-        },
-        "1": {
-          "label": "disabled"
-        }
-      },
-      "read_write": true,
-      "notes": "PID breaker control flag as used by register 202; 0 keeps the PID circuit engaged, 1 opens it."
-    },
-    "u16_volt": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 1,
       "unit": "V",
       "read_write": true
-    },
-    "hardware_warning_flags": {
-      "kind": "bitfield",
-      "registers": 1,
-      "bits": 16,
-      "flags": [
-        {
-          "bit": 0,
-          "name": "gfci_break",
-          "description": "GFCI breaker open detected."
-        },
-        {
-          "bit": 1,
-          "name": "sps_damage",
-          "description": "Surge protection (SPS) damage detected."
-        },
-        {
-          "bit": 8,
-          "name": "eeprom_read_warning",
-          "description": "EEPROM read warning flagged."
-        },
-        {
-          "bit": 9,
-          "name": "eeprom_write_warning",
-          "description": "EEPROM write warning flagged."
-        }
-      ],
-      "notes": "Other bits reserved; used for hardware self-check diagnostics."
-    },
-    "island_detection_override": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "enabled"
-        },
-        "1": {
-          "label": "disabled"
-        }
-      },
-      "read_write": true,
-      "notes": "Disables anti-islanding protection when set to 1; for lab use only."
-    },
-    "non_standard_voltage_mode": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "standard_range"
-        },
-        "1": {
-          "label": "voltage_grade_1"
-        },
-        "2": {
-          "label": "voltage_grade_2"
-        }
-      },
-      "read_write": true,
-      "notes": "Extends allowable grid voltage window according to regional requirements."
-    },
-    "fast_mppt_mode": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "normal"
-        },
-        "1": {
-          "label": "fast_track_1"
-        },
-        "2": {
-          "label": "fast_track_2"
-        }
-      },
-      "read_write": true,
-      "notes": "Vendor documentation does not describe the variants; treated as reserved unless instructed by support."
-    },
-    "u16_plain": {
-      "kind": "scaled",
-      "registers": 1,
-      "bits": 16,
-      "scale": 1,
-      "read_write": true,
-      "notes": "Unsigned 16-bit value with no scaling."
-    },
-    "installer_coordinate_word": {
-      "kind": "raw",
-      "registers": 1,
-      "bits": 16,
-      "read_write": true,
-      "notes": "Stores a component of the installer-configured GPS coordinate. Exact scaling is vendor-defined."
-    },
-    "gprs_module_status": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "idle"
-        },
-        "1": {
-          "label": "module_fault"
-        },
-        "2": {
-          "label": "no_sim"
-        },
-        "3": {
-          "label": "no_network"
-        },
-        "4": {
-          "label": "tcp_connecting"
-        },
-        "5": {
-          "label": "tcp_connected"
-        }
-      },
-      "read_write": true,
-      "notes": "Status codes reported by the integrated GPRS datalogger module."
-    },
-    "anti_backflow_mode": {
-      "kind": "enum",
-      "registers": 1,
-      "bits": 16,
-      "values": {
-        "0": {
-          "label": "mode_0"
-        },
-        "1": {
-          "label": "mode_1"
-        },
-        "2": {
-          "label": "mode_2"
-        },
-        "3": {
-          "label": "mode_3"
-        }
-      },
-      "read_write": true,
-      "notes": "Vendor documentation references Australian anti-backflow modes without further detail."
-    },
-    "time_of_day_hhmm": {
-      "kind": "raw",
-      "registers": 1,
-      "bits": 16,
-      "read_write": true,
-      "notes": "High byte stores the hour (0-23); low byte stores the minute (0-59)."
     }
   },
   "register_types": [
@@ -1267,6 +819,16 @@
     },
     {
       "table": "holding",
+      "register": 3000,
+      "register_end": 3000,
+      "type": "export_limit_failure_percent",
+      "families": [
+        "storage"
+      ],
+      "description": "Fallback output percentage when export limiting fails."
+    },
+    {
+      "table": "holding",
       "register": 3001,
       "register_end": 3015,
       "type": "ascii_30",
@@ -1279,12 +841,440 @@
     },
     {
       "table": "holding",
+      "register": 3016,
+      "register_end": 3016,
+      "type": "dry_contact_enable_flag",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3018,
+      "register_end": 3018,
+      "type": "storage_work_mode",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3021,
+      "register_end": 3021,
+      "type": "external_comm_offgrid_enable_flag",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3023,
+      "register_end": 3023,
+      "type": "grid_topology_code",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3024,
+      "register_end": 3024,
+      "type": "current_dec_ampere",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3028,
+      "register_end": 3030,
+      "type": "voltage_centivolt",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3031,
+      "register_end": 3034,
+      "type": "temperature_decicelsius_offset",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3038,
+      "register_end": 3038,
+      "type": "grid_first_schedule_control",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3039,
+      "register_end": 3039,
+      "type": "grid_first_schedule_end",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3041,
+      "register_end": 3042,
+      "type": "u32_deciwatt",
+      "attributes": [
+        "power_to_user"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3043,
+      "register_end": 3044,
+      "type": "u32_deciwatt",
+      "attributes": [
+        "power_to_grid"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3045,
+      "register_end": 3046,
+      "type": "u32_deciwatt",
+      "attributes": [
+        "power_user_load"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3047,
+      "register_end": 3048,
+      "type": "u32_work_hours_half_second",
+      "attributes": [
+        "operation_hours"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
       "register": 3049,
       "register_end": 3049,
-      "type": "u16_scale10_rw",
+      "type": "ac_charge_enable_flag",
       "attributes": [
         "ac_charge_enabled"
       ],
+      "families": [
+        "storage"
+      ],
+      "description": "Remote enable for AC-side charging on TL-XH hybrids."
+    },
+    {
+      "table": "holding",
+      "register": 3051,
+      "register_end": 3052,
+      "type": "u32_decikwh",
+      "attributes": [
+        "output_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3053,
+      "register_end": 3054,
+      "type": "u32_decikwh",
+      "attributes": [
+        "input_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3055,
+      "register_end": 3056,
+      "type": "u32_decikwh",
+      "attributes": [
+        "input_1_energy_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3057,
+      "register_end": 3058,
+      "type": "u32_decikwh",
+      "attributes": [
+        "input_1_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3059,
+      "register_end": 3060,
+      "type": "u32_decikwh",
+      "attributes": [
+        "input_2_energy_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3061,
+      "register_end": 3062,
+      "type": "u32_decikwh",
+      "attributes": [
+        "input_2_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3063,
+      "register_end": 3064,
+      "type": "u32_decikwh",
+      "attributes": [
+        "input_3_energy_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3065,
+      "register_end": 3066,
+      "type": "u32_decikwh",
+      "attributes": [
+        "input_3_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3067,
+      "register_end": 3068,
+      "type": "u32_decikwh",
+      "attributes": [
+        "energy_to_user_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3069,
+      "register_end": 3070,
+      "type": "u32_decikwh",
+      "attributes": [
+        "energy_to_user_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3071,
+      "register_end": 3072,
+      "type": "u32_decikwh",
+      "attributes": [
+        "energy_to_grid_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3073,
+      "register_end": 3074,
+      "type": "u32_decikwh",
+      "attributes": [
+        "energy_to_grid_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3075,
+      "register_end": 3076,
+      "type": "u32_decikwh",
+      "attributes": [
+        "load_energy_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3077,
+      "register_end": 3078,
+      "type": "u32_decikwh",
+      "attributes": [
+        "load_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3079,
+      "register_end": 3082,
+      "type": "u32_decikwh",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3083,
+      "register_end": 3084,
+      "type": "u32_decikwh",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3087,
+      "register_end": 3094,
+      "type": "ascii_16",
+      "families": [
+        "storage"
+      ],
+      "description": "Battery rack serial number string from the BMS."
+    },
+    {
+      "table": "holding",
+      "register": 3095,
+      "register_end": 3095,
+      "type": "bdc_reset_command",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3096,
+      "register_end": 3097,
+      "type": "ascii_4",
+      "families": [
+        "storage"
+      ],
+      "description": "BDC monitoring firmware code."
+    },
+    {
+      "table": "holding",
+      "register": 3099,
+      "register_end": 3100,
+      "type": "ascii_4",
+      "families": [
+        "storage"
+      ],
+      "description": "DSP firmware code identifier."
+    },
+    {
+      "table": "holding",
+      "register": 3101,
+      "register_end": 3101,
+      "type": "ascii_2",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3103,
+      "register_end": 3106,
+      "type": "ascii_2",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3107,
+      "register_end": 3107,
+      "type": "bms_comm_interface_type",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3108,
+      "register_end": 3111,
+      "type": "ascii_2",
+      "families": [
+        "storage"
+      ],
+      "description": "BDC module identification tokens."
+    },
+    {
+      "table": "holding",
+      "register": 3113,
+      "register_end": 3113,
+      "type": "bdc_protocol_version_word",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3118,
+      "register_end": 3118,
+      "type": "bdc_onoff_state_flag",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3121,
+      "register_end": 3122,
+      "type": "u32_deciwatt",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3123,
+      "register_end": 3124,
+      "type": "u32_decikwh",
       "families": [
         "storage"
       ]
