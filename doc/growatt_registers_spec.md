@@ -10,10 +10,10 @@ This file is generated from `growatt_registers_spec.json` (parsed from the offic
 | Section | Spec Registers | Covered | Missing |
 | --- | --- | --- | --- |
 | Common Holding Registers (0–124) | 100 | 8 | 92 |
-| TL-X/TL-XH Holding Registers (3000–3124) | 109 | 0 | 109 |
+| TL-X/TL-XH Holding Registers (3000–3124) | 78 | 0 | 78 |
 | TL-XH US Holding Registers (3125–3249) | 64 | 0 | 64 |
 | TL3/MAX/MID/MAC Holding Registers (125–249) | 80 | 0 | 80 |
-| Storage Holding Registers (1000–1124) | 99 | 0 | 99 |
+| Storage Holding Registers (1000–1124) | 35 | 0 | 35 |
 | Storage Holding Registers (1125–1249) | 15 | 0 | 15 |
 | Common Input Registers (0–124) | 100 | 80 | 20 |
 | TL-X/TL-XH Input Registers (3000–3124) | 0 | 0 | 0 |
@@ -32,7 +32,7 @@ Applies to TL-X/TL-XH, TL3/MAX/MID/MAC, and MIX/SPA/SPH storage families.
 
 | Register | Name | Description | Access | Range/Unit | Initial | Notes | Attributes | Sensors |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 0 | Inverter and BDC enable | Bitfield controlling remote enable of the inverter (bit 0) and the battery DC converter or BDC ready mode (bit 1). Write the combined value 0-3; 1 turns on the inverter, 2 turns on only the BDC, 3 turns on both. | W | — | 1 | Home Assistant preserves other control bits when toggling this value. | tlx:inverter_enabled, tl3:inverter_enabled | — |
+| 0 | Inverter Enabled | Bitfield controlling remote enable of the inverter (bit 0) and the battery DC converter or BDC ready mode (bit 1). Write the combined value 0-3; 1 turns on the inverter, 2 turns on only the BDC, 3 turns on both. | W | — | 1 | Home Assistant preserves other control bits when toggling this value. | tlx:inverter_enabled, tl3:inverter_enabled | — |
 | 1 | Safety function enable flags | Bit mask that enables regional grid-protection functions. Set a bit to 1 to enable the corresponding feature (SPI, LVFRT, DRMS, Volt-Var, ROCOF, recovery, split-phase). | W | — | — | Bits 0-3 cover CEI 0-21 compliance; bits 4-6 cover AS/NZS/SAA requirements; bits 11-15 are reserved. | — | — |
 | 2 | Persist power-factor commands | Choose whether the power-factor and derating commands in registers 3, 4, 5, and 99 are stored to NVRAM (1) or revert to defaults after the next restart (0). | W | — | 0 | — | — | — |
 | 3 | Active power limit setpoint | Maximum active power output as a percentage of rated power. Values 0-100 cap the output; 255 removes the limit. | W | — % | 255 | — | — | — |
@@ -40,7 +40,7 @@ Applies to TL-X/TL-XH, TL3/MAX/MID/MAC, and MIX/SPA/SPH storage families.
 | 5 | Power factor target | Requested power factor multiplied by 10,000 (e.g. 9900 equals 0.99). Values below 10,000 lead (capacitive); values above 10,000 lag (inductive). | W | — | 0 | — | — | — |
 | 6 | Rated apparent power | Apparent power capability encoded as an unsigned 32-bit value with 0.1 VA resolution (register 6 is the high word, register 7 the low word). | R | — VA | — | — | — | — |
 | 8 | Nominal PV voltage | Target PV input voltage for maximum power point tracking, stored in 0.1 V increments. | R | — V | — | — | — | — |
-| 9 | Firmware identification string | Six registers containing ASCII characters that describe the running firmware. Registers 9-11 hold the DSP identifier; registers 12-14 hold the control-board identifier. Home Assistant reads the combined 12-character string for the reported firmware version. | R | — ASCII | — | — | tlx:firmware, tl3:firmware, storage:firmware | — |
+| 9 | Firmware | Six registers containing ASCII characters that describe the running firmware. Registers 9-11 hold the DSP identifier; registers 12-14 hold the control-board identifier. Home Assistant reads the combined 12-character string for the reported firmware version. | R | — ASCII | — | — | tlx:firmware, tl3:firmware, storage:firmware | — |
 | 15 | LCD language selection | Language index used by the local LCD interface: 0=Italian, 1=English, 2=German, 3=Spanish, 4=French, 5=Chinese, 6=Polish, 7=Portuguese, 8=Hungarian. | W | — | — | — | — | — |
 | 16 | Country profile configured | Indicates whether a regional grid profile has been selected (1) or still needs to be chosen (0). | W | — | — | — | — | — |
 | 17 | PV start voltage threshold | Minimum DC input voltage required before the inverter starts, stored in 0.1 V increments. | W | — V | — | — | — | — |
@@ -49,16 +49,16 @@ Applies to TL-X/TL-XH, TL3/MAX/MID/MAC, and MIX/SPA/SPH storage families.
 | 20 | Active power ramp rate (startup) | Slope for increasing active power after startup in 0.1% increments per second (1-1000). | W | — %/s | — | — | — | — |
 | 21 | Active power ramp rate (restart) | Slope for returning to full power after curtailment or a cleared fault, expressed in 0.1% per second. | W | — %/s | — | — | — | — |
 | 22 | Modbus RTU baud rate | Selects the RS-485 serial line baud rate: 0=9600 bps, 1=38400 bps. | W | — | 0 | — | — | — |
-| 23 | Inverter serial number | ASCII-encoded 10-character serial number spanning registers 23-27. | R | — ASCII | — | The Home Assistant integration exposes this as the device serial number and reuses it as the unique identifier. | tlx:serial number, tl3:serial number | — |
-| 28 | Inverter module code | 32-bit hardware option mask encoded as eight nibbles (A, B, D, T, P, U, M, S). Register 28 holds the high word and register 29 the low word. | R | — | — | Home Assistant renders this value as the string A# B# D# T# P# U# M# S# via the integration's model() helper. | tlx:Inverter model, tl3:Inverter model, storage:Inverter model | — |
+| 23 | Serial Number | ASCII-encoded 10-character serial number spanning registers 23-27. | R | — ASCII | — | The Home Assistant integration exposes this as the device serial number and reuses it as the unique identifier. | tlx:serial number, tl3:serial number | — |
+| 28 | Inverter Model | 32-bit hardware option mask encoded as eight nibbles (A, B, D, T, P, U, M, S). Register 28 holds the high word and register 29 the low word. | R | — | — | Home Assistant renders this value as the string A# B# D# T# P# U# M# S# via the integration's model() helper. | tlx:Inverter model, tl3:Inverter model, storage:Inverter model | — |
 | 30 | Modbus slave address | RS-485/Modbus RTU slave ID. Set a value between 1 and 254; 0 is reserved for broadcast frames. | W | — | — | — | — | — |
 | 31 | Firmware update trigger | Write 1 to arm the serial firmware update procedure. The inverter clears the flag after the bootloader handshake starts. | W | — | — | — | — | — |
 | 32 | Reset user configuration | Writing 1 clears user-configurable settings such as communication parameters and regional profiles. | W | — | — | Use with caution; the inverter immediately reboots and loses provisioning data. | — | — |
 | 33 | Factory reset | Writing 1 restores full factory defaults and restarts the inverter. | W | — | — | Equivalent to the front-panel factory reset. Requires re-commissioning afterwards. | — | — |
 | 34 | Manufacturer information string | Sixteen ASCII characters written at production time (batch, plant, or custom identifiers). | R | — ASCII | — | The original table lists these words as Manufacturer Info 8–1 (high/middle/low); combine them to read the full string. | — | — |
 | 42 | G 100 failsafe enable | Enable (1) or disable (0) the UK G 98/G 100 failsafe watchdog. | W | — | — | Leave off unless the interconnection agreement requires the G 100 failsafe mode. | — | — |
-| 43 | Device type code | Encodes the inverter family and tracker count. See data type for supported values. | R | — | — | — | tlx:device type code, tl3:device type code, storage:device type code | — |
-| 44 | MPPT trackers and grid phases | High byte holds the number of PV trackers; low byte holds the number of output phases. | R | — | — | — | tlx:number of trackers and phases, tl3:number of trackers and phases, storage:number of trackers and phases | — |
+| 43 | Device Type Code | Encodes the inverter family and tracker count. See data type for supported values. | R | — | — | — | tlx:device type code, tl3:device type code, storage:device type code | — |
+| 44 | Number Of Trackers And Phases | High byte holds the number of PV trackers; low byte holds the number of output phases. | R | — | — | — | tlx:number of trackers and phases, tl3:number of trackers and phases, storage:number of trackers and phases | — |
 | 45 | System clock year | Calendar year stored by the internal real-time clock. | W | — | — | Write the full year (for example 2024). | — | — |
 | 46 | System clock month | Calendar month for the internal clock. | W | — | — | — | — | — |
 | 47 | System clock day | Day of month for the internal clock. | W | — | — | — | — | — |
@@ -87,7 +87,7 @@ Applies to TL-X/TL-XH, TL3/MAX/MID/MAC, and MIX/SPA/SPH storage families.
 | 70 | Stage 2 undervoltage trip delay | Cycles grid voltage must stay below the stage 2 undervoltage limit (register 56) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
 | 71 | Stage 2 overvoltage trip delay | Cycles grid voltage must stay above the stage 2 overvoltage limit (register 57) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
 | 72 | Stage 1 underfrequency trip delay | Cycles grid frequency must stay below the stage 1 underfrequency limit (register 54) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
-| 73 | Stage 1 overfrequency trip delay | Cycles grid frequency must stay above the stage 1 overfrequency limit (register 55) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | tl3:modbus version | — |
+| 73 | Modbus Version | Cycles grid frequency must stay above the stage 1 overfrequency limit (register 55) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | tl3:modbus version | — |
 | 74 | Stage 2 underfrequency trip delay | Cycles grid frequency must stay below the stage 2 underfrequency limit (register 58) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
 | 75 | Stage 2 overfrequency trip delay | Cycles grid frequency must stay above the stage 2 overfrequency limit (register 59) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
 | 76 | Stage 3 undervoltage trip delay | Cycles grid voltage must stay below the stage 3 undervoltage limit (register 60) before tripping. One AC cycle is 20 ms at 50 Hz (16.7 ms at 60 Hz). | W | — cycles | — | — | — | — |
@@ -97,7 +97,7 @@ Applies to TL-X/TL-XH, TL3/MAX/MID/MAC, and MIX/SPA/SPH storage families.
 | 80 | Ten-minute overvoltage limit | Maximum RMS grid voltage averaged over 10 minutes (0.1 V increments) before the inverter trips. | W | — V | — | — | — | — |
 | 81 | PV input high-voltage fault | PV array voltage threshold that triggers a DC over-voltage fault (0.1 V increments). | W | — V | — | — | — | — |
 | 82 | Controller firmware build string | Twelve ASCII characters summarising model and controller build revisions (model letters, DSP 1, DSP 2/M 0, CPLD/AFCI, M 3). | R | — ASCII | — | Positions: 0-1 model letters, 2-3 model variant, 4-5 DSP 1 build, 6-7 DSP 2/M 0 build, 8-9 CPLD/AFCI build, 10-11 M 3 build. | — | — |
-| 88 | Modbus protocol version | Modbus register map revision encoded as an integer (e.g. 207 equals version 2.07). | R | — | — | — | tlx:modbus version, storage:modbus version | — |
+| 88 | Modbus Version | Modbus register map revision encoded as an integer (e.g. 207 equals version 2.07). | R | — | — | — | tlx:modbus version, storage:modbus version | — |
 | 89 | Power-factor control mode | Selects the reactive power or power-factor control curve. | W | — | — | 0=Unity PF, 1=Fixed PF setpoint, 2=Default PF line, 3=User-defined PF line, 4=Under-excited reactive power, 5=Over-excited reactive power, 6=Q(V) curve, 7=Direct control, 8=Static capacitive QV, 9=Static inductive QV. | — | — |
 | 90 | GPRS modem IP/status flags | Lower nibble reports the IP configuration handshake; upper nibble reports modem status. | W | — | — | Bit 0-3: 0=idle, 1=IP read requested, 2=set IP succeeded; Bit 4-7: 0=unknown, 1=modem OK, 2=no SIM, 3=no network, 4=TCP connect fail, 5=TCP connected, etc. | — | — |
 | 91 | Frequency derating start | Grid frequency at which active power derating begins (0.01 Hz increments). | W | — Hz | — | — | — | — |
@@ -140,115 +140,84 @@ Additional holding registers for TL-X/TL-XH hybrids (MIN series).
 
 | Register | Name | Description | Access | Range/Unit | Initial | Notes | Attributes | Sensors |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 3000 | Export Limit Fa T iled Power Rat ex e | he power rate when port Limit failed | — | — | — | The power rate when export Limit failed | — | — |
-| 3001 | Serial Number | Serial number 1-2 | — | — | — | The new model uses the following | — | — |
-| 3002 | New Serial NO | Serial number 3-4 | — | — | — | registers to record the serial number; The | — | — |
-| 3003 | New Serial NO | Serial number 5-6 | — | — | — | representation is the same as the | — | — |
-| 3004 | New Serial NO | Serial number 7-8 | — | — | — | original: one register holds two | — | — |
-| 3005 | New Serial NO | Serial number 9-10 | — | — | — | characters and the new serial number | — | — |
-| 3006 | New Serial NO | Serial number 11-12 | — | — | — | is 30 characters. | — | — |
-| 3007 | New Serial NO | Serial number 13-14 | — | — | — | — | — | — |
-| 3008 | New Serial NO | Serial number 15-16 | — | — | — | — | — | — |
-| 3009 | New Serial NO | Serial number 17-18 | — | — | SCII | — | — | — |
-| 3010 | New Serial NO | Serial number 19-20 | — | — | SCII | — | — | — |
-| 3011 | New Serial NO | Serial number 21-22 | — | — | SCII | — | — | — |
-| 3012 | New Serial NO | Serial number 23-24 | — | — | SCII | — | — | — |
-| 3013 | New Serial NO | Serial number 25-26 | — | — | SCII | — | — | — |
-| 3014 | New Serial NO | Serial number 27-28 | — | — | SCII | — | — | — |
-| 3015 | New Serial NO | Serial number 29-30 | — | — | SCII | — | — | — |
-| 3016 | Dry Contact Fu Dr nc En | R y Contact function enable | /W 0: 1: | — | — | Dry Contact function enable | — | — |
-| 3017 | Dry Contact On Th Rate dr | e power rate ycontact turn on | of R | — | .1% | The power rate of drycontact turn on | — | — |
-| 3018 | b Work Mode | Work Mode----0:default,1: System Retrofit 2: Multi-Parallel | — | — | — | MIN 2.5~6 KTL-XH/ XA Double CT special | — | — |
-| 3019 | Dry Contact Of f Rate | Dry Contact Off Rate | — | — | ~100 0 | 0.1% Dry contact closure power pe rcentage | — | — |
-| 3020 | Box Ctrl Inv Ord B er | ox Ctrl Inv Order | — | — | — | — | — | — |
-| 3021 | Exter Comm Of Ext f Grid En set ena | ernal communication R/W ting manual off-network ble | — | — | — | 0 x 00: Disable; (default) 0 x 01: Enable; | — | — |
-| 3022 | uw Bdc Stop W Bdc S ork Of Bus Volt | top Work Of Bus Volt | — | — | — | — | — | — |
-| 3023 | b Grid Type | Grid Type---0:Single Phase 1:Three Phase 2:Split Phase | — | — | — | MIN 2.5~6 KTL-XH/ XA Double CT special | — | — |
-| 3024 | Float charge current limit | When charge current battery need is lower th this value, enter into f charge | an loat | — | .1 A 60 | 0 CC current | — | — |
-| 3025 | Vbat Warning "Ba set | ttery-low" warning up voltage | — | — | Le LV | ad acid battery voltage | — | — |
-| 3026 | Vbatlow Warn "Ba Clr cle | ttery-low" warning ar voltage | — | — | Cl vo vo Lo le 45 20 48 <= 49 50 | ear battery low ltage error ltage point ad Percent(only ad-Acid): .5 V(Load < %); .0 V(20%<=Load 50%); .0 V(Load > %); | — | — |
-| 3027 | Vbatstopfordi B scharge | attery cut off voltage | — | — | Sh di lo vo le 46 20 44 <= 44 50 | ould stop scharge when wer than this ltage(only ad-Acid): .0 V(Load < %); .8 V(20%<=Load 50%); .2 V(Load > %); | — | — |
-| 3028 | Vbat stop for B charge | attery over charge voltage | R/W | — | Sh ch hi vo | ould stop arge when gher than this ltage | — | — |
-| 3029 | Vbat start for discharge | Battery start discharge voltage | — | — | Sh di lo vo | ould not scharge when wer than this ltage | — | — |
-| 3030 | Vbat constant B charge v | attery constant charge oltage | — | — | CV ca lo vo | voltage(acid) n charge when wer than this ltage | — | — |
-| 3031 | Battemp B lower limit d l | attery temperature lower imit for discharge | — | — | 0-2 100 -40 | 00:0-20℃ 0-1400: -0℃ | — | — |
-| 3032 | Bat temp B upper limit d l | attery temperature upper imit for discharge | — | — | — | — | — | — |
-| 3033 | Bat temp lower limit c | Battery temperature lowe limit for charge | R | — | Bat tem lim 0-2 100 -40 | tery perature lower it 00:0-20℃ 0-1400: -0℃ | — | — |
-| 3034 | Bat temp B upper limit c l | attery temperature upper imit for charge | — | — | Bat tem upp | tery perature er limit | — | — |
-| 3035 | uw Under Fre D Und ischarge Dely T ime | er Fre Delay Time | — | — | Und Tim | er Fre Delay e | — | — |
-| 3036 | Grid First Disch arge Power Rat wh e | Discharge Power Rate en Grid First | — | — | — | — | — | — |
-| 3037 | Grid First Stop S OC | Stop Discharge soc when Grid First | — | — | — | — | — | — |
-| 3038 | Time 1(xh) | Period 1: [Start Time ~ Time], [Charge/Discharge [Disable/Enable] 3038 enable, charge and discharge, start time, time 3039 | End ], end | — | Bit Bit Bit 0: 1: 2: Bit 0: ena | 0~7: minutes; 8~12: hour; 13~14, load priority; battery priority; Grid priority; 15, prohibited; 1: bled; | — | — |
-| 3039 | — | — | — | — | Bit Bit Bit | 0~7: minutes; 8~12: hour; 13~15: reserved | — | — |
-| 3040 | Time 2(xh) | Time period 2: [start ti end time], [charge / discharge], [disable enable] 3040 enable, charge and discharge, start time, 3 end time | me ~ / 041 | — | Bit Bit Bit 0: 1: 2: Bit 0: led; | 0~7: minutes; 8~12: hour; 13~14, load priority; battery priority; Grid priority; 15, prohibited; 1: | — | — |
-| 3041 | — | — | R/W | — | ~7: mi ~12: h 3~15: | nutes; our; reserved | — | — |
-| 3042 | Time 3(xh) | With Time 1 | R/W | — | Time 1 | — | — | — |
-| 3043 | — | — | R/W | — | Time 1 | — | — | — |
-| 3044 | Time 4(xh) | With Time 1 | R/W | — | Time 1 | — | — | — |
-| 3045 | — | — | R/W | — | Time 1 | — | — | — |
-| 3046 | 预留 | — | — | — | — | — | — | — |
-| 3047 | Bat First Power C Rate B | harge Power Rate when at First | — | — | — | — | — | — |
-| 3048 | w Bat First stop SOC | Stop Charge soc when Bat First | — | — | — | — | — | — |
-| 3049 | AC Charge Enabled | harge Enable | — | — | le:1 ble:0 | — | — | — |
-| 3050 | Time 5(xh) | With Time 1 | R/W | — | Time 1 | — | — | — |
-| 3051 | — | — | R/W | — | Time 1 | — | — | — |
-| 3052 | Time 6(xh) | With Time 1 | R/W | — | Time 1 | — | — | — |
-| 3053 | — | — | R/W | — | Time 1 | — | — | — |
-| 3054 | Time 7(xh) | With Time 1 | R/W | — | Time 1 | — | — | — |
-| 3055 | — | — | R/W | — | Time 1 | — | — | — |
-| 3056 | Time 8(xh) | With Time 1 | R/W | — | Time 1 | — | — | — |
-| 3057 | — | — | R/W | — | Time 1 | — | — | — |
-| 3058 | Time 9(xh) | With Time 1 | R/W | — | Time 1 | — | — | — |
-| 3059 | — | — | R/W | — | Time 1 | — | — | — |
-| 3060 | Reserved | — | — | — | — | — | — | — |
-| 3069 | — | — | — | — | — | — | — | — |
-| 3070 | Battery Type | Battery type choose of buck-boost input | R/W | — | B 0 1 2 | attery type:Lithium:Lead-acid:other | — | — |
-| 3071 | Bat Mdl Seria/ Ba Paral Num | t Mdl Seria/Paral Num | R/W | — | B N S T i n s T i n s | at Mdl Seria/Paral um; PH 4-11 K used he upper 8 bits ndicate the umber of series egments; he lower 8 bits ndicate the umber of parallel ections; | — | — |
-| 3072 | Reserved | — | — | — | — | — | — | — |
-| 3073 | Reserved | — | — | — | — | — | — | — |
-| 3074 | Reserved | — | — | — | — | — | — | — |
-| 3075 | Reserved | — | — | — | — | — | — | — |
-| 3076 | Reserved | — | — | — | — | — | — | — |
-| 3077 | Reserved | — | — | — | — | — | — | — |
-| 3078 | Reserved | — | — | — | — | — | — | — |
-| 3079 | Ups Fun En | Ups function enable or disable | R/W | — | 0 1 | :disable:enable | — | — |
-| 3080 | UPSVolt Set | UPS output voltage | R/W | — | 0 1 2 | :230 V:208 V:240 V | — | — |
-| 3081 | UPSFreq Set | UPS output frequency | R/W | — | 0 1 | :50 Hz:60 Hz | — | — |
-| 3082 | b Load First Sto S p Soc Set | top Soc When Load First | R/W | — | r | atio | — | — |
-| 3083 | Reserved | — | — | — | — | — | — | — |
-| 3084 | Reserved | — | — | — | — | — | — | — |
-| 3085 | Com Address Com | munication addr | R/W | — | 1 a 1 C a | : Communication ddr=1 ~ 254: ommunication ddr=1~254 | — | — |
-| 3086 | Baud Rate | Communication Baud Rate | R/W | — | 0 1 | : 9600 bps: 38400 bps | — | — |
-| 3087 | Serial NO. 1 | Serial Number 1-2 | R/W | — | F | or battery | — | — |
-| 3088 | Serial NO. 2 | Serial Number 3-4 | — | — | — | — | — | — |
-| 3089 | Serial NO. 3 | Serial Number 5-6 | — | — | — | — | — | — |
-| 3090 | Serial NO. 4 | Serial Number 7-8 | — | — | — | — | — | — |
-| 3091 | Serial No. 5 | Serial Number 9-10 | — | — | — | — | — | — |
-| 3092 | Serial No.6 | Serial Number 11-12 | — | — | — | — | — | — |
-| 3093 | Serial No. 7 | Serial Number 13-14 | — | — | — | — | — | — |
-| 3094 | Serial No. 8 | Serial Number 15-16 | — | — | — | — | — | — |
-| 3095 | Bdc Reset Cmd BDC | Reset command | — | — | — | 0:Invalid data 1:Reset setting parameters 2:Reset correction parameter 3:Clear historical power | — | — |
-| 3096 | ARKM 3 Code BDCM | onitoring software | — | — | — | ZEBA | — | — |
-| 3097 | code | — | — | — | — | — | — | — |
-| 3098 | DTC | DTC | — | — | — | — | — | — |
-| 3099 | FW Code | DSP software code | — | — | — | — | — | — |
-| 3100 | — | — | — | — | — | — | — | — |
-| 3101 | Processor 1 FW Vision | DSP Software Version | — | — | — | — | — | — |
-| 3102 | Bus Volt Ref | Minimum BUS voltage for charging and discharging batteries | — | — | — | — | — | — |
-| 3103 | ARKM 3 Ver BMS_MCUVer BMS | BDC monitoring software version hardware ver | sion | — | — | — | — | — |
-| 3104 | sion info BMS_FW | rmation BMS software version | R | — | — | — | — | — |
-| 3105 | BMS_Info | information BMS Manufacturer Name | R | — | — | — | — | — |
-| 3106 | BMSComm Ty BMSCo pe | mm Type | R | — | — | BMSCommunicati on interface type: | — | — |
-| 3107 | — | — | — | — | — | 0: RS 485; 1: CAN; | — | — |
-| 3108 | Module 4 | BDCmodel (4) | — | — | — | Sxx Bxx | — | — |
-| 3109 | Module 3 | BDCmodel (3) | — | — | — | Dxx Txx | — | — |
-| 3110 | Module 2 | BDCmodel (2) | — | — | — | Pxx Uxx | — | — |
-| 3111 | Module 1 | BDCmodel (1) | — | — | — | Mxxxx | — | — |
-| 3112 | Reserved | — | — | — | — | — | — | — |
-| 3113 | un Protocol Ve BD r | CProtocol Ver | — | — | — | Bit 8-bit 15 The major version number ranges from 0-256. In principle, it cannot be changed Bit 0-bit 7 Minor version number [0-256]. If the protocol is changed, you need to update this version No. | — | — |
-| 3114 | uw Certificatio n Ver | BDC Certification Ver | — | — | — | — | — | — |
-| 3115 | Reserved | — | — | — | — | — | — | — |
-| 3124 | — | — | — | — | — | — | — | — |
+| 3000 | Export-limit fallback cap | Percentage of rated output supplied when the export-limit controller is unavailable. Values are stored in 0.1% steps. | R/W | — % | — | Use this to keep the hybrid running at a safe output level whenever the export-limiting meter stops responding. | — | — |
+| 3001 | Serial Number | Thirty-character TL-XH serial string. Mirrors the 23-27 holding-register block on legacy models. | R | — ASCII | — | — | — | — |
+| 3016 | Dry-contact enable | Enable (1) or disable (0) the dry-contact output. | R/W | — | — | — | — | — |
+| 3017 | Dry-contact close threshold | Dry contact engages when inverter output exceeds this percentage of rated power. | R/W | — % | — | — | — | — |
+| 3018 | Hybrid work mode | Select default operation, system retrofit mode, or multi-parallel control for dual-CT installs. | R/W | — | — | — | — | — |
+| 3019 | Dry-contact release threshold | Dry contact opens when output power falls below this percentage of rated power. | R/W | — % | — | — | — | — |
+| 3020 | Off-grid box control | Vendor-specific control word used by the external off-grid communication box. | R/W | — | — | Leave at factory value unless instructed by Growatt support. | — | — |
+| 3021 | External off-grid enable | Allow an external communications module to force the inverter into off-grid mode. | R/W | — | — | — | — | — |
+| 3022 | BDC stop-work bus voltage | DC bus voltage below which the battery DC converter halts charging or discharging. | R | — V | — | — | — | — |
+| 3023 | Grid topology selection | Declare single-phase, three-phase, or split-phase wiring for hybrid operation. | R/W | — | — | — | — | — |
+| 3024 | Float-charge current limit | Maximum battery current during float charge, stored in 0.1 A steps. | R/W | — A | — | — | — | — |
+| 3025 | Battery-low warning setpoint | Voltage that raises a "battery low" warning for lead-acid profiles. | R/W | — V | — | — | — | — |
+| 3026 | Battery-low warning clear | Voltage that clears the "battery low" warning after recovery. | R/W | — V | — | — | — | — |
+| 3027 | Battery discharge cutoff | Voltage where discharge stops to protect the battery. | R/W | — V | — | — | — | — |
+| 3028 | Battery charge stop voltage | Upper battery voltage limit for charge termination (0.01 V resolution). | R/W | — V | — | — | — | — |
+| 3029 | Battery discharge start voltage | Voltage above which discharge may resume (0.01 V resolution). | R/W | — V | — | — | — | — |
+| 3030 | Battery constant-charge voltage | Constant-voltage target during absorption/boost charge (0.01 V resolution). | R/W | — V | — | — | — | — |
+| 3031 | Discharge low temperature limit | Minimum battery temperature for discharge. Values 0-200 map to 0-20°C; add 1000 to encode negative values. | R/W | — °C | — | — | — | — |
+| 3032 | Discharge high temperature limit | Maximum battery temperature for discharge (0.1°C resolution). | R/W | — °C | — | — | — | — |
+| 3033 | Charge low temperature limit | Minimum battery temperature for charge. Values ≥1000 indicate negative limits. | R/W | — °C | — | — | — | — |
+| 3034 | Charge high temperature limit | Maximum battery temperature for charge (0.1°C resolution). | R/W | — °C | — | — | — | — |
+| 3035 | Under-frequency discharge delay | Delay before discharge stops during under-frequency events (0.05 s steps). | R/W | — s | — | — | — | — |
+| 3036 | Grid-first discharge rate | Requested discharge power when running in grid-first mode. Values are stored as whole percentages; 255 disables the limit. | R/W | — % | — | — | — | — |
+| 3037 | Grid-first stop SOC | State-of-charge threshold that ends discharge while in grid-first mode. | R/W | — % | — | — | — | — |
+| 3038 | Grid-first period 1 control | Packed control word for the first grid-first schedule period (minutes, hour, priority, enable flag). | R/W | — | — | Bits 0-7: start minute; 8-12: start hour; 13-14: priority (0 load, 1 battery, 2 grid); bit 15: enable. | — | — |
+| 3039 | Grid-first period 1 end | Packed end-time word for grid-first period 1 (minutes/hours). | R/W | — | — | — | — | — |
+| 3040 | Grid-first period 2 control | Packed control word for the second grid-first schedule period. | R/W | — | — | — | — | — |
+| 3041 | Power to user | Real-time active power routed to on-site loads (mirrors input registers 3041-3042). | R | — W | — | Home Assistant exposes this as `power_to_user` for TL-XH devices. | — | — |
+| 3043 | Power to grid | Instantaneous export power flowing to the grid (mirrors input registers 3043-3044). | R | — W | — | Mapped to `power_to_grid` in the integration. | — | — |
+| 3045 | Load demand power | Measured power demanded by local loads (mirrors input registers 3045-3046). | R | — W | — | Used for `power_user_load` in Home Assistant. | — | — |
+| 3047 | Total operation time | Cumulative inverter run time. Value/7200 yields hours with 0.5 s resolution. | R | — h | — | — | — | — |
+| 3049 | AC Charge Enabled | Enable (1) or disable (0) AC-side charging when running in TL-XH hybrid mode. | R/W | — | — | Home Assistant exposes this as the TL-XH `AC Charge` switch. | — | — |
+| 3051 | AC energy total | Lifetime AC energy delivered by the inverter (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3053 | PV energy total | Lifetime PV energy harvested (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3055 | PV 1 energy today | Energy produced by tracker 1 today (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3057 | PV 1 energy total | Lifetime energy from tracker 1 (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3059 | PV 2 energy today | Energy produced by tracker 2 today (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3061 | PV 2 energy total | Lifetime energy from tracker 2 (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3063 | PV 3 energy today | Energy produced by tracker 3 today (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3065 | PV 3 energy total | Lifetime energy from tracker 3 (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3067 | Energy to user today | Energy routed to on-site loads today (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3069 | Energy to user total | Lifetime energy routed to on-site loads (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3071 | Energy to grid today | Energy exported to the grid today (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3073 | Energy to grid total | Lifetime grid export energy (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3075 | Load energy today | Energy consumed by site loads today (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3077 | Load energy total | Lifetime energy consumed by site loads (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3079 | PV 4 energy today | Energy produced by tracker 4 today (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3081 | PV 4 energy total | Lifetime energy from tracker 4 (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3083 | PV energy today (all) | Aggregate PV energy generated today across all trackers (0.1 k Wh increments). | R | — k Wh | — | — | — | — |
+| 3085 | Modbus slave address | RS-485 Modbus address (1-254). | R/W | — | — | — | — | — |
+| 3086 | RS-485 baud rate | Communication baud rate for the Modbus interface. | R/W | — | — | — | — | — |
+| 3087 | Battery rack serial | Battery rack serial number string reported by the BMS (16 ASCII characters). | R | — ASCII | — | — | — | — |
+| 3095 | BDC reset command | Issue resets to the battery DC converter: 0 invalid, 1 reset settings, 2 reset calibration, 3 clear historical power. | R/W | — | — | — | — | — |
+| 3096 | BDC monitoring code | Four-character identifier for the BDC monitoring firmware (e.g. ZEBA). | R | — ASCII | — | — | — | — |
+| 3098 | BDC DTC code | Latest diagnostic trouble code reported by the BDC controller. | R | — | — | — | — | — |
+| 3099 | DSP firmware code | Identifier for the inverter DSP firmware build. | R | — ASCII | — | — | — | — |
+| 3101 | DSP firmware version | Human-readable DSP firmware version string. | R | — ASCII | — | — | — | — |
+| 3102 | Bus voltage reference | Minimum DC bus voltage used for battery charge/discharge control. | R | — V | — | — | — | — |
+| 3103 | BDC monitor firmware | BDC monitoring firmware version identifier. | R | — ASCII | — | — | — | — |
+| 3104 | BMS MCU hardware version | Hardware revision reported by the BMS MCU. | R | — ASCII | — | — | — | — |
+| 3105 | BMS firmware version | Software revision reported by the BMS firmware. | R | — ASCII | — | — | — | — |
+| 3106 | BMS manufacturer | Manufacturer name reported by the connected BMS. | R | — ASCII | — | — | — | — |
+| 3107 | BMS communication interface | Indicates whether the BMS link uses RS-485 (0) or CAN (1). | R | — | — | — | — | — |
+| 3108 | BDC module identifier 4 | ASCII token describing the fourth BDC module slot (if present). | R/W | — ASCII | — | — | — | — |
+| 3109 | BDC module identifier 3 | ASCII token describing the third BDC module slot. | R/W | — ASCII | — | — | — | — |
+| 3110 | BDC module identifier 2 | ASCII token describing the second BDC module slot. | R/W | — ASCII | — | — | — | — |
+| 3111 | BDC module identifier 1 | ASCII token describing the first BDC module slot. | R/W | — ASCII | — | — | — | — |
+| 3112 | Reserved | Reserved; reported as zero on known firmware. | R | — | — | — | — | — |
+| 3113 | BDC protocol version | BDC protocol version word (high byte = major, low byte = minor). | R | — | — | — | — | — |
+| 3114 | BDC certification version | Certification profile identifier for the BDC firmware. | R | — | — | — | — | — |
+| 3115 | Reserved | Reserved for future use. | R | — | — | — | — | — |
+| 3116 | Reserved | Reserved for future use. | R | — | — | — | — | — |
+| 3117 | Reserved | Reserved for future use. | R | — | — | — | — | — |
+| 3118 | BDC on/off state | Indicates whether the battery DC converter is currently running (1) or idle (0). | R | — | — | — | — | — |
+| 3119 | Dry contact state | Current state of the dry-contact output (0 = open, 1 = closed). | R | — | — | — | — | — |
+| 3120 | Reserved | Reserved; reported as zero on TL-XH firmware. | R | — | — | — | — | — |
+| 3121 | Self-use power | Instantaneous self-consumption power (0.1 W resolution). | R | — W | — | Not yet surfaced by the Home Assistant integration. | — | — |
+| 3123 | System energy today | Energy delivered by the overall system today (0.1 k Wh increments). | R | — k Wh | — | Available in firmware but not yet exposed as an integration attribute. | — | — |
 
 ## TL-XH US Holding Registers (3125–3249)
 US-specific time schedule and dry-contact configuration registers.
@@ -398,9 +367,9 @@ Three-phase inverter specific holding registers.
 | 237 | Appointed spec override | Enable (1) to apply a pre-programmed regional specification override. | W | — | — | Use only when instructed by Growatt support. | — | — |
 | 238 | Fast MPPT mode | Reserved selector for alternate MPPT tracking speeds. | W | — | 0 | Documented as reserved; leave at 0 unless provided specific guidance. | — | — |
 | 239 | Reserved | Reserved register with no documented function. | R | — | — | — | — | — |
-| 240 | Commissioning step index | Internal step counter used during factory self-check sequences. Installers should leave this value unchanged. | W | — | — | — | — | — |
-| 241 | Installer longitude word | Longitude component recorded for remote diagnostics. Scaling is vendor-defined and not used by Home Assistant. | W | — | — | — | — | — |
-| 242 | Installer latitude word | Latitude component recorded for remote diagnostics. Scaling is vendor-defined and not used by Home Assistant. | W | — | — | — | — | — |
+| 240 | Commissioning step index | Internal step counter used during factory self-check sequences. Installers should leave this value unchanged. | R/W | — | — | — | — | — |
+| 241 | Installer longitude word | Longitude component recorded for remote diagnostics. Scaling is vendor-defined and not interpreted by Home Assistant. | R/W | — | — | High byte stores coarse longitude degrees; low byte stores vendor-specific minutes granularity. | — | — |
+| 242 | Installer latitude word | Latitude component recorded for remote diagnostics. Scaling is vendor-defined and not interpreted by Home Assistant. | R/W | — | — | High byte stores coarse latitude degrees; low byte stores vendor-specific minutes granularity. | — | — |
 | 190 | — | — | — | — | — | — | — | — |
 | 192 | — | — | — | — | — | — | — | — |
 | 194 | — | — | — | — | — | — | — | — |
@@ -417,105 +386,41 @@ Storage (MIX/SPA/SPH) battery configuration holding registers.
 
 | Register | Name | Description | Access | Range/Unit | Initial | Notes | Attributes | Sensors |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1000 | Float W charge b current t limit i | hen charge current W attery need is lower han this value, enter nto float charge | — | — | CC cur | rent | — | — |
-| 1001 | PF CMD Set t memory CMD w state ornot setti value | he following 19-22 W ill be memory (1/0), if not, these ngs are the initial . | 0 | — | Means acting power | these settings will be or not when next on(02 repeat) | — | — |
-| 1002 | Vbat Start F LV V or Discharg e | bat R/ | W | — | Lead-a | cid battery LV voltage | — | — |
-| 1003 | Vbatlow Wa Load P rn Clr lead- 45.5 V <20% 48.0 V 20%~5 49.0 V >50 | ercent(only W Acid): 0% | — | — | Clear voltag | battery low voltage error e point | — | — |
-| 1004 | Vbatstopfo Shou rdischarge when v 4 < 4 2 4 > | ld stop discharge W lower than this oltage(only lead-Acid): 6.0 V 20% 4.8 V 0%~50% 4.2 V 50% | — | — | — | — | — | — |
-| 1005 | Vbat stop Shoul for charge when volt | d stop charge higher than this age | W | — | — | — | — | — |
-| 1006 | Vbat start Shou for when discharge volta | ld not discharge W lower than this ge | — | — | — | — | — | — |
-| 1007 | Vbat c constant t charge | an charge when lower W han this voltage | — | — | CV vol | tage(acid) | — | — |
-| 1008 | EESys Info.S Bit ys Set En Bit Bit Bit Bit Bit Bit Bit Bit Bit Bit Bit Bit Bit Bit | 0:Resved; W 1:Resved; 2:Resved; 3:Resved; 4:Resved; 5:b Discharge En; 6:Force Dischr En; 7:Charge En; 8:b Force Chr En; 9:b Back Up En; 10:b Inv Limit Load E; 11:b Sp Limit Load En; 12:b ACCharge En; 13:b PVLoad Limit En; 14,15:Un Used; | — | — | Syst | em Enable | — | — |
-| 1009 | Battemp Bat lower limit low d | tery temperature W er limit for discharge | 0 0 1 0 | — | — | — | — | — |
-| 1010 | Bat temp Batter upper limit upp d | y temperature W er limit for discharge | 2 | — | — | — | — | — |
-| 1011 | Bat temp Batter lower limit low c | y temperature er limit for charge | W 0 0 1 0 | — | Lowe | r temperature limit | — | — |
-| 1012 | Bat temp Batter upper limit upp c | y temperature W er limit for charge | 2 | — | per te | mperature limit | — | — |
-| 1013 | uw Under Fr Under e Discharge Dely Time | Fre Delay Time | s 0 | — | der Fr | e Delay Time | — | — |
-| 1014 | Bat Mdl Seri Batt al Num | ery serial number W | 0 | — | H 4-11 K | used | — | — |
-| 1015 | Bat Mdl Para Batt ll Num | ery parallel section W | 0 | — | H 4-11 K | used | — | — |
-| 1016 | DRMS_EN / | / | / | — | disabl | e 1:enable | — | — |
-| 1017 | Bat First Hi Start Time Low 4 | gh eight:hours eight: minutes | 0 0 | — | — | — | — | — |
-| 1018 | Bat First Hig Stop Time Low e 4 | h eight:hours ight: minutes | 0 0 | — | — | — | — | — |
-| 1019 | Bat First E on/off D Switch 4 | nable:1 isable:0 | 0 | — | ttery | priority enable 1 | — | — |
-| 1020 | Bat First Hi Start Time Low 5 | gh eight:hours eight: minutes | 0 0 | — | — | — | — | — |
-| 1021 | Bat First High Stop Time Low e 5 | eight:hours ight: minutes | 0 0 | — | — | — | — | — |
-| 1022 | Bat First E on/off D Switch 5 | nable:1 isable:0 | 0 | — | ttery | priority enable 1 | — | — |
-| 1023 | Bat First High Start Time Low 6 | eight:hours eight: minutes | 0 0 | — | — | — | — | — |
-| 1024 | Bat First High Stop Time Low e 6 | eight:hours ight: minutes | 0 0 | — | — | — | — | — |
-| 1025 | Bat First E on/off D Switch 6 | nable:1 isable:0 | 0 | — | ttery | priority enable 1 | — | — |
-| 1026 | Grid First High Start Time Low 4 | eight:hours eight: minutes | 0 0 | — | — | — | — | — |
-| 1027 | Grid First High Stop Time Low e 4 | eight:hours ight: minutes | 0-23 0-59 | — | — | — | — | — |
-| 1028 | Grid First Enab Stop Disa Switch 4 | le:1 ble:0 | 0 or | — | priori | ty enable | — | — |
-| 1029 | Grid First High Start Time Low 5 | eight:hours eight: minutes | 0-23 0-59 | — | — | — | — | — |
-| 1030 | Grid First High Stop Time Low e 5 | eight:hours ight: minutes | 0-23 0-59 | — | — | — | — | — |
-| 1031 | Grid First Enab Stop Disa Switch 5 | le:1 ble:0 | 0 or | — | priori | ty enable | — | — |
-| 1032 | Grid First High Start Time Low 6 | eight:hours eight: minutes | 0-23 0-59 | — | — | — | — | — |
-| 1033 | Grid First High Stop Time Low e 6 | eight:hours ight: minutes | 0-23 0-59 | — | — | — | — | — |
-| 1034 | Grid First Enab Stop Disa Switch 6 | le:1 ble:0 | 0 or | — | priori | ty enable | — | — |
-| 1035 | Bat First High Start Time Low 4 | eight:hours eight: minutes | 0-23 0-59 | — | — | — | — | — |
-| 1036 | / / | / | / | — | ve | — | — | — |
-| 1037 | U b CTMode C C | se the CTMode to W hoose RFCT \ Cable T\METER | 2:ME 1:cW ssCT 0:cW T | — | — | — | — | — |
-| 1038 | CTAdjust C | TAdjust enable W | 0:di 1:en | — | — | — | — | — |
-| 1039 | / / | / | / | — | ve | — | — | — |
-| 1040 | / / | / | / | — | eserve | — | — | — |
-| 1041 | / / | / | / | — | eserve | — | — | — |
-| 1042 | / / | / | / | — | eserve | — | — | — |
-| 1043 | / / | / | / | — | eserve | — | — | — |
-| 1044 | Priority F E L f | orce Chr En/Force Dischr R n oad first/bat first /grid irst | 0.L fau att rid | — | Force C /dis | hr En/disb Force Dischr E | — | — |
-| 1045 | / / | / | / | — | eserve | — | — | — |
-| 1046 | / / | / | / | — | eserve | — | — | — |
-| 1047 | Aging Test St Com ep Cmd | mand for aging test | 0: 1: 2: dis | — | md for | aging test | — | — |
-| 1048 | Battery Typ Batt e buck | ery type choose of -boost input | 0:L 1:L d 2:o | — | attery | type | — | — |
-| 1049 | / / | / | / | — | eserve | — | — | — |
-| 1050 | / / | / | / | — | eserve | — | — | — |
-| 1051 | / / | / | / | — | eserve | — | — | — |
-| 1052 | / / | / | / | — | eserve | — | — | — |
-| 1053 | / / | / | / | — | eserve | — | — | — |
-| 1054 | / / | / | / | — | eserve | — | — | — |
-| 1060 | Buck Ups Fun E Ups n dis | function enable or able | — | — | — | — | — | — |
-| 1061 | Buck UPSVolt S UP et | S output voltage | — | — | — | — | — | — |
-| 1062 | UPSFreq Set | UPS output frequency | — | — | — | — | — | — |
-| 1070 | Grid First Disch arge Power Rat wh e | Discharge Power R en Grid First | ate W | — | charge r Rate Grid First | — | — | — |
-| 1071 | Grid First Stop S OC | Stop Discharge soc when W Grid First | — | — | top harge when First | — | — | — |
-| 1072 | / | / | / | — | — | reverse | — | — |
-| 1079 | — | — | — | — | — | — | — | — |
-| 1080 | Grid First Start Time 1 | High eight bit:hour Low eight bit:minute | — | — | — | — | — | — |
-| 1081 | Grid First Stop Time 1 | High eight bit:hour Low eight bit:minute | — | — | — | — | — | — |
-| 1082 | Grid First Stop Switch 1 | Enable:1 Disable:0 | — | — | First le | — | — | — |
-| 1083 | Grid First Start Time 2 | High eight bit:hour Low eight bit:minute | — | — | — | — | — | — |
-| 1084 | Grid First Stop Time 2 | High eight bit:hour Low eight bit:minute | — | — | — | — | — | — |
-| 1085 | Grid First Stop Switch 2 | Force Discharge.b Switch&L CD_SET_FORCE_TRUE_2)= =LCD_SET_FORCE_TRUE_2 | — | — | First le | Force Discharge; LCD_SET_FORCE_T RUE_2 | — | — |
-| 1086 | Grid First Start Time 3 | High eight bit:hour Low eight bit:minute | — | — | — | — | — | — |
-| 1087 | Grid First Stop Time 3 | High eight bit:hour Low eight bit:minute | — | — | — | — | — | — |
-| 1088 | Grid First Stop Switch 3 | Enable:1 Disable:0 | — | — | First le | — | — | — |
-| 1089 | / | / | / | — | — | reserve | — | — |
-| 1090 | Bat First Power C Rate B | harge Power Rate when W at First | 0- | — | ge Rate Bat st | — | — | — |
-| 1091 | w Bat First stop SOC | Stop Charge soc when Bat W First | 0- | — | p soc Bat st | — | — | — |
-| 1092 | AC charge W Switch E D | hen Bat First nable:1 isable:0 | En Di | — | rge e | — | — | — |
-| 1093 | — | — | — | — | — | — | — | — |
-| 1099 | — | — | — | — | — | — | — | — |
-| 1100 | Bat First Start Time 1 | High eight bit:hour Low eight bit:minute | 0- 0- | — | — | — | — | — |
-| 1101 | Bat First Stop Time 1 | High eight bit:hour Low eight bit:minute | 0- 0- | — | — | — | — | — |
-| 1102 | Bat First on/off Switch 1 | Enable:1 Disable:0 | 0 | — | First 1 | — | — | — |
-| 1103 | Bat First Start Time 2 | High eight bit:hour Low eight bit:minute | 0- 0- | — | — | — | — | — |
-| 1104 | Bat First Stop Time 2 | High eight bit:hour Low eight bit:minute | 0- 0- | — | — | — | — | — |
-| 1105 | Bat Firston/off Switch 2 | Enable:1 Disable:0 | 0 | — | First 2 | — | — | — |
-| 1106 | Bat First Start Time 3 | High eight bit:hour Low eight bit:minute | 0- 0- | — | — | — | — | — |
-| 1107 | Bat First Stop Time 3 | High eight bit:hour Low eight bit:minute | 0- 0- | — | — | — | — | — |
-| 1108 | Bat Firston/off Switch 3 | Enable:1 Disable:0 | 0 | — | First 3 | — | — | — |
-| 1109 | / | / / | / | — | — | reserve | — | — |
-| 1110 | Load First Start Time 1 | High eight bit:hour Low eight bit:minute | 0- 0- | — | — | SPA/ reserve | — | — |
-| 1111 | Load First Stop Time 1 | High eight bit:hour Low eight bit:minute | 0- 0- | — | — | SPA/ reserve | — | — |
-| 1112 | Load First Switch 1 | Enable:1 Disable:0 | 0 | — | irst S le | PA/ reserve | — | — |
-| 1113 | Load First Start Time 2 | High eight bit:hour Low eight bit:minute | — | — | — | SPA/ reserve | — | — |
-| 1114 | Load First Stop Time 2 | High eight bit:hour Low eight bit:minute | — | — | — | SPA/ reserve | — | — |
-| 1115 | Load First Switch 2 | Enable:1 Disable:0 | — | — | d Firs ble | t SPA/ reserve | — | — |
-| 1116 | Load First Start Time 3 | High eight bit:hour Low eight bit:minute | — | — | — | SPA/ reserve | — | — |
-| 1117 | Load First Stop Time 3 | High eight bit:hour Low eight bit:minute | — | — | — | SPA/ reserve | — | — |
-| 1118 | Load First Switch 3 | Enable:1 Disable:0 | — | — | d Firs ble | t SPA/ reserve | — | — |
-| 1119 | New EPower C / alc Flag | — | / | — | — | 0:The old formula 1: The new formula | — | — |
-| 1120 | Back Up En | Back Up Enable | — | — | — | MIX US | — | — |
-| 1121 | SGIPEn | SGIP Enable | — | — | — | MIX US | — | — |
+| 1070 | Grid-first discharge limit | Maximum discharge power as a percentage of rated output when operating in grid-first mode (0.1% increments). | R/W | — 0.1% | — | — | — | — |
+| 1071 | Grid-first stop SOC | State of charge at which grid-first discharge stops (percent). | R/W | — % | — | — | — | — |
+| 1080 | Grid-first slot 1 start | Start time for grid-first discharge slot 1. | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1081 | Grid-first slot 1 stop | Stop time for grid-first discharge slot 1. | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1082 | Grid-first slot 1 enable | Enable (1) or disable (0) this schedule slot. | R/W | — | — | — | — | — |
+| 1083 | Grid-first slot 2 start | Start time for grid-first discharge slot 2. | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1084 | Grid-first slot 2 stop | Stop time for grid-first discharge slot 2. | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1085 | Grid-first slot 2 enable | Enable (1) or disable (0) this schedule slot. | R/W | — | — | When set from the LCD, this slot can be tied to the Force Discharge command. | — | — |
+| 1086 | Grid-first slot 3 start | Start time for grid-first discharge slot 3. | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1087 | Grid-first slot 3 stop | Stop time for grid-first discharge slot 3. | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1088 | Grid-first slot 3 enable | Enable (1) or disable (0) this schedule slot. | R/W | — | — | — | — | — |
+| 1090 | Battery-first charge limit | Maximum AC charge power when operating in battery-first mode (0.1% increments of rated power). | R/W | — 0.1% | — | — | — | — |
+| 1091 | Battery-first stop SOC | State of charge above which battery-first charging stops (percent). | R/W | — % | — | — | — | — |
+| 1092 | Battery-first AC charge enable | Allow AC charging when operating in battery-first mode (1=enable, 0=disable). | R/W | — | — | — | — | — |
+| 1100 | Battery-first slot 1 start | Start time for battery-first timeslot 1. | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1101 | Battery-first slot 1 stop | Stop time for battery-first timeslot 1. | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1102 | Battery-first slot 1 enable | Enable (1) or disable (0) this schedule slot. | R/W | — | — | — | — | — |
+| 1103 | Battery-first slot 2 start | Start time for battery-first timeslot 2. | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1104 | Battery-first slot 2 stop | Stop time for battery-first timeslot 2. | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1105 | Battery-first slot 2 enable | Enable (1) or disable (0) this schedule slot. | R/W | — | — | — | — | — |
+| 1106 | Battery-first slot 3 start | Start time for battery-first timeslot 3. | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1107 | Battery-first slot 3 stop | Stop time for battery-first timeslot 3. | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1108 | Battery-first slot 3 enable | Enable (1) or disable (0) this schedule slot. | R/W | — | — | — | — | — |
+| 1110 | Load-first slot 1 start | Start time for load-first timeslot 1 (SPA models only). | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1111 | Load-first slot 1 stop | Stop time for load-first timeslot 1 (SPA models only). | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1112 | Load-first slot 1 enable | Enable (1) or disable (0) this schedule slot. | R/W | — | — | Available on SPA models. | — | — |
+| 1113 | Load-first slot 2 start | Start time for load-first timeslot 2 (SPA models only). | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1114 | Load-first slot 2 stop | Stop time for load-first timeslot 2 (SPA models only). | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1115 | Load-first slot 2 enable | Enable (1) or disable (0) this schedule slot. | R/W | — | — | Available on SPA models. | — | — |
+| 1116 | Load-first slot 3 start | Start time for load-first timeslot 3 (SPA models only). | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1117 | Load-first slot 3 stop | Stop time for load-first timeslot 3 (SPA models only). | R/W | — hh:mm | — | High byte = hour (0-23); low byte = minute (0-59). | — | — |
+| 1118 | Load-first slot 3 enable | Enable (1) or disable (0) this schedule slot. | R/W | — | — | Available on SPA models. | — | — |
+| 1119 | Energy calculation formula | Selects the firmware energy-calculation formula (0=legacy, 1=new). | R/W | — | — | — | — | — |
+| 1120 | Backup enable | Enable backup output mode (MIX/US storage models). | R/W | — | — | Applicable to MIX US models. | — | — |
+| 1121 | SGIP enable | Enable SGIP (Self-Generation Incentive Program) export control features (MIX US models). | R/W | — | — | Applicable to MIX US models. | — | — |
 
 ## Storage Holding Registers (1125–1249)
 Additional SPA/SPH storage configuration registers.
