@@ -2874,6 +2874,64 @@
         "value_type": "float",
         "function": null
       }
+    ],
+    "holding_tl_xh_us_tou": [
+      {
+        "name": "us_tou_month_groups",
+        "register": 3125,
+        "length": 4,
+        "scale": 1,
+        "read_write": true,
+        "value_type": "raw",
+        "function": null
+      },
+      {
+        "name": "us_tou_slot_table",
+        "register": 3129,
+        "length": 72,
+        "scale": 1,
+        "read_write": true,
+        "value_type": "raw",
+        "function": null
+      },
+      {
+        "name": "us_tou_special_day_1",
+        "register": 3201,
+        "length": 19,
+        "scale": 1,
+        "read_write": true,
+        "value_type": "raw",
+        "function": null
+      },
+      {
+        "name": "us_tou_special_day_2",
+        "register": 3220,
+        "length": 19,
+        "scale": 1,
+        "read_write": true,
+        "value_type": "raw",
+        "function": null
+      },
+      {
+        "name": "us_tou_reserved_block",
+        "register": 3239,
+        "length": 11,
+        "scale": 1,
+        "read_write": true,
+        "value_type": "raw",
+        "function": null
+      }
+    ],
+    "holding_tl_xh_bdc_metadata": [
+      {
+        "name": "bdc_slot_1_metadata",
+        "register": 5000,
+        "length": 40,
+        "scale": 1,
+        "read_write": true,
+        "value_type": "raw",
+        "function": null
+      }
     ]
   },
   "offgrid": {

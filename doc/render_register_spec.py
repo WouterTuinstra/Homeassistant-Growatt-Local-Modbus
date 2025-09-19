@@ -24,11 +24,34 @@ OUTPUT_PATH = DOC_DIR / "growatt_registers_spec.md"
 REPO_ROOT = DOC_DIR.parent
 
 sys.path.insert(0, str(REPO_ROOT))
-sys.path.insert(0, str((REPO_ROOT / "custom_components").resolve()))
 
-from growatt_local.sensor_types import inverter as inverter_sensors
-from growatt_local.sensor_types import storage as storage_sensors
-from growatt_local.sensor_types import offgrid as offgrid_sensors
+from importlib.machinery import SourceFileLoader
+from importlib.util import module_from_spec, spec_from_loader
+import types
+import sys
+
+
+def load_sensor_module(name: str):
+    sensor_dir = REPO_ROOT / "custom_components" / "growatt_local" / "sensor_types"
+    module_path = sensor_dir / f"{name}.py"
+    if "growatt_local" not in sys.modules:
+        pkg = types.ModuleType("growatt_local")
+        pkg.__path__ = [str((REPO_ROOT / "custom_components" / "growatt_local").resolve())]
+        sys.modules["growatt_local"] = pkg
+    if "growatt_local.sensor_types" not in sys.modules:
+        subpkg = types.ModuleType("growatt_local.sensor_types")
+        subpkg.__path__ = [str(sensor_dir.resolve())]
+        sys.modules["growatt_local.sensor_types"] = subpkg
+    loader = SourceFileLoader(f"growatt_local.sensor_types.{name}", str(module_path))
+    spec = spec_from_loader(loader.name, loader)
+    module = module_from_spec(spec)
+    loader.exec_module(module)
+    return module
+
+
+inverter_sensors = load_sensor_module("inverter")
+storage_sensors = load_sensor_module("storage")
+offgrid_sensors = load_sensor_module("offgrid")
 
 REG_RANGE = re.compile(r"^(\d+)[–-](\d+)$")
 REG_SINGLE = re.compile(r"^(\d+)")
@@ -72,6 +95,14 @@ CATEGORY_DEFINITIONS: tuple[Category, ...] = (
         ranges=((3125, 3249),),
         code_groups=(("tlx", "holding_common"),),
         applies_to=("TL-XH US",),
+    ),
+    Category(
+        title="TL-XH BDC Metadata Mirrors (5000–5039)",
+        description="Per-BDC mirror blocks replicating the configuration range at 3085–3124 for each battery DC converter.",
+        table_type="holding",
+        ranges=((5000, 5039),),
+        code_groups=(("tlx", "holding_common"),),
+        applies_to=("TL-XH hybrids",),
     ),
     Category(
         title="TL3/MAX/MID/MAC Holding Registers (125–249)",
@@ -358,6 +389,15 @@ def render_markdown(spec: dict, mapping: dict) -> str:
             range_unit = range_unit if range_unit and range_unit != "— —" else "—"
             initial = clean_text(entry.get("initial"))
             notes = clean_text(entry.get("note"))
+            data_type = entry.get("data_type")
+            if data_type:
+                if isinstance(data_type, (list, tuple)):
+                    dt_text = ", ".join(str(item) for item in data_type if str(item).strip())
+                else:
+                    dt_text = str(data_type)
+                dt_text = clean_text(dt_text)
+                if dt_text and dt_text != "—":
+                    notes = f"{dt_text}; {notes}" if notes and notes != "—" else dt_text
             attrs, sensors = collect_attribute_info(category, entry, mapping, attribute_to_sensors)
             row = [
                 str(register),

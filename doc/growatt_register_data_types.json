@@ -520,6 +520,465 @@
       "scale": 100,
       "unit": "V",
       "read_write": true
+    },
+    "ascii_8": {
+      "kind": "ascii",
+      "registers": 4,
+      "characters": 8,
+      "read_write": false
+    },
+    "ascii_16": {
+      "kind": "ascii",
+      "registers": 8,
+      "characters": 16,
+      "read_write": true
+    },
+    "us_tou_month_range": {
+      "kind": "bitfield",
+      "registers": 1,
+      "bits": 16,
+      "flags": [
+        {
+          "bit": 8,
+          "name": "enabled",
+          "description": "Set to 1 to apply the associated schedule slots during the selected months."
+        }
+      ],
+      "fields": [
+        {
+          "name": "start_month",
+          "start_bit": 0,
+          "bit_length": 4,
+          "description": "First month (1 = January) when the slots become active."
+        },
+        {
+          "name": "end_month",
+          "start_bit": 4,
+          "bit_length": 4,
+          "description": "Final month (1 = January) keeping the slots active."
+        }
+      ],
+      "notes": "Bits 9–15 are reserved. Register 3125 controls slots 1–9, 3126 slots 10–18, 3127 slots 19–27, and 3128 slots 28–36."
+    },
+    "us_tou_schedule_start": {
+      "kind": "bitfield",
+      "registers": 1,
+      "bits": 16,
+      "flags": [
+        {
+          "bit": 15,
+          "name": "slot_enabled",
+          "description": "Write 1 to enable the time window; 0 disables it."
+        }
+      ],
+      "fields": [
+        {
+          "name": "start_minute",
+          "start_bit": 0,
+          "bit_length": 7,
+          "description": "Minute (0–59) when the slot opens."
+        },
+        {
+          "name": "start_hour",
+          "start_bit": 7,
+          "bit_length": 5,
+          "description": "Hour (0–23) when the slot opens."
+        },
+        {
+          "name": "priority_mode",
+          "start_bit": 12,
+          "bit_length": 3,
+          "description": "0 = load-first, 1 = battery-first, 2 = grid-first, 3 = anti-reflux; other values reserved."
+        }
+      ],
+      "notes": "Applies to the first word of each US time-of-use window."
+    },
+    "us_tou_schedule_end": {
+      "kind": "bitfield",
+      "registers": 1,
+      "bits": 16,
+      "fields": [
+        {
+          "name": "end_minute",
+          "start_bit": 0,
+          "bit_length": 7,
+          "description": "Minute (0–59) when the slot closes."
+        },
+        {
+          "name": "end_hour",
+          "start_bit": 7,
+          "bit_length": 5,
+          "description": "Hour (0–23) when the slot closes."
+        },
+        {
+          "name": "day_group",
+          "start_bit": 12,
+          "bit_length": 2,
+          "description": "0 = weekday, 1 = weekend, 2 = entire week; other values reserved."
+        }
+      ],
+      "notes": "Bits 14–15 are reserved."
+    },
+    "us_special_day_end": {
+      "kind": "bitfield",
+      "registers": 1,
+      "bits": 16,
+      "fields": [
+        {
+          "name": "end_minute",
+          "start_bit": 0,
+          "bit_length": 7,
+          "description": "Minute (0–59) when the override slot closes."
+        },
+        {
+          "name": "end_hour",
+          "start_bit": 7,
+          "bit_length": 5,
+          "description": "Hour (0–23) when the override slot closes."
+        }
+      ],
+      "notes": "Bits 12–15 are reserved."
+    },
+    "us_special_day_date": {
+      "kind": "bitfield",
+      "registers": 1,
+      "bits": 16,
+      "flags": [
+        {
+          "bit": 15,
+          "name": "enabled",
+          "description": "Set to 1 to activate the special-day override."
+        }
+      ],
+      "fields": [
+        {
+          "name": "day",
+          "start_bit": 0,
+          "bit_length": 8,
+          "description": "Day-of-month (1–31)."
+        },
+        {
+          "name": "month",
+          "start_bit": 8,
+          "bit_length": 7,
+          "description": "Month (1–12)."
+        }
+      ],
+      "notes": "Bit 15 enables the override. Remaining bits are reserved."
+    },
+    "us_tou_schedule_slot": {
+      "kind": "struct",
+      "registers": 2,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "us_tou_schedule_start",
+          "name": "start"
+        },
+        {
+          "offset": 1,
+          "type": "us_tou_schedule_end",
+          "name": "end"
+        }
+      ],
+      "notes": "Two-register window specifying the start/stop times, priority mode, and day grouping."
+    },
+    "us_special_day_slot": {
+      "kind": "struct",
+      "registers": 2,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "us_tou_schedule_start",
+          "name": "start"
+        },
+        {
+          "offset": 1,
+          "type": "us_special_day_end",
+          "name": "end"
+        }
+      ],
+      "notes": "Special-day override slot; uses the same start encoding but an end word without weekday/weekend flags."
+    },
+    "bdc_metadata_block": {
+      "kind": "struct",
+      "registers": 40,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "raw_u16",
+          "name": "modbus_address",
+          "description": "BDC Modbus RTU slave address (1–254)."
+        },
+        {
+          "offset": 1,
+          "type": "baud_rate_selection",
+          "name": "baud_rate",
+          "description": "RS-485 baud rate selection."
+        },
+        {
+          "offset": 2,
+          "type": "ascii_16",
+          "name": "serial_number",
+          "description": "Battery rack serial number reported by the BMS."
+        },
+        {
+          "offset": 10,
+          "type": "bdc_reset_command",
+          "name": "reset_command"
+        },
+        {
+          "offset": 11,
+          "type": "ascii_4",
+          "name": "monitoring_code",
+          "description": "BDC monitoring firmware identifier."
+        },
+        {
+          "offset": 13,
+          "type": "raw_u16",
+          "name": "dtc_code",
+          "description": "Latest BDC diagnostic trouble code."
+        },
+        {
+          "offset": 14,
+          "type": "ascii_4",
+          "name": "firmware_code",
+          "description": "DSP firmware build identifier."
+        },
+        {
+          "offset": 16,
+          "type": "ascii_2",
+          "name": "dsp_version",
+          "description": "DSP firmware version."
+        },
+        {
+          "offset": 17,
+          "type": "raw_u16",
+          "name": "bus_voltage_reference",
+          "description": "Minimum DC bus voltage used for BDC control."
+        },
+        {
+          "offset": 18,
+          "type": "ascii_8",
+          "name": "bdc_monitor_version",
+          "description": "BDC monitoring software version string."
+        },
+        {
+          "offset": 22,
+          "type": "bms_comm_interface_type",
+          "name": "bms_comm_type"
+        },
+        {
+          "offset": 23,
+          "type": "ascii_2",
+          "name": "module_token_4",
+          "description": "BDC module identifier (suffix SxxBxx)."
+        },
+        {
+          "offset": 24,
+          "type": "ascii_2",
+          "name": "module_token_3",
+          "description": "BDC module identifier (suffix DxxTxx)."
+        },
+        {
+          "offset": 25,
+          "type": "ascii_2",
+          "name": "module_token_2",
+          "description": "BDC module identifier (suffix PxxUxx)."
+        },
+        {
+          "offset": 26,
+          "type": "ascii_2",
+          "name": "module_token_1",
+          "description": "BDC module identifier (prefix Mxxxx)."
+        },
+        {
+          "offset": 28,
+          "type": "bdc_protocol_version_word",
+          "name": "protocol_version"
+        },
+        {
+          "offset": 29,
+          "type": "raw_u16",
+          "name": "certification_version"
+        }
+      ],
+      "notes": "Matches the 40-register block at 3085–3124. Registers 27 and 30–39 remain reserved."
+    },
+    "us_tou_month_range_block": {
+      "kind": "struct",
+      "registers": 4,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "us_tou_month_range",
+          "name": "slots_1_9"
+        },
+        {
+          "offset": 1,
+          "type": "us_tou_month_range",
+          "name": "slots_10_18"
+        },
+        {
+          "offset": 2,
+          "type": "us_tou_month_range",
+          "name": "slots_19_27"
+        },
+        {
+          "offset": 3,
+          "type": "us_tou_month_range",
+          "name": "slots_28_36"
+        }
+      ],
+      "notes": "Groups of nine US time-of-use slots enabled by month bitfields."
+    },
+    "us_tou_schedule_group": {
+      "kind": "struct",
+      "registers": 18,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_1"
+        },
+        {
+          "offset": 2,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_2"
+        },
+        {
+          "offset": 4,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_3"
+        },
+        {
+          "offset": 6,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_4"
+        },
+        {
+          "offset": 8,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_5"
+        },
+        {
+          "offset": 10,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_6"
+        },
+        {
+          "offset": 12,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_7"
+        },
+        {
+          "offset": 14,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_8"
+        },
+        {
+          "offset": 16,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_9"
+        }
+      ],
+      "notes": "Nine consecutive US time-of-use slots; each slot spans two registers."
+    },
+    "us_tou_schedule_table": {
+      "kind": "struct",
+      "registers": 72,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "us_tou_schedule_group",
+          "name": "slots_1_9"
+        },
+        {
+          "offset": 18,
+          "type": "us_tou_schedule_group",
+          "name": "slots_10_18"
+        },
+        {
+          "offset": 36,
+          "type": "us_tou_schedule_group",
+          "name": "slots_19_27"
+        },
+        {
+          "offset": 54,
+          "type": "us_tou_schedule_group",
+          "name": "slots_28_36"
+        }
+      ],
+      "notes": "Complete table of 36 US time-of-use slots (start/end, mode, and day grouping)."
+    },
+    "us_special_day_schedule": {
+      "kind": "struct",
+      "registers": 18,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "us_special_day_slot",
+          "name": "slot_1"
+        },
+        {
+          "offset": 2,
+          "type": "us_special_day_slot",
+          "name": "slot_2"
+        },
+        {
+          "offset": 4,
+          "type": "us_special_day_slot",
+          "name": "slot_3"
+        },
+        {
+          "offset": 6,
+          "type": "us_special_day_slot",
+          "name": "slot_4"
+        },
+        {
+          "offset": 8,
+          "type": "us_special_day_slot",
+          "name": "slot_5"
+        },
+        {
+          "offset": 10,
+          "type": "us_special_day_slot",
+          "name": "slot_6"
+        },
+        {
+          "offset": 12,
+          "type": "us_special_day_slot",
+          "name": "slot_7"
+        },
+        {
+          "offset": 14,
+          "type": "us_special_day_slot",
+          "name": "slot_8"
+        },
+        {
+          "offset": 16,
+          "type": "us_special_day_slot",
+          "name": "slot_9"
+        }
+      ],
+      "notes": "Override slots that apply on the configured special day (same encoding as normal slots)."
+    },
+    "us_special_day_definition": {
+      "kind": "struct",
+      "registers": 19,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "us_special_day_date",
+          "name": "date"
+        },
+        {
+          "offset": 1,
+          "type": "us_special_day_schedule",
+          "name": "schedule"
+        }
+      ],
+      "notes": "Date enable register followed by up to nine override slots for the selected day."
     }
   },
   "register_types": [
@@ -1278,6 +1737,56 @@
       "families": [
         "storage"
       ]
+    },
+    {
+      "table": "holding",
+      "register": 3125,
+      "register_end": 3128,
+      "type": "us_tou_month_range_block",
+      "families": [
+        "tlx"
+      ],
+      "description": "US time-of-use month enable ranges (slots 1–36 in groups of nine)."
+    },
+    {
+      "table": "holding",
+      "register": 3129,
+      "register_end": 3200,
+      "type": "us_tou_schedule_table",
+      "families": [
+        "tlx"
+      ],
+      "description": "US time-of-use schedule table containing 36 start/stop windows."
+    },
+    {
+      "table": "holding",
+      "register": 3201,
+      "register_end": 3219,
+      "type": "us_special_day_definition",
+      "families": [
+        "tlx"
+      ],
+      "description": "Special day 1 override date and slot definitions."
+    },
+    {
+      "table": "holding",
+      "register": 3220,
+      "register_end": 3238,
+      "type": "us_special_day_definition",
+      "families": [
+        "tlx"
+      ],
+      "description": "Special day 2 override date and slot definitions."
+    },
+    {
+      "table": "holding",
+      "register": 5000,
+      "register_end": 5039,
+      "type": "bdc_metadata_block",
+      "families": [
+        "tlx"
+      ],
+      "description": "BDC slot 1 metadata mirror (repeat every 40 registers for additional slots)."
     },
     {
       "table": "input",

@@ -11,7 +11,8 @@ This file is generated from `growatt_registers_spec.json` (parsed from the offic
 | --- | --- | --- | --- |
 | Common Holding Registers (0–124) | 100 | 8 | 92 |
 | TL-X/TL-XH Holding Registers (3000–3124) | 78 | 0 | 78 |
-| TL-XH US Holding Registers (3125–3249) | 64 | 0 | 64 |
+| TL-XH US Holding Registers (3125–3249) | 5 | 0 | 5 |
+| TL-XH BDC Metadata Mirrors (5000–5039) | 1 | 0 | 1 |
 | TL3/MAX/MID/MAC Holding Registers (125–249) | 80 | 0 | 80 |
 | Storage Holding Registers (1000–1124) | 35 | 0 | 35 |
 | Storage Holding Registers (1125–1249) | 15 | 0 | 15 |
@@ -226,70 +227,20 @@ US-specific time schedule and dry-contact configuration registers.
 
 | Register | Name | Description | Access | Range/Unit | Initial | Notes | Attributes | Sensors |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 3125 | Time Month 1 Use,Ad | with Time 1-9(us) d month time | R | — | — | bit 0~3:month_L; bit 4~7: month_H bit 8, 0:disable 1:enable Bit 9~15:reserve | — | — |
-| 3126 | Time Month 2 Use,Ad | with Time 10-18(us) R/W d month time | — | — | — | With Time Month 1 | — | — |
-| 3127 | Time Month 3 Use,Ad | with Time 19-27(us) R/W d month time | — | — | — | With Time Month 1 | — | — |
-| 3128 | Time Month 4 Use,Ad | with Time 28-36(us) R/W d month time | — | — | — | With Time Month 1 | — | — |
-| 3129 | Time 1(us) | time 1:[starttime~endtime | ] cu [d e | — | :batfi:gridf: anti it 15,:disab:enabl | bit 0~6:min; bit 7~11:hour; bit 12~14, 0:loadfirst; rst; irst; -reflux le; e; | — | — |
-| 3130 | — | R/W | — | — | it 0~6: it 7~11 it 12-1:Weekd:Weeke:Wee K it 14~1 | min;:hour; 3, ay nd 5:reserve | — | — |
-| 3131 | Time 2(us) Same as | above R/W | — | — | ame as | Time 1 | — | — |
-| 3133 | Time 3(us) Same as | above R/W | — | — | ame as | Time 1 | — | — |
-| 3135 | Time 4(us) Same as | above R/W | — | — | ame as | Time 1 | — | — |
-| 3137 | Time 5(us) Same as | above R/W | — | — | ame as | Time 1 | — | — |
-| 3139 | Time 6(us) Same as | above R/W | — | — | ame as | Time 1 | — | — |
-| 3141 | Time 7(us) Same as | above R/W | — | — | ame as | Time 1 | — | — |
-| 3143 | Time 8(us) Same as | above R/W | — | — | ame as | Time 1 | — | — |
-| 3145 | Time 9(us) Same as | above R/W | — | — | ame as | Time 1 | — | — |
-| 3147 | Time 10(us)Same as | above R/W | — | — | ame as | Time 1 | — | — |
-| 3149 | Time 11(us)Same as | above R/W | — | — | ame as | Time 1 | — | — |
-| 3151 | Time 12(us)Same as | above R/W | — | — | ame as | Time 1 | — | — |
-| 3153 | Time 13(us)Same as | above R/W | — | — | ame as | Time 1 | — | — |
-| 3155 | Time 14(us)Same as | above R/W | — | — | ame as | Time 1 | — | — |
-| 3157 | Time 15(us) Same as | above R/W | — | — | ame as | Time 1 | — | — |
-| 3159 | Time 16(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3161 | Time 17(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3163 | Time 18(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3165 | Time 19(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3167 | Time 20(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3169 | Time 21(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3171 | Time 22(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3173 | Time 23(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3175 | Time 24(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3177 | Time 25(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3179 | Time 26(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3181 | Time 27(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3183 | Time 28(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3185 | Time 29(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3187 | Time 30(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3189 | Time 31(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3191 | Time 32(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3193 | Time 33(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3195 | Time 34(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3197 | Time 35(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3199 | Time 36(us)Same as | above R/W | — | — | s Time | 1 | — | — |
-| 3201 | Special Day 1 | Special Day 1(month,Day)R/ | W | — | :day; 4:mont ble 1: | h | — | — |
-| 3202 | Special Day 1_ Time 1 | Start time R/W | — | — | :min; 1:hour 14, first; irst; first; i-refl able; ble; | ; ux | — | — |
-| 3203 | — | endtime R/W | — | — | :min; 1:hour 15:res | ; erve | — | — |
-| 3204 | Special Day 1_ Same | as above R/W | — | — | s | — | — | — |
-| 3206 | Special Day 1_ Same | as above R/W | — | — | s | — | — | — |
-| 3208 | Special Day 1_ Same | as above R/W | — | — | s | — | — | — |
-| 3210 | Special Day 1_ Same | as above R/W | — | — | s | — | — | — |
-| 3212 | Special Day 1_ Same | as above R/W | — | — | s | — | — | — |
-| 3214 | Special Day 1_ Same | as above R/W | — | — | s | — | — | — |
-| 3216 | Special Day 1_ Same | as above R/W | — | — | s | — | — | — |
-| 3218 | Special Day 1_ Same | as above R/W | — | — | s | — | — | — |
-| 3220 | Special Day 2 | Special Day 2(month,Day)R/ | W | — | :day; 4:mont ble le | h | — | — |
-| 3221 | Special Day 2_ Time 1 | Start time R/W | — | — | : min; 1: hou 14, dfirst first; dfirst i-refl able; ble; | r;;; ux | — | — |
-| 3222 | — | endtime R/W | — | — | : min; 1: hou 15:res | r; erve | — | — |
-| 3223 | Special Day 2_ Same | as above R/W | — | — | s | — | — | — |
-| 3225 | Special Day 2_ Same | as above R/W | — | — | s | — | — | — |
-| 3227 | Special Day 2_ Same | as above R/W | — | — | s | — | — | — |
-| 3229 | Special Day 2_ Same | as above R/W | — | — | s | — | — | — |
-| 3231 | Special Day 2_ Same | as above R/W | — | — | s | — | — | — |
-| 3233 | Special Day 2_ Same | as above R/W | — | — | s | — | — | — |
-| 3235 | Special Day 2_ Same | as above R/W | — | — | s | — | — | — |
-| 3237 | Special Day 2_ Same | as above R/W | — | — | s | — | — | — |
-| 3239 | Reserve | Reserve | — | — | — | — | — | — |
+| 3125 | Us Tou Month Groups | Four registers enabling groups of nine US time-of-use slots by month range and enable flag. | R/W | — | — | us_tou_month_range_block; Stored as `us_tou_month_range_block`; each word selects the start/end month and enable bit for nine slots. | — | — |
+| 3129 | Us Tou Slot Table | Complete table of 36 US time-of-use slots defining start/stop times, priority mode, and day grouping. | R/W | — | — | us_tou_schedule_table; Stored as `us_tou_schedule_table`; each slot uses two registers (start word with enable/mode, end word with stop time and day selection). | — | — |
+| 3201 | Us Tou Special Day 1 | Override date and up to nine slots applied on the first special day. | R/W | — | — | us_special_day_definition; Stored as `us_special_day_definition`; the first register enables the override and sets month/day, followed by nine optional slots. | — | — |
+| 3220 | Us Tou Special Day 2 | Override date and up to nine slots applied on the second special day. | R/W | — | — | us_special_day_definition; Stored as `us_special_day_definition`; mirrors the special day 1 layout for the second override. | — | — |
+| 3239 | Us Tou Reserved Block | Reserved registers within the US time-of-use scheduler range. | R/W | — | — | Vendor documentation marks these addresses as reserved; observed values remain zero on known firmware. | — | — |
+
+## TL-XH BDC Metadata Mirrors (5000–5039)
+Per-BDC mirror blocks replicating the configuration range at 3085–3124 for each battery DC converter.
+
+**Applies to:** TL-XH hybrids
+
+| Register | Name | Description | Access | Range/Unit | Initial | Notes | Attributes | Sensors |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 5000 | Bdc Slot 1 Metadata | Mirror of registers 3085–3124 for the first battery DC converter (BDC). | R/W | — | — | bdc_metadata_block; Repeat for additional BDCs at 40-register strides (5040–5079, 5080–5119, …). Stored as `bdc_metadata_block`. | — | — |
 
 ## TL3/MAX/MID/MAC Holding Registers (125–249)
 Three-phase inverter specific holding registers.

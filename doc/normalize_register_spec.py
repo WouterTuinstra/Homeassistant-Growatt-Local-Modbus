@@ -25,11 +25,34 @@ OUTPUT_PATH = SPEC_PATH
 REPO_ROOT = DOC_DIR.parent
 
 sys.path.insert(0, str(REPO_ROOT))
-sys.path.insert(0, str((REPO_ROOT / "custom_components").resolve()))
 
-from growatt_local.sensor_types import inverter as inverter_sensors  # type: ignore
-from growatt_local.sensor_types import storage as storage_sensors  # type: ignore
-from growatt_local.sensor_types import offgrid as offgrid_sensors  # type: ignore
+from importlib.machinery import SourceFileLoader
+from importlib.util import module_from_spec, spec_from_loader
+import types
+import sys
+
+
+def load_sensor_module(name: str):
+    sensor_dir = REPO_ROOT / "custom_components" / "growatt_local" / "sensor_types"
+    module_path = sensor_dir / f"{name}.py"
+    if "growatt_local" not in sys.modules:
+        pkg = types.ModuleType("growatt_local")
+        pkg.__path__ = [str((REPO_ROOT / "custom_components" / "growatt_local").resolve())]
+        sys.modules["growatt_local"] = pkg
+    if "growatt_local.sensor_types" not in sys.modules:
+        subpkg = types.ModuleType("growatt_local.sensor_types")
+        subpkg.__path__ = [str(sensor_dir.resolve())]
+        sys.modules["growatt_local.sensor_types"] = subpkg
+    loader = SourceFileLoader(f"growatt_local.sensor_types.{name}", str(module_path))
+    spec = spec_from_loader(loader.name, loader)
+    module = module_from_spec(spec)
+    loader.exec_module(module)
+    return module
+
+
+inverter_sensors = load_sensor_module("inverter")
+storage_sensors = load_sensor_module("storage")
+offgrid_sensors = load_sensor_module("offgrid")
 
 REG_RANGE = re.compile(r"^(\d+)[–-](\d+)$")
 REG_SINGLE = re.compile(r"^(\d+)$")
@@ -137,6 +160,16 @@ def enrich_entries(
         unit = clean_text(entry.get("unit"))
         initial = clean_text(entry.get("initial"))
         note = clean_text(entry.get("note"))
+        data_type_field = entry.get("data_type")
+        data_type: str | None
+        if isinstance(data_type_field, str):
+            data_type = data_type_field.strip() or None
+        elif isinstance(data_type_field, list):
+            # Preserve simple list-valued annotations as comma-separated names.
+            joined = ", ".join(str(item).strip() for item in data_type_field if str(item).strip())
+            data_type = joined or None
+        else:
+            data_type = None
 
         attrs = sorted(reg_to_attrs.get((table_type, register or 0), set()))
         sensors: set[str] = set()
@@ -165,6 +198,9 @@ def enrich_entries(
             "initial": initial,
             "note": note,
         }
+
+        if data_type:
+            cleaned_entry["data_type"] = data_type
 
         if spec_name and spec_name != display_name:
             cleaned_entry["spec_name"] = spec_name
