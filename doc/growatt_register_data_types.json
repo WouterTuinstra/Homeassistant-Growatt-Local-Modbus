@@ -1,476 +1,78 @@
 {
-  "meta": {
-    "generated": "2025-09-18T19:47:56+00:00",
-    "generator": "generate_register_spec.py",
-    "families": {
-      "tlx": "TL-X/TL-XH single-phase",
-      "tl3": "TL3/MAX/MID/MAC three-phase",
-      "storage": "Storage MIX/SPA/SPH",
-      "offgrid": "Off-grid SPF"
-    }
-  },
   "types": {
-    "ascii_8": {
-      "kind": "ascii",
-      "registers": 8,
-      "strip_nulls": true
-    },
-    "baud_rate_select": {
-      "kind": "enum",
+    "u16_scale10": {
       "registers": 1,
-      "choices": {
-        "0": {
-          "label": "9600 bit/s"
-        },
-        "1": {
-          "label": "38400 bit/s"
-        },
-        "2": {
-          "label": "115200 bit/s",
-          "note": "Not supported on legacy firmware"
-        }
-      }
+      "bits": 16,
+      "scale": 10,
+      "read_write": false
     },
-    "binary_flag": {
-      "kind": "enum",
+    "u16_scale100": {
       "registers": 1,
-      "choices": {
-        "0": {
-          "label": "Disabled"
-        },
-        "1": {
-          "label": "Enabled"
-        }
-      }
+      "bits": 16,
+      "scale": 100,
+      "read_write": false
     },
-    "device_type_code": {
-      "kind": "callable",
+    "u16_scale1000": {
       "registers": 1,
-      "callable": "custom_components.growatt_local.API.device_type.base:device_type"
+      "bits": 16,
+      "scale": 1000,
+      "read_write": false
     },
-    "firmware_blocks": {
-      "kind": "ascii_segments",
-      "registers": 6,
-      "segments": [
-        {
-          "name": "inverter",
-          "length": 3,
-          "description": "Main inverter firmware string."
-        },
-        {
-          "name": "control",
-          "length": 3,
-          "description": "Control/communication board firmware."
-        }
-      ],
-      "strip_nulls": true
-    },
-    "lcd_language": {
-      "kind": "enum",
+    "u16_scale10_rw": {
       "registers": 1,
-      "choices": {
-        "0": {
-          "label": "Italian"
-        },
-        "1": {
-          "label": "English"
-        },
-        "2": {
-          "label": "German"
-        },
-        "3": {
-          "label": "Spanish"
-        },
-        "4": {
-          "label": "French"
-        },
-        "5": {
-          "label": "Chinese"
-        },
-        "6": {
-          "label": "Polish"
-        },
-        "7": {
-          "label": "Portuguese"
-        },
-        "8": {
-          "label": "Hungarian"
-        }
-      }
+      "bits": 16,
+      "scale": 10,
+      "read_write": true
     },
-    "model_code": {
-      "kind": "callable_per_family",
+    "u240_scale10": {
+      "registers": 15,
+      "bits": 240,
+      "scale": 10,
+      "read_write": false
+    },
+    "u32_scale10": {
       "registers": 2,
-      "callable": {
-        "tlx": "custom_components.growatt_local.API.device_type.inverter_120:model",
-        "tl3": "custom_components.growatt_local.API.device_type.inverter_315:model",
-        "storage": "custom_components.growatt_local.API.device_type.storage_120:model"
-      }
+      "bits": 32,
+      "scale": 10,
+      "read_write": false
     },
-    "mppt_phase_tuple": {
-      "kind": "callable",
-      "registers": 1,
-      "callable": "custom_components.growatt_local.API.device_type.base:trackers_and_phases"
-    },
-    "s32_div10": {
-      "kind": "scaled",
+    "u32_scale7200": {
       "registers": 2,
-      "signed": true,
-      "divisor": 10
+      "bits": 32,
+      "scale": 7200,
+      "read_write": false
     },
-    "s32_div7200": {
-      "kind": "scaled",
-      "registers": 2,
-      "signed": true,
-      "divisor": 7200
-    },
-    "safety_function_flags": {
-      "kind": "bitfield",
-      "registers": 1,
-      "bits": [
-        {
-          "index": 0,
-          "name": "spi_interface",
-          "description": "Enable the SPI grid-protection interface."
-        },
-        {
-          "index": 1,
-          "name": "auto_test",
-          "description": "Allow automatic grid compliance self-test."
-        },
-        {
-          "index": 2,
-          "name": "lvfrt",
-          "description": "Low-voltage ride-through curve active."
-        },
-        {
-          "index": 3,
-          "name": "freq_derating",
-          "description": "Limit power based on grid frequency."
-        },
-        {
-          "index": 4,
-          "name": "soft_start",
-          "description": "Use gradual current ramp when enabling export."
-        },
-        {
-          "index": 5,
-          "name": "drms",
-          "description": "Demand Response Management System commands allowed."
-        },
-        {
-          "index": 6,
-          "name": "volt_var",
-          "description": "Enable P/V or Q/V grid support modes."
-        },
-        {
-          "index": 7,
-          "name": "hvfrt",
-          "description": "High-voltage ride-through curve active."
-        },
-        {
-          "index": 8,
-          "name": "rocof",
-          "description": "Trip based on rate-of-change-of-frequency protection."
-        },
-        {
-          "index": 9,
-          "name": "q_derate_recover",
-          "description": "Recover reactive power derating when cleared."
-        },
-        {
-          "index": 10,
-          "name": "split_phase",
-          "description": "Split-phase output configuration (North America)."
-        }
-      ],
-      "reserved_bits": [
-        [
-          11,
-          15
-        ]
-      ]
-    },
-    "serial_ascii_5": {
-      "kind": "ascii",
+    "u80_scale10": {
       "registers": 5,
-      "strip_nulls": true
+      "bits": 80,
+      "scale": 10,
+      "read_write": false
     },
-    "u16": {
-      "kind": "integer",
-      "registers": 1,
-      "signed": false
-    },
-    "u16_div10": {
-      "kind": "scaled",
-      "registers": 1,
-      "signed": false,
-      "divisor": 10
-    },
-    "u16_div100": {
-      "kind": "scaled",
-      "registers": 1,
-      "signed": false,
-      "divisor": 100
-    },
-    "u16_div1000": {
-      "kind": "scaled",
-      "registers": 1,
-      "signed": false,
-      "divisor": 1000
+    "u96_scale10": {
+      "registers": 6,
+      "bits": 96,
+      "scale": 10,
+      "read_write": false
     }
   },
-  "registers": [
+  "register_types": [
     {
-      "table": "holding",
-      "address": 0,
-      "end_address": 0,
-      "length": 1,
-      "type": "binary_flag",
+      "register": 0,
+      "type": "u16_scale10",
       "attributes": [
-        "inverter_enabled"
-      ],
-      "families": [
-        "storage",
-        "tl3",
-        "tlx"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 1,
-      "end_address": 1,
-      "length": 1,
-      "type": "safety_function_flags",
-      "attributes": [],
-      "families": [
-        "tlx",
-        "tl3",
-        "storage"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 9,
-      "end_address": 14,
-      "length": 6,
-      "type": "firmware_blocks",
-      "attributes": [
-        "firmware"
-      ],
-      "families": [
-        "storage",
-        "tl3",
-        "tlx"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 22,
-      "end_address": 22,
-      "length": 1,
-      "type": "baud_rate_select",
-      "attributes": [],
-      "families": [
-        "tlx",
-        "tl3",
-        "storage"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 23,
-      "end_address": 27,
-      "length": 5,
-      "type": "serial_ascii_5",
-      "attributes": [
-        "serial number"
-      ],
-      "families": [
-        "tl3",
-        "tlx"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 28,
-      "end_address": 29,
-      "length": 2,
-      "type": "model_code",
-      "attributes": [
-        "Inverter model"
-      ],
-      "families": [
-        "storage",
-        "tl3",
-        "tlx"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 30,
-      "end_address": 30,
-      "length": 1,
-      "type": "u16",
-      "attributes": [],
-      "families": [
-        "tlx",
-        "tl3",
-        "storage"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 31,
-      "end_address": 31,
-      "length": 1,
-      "type": "u16",
-      "attributes": [],
-      "families": [
-        "tlx",
-        "tl3",
-        "storage"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 32,
-      "end_address": 32,
-      "length": 1,
-      "type": "u16",
-      "attributes": [],
-      "families": [
-        "tlx",
-        "tl3",
-        "storage"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 33,
-      "end_address": 33,
-      "length": 1,
-      "type": "u16",
-      "attributes": [],
-      "families": [
-        "tlx",
-        "tl3",
-        "storage"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 34,
-      "end_address": 41,
-      "length": 8,
-      "type": "ascii_8",
-      "attributes": [],
-      "families": []
-    },
-    {
-      "table": "holding",
-      "address": 43,
-      "end_address": 43,
-      "length": 1,
-      "type": "device_type_code",
-      "attributes": [
-        "device type code"
-      ],
-      "families": [
-        "storage",
-        "tl3",
-        "tlx"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 44,
-      "end_address": 44,
-      "length": 1,
-      "type": "mppt_phase_tuple",
-      "attributes": [
-        "number of trackers and phases"
-      ],
-      "families": [
-        "storage",
-        "tl3",
-        "tlx"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 73,
-      "end_address": 73,
-      "length": 1,
-      "type": "u16_div100",
-      "attributes": [
-        "modbus version"
-      ],
-      "families": [
-        "tl3"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 88,
-      "end_address": 88,
-      "length": 1,
-      "type": "u16_div100",
-      "attributes": [
-        "modbus version"
-      ],
-      "families": [
-        "storage",
-        "tlx"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 3001,
-      "end_address": 3015,
-      "length": 15,
-      "type": "serial_ascii_5",
-      "attributes": [
-        "serial number"
-      ],
-      "families": [
-        "storage"
-      ]
-    },
-    {
-      "table": "holding",
-      "address": 3049,
-      "end_address": 3049,
-      "length": 1,
-      "type": "u16",
-      "attributes": [
-        "ac_charge_enabled"
-      ],
-      "families": [
-        "storage"
-      ]
-    },
-    {
-      "table": "input",
-      "address": 0,
-      "end_address": 0,
-      "length": 1,
-      "type": "u16",
-      "attributes": [
+        "inverter_enabled",
         "status_code"
       ],
       "families": [
         "offgrid",
+        "storage",
         "tl3",
         "tlx"
       ]
     },
     {
-      "table": "input",
-      "address": 1,
-      "end_address": 2,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 1,
+      "type": "u32_scale10",
       "attributes": [
         "input_1_voltage",
         "input_power"
@@ -482,11 +84,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 2,
-      "end_address": 2,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 2,
+      "type": "u16_scale10",
       "attributes": [
         "input_2_voltage"
       ],
@@ -495,11 +94,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3,
-      "end_address": 4,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3,
+      "type": "u16_scale10",
       "attributes": [
         "input_1_power",
         "input_1_voltage"
@@ -511,11 +107,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 4,
-      "end_address": 4,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 4,
+      "type": "u16_scale10",
       "attributes": [
         "input_1_amperage"
       ],
@@ -525,11 +118,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 5,
-      "end_address": 6,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 5,
+      "type": "u32_scale10",
       "attributes": [
         "input_1_power",
         "input_2_power"
@@ -541,11 +131,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 7,
-      "end_address": 7,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 7,
+      "type": "u16_scale10",
       "attributes": [
         "input_1_amperage",
         "input_2_voltage"
@@ -557,11 +144,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 8,
-      "end_address": 8,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 8,
+      "type": "u16_scale10",
       "attributes": [
         "input_2_amperage"
       ],
@@ -572,27 +156,23 @@
       ]
     },
     {
-      "table": "input",
-      "address": 9,
-      "end_address": 10,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 9,
+      "type": "u96_scale10",
       "attributes": [
+        "firmware",
         "input_2_power",
         "output_active_power"
       ],
       "families": [
         "offgrid",
+        "storage",
         "tl3",
         "tlx"
       ]
     },
     {
-      "table": "input",
-      "address": 11,
-      "end_address": 12,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 11,
+      "type": "u16_scale10",
       "attributes": [
         "input_3_voltage",
         "output_power"
@@ -603,11 +183,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 12,
-      "end_address": 12,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 12,
+      "type": "u16_scale10",
       "attributes": [
         "input_3_amperage"
       ],
@@ -616,11 +193,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 13,
-      "end_address": 14,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 13,
+      "type": "u32_scale10",
       "attributes": [
         "charge_power",
         "grid_frequency",
@@ -633,11 +207,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 14,
-      "end_address": 14,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 14,
+      "type": "u16_scale10",
       "attributes": [
         "output_1_voltage"
       ],
@@ -646,11 +217,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 15,
-      "end_address": 15,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 15,
+      "type": "u16_scale10",
       "attributes": [
         "input_4_voltage",
         "output_1_amperage"
@@ -661,11 +229,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 16,
-      "end_address": 17,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 16,
+      "type": "u16_scale10",
       "attributes": [
         "input_4_amperage",
         "output_1_power"
@@ -676,11 +241,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 17,
-      "end_address": 18,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 17,
+      "type": "u32_scale10",
       "attributes": [
         "battery_voltage",
         "input_4_power"
@@ -691,11 +253,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 18,
-      "end_address": 18,
-      "length": 1,
-      "type": null,
+      "register": 18,
+      "type": "u16_scale10",
       "attributes": [
         "output_2_voltage",
         "soc"
@@ -706,11 +265,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 19,
-      "end_address": 19,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 19,
+      "type": "u16_scale10",
       "attributes": [
         "bus_voltage",
         "input_5_voltage",
@@ -723,11 +279,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 20,
-      "end_address": 21,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 20,
+      "type": "u16_scale10",
       "attributes": [
         "grid_voltage",
         "input_5_amperage",
@@ -740,11 +293,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 21,
-      "end_address": 22,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 21,
+      "type": "u32_scale10",
       "attributes": [
         "grid_frequency",
         "input_5_power"
@@ -755,11 +305,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 22,
-      "end_address": 22,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 22,
+      "type": "u16_scale10",
       "attributes": [
         "output_1_voltage",
         "output_3_voltage"
@@ -770,15 +317,13 @@
       ]
     },
     {
-      "table": "input",
-      "address": 23,
-      "end_address": 23,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 23,
+      "type": "u80_scale10",
       "attributes": [
         "input_6_voltage",
         "output_3_amperage",
-        "output_frequency"
+        "output_frequency",
+        "serial number"
       ],
       "families": [
         "offgrid",
@@ -787,11 +332,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 24,
-      "end_address": 25,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 24,
+      "type": "u16_scale10",
       "attributes": [
         "input_6_amperage",
         "output_3_power",
@@ -804,11 +346,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 25,
-      "end_address": 26,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 25,
+      "type": "u32_scale10",
       "attributes": [
         "input_6_power",
         "inverter_temperature"
@@ -819,11 +358,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 26,
-      "end_address": 27,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 26,
+      "type": "u32_scale10",
       "attributes": [
         "dc_dc_temperature",
         "output_energy_today"
@@ -834,11 +370,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 27,
-      "end_address": 27,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 27,
+      "type": "u16_scale10",
       "attributes": [
         "input_7_voltage",
         "load_percent"
@@ -849,28 +382,24 @@
       ]
     },
     {
-      "table": "input",
-      "address": 28,
-      "end_address": 29,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 28,
+      "type": "u32_scale10",
       "attributes": [
+        "Inverter model",
         "battery_port_voltage",
         "input_7_amperage",
         "output_energy_total"
       ],
       "families": [
         "offgrid",
+        "storage",
         "tl3",
         "tlx"
       ]
     },
     {
-      "table": "input",
-      "address": 29,
-      "end_address": 30,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 29,
+      "type": "u32_scale10",
       "attributes": [
         "battery_bus_voltage",
         "input_7_power"
@@ -881,11 +410,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 30,
-      "end_address": 31,
-      "length": 2,
-      "type": "s32_div7200",
+      "register": 30,
+      "type": "u32_scale7200",
       "attributes": [
         "operation_hours"
       ],
@@ -895,11 +421,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 31,
-      "end_address": 31,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 31,
+      "type": "u16_scale10",
       "attributes": [
         "input_8_voltage"
       ],
@@ -908,11 +431,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 32,
-      "end_address": 32,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 32,
+      "type": "u16_scale10",
       "attributes": [
         "input_8_amperage",
         "inverter_temperature"
@@ -923,11 +443,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 33,
-      "end_address": 34,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 33,
+      "type": "u32_scale10",
       "attributes": [
         "input_8_power"
       ],
@@ -936,11 +453,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 34,
-      "end_address": 34,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 34,
+      "type": "u16_scale10",
       "attributes": [
         "output_1_amperage"
       ],
@@ -949,11 +463,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 35,
-      "end_address": 36,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 35,
+      "type": "u32_scale10",
       "attributes": [
         "output_power"
       ],
@@ -962,11 +473,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 37,
-      "end_address": 37,
-      "length": 1,
-      "type": "u16_div100",
+      "register": 37,
+      "type": "u16_scale100",
       "attributes": [
         "grid_frequency"
       ],
@@ -975,11 +483,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 38,
-      "end_address": 38,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 38,
+      "type": "u16_scale10",
       "attributes": [
         "output_1_voltage"
       ],
@@ -988,11 +493,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 39,
-      "end_address": 39,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 39,
+      "type": "u16_scale10",
       "attributes": [
         "output_1_amperage"
       ],
@@ -1001,11 +503,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 40,
-      "end_address": 41,
-      "length": 2,
-      "type": null,
+      "register": 40,
+      "type": "u32_scale10",
       "attributes": [
         "fault_code",
         "output_1_power"
@@ -1016,11 +515,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 41,
-      "end_address": 41,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 41,
+      "type": "u16_scale10",
       "attributes": [
         "ipm_temperature"
       ],
@@ -1029,11 +525,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 42,
-      "end_address": 42,
-      "length": 1,
-      "type": null,
+      "register": 42,
+      "type": "u16_scale10",
       "attributes": [
         "fault_code",
         "output_2_voltage",
@@ -1046,41 +539,37 @@
       ]
     },
     {
-      "table": "input",
-      "address": 43,
-      "end_address": 43,
-      "length": 1,
-      "type": null,
+      "register": 43,
+      "type": "u16_scale10",
       "attributes": [
+        "device type code",
         "n_bus_voltage",
         "output_2_amperage",
         "warning_code"
       ],
       "families": [
         "offgrid",
+        "storage",
         "tl3",
         "tlx"
       ]
     },
     {
-      "table": "input",
-      "address": 44,
-      "end_address": 45,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 44,
+      "type": "u16_scale10",
       "attributes": [
+        "number of trackers and phases",
         "output_2_power"
       ],
       "families": [
+        "storage",
+        "tl3",
         "tlx"
       ]
     },
     {
-      "table": "input",
-      "address": 46,
-      "end_address": 46,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 46,
+      "type": "u16_scale10",
       "attributes": [
         "output_3_voltage"
       ],
@@ -1089,11 +578,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 47,
-      "end_address": 47,
-      "length": 1,
-      "type": null,
+      "register": 47,
+      "type": "u16_scale10",
       "attributes": [
         "constant_power",
         "derating_mode",
@@ -1106,11 +592,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 48,
-      "end_address": 49,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 48,
+      "type": "u32_scale10",
       "attributes": [
         "input_1_energy_today",
         "output_3_power"
@@ -1122,11 +605,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 50,
-      "end_address": 51,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 50,
+      "type": "u32_scale10",
       "attributes": [
         "input_1_energy_total"
       ],
@@ -1136,11 +616,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 52,
-      "end_address": 53,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 52,
+      "type": "u32_scale10",
       "attributes": [
         "input_2_energy_today"
       ],
@@ -1150,11 +627,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 53,
-      "end_address": 54,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 53,
+      "type": "u32_scale10",
       "attributes": [
         "output_energy_today"
       ],
@@ -1163,11 +637,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 54,
-      "end_address": 55,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 54,
+      "type": "u32_scale10",
       "attributes": [
         "input_2_energy_total"
       ],
@@ -1177,11 +648,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 55,
-      "end_address": 56,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 55,
+      "type": "u32_scale10",
       "attributes": [
         "output_energy_total"
       ],
@@ -1190,11 +658,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 56,
-      "end_address": 57,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 56,
+      "type": "u32_scale10",
       "attributes": [
         "charge_energy_today",
         "input_energy_total"
@@ -1205,11 +670,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 57,
-      "end_address": 58,
-      "length": 2,
-      "type": "s32_div7200",
+      "register": 57,
+      "type": "u32_scale7200",
       "attributes": [
         "operation_hours"
       ],
@@ -1218,11 +680,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 58,
-      "end_address": 59,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 58,
+      "type": "u32_scale10",
       "attributes": [
         "charge_energy_total",
         "output_reactive_power"
@@ -1233,11 +692,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 59,
-      "end_address": 60,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 59,
+      "type": "u32_scale10",
       "attributes": [
         "input_1_energy_today"
       ],
@@ -1246,11 +702,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 60,
-      "end_address": 61,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 60,
+      "type": "u32_scale10",
       "attributes": [
         "discharge_energy_today",
         "output_reactive_energy_today"
@@ -1261,11 +714,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 61,
-      "end_address": 62,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 61,
+      "type": "u32_scale10",
       "attributes": [
         "input_1_energy_total"
       ],
@@ -1274,11 +724,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 62,
-      "end_address": 63,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 62,
+      "type": "u32_scale10",
       "attributes": [
         "discharge_energy_total",
         "output_reactive_energy_total"
@@ -1289,11 +736,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 63,
-      "end_address": 64,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 63,
+      "type": "u32_scale10",
       "attributes": [
         "input_2_energy_today"
       ],
@@ -1302,11 +746,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 64,
-      "end_address": 65,
-      "length": 2,
-      "type": null,
+      "register": 64,
+      "type": "u16_scale10",
       "attributes": [
         "ac_discharge_energy_today",
         "warning_code"
@@ -1317,11 +758,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 65,
-      "end_address": 66,
-      "length": 2,
-      "type": null,
+      "register": 65,
+      "type": "u32_scale10",
       "attributes": [
         "input_2_energy_total",
         "warning_value"
@@ -1332,11 +770,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 66,
-      "end_address": 67,
-      "length": 2,
-      "type": null,
+      "register": 66,
+      "type": "u16_scale10",
       "attributes": [
         "ac_discharge_energy_total",
         "real_output_power_percent"
@@ -1347,11 +782,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 67,
-      "end_address": 68,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 67,
+      "type": "u32_scale10",
       "attributes": [
         "input_3_energy_today"
       ],
@@ -1360,11 +792,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 68,
-      "end_address": 68,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 68,
+      "type": "u16_scale10",
       "attributes": [
         "ac_charge_amperage"
       ],
@@ -1373,11 +802,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 69,
-      "end_address": 70,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 69,
+      "type": "u32_scale10",
       "attributes": [
         "discharge_power",
         "input_3_energy_total"
@@ -1388,11 +814,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 71,
-      "end_address": 72,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 71,
+      "type": "u32_scale10",
       "attributes": [
         "input_4_energy_today"
       ],
@@ -1401,26 +824,22 @@
       ]
     },
     {
-      "table": "input",
-      "address": 73,
-      "end_address": 74,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 73,
+      "type": "u32_scale10",
       "attributes": [
         "battery_discharge_amperage",
-        "input_4_energy_total"
+        "input_4_energy_total",
+        "modbus version"
       ],
       "families": [
         "offgrid",
+        "tl3",
         "tlx"
       ]
     },
     {
-      "table": "input",
-      "address": 75,
-      "end_address": 76,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 75,
+      "type": "u32_scale10",
       "attributes": [
         "input_5_energy_today"
       ],
@@ -1429,11 +848,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 77,
-      "end_address": 78,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 77,
+      "type": "u32_scale10",
       "attributes": [
         "battery_power",
         "input_5_energy_total"
@@ -1444,11 +860,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 79,
-      "end_address": 80,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 79,
+      "type": "u32_scale10",
       "attributes": [
         "input_6_energy_today"
       ],
@@ -1457,11 +870,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 81,
-      "end_address": 82,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 81,
+      "type": "u32_scale10",
       "attributes": [
         "input_6_energy_total"
       ],
@@ -1470,11 +880,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 83,
-      "end_address": 84,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 83,
+      "type": "u32_scale10",
       "attributes": [
         "input_7_energy_today"
       ],
@@ -1483,11 +890,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 85,
-      "end_address": 86,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 85,
+      "type": "u32_scale10",
       "attributes": [
         "input_7_energy_total"
       ],
@@ -1496,11 +900,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 87,
-      "end_address": 88,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 87,
+      "type": "u32_scale10",
       "attributes": [
         "input_8_energy_today"
       ],
@@ -1509,11 +910,19 @@
       ]
     },
     {
-      "table": "input",
-      "address": 89,
-      "end_address": 90,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 88,
+      "type": "u16_scale100",
+      "attributes": [
+        "modbus version"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "register": 89,
+      "type": "u32_scale10",
       "attributes": [
         "input_8_energy_total"
       ],
@@ -1522,11 +931,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 91,
-      "end_address": 92,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 91,
+      "type": "u32_scale10",
       "attributes": [
         "input_energy_total"
       ],
@@ -1535,11 +941,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 93,
-      "end_address": 93,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 93,
+      "type": "u16_scale10",
       "attributes": [
         "inverter_temperature"
       ],
@@ -1548,11 +951,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 94,
-      "end_address": 94,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 94,
+      "type": "u16_scale10",
       "attributes": [
         "ipm_temperature"
       ],
@@ -1561,11 +961,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 95,
-      "end_address": 95,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 95,
+      "type": "u16_scale10",
       "attributes": [
         "boost_temperature"
       ],
@@ -1574,11 +971,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 98,
-      "end_address": 98,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 98,
+      "type": "u16_scale10",
       "attributes": [
         "p_bus_voltage"
       ],
@@ -1587,11 +981,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 99,
-      "end_address": 99,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 99,
+      "type": "u16_scale10",
       "attributes": [
         "n_bus_voltage"
       ],
@@ -1600,11 +991,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 101,
-      "end_address": 101,
-      "length": 1,
-      "type": "u16",
+      "register": 101,
+      "type": "u16_scale10",
       "attributes": [
         "real_output_power_percent"
       ],
@@ -1613,11 +1001,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 104,
-      "end_address": 104,
-      "length": 1,
-      "type": "u16",
+      "register": 104,
+      "type": "u16_scale10",
       "attributes": [
         "derating_mode"
       ],
@@ -1626,11 +1011,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 105,
-      "end_address": 105,
-      "length": 1,
-      "type": "u16",
+      "register": 105,
+      "type": "u16_scale10",
       "attributes": [
         "fault_code"
       ],
@@ -1639,11 +1021,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 110,
-      "end_address": 111,
-      "length": 2,
-      "type": "u16",
+      "register": 110,
+      "type": "u32_scale10",
       "attributes": [
         "warning_code"
       ],
@@ -1652,11 +1031,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 234,
-      "end_address": 235,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 234,
+      "type": "u32_scale10",
       "attributes": [
         "output_reactive_power"
       ],
@@ -1665,11 +1041,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 236,
-      "end_address": 237,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 236,
+      "type": "u32_scale10",
       "attributes": [
         "output_reactive_energy_total"
       ],
@@ -1678,11 +1051,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 1009,
-      "end_address": 1010,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 1009,
+      "type": "u32_scale10",
       "attributes": [
         "discharge_power"
       ],
@@ -1691,11 +1061,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 1011,
-      "end_address": 1012,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 1011,
+      "type": "u32_scale10",
       "attributes": [
         "charge_power"
       ],
@@ -1704,11 +1071,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 1014,
-      "end_address": 1014,
-      "length": 1,
-      "type": "u16",
+      "register": 1014,
+      "type": "u16_scale10",
       "attributes": [
         "soc"
       ],
@@ -1717,11 +1081,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 1021,
-      "end_address": 1022,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 1021,
+      "type": "u32_scale10",
       "attributes": [
         "pac_to_user_total"
       ],
@@ -1730,11 +1091,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 1029,
-      "end_address": 1030,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 1029,
+      "type": "u32_scale10",
       "attributes": [
         "pac_to_grid_total"
       ],
@@ -1743,11 +1101,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 1044,
-      "end_address": 1045,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 1044,
+      "type": "u32_scale10",
       "attributes": [
         "energy_to_user_today"
       ],
@@ -1756,11 +1111,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 1046,
-      "end_address": 1047,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 1046,
+      "type": "u32_scale10",
       "attributes": [
         "energy_to_user_total"
       ],
@@ -1769,11 +1121,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 1048,
-      "end_address": 1049,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 1048,
+      "type": "u32_scale10",
       "attributes": [
         "energy_to_grid_today"
       ],
@@ -1782,11 +1131,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 1050,
-      "end_address": 1051,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 1050,
+      "type": "u32_scale10",
       "attributes": [
         "energy_to_grid_total"
       ],
@@ -1795,11 +1141,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 1052,
-      "end_address": 1053,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 1052,
+      "type": "u32_scale10",
       "attributes": [
         "discharge_energy_today"
       ],
@@ -1808,11 +1151,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 1054,
-      "end_address": 1055,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 1054,
+      "type": "u32_scale10",
       "attributes": [
         "discharge_energy_total"
       ],
@@ -1821,11 +1161,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 1056,
-      "end_address": 1057,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 1056,
+      "type": "u32_scale10",
       "attributes": [
         "charge_energy_today"
       ],
@@ -1834,11 +1171,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 1058,
-      "end_address": 1059,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 1058,
+      "type": "u32_scale10",
       "attributes": [
         "charge_energy_total"
       ],
@@ -1847,11 +1181,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3000,
-      "end_address": 3000,
-      "length": 1,
-      "type": "u16",
+      "register": 3000,
+      "type": "u16_scale10",
       "attributes": [
         "status_code"
       ],
@@ -1860,24 +1191,20 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3001,
-      "end_address": 3002,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3001,
+      "type": "u32_scale10",
       "attributes": [
-        "input_power"
+        "input_power",
+        "serial number"
       ],
       "families": [
+        "storage",
         "tlx"
       ]
     },
     {
-      "table": "input",
-      "address": 3003,
-      "end_address": 3003,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3003,
+      "type": "u16_scale10",
       "attributes": [
         "input_1_voltage"
       ],
@@ -1886,11 +1213,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3004,
-      "end_address": 3004,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3004,
+      "type": "u16_scale10",
       "attributes": [
         "input_1_amperage"
       ],
@@ -1899,11 +1223,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3005,
-      "end_address": 3006,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3005,
+      "type": "u32_scale10",
       "attributes": [
         "input_1_power"
       ],
@@ -1912,11 +1233,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3007,
-      "end_address": 3007,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3007,
+      "type": "u16_scale10",
       "attributes": [
         "input_2_voltage"
       ],
@@ -1925,11 +1243,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3008,
-      "end_address": 3008,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3008,
+      "type": "u16_scale10",
       "attributes": [
         "input_2_amperage"
       ],
@@ -1938,11 +1253,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3009,
-      "end_address": 3010,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3009,
+      "type": "u32_scale10",
       "attributes": [
         "input_2_power"
       ],
@@ -1951,11 +1263,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3011,
-      "end_address": 3011,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3011,
+      "type": "u16_scale10",
       "attributes": [
         "input_3_voltage"
       ],
@@ -1964,11 +1273,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3012,
-      "end_address": 3012,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3012,
+      "type": "u16_scale10",
       "attributes": [
         "input_3_amperage"
       ],
@@ -1977,11 +1283,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3013,
-      "end_address": 3014,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3013,
+      "type": "u32_scale10",
       "attributes": [
         "input_3_power"
       ],
@@ -1990,11 +1293,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3015,
-      "end_address": 3015,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3015,
+      "type": "u16_scale10",
       "attributes": [
         "input_4_voltage"
       ],
@@ -2003,11 +1303,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3016,
-      "end_address": 3016,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3016,
+      "type": "u16_scale10",
       "attributes": [
         "input_4_amperage"
       ],
@@ -2016,11 +1313,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3017,
-      "end_address": 3018,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3017,
+      "type": "u32_scale10",
       "attributes": [
         "input_4_power"
       ],
@@ -2029,11 +1323,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3021,
-      "end_address": 3022,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3021,
+      "type": "u32_scale10",
       "attributes": [
         "output_reactive_power"
       ],
@@ -2042,11 +1333,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3023,
-      "end_address": 3024,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3023,
+      "type": "u32_scale10",
       "attributes": [
         "output_power"
       ],
@@ -2055,11 +1343,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3025,
-      "end_address": 3025,
-      "length": 1,
-      "type": "u16_div100",
+      "register": 3025,
+      "type": "u16_scale100",
       "attributes": [
         "grid_frequency"
       ],
@@ -2068,11 +1353,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3026,
-      "end_address": 3026,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3026,
+      "type": "u16_scale10",
       "attributes": [
         "output_1_voltage"
       ],
@@ -2081,11 +1363,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3027,
-      "end_address": 3027,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3027,
+      "type": "u16_scale10",
       "attributes": [
         "output_1_amperage"
       ],
@@ -2094,11 +1373,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3028,
-      "end_address": 3029,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3028,
+      "type": "u32_scale10",
       "attributes": [
         "output_1_power"
       ],
@@ -2107,11 +1383,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3030,
-      "end_address": 3030,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3030,
+      "type": "u16_scale10",
       "attributes": [
         "output_2_voltage"
       ],
@@ -2120,11 +1393,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3031,
-      "end_address": 3031,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3031,
+      "type": "u16_scale10",
       "attributes": [
         "output_2_amperage"
       ],
@@ -2133,11 +1403,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3032,
-      "end_address": 3033,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3032,
+      "type": "u32_scale10",
       "attributes": [
         "output_2_power"
       ],
@@ -2146,11 +1413,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3034,
-      "end_address": 3034,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3034,
+      "type": "u16_scale10",
       "attributes": [
         "output_3_voltage"
       ],
@@ -2159,11 +1423,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3035,
-      "end_address": 3035,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3035,
+      "type": "u16_scale10",
       "attributes": [
         "output_3_amperage"
       ],
@@ -2172,11 +1433,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3036,
-      "end_address": 3037,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3036,
+      "type": "u32_scale10",
       "attributes": [
         "output_3_power"
       ],
@@ -2185,11 +1443,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3041,
-      "end_address": 3042,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3041,
+      "type": "u32_scale10",
       "attributes": [
         "power_to_user"
       ],
@@ -2199,11 +1454,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3043,
-      "end_address": 3044,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3043,
+      "type": "u32_scale10",
       "attributes": [
         "power_to_grid"
       ],
@@ -2213,11 +1465,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3045,
-      "end_address": 3046,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3045,
+      "type": "u32_scale10",
       "attributes": [
         "power_user_load"
       ],
@@ -2227,11 +1476,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3047,
-      "end_address": 3048,
-      "length": 2,
-      "type": "s32_div7200",
+      "register": 3047,
+      "type": "u32_scale7200",
       "attributes": [
         "operation_hours"
       ],
@@ -2240,24 +1486,20 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3049,
-      "end_address": 3050,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3049,
+      "type": "u32_scale10",
       "attributes": [
+        "ac_charge_enabled",
         "output_energy_today"
       ],
       "families": [
+        "storage",
         "tlx"
       ]
     },
     {
-      "table": "input",
-      "address": 3051,
-      "end_address": 3052,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3051,
+      "type": "u32_scale10",
       "attributes": [
         "output_energy_total"
       ],
@@ -2266,11 +1508,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3053,
-      "end_address": 3054,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3053,
+      "type": "u32_scale10",
       "attributes": [
         "input_energy_total"
       ],
@@ -2279,11 +1518,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3055,
-      "end_address": 3056,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3055,
+      "type": "u32_scale10",
       "attributes": [
         "input_1_energy_today"
       ],
@@ -2292,11 +1528,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3057,
-      "end_address": 3058,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3057,
+      "type": "u32_scale10",
       "attributes": [
         "input_1_energy_total"
       ],
@@ -2305,11 +1538,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3059,
-      "end_address": 3060,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3059,
+      "type": "u32_scale10",
       "attributes": [
         "input_2_energy_today"
       ],
@@ -2318,11 +1548,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3061,
-      "end_address": 3062,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3061,
+      "type": "u32_scale10",
       "attributes": [
         "input_2_energy_total"
       ],
@@ -2331,11 +1558,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3063,
-      "end_address": 3064,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3063,
+      "type": "u32_scale10",
       "attributes": [
         "input_3_energy_today"
       ],
@@ -2344,11 +1568,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3065,
-      "end_address": 3066,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3065,
+      "type": "u32_scale10",
       "attributes": [
         "input_3_energy_total"
       ],
@@ -2357,11 +1578,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3067,
-      "end_address": 3068,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3067,
+      "type": "u32_scale10",
       "attributes": [
         "energy_to_user_today"
       ],
@@ -2371,11 +1589,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3069,
-      "end_address": 3070,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3069,
+      "type": "u32_scale10",
       "attributes": [
         "energy_to_user_total"
       ],
@@ -2385,11 +1600,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3071,
-      "end_address": 3072,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3071,
+      "type": "u32_scale10",
       "attributes": [
         "energy_to_grid_today"
       ],
@@ -2399,11 +1611,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3073,
-      "end_address": 3074,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3073,
+      "type": "u32_scale10",
       "attributes": [
         "energy_to_grid_total"
       ],
@@ -2413,11 +1622,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3086,
-      "end_address": 3086,
-      "length": 1,
-      "type": "u16",
+      "register": 3086,
+      "type": "u16_scale10",
       "attributes": [
         "derating_mode"
       ],
@@ -2426,11 +1632,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3093,
-      "end_address": 3093,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3093,
+      "type": "u16_scale10",
       "attributes": [
         "inverter_temperature"
       ],
@@ -2439,11 +1642,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3094,
-      "end_address": 3094,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3094,
+      "type": "u16_scale10",
       "attributes": [
         "ipm_temperature"
       ],
@@ -2452,11 +1652,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3095,
-      "end_address": 3095,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3095,
+      "type": "u16_scale10",
       "attributes": [
         "boost_temperature"
       ],
@@ -2465,11 +1662,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3097,
-      "end_address": 3097,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3097,
+      "type": "u16_scale10",
       "attributes": [
         "comm_board_temperature"
       ],
@@ -2479,11 +1673,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3098,
-      "end_address": 3098,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3098,
+      "type": "u16_scale10",
       "attributes": [
         "p_bus_voltage"
       ],
@@ -2492,11 +1683,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3099,
-      "end_address": 3099,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3099,
+      "type": "u16_scale10",
       "attributes": [
         "n_bus_voltage"
       ],
@@ -2505,11 +1693,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3101,
-      "end_address": 3101,
-      "length": 1,
-      "type": "u16",
+      "register": 3101,
+      "type": "u16_scale10",
       "attributes": [
         "real_output_power_percent"
       ],
@@ -2518,11 +1703,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3105,
-      "end_address": 3105,
-      "length": 1,
-      "type": "u16",
+      "register": 3105,
+      "type": "u16_scale10",
       "attributes": [
         "fault_code"
       ],
@@ -2531,11 +1713,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3110,
-      "end_address": 3111,
-      "length": 2,
-      "type": "u16",
+      "register": 3110,
+      "type": "u32_scale10",
       "attributes": [
         "warning_code"
       ],
@@ -2544,11 +1723,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3111,
-      "end_address": 3111,
-      "length": 1,
-      "type": "u16",
+      "register": 3111,
+      "type": "u16_scale10",
       "attributes": [
         "present_fft_a"
       ],
@@ -2558,11 +1734,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3115,
-      "end_address": 3115,
-      "length": 1,
-      "type": "u16",
+      "register": 3115,
+      "type": "u16_scale10",
       "attributes": [
         "inv_start_delay"
       ],
@@ -2572,11 +1745,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3125,
-      "end_address": 3126,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3125,
+      "type": "u32_scale10",
       "attributes": [
         "discharge_energy_today"
       ],
@@ -2586,11 +1756,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3127,
-      "end_address": 3128,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3127,
+      "type": "u32_scale10",
       "attributes": [
         "discharge_energy_total"
       ],
@@ -2600,11 +1767,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3129,
-      "end_address": 3130,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3129,
+      "type": "u32_scale10",
       "attributes": [
         "charge_energy_today"
       ],
@@ -2614,11 +1778,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3131,
-      "end_address": 3132,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3131,
+      "type": "u32_scale10",
       "attributes": [
         "charge_energy_total"
       ],
@@ -2628,11 +1789,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3164,
-      "end_address": 3164,
-      "length": 1,
-      "type": "u16",
+      "register": 3164,
+      "type": "u16_scale10",
       "attributes": [
         "bdc_new_flag"
       ],
@@ -2642,11 +1800,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3169,
-      "end_address": 3169,
-      "length": 1,
-      "type": "u16_div100",
+      "register": 3169,
+      "type": "u16_scale100",
       "attributes": [
         "battery_voltage"
       ],
@@ -2656,11 +1811,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3170,
-      "end_address": 3170,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3170,
+      "type": "u16_scale10",
       "attributes": [
         "battery_current"
       ],
@@ -2670,11 +1822,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3171,
-      "end_address": 3171,
-      "length": 1,
-      "type": "u16",
+      "register": 3171,
+      "type": "u16_scale10",
       "attributes": [
         "soc"
       ],
@@ -2684,11 +1833,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3172,
-      "end_address": 3172,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3172,
+      "type": "u16_scale10",
       "attributes": [
         "vbus1_voltage"
       ],
@@ -2698,11 +1844,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3173,
-      "end_address": 3173,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3173,
+      "type": "u16_scale10",
       "attributes": [
         "vbus2_voltage"
       ],
@@ -2712,11 +1855,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3174,
-      "end_address": 3174,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3174,
+      "type": "u16_scale10",
       "attributes": [
         "buck_boost_current"
       ],
@@ -2726,11 +1866,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3175,
-      "end_address": 3175,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3175,
+      "type": "u16_scale10",
       "attributes": [
         "llc_current"
       ],
@@ -2740,11 +1877,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3176,
-      "end_address": 3176,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3176,
+      "type": "u16_scale10",
       "attributes": [
         "battery_temperature_a"
       ],
@@ -2754,11 +1888,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3177,
-      "end_address": 3177,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3177,
+      "type": "u16_scale10",
       "attributes": [
         "battery_temperature_b"
       ],
@@ -2768,11 +1899,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3178,
-      "end_address": 3179,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3178,
+      "type": "u32_scale10",
       "attributes": [
         "discharge_power"
       ],
@@ -2782,11 +1910,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3180,
-      "end_address": 3181,
-      "length": 2,
-      "type": "s32_div10",
+      "register": 3180,
+      "type": "u32_scale10",
       "attributes": [
         "charge_power"
       ],
@@ -2796,11 +1921,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3189,
-      "end_address": 3189,
-      "length": 1,
-      "type": "u16",
+      "register": 3189,
+      "type": "u16_scale10",
       "attributes": [
         "bms_max_volt_cell_no"
       ],
@@ -2810,11 +1932,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3190,
-      "end_address": 3190,
-      "length": 1,
-      "type": "u16",
+      "register": 3190,
+      "type": "u16_scale10",
       "attributes": [
         "bms_min_volt_cell_no"
       ],
@@ -2824,11 +1943,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3191,
-      "end_address": 3191,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3191,
+      "type": "u16_scale10",
       "attributes": [
         "bms_avg_temp_a"
       ],
@@ -2838,11 +1954,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3192,
-      "end_address": 3192,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3192,
+      "type": "u16_scale10",
       "attributes": [
         "bms_max_cell_temp_a"
       ],
@@ -2852,11 +1965,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3193,
-      "end_address": 3193,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3193,
+      "type": "u16_scale10",
       "attributes": [
         "bms_avg_temp_b"
       ],
@@ -2866,11 +1976,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3194,
-      "end_address": 3194,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3194,
+      "type": "u16_scale10",
       "attributes": [
         "bms_max_cell_temp_b"
       ],
@@ -2880,11 +1987,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3195,
-      "end_address": 3195,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3195,
+      "type": "u16_scale10",
       "attributes": [
         "bms_avg_temp_c"
       ],
@@ -2894,11 +1998,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3196,
-      "end_address": 3196,
-      "length": 1,
-      "type": "u16",
+      "register": 3196,
+      "type": "u16_scale10",
       "attributes": [
         "bms_max_soc"
       ],
@@ -2908,11 +2009,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3197,
-      "end_address": 3197,
-      "length": 1,
-      "type": "u16",
+      "register": 3197,
+      "type": "u16_scale10",
       "attributes": [
         "bms_min_soc"
       ],
@@ -2922,11 +2020,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3198,
-      "end_address": 3198,
-      "length": 1,
-      "type": "u16",
+      "register": 3198,
+      "type": "u16_scale10",
       "attributes": [
         "parallel_battery_num"
       ],
@@ -2936,11 +2031,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3199,
-      "end_address": 3199,
-      "length": 1,
-      "type": "u16",
+      "register": 3199,
+      "type": "u16_scale10",
       "attributes": [
         "bms_derate_reason"
       ],
@@ -2950,11 +2042,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3200,
-      "end_address": 3200,
-      "length": 1,
-      "type": "u16",
+      "register": 3200,
+      "type": "u16_scale10",
       "attributes": [
         "bms_gauge_fcc_ah"
       ],
@@ -2964,11 +2053,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3201,
-      "end_address": 3201,
-      "length": 1,
-      "type": "u16",
+      "register": 3201,
+      "type": "u16_scale10",
       "attributes": [
         "bms_gauge_rm_ah"
       ],
@@ -2978,11 +2064,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3202,
-      "end_address": 3202,
-      "length": 1,
-      "type": "u16",
+      "register": 3202,
+      "type": "u16_scale10",
       "attributes": [
         "bms_protect1"
       ],
@@ -2992,11 +2075,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3203,
-      "end_address": 3203,
-      "length": 1,
-      "type": "u16",
+      "register": 3203,
+      "type": "u16_scale10",
       "attributes": [
         "bms_warn1"
       ],
@@ -3006,11 +2086,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3204,
-      "end_address": 3204,
-      "length": 1,
-      "type": "u16",
+      "register": 3204,
+      "type": "u16_scale10",
       "attributes": [
         "bms_fault1"
       ],
@@ -3020,11 +2097,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3205,
-      "end_address": 3205,
-      "length": 1,
-      "type": "u16",
+      "register": 3205,
+      "type": "u16_scale10",
       "attributes": [
         "bms_fault2"
       ],
@@ -3034,11 +2108,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3210,
-      "end_address": 3210,
-      "length": 1,
-      "type": "u16",
+      "register": 3210,
+      "type": "u16_scale10",
       "attributes": [
         "bat_iso_status"
       ],
@@ -3048,11 +2119,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3211,
-      "end_address": 3211,
-      "length": 1,
-      "type": "u16",
+      "register": 3211,
+      "type": "u16_scale10",
       "attributes": [
         "batt_request_flags"
       ],
@@ -3062,11 +2130,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3212,
-      "end_address": 3212,
-      "length": 1,
-      "type": "u16",
+      "register": 3212,
+      "type": "u16_scale10",
       "attributes": [
         "bms_status"
       ],
@@ -3076,11 +2141,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3213,
-      "end_address": 3213,
-      "length": 1,
-      "type": "u16",
+      "register": 3213,
+      "type": "u16_scale10",
       "attributes": [
         "bms_protect2"
       ],
@@ -3090,11 +2152,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3214,
-      "end_address": 3214,
-      "length": 1,
-      "type": "u16",
+      "register": 3214,
+      "type": "u16_scale10",
       "attributes": [
         "bms_warn2"
       ],
@@ -3104,11 +2163,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3215,
-      "end_address": 3215,
-      "length": 1,
-      "type": "u16",
+      "register": 3215,
+      "type": "u16_scale10",
       "attributes": [
         "bms_soc"
       ],
@@ -3118,11 +2174,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3216,
-      "end_address": 3216,
-      "length": 1,
-      "type": "u16_div100",
+      "register": 3216,
+      "type": "u16_scale100",
       "attributes": [
         "bms_battery_voltage"
       ],
@@ -3132,11 +2185,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3217,
-      "end_address": 3217,
-      "length": 1,
-      "type": "u16_div100",
+      "register": 3217,
+      "type": "u16_scale100",
       "attributes": [
         "bms_battery_current"
       ],
@@ -3146,11 +2196,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3218,
-      "end_address": 3218,
-      "length": 1,
-      "type": "u16_div10",
+      "register": 3218,
+      "type": "u16_scale10",
       "attributes": [
         "bms_cell_max_temp"
       ],
@@ -3160,11 +2207,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3219,
-      "end_address": 3219,
-      "length": 1,
-      "type": "u16_div100",
+      "register": 3219,
+      "type": "u16_scale100",
       "attributes": [
         "bms_max_charge_current"
       ],
@@ -3174,11 +2218,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3220,
-      "end_address": 3220,
-      "length": 1,
-      "type": "u16_div100",
+      "register": 3220,
+      "type": "u16_scale100",
       "attributes": [
         "bms_max_discharge_current"
       ],
@@ -3188,11 +2229,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3221,
-      "end_address": 3221,
-      "length": 1,
-      "type": "u16",
+      "register": 3221,
+      "type": "u16_scale10",
       "attributes": [
         "bms_cycle_count"
       ],
@@ -3202,11 +2240,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3222,
-      "end_address": 3222,
-      "length": 1,
-      "type": "u16",
+      "register": 3222,
+      "type": "u16_scale10",
       "attributes": [
         "bms_soh"
       ],
@@ -3216,11 +2251,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3223,
-      "end_address": 3223,
-      "length": 1,
-      "type": "u16_div100",
+      "register": 3223,
+      "type": "u16_scale100",
       "attributes": [
         "bms_charge_volt_limit"
       ],
@@ -3230,11 +2262,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3224,
-      "end_address": 3224,
-      "length": 1,
-      "type": "u16_div100",
+      "register": 3224,
+      "type": "u16_scale100",
       "attributes": [
         "bms_discharge_volt_limit"
       ],
@@ -3244,11 +2273,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3225,
-      "end_address": 3225,
-      "length": 1,
-      "type": "u16",
+      "register": 3225,
+      "type": "u16_scale10",
       "attributes": [
         "bms_warn3"
       ],
@@ -3258,11 +2284,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3226,
-      "end_address": 3226,
-      "length": 1,
-      "type": "u16",
+      "register": 3226,
+      "type": "u16_scale10",
       "attributes": [
         "bms_protect3"
       ],
@@ -3272,11 +2295,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3230,
-      "end_address": 3230,
-      "length": 1,
-      "type": "u16_div1000",
+      "register": 3230,
+      "type": "u16_scale1000",
       "attributes": [
         "bms_cell_volt_max"
       ],
@@ -3286,11 +2306,8 @@
       ]
     },
     {
-      "table": "input",
-      "address": 3231,
-      "end_address": 3231,
-      "length": 1,
-      "type": "u16_div1000",
+      "register": 3231,
+      "type": "u16_scale1000",
       "attributes": [
         "bms_cell_volt_min"
       ],
