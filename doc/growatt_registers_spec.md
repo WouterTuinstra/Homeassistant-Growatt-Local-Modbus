@@ -16,15 +16,15 @@ This file is generated from `growatt_registers_spec.json` (parsed from the offic
 | TL3/MAX/MID/MAC Holding Registers (125–249) | 80 | 0 | 80 |
 | Storage Holding Registers (1000–1124) | 35 | 0 | 35 |
 | Storage Holding Registers (1125–1249) | 15 | 0 | 15 |
-| Common Input Registers (0–124) | 100 | 80 | 20 |
-| TL-X/TL-XH Input Registers (3000–3124) | 0 | 0 | 0 |
-| TL-X/TL-XH Battery & Hybrid Input Registers (3125–3249) | 0 | 0 | 0 |
+| Common Input Registers (0–124) | 66 | 66 | 0 |
+| TL-X/TL-XH Input Registers (3000–3124) | 55 | 55 | 0 |
+| TL-X/TL-XH Battery & Hybrid Input Registers (3125–3249) | 52 | 52 | 0 |
 | TL-X/TL-XH Extended Input Registers (3250–3374) | 0 | 0 | 0 |
 | Storage Input Registers (1000–1124) | 0 | 0 | 0 |
 | Storage Input Registers (1125–1249) | 0 | 0 | 0 |
 | Storage Input Registers (2000–2124) | 0 | 0 | 0 |
-| Storage TL-XH Input Registers (3041–3231) | 0 | 0 | 0 |
-| Offgrid SPF Input Registers | 100 | 41 | 59 |
+| Storage TL-XH Input Registers (3041–3231) | 81 | 62 | 19 |
+| Offgrid SPF Input Registers | 175 | 25 | 150 |
 
 ## Common Holding Registers (0–124)
 Applies to TL-X/TL-XH, TL3/MAX/MID/MAC, and MIX/SPA/SPH storage families.
@@ -404,890 +404,284 @@ Applies to TL3/MAX and legacy inverters for basic PV/AC telemetry.
 
 | Register | Name | Description | Access | Range/Unit | Initial | Notes | Attributes | Sensors |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 0 | Status code | Inverter run state | — | — | — | — | tlx:status_code, tl3:status_code, offgrid:status_code | Status code |
-| 1 | Input 1 voltage | Input power (high) | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 2 | Input 2 voltage | Input power (low) | — | — | — | — | offgrid:input_2_voltage | Input 2 voltage, PV2 voltage |
-| 3 | Input 1 Wattage | PV 1 voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 4 | Input 1 Amperage | PV 1 input current | — | — | — | — | tlx:input_1_amperage, tl3:input_1_amperage | Input 1 Amperage, PV1 buck current |
-| 5 | Input 1 Wattage | PV 1 input power(high) | — | — | — | — | tlx:input_1_power, tl3:input_1_power, offgrid:input_2_power | Input 1 Wattage, Input 2 Wattage, PV1 charge power, PV2 charge power |
-| 6 | Ppv 1 L | PV 1 input power(low) | — | — | — | — | — | — |
-| 7 | Input 1 Amperage | PV 2 voltage | — | — | — | — | tlx:input_2_voltage, tl3:input_2_voltage, offgrid:input_1_amperage | Input 1 Amperage, Input 2 voltage, PV1 buck current, PV2 voltage |
-| 8 | Input 2 Amperage | PV 2 input current | — | — | — | — | tlx:input_2_amperage, tl3:input_2_amperage, offgrid:input_2_amperage | Input 2 Amperage, PV2 buck current |
-| 9 | Input 2 Wattage | PV 2 input power (high) | — | — | — | — | tlx:input_2_power, tl3:input_2_power, offgrid:output_active_power | Input 2 Wattage, Output active power, PV2 charge power |
-| 10 | . Ppv 2 L | PV 2 input power (low) | — | — | — | — | — | — |
-| 11 | Input 3 voltage | PV 3 voltage | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 12 | Input 3 Amperage | PV 3 input current | — | — | — | — | tlx:input_3_amperage | Input 3 Amperage |
-| 13 | AC frequency | PV 3 input power (high) | — | — | — | — | tlx:input_3_power, tl3:grid_frequency, offgrid:charge_power | AC frequency, Battery charge power, Charge Power, Grid frequency, Input 3 Wattage |
-| 14 | Output 1 voltage | PV 3 input power (low) | — | — | — | — | tl3:output_1_voltage | Output 1 voltage, Output voltage |
-| 15 | Input 4 voltage | PV 4 voltage | — | — | — | — | tlx:input_4_voltage, tl3:output_1_amperage | Input 4 voltage, Output 1 Amperage, Output amperage |
-| 16 | Input 4 Amperage | PV 4 input current | — | — | — | — | tlx:input_4_amperage, tl3:output_1_power | Input 4 Amperage, Output 1 Wattage |
-| 17 | Battery voltage | PV 4 input power (high) | — | — | — | — | tlx:input_4_power, offgrid:battery_voltage | Battery voltage, Input 4 Wattage |
-| 18 | Output 2 voltage | PV 4 input power (low) | — | — | — | — | tl3:output_2_voltage, offgrid:soc | Output 2 voltage, SOC |
-| 19 | Bus voltage | PV 5 voltage | — | — | — | — | tlx:input_5_voltage, tl3:output_2_amperage, offgrid:bus_voltage | Bus voltage, Input 5 voltage, Output 2 Amperage |
-| 20 | Grid voltage | PV 5 input current | — | — | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 21 | AC frequency | PV 5 input power(high) | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 22 | Output 1 voltage | PV 5 input power(low) | — | — | — | — | tl3:output_3_voltage, offgrid:output_1_voltage | Output 1 voltage, Output 3 voltage, Output voltage |
-| 23 | Input 6 voltage | PV 6 voltage | — | — | — | — | tlx:input_6_voltage, tl3:output_3_amperage, offgrid:output_frequency | Input 6 voltage, Output 3 Amperage, Output frequency |
-| 24 | Input 6 Amperage | PV 6 input current | — | — | — | — | tlx:input_6_amperage, tl3:output_3_power, offgrid:output_dc_voltage | Input 6 Amperage, Output 3 Wattage, Output DC voltage |
-| 25 | Input 6 Wattage | PV 6 input power (high) | — | — | — | — | tlx:input_6_power, offgrid:inverter_temperature | Input 6 Wattage, Temperature |
-| 26 | DC-DC temperature | PV 6 input power (low) | — | — | — | — | tl3:output_energy_today, offgrid:dc_dc_temperature | DC-DC temperature, Energy produced today |
-| 27 | Input 7 voltage | PV 7 voltage | — | — | — | — | tlx:input_7_voltage, offgrid:load_percent | Input 7 voltage, Inverter load |
-| 28 | Battery port voltage | PV 7 input current | — | — | — | — | tlx:input_7_amperage, tl3:output_energy_total, offgrid:battery_port_voltage | Battery port voltage, Input 7 Amperage, Total energy produced |
-| 29 | Battery bus voltage | PV 7 input power (high) | — | — | — | — | tlx:input_7_power, offgrid:battery_bus_voltage | Battery bus voltage, Input 7 Wattage |
-| 30 | Running hours | PV 7 input power (low) | — | — | — | — | tl3:operation_hours, offgrid:operation_hours | Running hours |
-| 31 | Input 8 voltage | PV 8 voltage | — | — | — | — | tlx:input_8_voltage | Input 8 voltage |
-| 32 | Input 8 Amperage | PV 8 input current | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 33 | Input 8 Wattage | PV 8 input power (high) | — | — | — | — | tlx:input_8_power | Input 8 Wattage |
-| 34 | Output 1 Amperage | PV 8 input power (low) | — | — | — | — | offgrid:output_1_amperage | Output 1 Amperage, Output amperage |
-| 35 | Output power | Output power (high) | — | — | — | — | tlx:output_power | Output power |
-| 36 | . Pac L | Output power (low) | — | — | — | — | — | — |
-| 37 | AC frequency | Grid frequency | — | — | — | — | tlx:grid_frequency | AC frequency, Grid frequency |
-| 38 | Output 1 voltage | Three/single phase grid voltage | — | — | — | — | tlx:output_1_voltage | Output 1 voltage, Output voltage |
-| 39 | Output 1 Amperage | Three/single phase grid output | — | — | — | — | tlx:output_1_amperage | Output 1 Amperage, Output amperage |
-| 40 | Fault code | Three/single phase grid output VA (high) | — | — | — | — | tlx:output_1_power, tl3:fault_code | Fault code, Output 1 Wattage |
-| 41 | Intelligent Power Management temperature | Three/single phase grid output VA(low) | — | — | — | — | tl3:ipm_temperature | Intelligent Power Management temperature |
-| 42 | Fault code | Three phase grid voltage | — | — | — | — | tlx:output_2_voltage, tl3:p_bus_voltage, offgrid:fault_code | Fault code, Output 2 voltage, P-bus voltage |
-| 43 | N-bus voltage | Three phase grid output current | — | — | — | — | tlx:output_2_amperage, tl3:n_bus_voltage, offgrid:warning_code | N-bus voltage, Output 2 Amperage, Warning code |
-| 44 | Output 2 Wattage | Three phase grid output power ( | — | — | — | — | tlx:output_2_power | Output 2 Wattage |
-| 45 | . Pac 2 L | Three phase grid output power ( | — | — | — | — | — | — |
-| 46 | Output 3 voltage | Three phase grid voltage | — | — | — | — | tlx:output_3_voltage | Output 3 voltage |
-| 47 | Derating mode | Three phase grid output current | — | — | — | — | tlx:output_3_amperage, tl3:derating_mode, offgrid:constant_power | Derating mode, Output 3 Amperage |
-| 48 | Input 1 energy today | Three phase grid output power ( | — | — | — | — | tlx:output_3_power, tl3:input_1_energy_today, offgrid:input_1_energy_today | Input 1 energy today, Output 3 Wattage, PV1 energy produced today |
-| 49 | . Pac 3 L | Three phase grid output power ( | — | — | — | — | — | — |
-| 50 | Input 1 total energy | Three phase grid voltage | — | — ne voltage | — | — | tl3:input_1_energy_total, offgrid:input_1_energy_total | Input 1 total energy, PV1 energy produced Lifetime |
-| 51 | . Vac_ST | Three phase grid voltage | — | — ne voltage | — | — | — | — |
-| 52 | Input 2 energy today | Three phase grid voltage | — | — ne voltage | — | — | tl3:input_2_energy_today, offgrid:input_2_energy_today | Input 2 energy today, PV2 energy produced today |
-| 53 | Energy produced today | Today generate energy (high) | — | — | — | — | tlx:output_energy_today | Energy produced today |
-| 54 | Input 2 total energy | Today generate energy (low) | — | — | — | — | tl3:input_2_energy_total, offgrid:input_2_energy_total | Input 2 total energy, PV2 energy produced Lifetime |
-| 55 | Total energy produced | Total generate energy (high) | — | — | — | — | tlx:output_energy_total | Total energy produced |
-| 56 | Battery Charged (Today) | Total generate energy (low) | — | — | — | — | tl3:input_energy_total, offgrid:charge_energy_today | Battery Charged (Today), Battery Charged Today, Total energy input |
-| 57 | Running hours | Work time total (high) | — | — | — | — | tlx:operation_hours | Running hours |
-| 58 | Battery Charged (Total) | Work time total (low) | — | — | — | — | tl3:output_reactive_power, offgrid:charge_energy_total | Battery Charged (Total), Grid Charged Lifetime, Reactive wattage |
-| 59 | Input 1 energy today | PV 1 Energy today(high) | — | — | — | — | tlx:input_1_energy_today | Input 1 energy today, PV1 energy produced today |
-| 60 | Battery Discharged (Today) | PV 1 Energy today (low) | — | — | — | — | tl3:output_reactive_energy_today, offgrid:discharge_energy_today | Battery Discharged (Today), Battery Discharged Today |
-| 61 | Input 1 total energy | PV 1 Energy total(high) | — | — | — | — | tlx:input_1_energy_total | Input 1 total energy, PV1 energy produced Lifetime |
-| 62 | Battery Discharged (Total) | PV 1 Energy total (low) | — | — | — | — | tl3:output_reactive_energy_total, offgrid:discharge_energy_total | Battery Discharged (Total), Battery Discharged Lifetime |
-| 63 | Input 2 energy today | PV 2 Energy today(high) | — | — | — | — | tlx:input_2_energy_today | Input 2 energy today, PV2 energy produced today |
-| 64 | AC Discharged Today | PV 2 Energy today (low) | — | — h | — | — | tl3:warning_code, offgrid:ac_discharge_energy_today | AC Discharged Today, Warning code |
-| 65 | Input 2 total energy | PV 2 Energy total(high) | — | — h | — | — | tlx:input_2_energy_total, tl3:warning_value | Input 2 total energy, PV2 energy produced Lifetime |
-| 66 | Grid Discharged Lifetime | PV 2 Energy total (low) | — | — h | — | — | tl3:real_output_power_percent, offgrid:ac_discharge_energy_total | Grid Discharged Lifetime, Real power output percentage |
-| 67 | Input 3 energy today | PV 3 Energy today(high) | — | — h | — | — | tlx:input_3_energy_today | Input 3 energy today |
-| 68 | AC charge battery current | PV 3 Energy today (low) | — | — h | — | — | offgrid:ac_charge_amperage | AC charge battery current |
-| 69 | Battery discharge power | PV 3 Energy total(high) | — | — h | — | — | tlx:input_3_energy_total, offgrid:discharge_power | Battery discharge power, Discharge Power, Input 3 total energy |
-| 70 | . Epv 3_total L | PV 3 Energy total (low) | — | — h | — | — | — | — |
-| 71 | Input 4 energy today | PV 4 Energy today(high) | — | — h | — | — | tlx:input_4_energy_today | Input 4 energy today |
-| 72 | . Epv 4_today L | PV 4 Energy today (low) | — | — h | — | — | — | — |
-| 73 | Battery discharge current | PV 4 Energy total(high) | — | — h | — | — | tlx:input_4_energy_total, offgrid:battery_discharge_amperage | Battery discharge current, Input 4 total energy |
-| 74 | . Epv 4_total L | PV 4 Energy total (low) | — | — h | — | — | — | — |
-| 75 | Input 5 energy today | PV 5 Energy today(high) | — | — h | — | — | tlx:input_5_energy_today | Input 5 energy today |
-| 76 | . Epv 5_today L | PV 5 Energy today (low) | — | — h | — | — | — | — |
-| 77 | Battery charging/ discharging(-ve) | PV 5 Energy total(high) | — | — h | — | — | tlx:input_5_energy_total, offgrid:battery_power | Battery charging/ discharging(-ve), Input 5 total energy |
-| 78 | . Epv 5_total L | PV 5 Energy total (low) | — | — h | — | — | — | — |
-| 79 | Input 6 energy today | PV 6 Energy today(high) | — | — h | — | — | tlx:input_6_energy_today | Input 6 energy today |
-| 80 | . Epv 6_today L | PV 6 Energy today (low) | — | — h | — | — | — | — |
-| 81 | Input 6 total energy | PV 6 Energy total(high) | — | — h | — | — | tlx:input_6_energy_total | Input 6 total energy |
-| 82 | . Epv 6_total L | PV 6 Energy total (low) | — | — h | — | — | — | — |
-| 83 | Input 7 energy today | PV 7 Energy today(high) | — | — h | — | — | tlx:input_7_energy_today | Input 7 energy today |
-| 84 | . Epv 7_today L | PV 7 Energy today (low) | — | — h | — | — | — | — |
-| 85 | Input 7 total energy | PV 7 Energy total(high) | — | — h | — | — | tlx:input_7_energy_total | Input 7 total energy |
-| 86 | . Epv 7_total L | PV 7 Energy total (low) | — | — h | — | — | — | — |
-| 87 | Input 8 energy today | PV 8 Energy today(high) | — | — h | — | — | tlx:input_8_energy_today | Input 8 energy today |
-| 88 | . Epv 8_today L | PV 8 Energy today (low) | — | — h | — | — | — | — |
-| 89 | Input 8 total energy | PV 8 Energy total(high) | — | — h | — | — | tlx:input_8_energy_total | Input 8 total energy |
-| 90 | . Epv 8_total L | PV 8 Energy total (low) | — | — h | — | — | — | — |
-| 91 | Total energy input | PV Energy total(high) | — | — h | — | — | tlx:input_energy_total | Total energy input |
-| 92 | . Epv_total L | PV Energy total (low) | — | — h | — | — | — | — |
-| 93 | Temperature | Inverter temperature | — | — | — | — | tlx:inverter_temperature | Temperature |
-| 94 | Intelligent Power Management temperature | The inside IPM in inverter Temp | — | — | — | — | tlx:ipm_temperature | Intelligent Power Management temperature |
-| 95 | Boost temperature | Boost temperature | — | — | — | — | tlx:boost_temperature | Boost temperature |
-| 96 | . Temp 4 | — | — | — reserved | — | — | — | — |
-| 97 | . uw Bat Volt_DSP | Bat Volt_DSP | — | — Bat Volt(DSP) | — | — | — | — |
-| 98 | P-bus voltage | P Bus inside Voltage | — | — | — | — | tlx:p_bus_voltage | P-bus voltage |
-| 99 | N-bus voltage | N Bus inside Voltage | — | — | — | — | tlx:n_bus_voltage | N-bus voltage |
-| 10 | 0. IPF | Inverter output PF now | — | — | — | — | — | — |
-| 10 | 1. Real OPPercent | Real Output power Percent | — | — | — | — | — | — |
-| 10 | 2. OPFullwatt H | Output Maxpower Limited high | — | — | — | — | — | — |
-| 10 | 3. OPFullwatt L | Output Maxpower Limited low | — | — | — | — | — | — |
-| 10 | 4. Derating Mode | Derating Mode 0 1 2 3 4 5 6 7 8 9 B | — | — | — | — | — | — |
-| 10 | 5. Fault Maincode | Inverter fault maincode | — | — | — | — | — | — |
-| 10 | 6. | — | — | — | — | — | — | — |
-| 10 | 7. Fault Subcode | Inverter fault subcode | — | — | — | — | — | — |
-| 10 | 8. Remote Ctrl En | / 0 1 | — | — orage Pow (SPA) | — | — | — | — |
-| 10 | 9. Remote Ctrl Pow er | / 2 | — | — orage Pow (SPA) | — | — | — | — |
-| 11 | Input 3 voltage | Warning bit H | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Inverter warn subcode | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Inverter warn maincode ACCharge energy today | — | — orage wer | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | real Power Percent 0 ACCharge energy today | — | — X orage wer | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | nv start delay time ACCharge energy total | — | — X orage wer | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | b INVAll Fault Code ACCharge energy total | — | — X orage wer | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Grid power to local load | — | — orage wer | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Grid power to local load | — | — orage wer | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | 0:Load First 1:Battery First 2:Grid First | — | — orage Power | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | 0:Lead-acid 1:Lithium battery | — | — Storage Power | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 12 | Input 3 Amperage | Aging mode Auto-cal command | — | — Storage Power | — | — | tlx:input_3_amperage | Input 3 Amperage |
-| 12 | Input 3 Amperage | — | — | — reserved | — | — | tlx:input_3_amperage | Input 3 Amperage |
-| 12 | Input 3 Amperage | PID PV 1 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | tlx:input_3_amperage | Input 3 Amperage |
-| 12 | Input 3 Amperage | PID PV 1 PE Curr | — | — m A | — | — | tlx:input_3_amperage | Input 3 Amperage |
-| 12 | Input 3 Amperage | PID PV 2 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | tlx:input_3_amperage | Input 3 Amperage |
-| 12 | Input 3 Amperage | PID PV 2 PE Curr | — | — m A | — | — | tlx:input_3_amperage | Input 3 Amperage |
-| 12 | Input 3 Amperage | PID PV 3 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | tlx:input_3_amperage | Input 3 Amperage |
-| 13 | AC frequency | PID PV 3 PE Curr | — | — m A | — | — | tlx:input_3_power, tl3:grid_frequency, offgrid:charge_power | AC frequency, Battery charge power, Charge Power, Grid frequency, Input 3 Wattage |
-| 13 | AC frequency | PID PV 4 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | tlx:input_3_power, tl3:grid_frequency, offgrid:charge_power | AC frequency, Battery charge power, Charge Power, Grid frequency, Input 3 Wattage |
-| 13 | AC frequency | PID PV 4 PE Curr | — | — m A | — | — | tlx:input_3_power, tl3:grid_frequency, offgrid:charge_power | AC frequency, Battery charge power, Charge Power, Grid frequency, Input 3 Wattage |
-| 13 | AC frequency | PID PV 5 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | tlx:input_3_power, tl3:grid_frequency, offgrid:charge_power | AC frequency, Battery charge power, Charge Power, Grid frequency, Input 3 Wattage |
-| 13 | AC frequency | PID PV 5 PE Curr | — | — m A | — | — | tlx:input_3_power, tl3:grid_frequency, offgrid:charge_power | AC frequency, Battery charge power, Charge Power, Grid frequency, Input 3 Wattage |
-| 13 | AC frequency | PID PV 6 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | tlx:input_3_power, tl3:grid_frequency, offgrid:charge_power | AC frequency, Battery charge power, Charge Power, Grid frequency, Input 3 Wattage |
-| 13 | AC frequency | PID PV 6 PE Curr | — | — m A | — | — | tlx:input_3_power, tl3:grid_frequency, offgrid:charge_power | AC frequency, Battery charge power, Charge Power, Grid frequency, Input 3 Wattage |
-| 13 | AC frequency | PID PV 7 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | tlx:input_3_power, tl3:grid_frequency, offgrid:charge_power | AC frequency, Battery charge power, Charge Power, Grid frequency, Input 3 Wattage |
-| 13 | AC frequency | PID PV 7 PE Curr | — | — m A | — | — | tlx:input_3_power, tl3:grid_frequency, offgrid:charge_power | AC frequency, Battery charge power, Charge Power, Grid frequency, Input 3 Wattage |
-| 13 | AC frequency | PID PV 8 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | tlx:input_3_power, tl3:grid_frequency, offgrid:charge_power | AC frequency, Battery charge power, Charge Power, Grid frequency, Input 3 Wattage |
-| 14 | Output 1 voltage | PID PV 8 PE Curr | — | — m A | — | — | tl3:output_1_voltage | Output 1 voltage, Output voltage |
-| 14 | Output 1 voltage | Bit 0~7:PID Working Status 1:Wait Status 2:Normal Status 3:Fault Status Bit 8~15:Reversed | — | — | — | — | tl3:output_1_voltage | Output 1 voltage, Output voltage |
-| 14 | Output 1 voltage | PV String 1 voltage | — | — V | — | — | tl3:output_1_voltage | Output 1 voltage, Output voltage |
-| 14 | Output 1 voltage | PV String 1 current | — | — A | — | — | tl3:output_1_voltage | Output 1 voltage, Output voltage |
-| 14 | Output 1 voltage | PV String 2 voltage | — | — V | — | — | tl3:output_1_voltage | Output 1 voltage, Output voltage |
-| 14 | Output 1 voltage | PV String 2 current | — | — | — | — | tl3:output_1_voltage | Output 1 voltage, Output voltage |
-| 14 | Output 1 voltage | PV String 3 voltage | — | — | — | — | tl3:output_1_voltage | Output 1 voltage, Output voltage |
-| 14 | Output 1 voltage | PV String 3 current | — | — | — | — | tl3:output_1_voltage | Output 1 voltage, Output voltage |
-| 14 | Output 1 voltage | PV String 4 voltage | — | — | — | — | tl3:output_1_voltage | Output 1 voltage, Output voltage |
-| 14 | Output 1 voltage | PV String 4 current | — | — | — | — | tl3:output_1_voltage | Output 1 voltage, Output voltage |
-| 15 | Input 4 voltage | PV String 5 voltage | — | — | — | — | tlx:input_4_voltage, tl3:output_1_amperage | Input 4 voltage, Output 1 Amperage, Output amperage |
-| 15 | Input 4 voltage | PV String 5 current | — | — | — | — | tlx:input_4_voltage, tl3:output_1_amperage | Input 4 voltage, Output 1 Amperage, Output amperage |
-| 15 | Input 4 voltage | PV String 6 voltage | — | — | — | — | tlx:input_4_voltage, tl3:output_1_amperage | Input 4 voltage, Output 1 Amperage, Output amperage |
-| 15 | Input 4 voltage | PV String 6 current | — | — | — | — | tlx:input_4_voltage, tl3:output_1_amperage | Input 4 voltage, Output 1 Amperage, Output amperage |
-| 15 | Input 4 voltage | PV String 7 voltage | — | — | — | — | tlx:input_4_voltage, tl3:output_1_amperage | Input 4 voltage, Output 1 Amperage, Output amperage |
-| 15 | Input 4 voltage | PV String 7 current | — | — | — | — | tlx:input_4_voltage, tl3:output_1_amperage | Input 4 voltage, Output 1 Amperage, Output amperage |
-| 15 | Input 4 voltage | PV String 8 voltage | — | — | — | — | tlx:input_4_voltage, tl3:output_1_amperage | Input 4 voltage, Output 1 Amperage, Output amperage |
-| 15 | Input 4 voltage | PV String 8 current | — | — | — | — | tlx:input_4_voltage, tl3:output_1_amperage | Input 4 voltage, Output 1 Amperage, Output amperage |
-| 15 | Input 4 voltage | PV String 9 voltage | — | — | — | — | tlx:input_4_voltage, tl3:output_1_amperage | Input 4 voltage, Output 1 Amperage, Output amperage |
-| 15 | Input 4 voltage | PV String 9 current | — | — | — | — | tlx:input_4_voltage, tl3:output_1_amperage | Input 4 voltage, Output 1 Amperage, Output amperage |
-| 16 | Input 4 Amperage | PV String 10 voltage | — | — | — | — | tlx:input_4_amperage, tl3:output_1_power | Input 4 Amperage, Output 1 Wattage |
-| 16 | Input 4 Amperage | PV String 10 current | — | — | — | — | tlx:input_4_amperage, tl3:output_1_power | Input 4 Amperage, Output 1 Wattage |
-| 16 | Input 4 Amperage | PV String 11 voltage | — | — | — | — | tlx:input_4_amperage, tl3:output_1_power | Input 4 Amperage, Output 1 Wattage |
-| 16 | Input 4 Amperage | PV String 11 current | — | — | — | — | tlx:input_4_amperage, tl3:output_1_power | Input 4 Amperage, Output 1 Wattage |
-| 16 | Input 4 Amperage | PV String 12 voltage | — | — | — | — | tlx:input_4_amperage, tl3:output_1_power | Input 4 Amperage, Output 1 Wattage |
-| 16 | Input 4 Amperage | PV String 12 current | — | — | — | — | tlx:input_4_amperage, tl3:output_1_power | Input 4 Amperage, Output 1 Wattage |
-| 16 | Input 4 Amperage | PV String 13 voltage | — | — | — | — | tlx:input_4_amperage, tl3:output_1_power | Input 4 Amperage, Output 1 Wattage |
-| 16 | Input 4 Amperage | PV String 13 current | — | — | — | — | tlx:input_4_amperage, tl3:output_1_power | Input 4 Amperage, Output 1 Wattage |
-| 16 | Input 4 Amperage | PV String 14 voltage | — | — | — | — | tlx:input_4_amperage, tl3:output_1_power | Input 4 Amperage, Output 1 Wattage |
-| 16 | Input 4 Amperage | PV String 14 current | — | — | — | — | tlx:input_4_amperage, tl3:output_1_power | Input 4 Amperage, Output 1 Wattage |
-| 17 | Battery voltage | PV String 15 voltage | — | — | — | — | tlx:input_4_power, offgrid:battery_voltage | Battery voltage, Input 4 Wattage |
-| 17 | Battery voltage | PV String 15 current | — | — | — | — | tlx:input_4_power, offgrid:battery_voltage | Battery voltage, Input 4 Wattage |
-| 17 | Battery voltage | PV String 16 voltage | — | — | — | — | tlx:input_4_power, offgrid:battery_voltage | Battery voltage, Input 4 Wattage |
-| 17 | Battery voltage | PV String 16 current | — | — | — | — | tlx:input_4_power, offgrid:battery_voltage | Battery voltage, Input 4 Wattage |
-| 17 | Battery voltage | Bit 0~15: String 1~16 unmatch | — | — suggestive | — | — | tlx:input_4_power, offgrid:battery_voltage | Battery voltage, Input 4 Wattage |
-| 17 | Battery voltage | Bit 0~15: String 1~16 current u | — | — suggestive | — | — | tlx:input_4_power, offgrid:battery_voltage | Battery voltage, Input 4 Wattage |
-| 17 | Battery voltage | Bit 0~15: String 1~16 disconnec | — | — suggestive | — | — | tlx:input_4_power, offgrid:battery_voltage | Battery voltage, Input 4 Wattage |
-| 17 | Battery voltage | Bit 0:Output over voltage Bit 1: ISO fault Bit 2: BUS voltage abnormal Bit 3~15:reserved | — | — | — | — | tlx:input_4_power, offgrid:battery_voltage | Battery voltage, Input 4 Wattage |
-| 17 | Battery voltage | String Prompt Bit 0:String Unmatch Bit 1:Str Disconnect Bit 2:Str Current Unblance Bit 3~15:reserved | — | — | — | — | tlx:input_4_power, offgrid:battery_voltage | Battery voltage, Input 4 Wattage |
-| 17 | Battery voltage | PV Warning Value | — | — | — | — | tlx:input_4_power, offgrid:battery_voltage | Battery voltage, Input 4 Wattage |
-| 18 | Output 2 voltage | DSP 075 Warning Value | — | — | — | — | tl3:output_2_voltage, offgrid:soc | Output 2 voltage, SOC |
-| 18 | Output 2 voltage | ult DSP 075 Fault Value | — | — | — | — | tl3:output_2_voltage, offgrid:soc | Output 2 voltage, SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 1 | — | — | — | — | tl3:output_2_voltage, offgrid:soc | Output 2 voltage, SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 2 | — | — | — | — | tl3:output_2_voltage, offgrid:soc | Output 2 voltage, SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 3 | — | — | — | — | tl3:output_2_voltage, offgrid:soc | Output 2 voltage, SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 4 | — | — | — | — | tl3:output_2_voltage, offgrid:soc | Output 2 voltage, SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 5 | — | — | — | — | tl3:output_2_voltage, offgrid:soc | Output 2 voltage, SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 6 | — | — | — | — | tl3:output_2_voltage, offgrid:soc | Output 2 voltage, SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 7 | — | — | — | — | tl3:output_2_voltage, offgrid:soc | Output 2 voltage, SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 8 | — | — | — | — | tl3:output_2_voltage, offgrid:soc | Output 2 voltage, SOC |
-| 19 | Bus voltage | g DSP 075 Debug Data 1 | — | — | — | — | tlx:input_5_voltage, tl3:output_2_amperage, offgrid:bus_voltage | Bus voltage, Input 5 voltage, Output 2 Amperage |
-| 19 | Bus voltage | g DSP 075 Debug Data 2 | — | — | — | — | tlx:input_5_voltage, tl3:output_2_amperage, offgrid:bus_voltage | Bus voltage, Input 5 voltage, Output 2 Amperage |
-| 19 | Bus voltage | g DSP 075 Debug Data 3 | — | — | — | — | tlx:input_5_voltage, tl3:output_2_amperage, offgrid:bus_voltage | Bus voltage, Input 5 voltage, Output 2 Amperage |
-| 19 | Bus voltage | g DSP 075 Debug Data 4 | — | — | — | — | tlx:input_5_voltage, tl3:output_2_amperage, offgrid:bus_voltage | Bus voltage, Input 5 voltage, Output 2 Amperage |
-| 19 | Bus voltage | g DSP 075 Debug Data 5 | — | — | — | — | tlx:input_5_voltage, tl3:output_2_amperage, offgrid:bus_voltage | Bus voltage, Input 5 voltage, Output 2 Amperage |
-| 19 | Bus voltage | g DSP 075 Debug Data 6 | — | — | — | — | tlx:input_5_voltage, tl3:output_2_amperage, offgrid:bus_voltage | Bus voltage, Input 5 voltage, Output 2 Amperage |
-| 19 | Bus voltage | g DSP 075 Debug Data 7 | — | — | — | — | tlx:input_5_voltage, tl3:output_2_amperage, offgrid:bus_voltage | Bus voltage, Input 5 voltage, Output 2 Amperage |
-| 19 | Bus voltage | g DSP 075 Debug Data 8 | — | — | — | — | tlx:input_5_voltage, tl3:output_2_amperage, offgrid:bus_voltage | Bus voltage, Input 5 voltage, Output 2 Amperage |
-| 19 | Bus voltage | USBAging Test Ok Flag 0-1 | — | — | — | — | tlx:input_5_voltage, tl3:output_2_amperage, offgrid:bus_voltage | Bus voltage, Input 5 voltage, Output 2 Amperage |
-| 19 | Bus voltage | Flash Erase Aging Ok Flag 0-1 | — | — | — | — | tlx:input_5_voltage, tl3:output_2_amperage, offgrid:bus_voltage | Bus voltage, Input 5 voltage, Output 2 Amperage |
-| 20 | Grid voltage | PVISOValue | — | — | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | R DCI Curr | — | — | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | S DCI Curr | — | — | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | T DCI Curr | — | — | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | PIDBus Volt | — | — | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | GFCI Curr | — | — | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | SVG/APF Status+SVGAPFEqual Rat | — | — | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | R phase load side current for | — | — | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | S phase load side current for | — | — | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | T phase load side current for | — | — | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 21 | AC frequency | R phase load side output reac power for SVG(High) | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | R phase load side output reac power for SVG(low) | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | S phase load side output reac power for SVG(High) | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | S phase load side output reac power for SVG(low) | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | T phase load side output reac power for SVG(High) | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | T phase load side output reac power for SVG(low) | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | R phase load side harmonic | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | S phase load side harmonic | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | T phase load side harmonic | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | R phase compensate reactive p for SVG(High) | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 22 | Output 1 voltage | R phase compensate reactive p for SVG(low) | — | — | — | — | tl3:output_3_voltage, offgrid:output_1_voltage | Output 1 voltage, Output 3 voltage, Output voltage |
-| 22 | Output 1 voltage | S phase compensate reactive p for SVG(High) | — | — | — | — | tl3:output_3_voltage, offgrid:output_1_voltage | Output 1 voltage, Output 3 voltage, Output voltage |
-| 22 | Output 1 voltage | S phase compensate reactive p for SVG(low) | — | — | — | — | tl3:output_3_voltage, offgrid:output_1_voltage | Output 1 voltage, Output 3 voltage, Output voltage |
-| 22 | Output 1 voltage | T phase compensate reactive p for SVG(High) | — | — | — | — | tl3:output_3_voltage, offgrid:output_1_voltage | Output 1 voltage, Output 3 voltage, Output voltage |
-| 22 | Output 1 voltage | T phase compensate reactive p for SVG(low) | — | — | — | — | tl3:output_3_voltage, offgrid:output_1_voltage | Output 1 voltage, Output 3 voltage, Output voltage |
-| 22 | Output 1 voltage | R phase compensate harmonic f SVG | — | — | — | — | tl3:output_3_voltage, offgrid:output_1_voltage | Output 1 voltage, Output 3 voltage, Output voltage |
-| 22 | Output 1 voltage | S phase compensate harmonic f SVG | — | — | — | — | tl3:output_3_voltage, offgrid:output_1_voltage | Output 1 voltage, Output 3 voltage, Output voltage |
-| 22 | Output 1 voltage | T phase compensate harmonic f SVG | — | — | — | — | tl3:output_3_voltage, offgrid:output_1_voltage | Output 1 voltage, Output 3 voltage, Output voltage |
-| 22 | Output 1 voltage | RS 232 Aging Test Ok Flag | — | — | — | — | tl3:output_3_voltage, offgrid:output_1_voltage | Output 1 voltage, Output 3 voltage, Output voltage |
-| 22 | Output 1 voltage | Bit 0: Fan 1 fault bit Bit 1: Fan 2 fault bit Bit 2: Fan 3 fault bit Bit 3: Fan 4 fault bit Bit 4-7: Reserved | — | — | — | — | tl3:output_3_voltage, offgrid:output_1_voltage | Output 1 voltage, Output 3 voltage, Output voltage |
-| 23 | Input 6 voltage | Output apparent power H | — | — | — | — | tlx:input_6_voltage, tl3:output_3_amperage, offgrid:output_frequency | Input 6 voltage, Output 3 Amperage, Output frequency |
-| 23 | Input 6 voltage | Output apparent power L | — | — | — | — | tlx:input_6_voltage, tl3:output_3_amperage, offgrid:output_frequency | Input 6 voltage, Output 3 Amperage, Output frequency |
-| 23 | Input 6 voltage | Real Output Reactive Power H | — | — | — | — | tlx:input_6_voltage, tl3:output_3_amperage, offgrid:output_frequency | Input 6 voltage, Output 3 Amperage, Output frequency |
-| 23 | Input 6 voltage | Real Output Reactive Power L | — | — | — | — | tlx:input_6_voltage, tl3:output_3_amperage, offgrid:output_frequency | Input 6 voltage, Output 3 Amperage, Output frequency |
-| 23 | Input 6 voltage | Nominal Output Reactive Power | — | — | — | — | tlx:input_6_voltage, tl3:output_3_amperage, offgrid:output_frequency | Input 6 voltage, Output 3 Amperage, Output frequency |
-| 23 | Input 6 voltage | Nominal Output Reactive Power | — | — | — | — | tlx:input_6_voltage, tl3:output_3_amperage, offgrid:output_frequency | Input 6 voltage, Output 3 Amperage, Output frequency |
-| 23 | Input 6 voltage | Reactive power generation | — | — | — | — | tlx:input_6_voltage, tl3:output_3_amperage, offgrid:output_frequency | Input 6 voltage, Output 3 Amperage, Output frequency |
-| 23 | Input 6 voltage | Reactive power generation | — | — | — | — | tlx:input_6_voltage, tl3:output_3_amperage, offgrid:output_frequency | Input 6 voltage, Output 3 Amperage, Output frequency |
-| 23 | Input 6 voltage | 0:Waiting 1:Self-check state 2:Detect pull arc state 3:Fault 4:Update | — | — | — | — | tlx:input_6_voltage, tl3:output_3_amperage, offgrid:output_frequency | Input 6 voltage, Output 3 Amperage, Output frequency |
-| 23 | Input 6 voltage | Present FFTValue [CHANNEL_A] | — | — | — | — | tlx:input_6_voltage, tl3:output_3_amperage, offgrid:output_frequency | Input 6 voltage, Output 3 Amperage, Output frequency |
-| 24 | Input 6 Amperage | Present FFTValue [CHANNEL_B] | — | — | — | — | tlx:input_6_amperage, tl3:output_3_power, offgrid:output_dc_voltage | Input 6 Amperage, Output 3 Wattage, Output DC voltage |
-| 24 | Input 6 Amperage | ug DSP 067 Debug Data 1 | — | — | — | — | tlx:input_6_amperage, tl3:output_3_power, offgrid:output_dc_voltage | Input 6 Amperage, Output 3 Wattage, Output DC voltage |
-| 24 | Input 6 Amperage | ug DSP 067 Debug Data 2 | — | — | — | — | tlx:input_6_amperage, tl3:output_3_power, offgrid:output_dc_voltage | Input 6 Amperage, Output 3 Wattage, Output DC voltage |
-| 24 | Input 6 Amperage | ug DSP 067 Debug Data 3 | — | — | — | — | tlx:input_6_amperage, tl3:output_3_power, offgrid:output_dc_voltage | Input 6 Amperage, Output 3 Wattage, Output DC voltage |
-| 24 | Input 6 Amperage | g DSP 067 Debug Data 4 | — | — | — | — | tlx:input_6_amperage, tl3:output_3_power, offgrid:output_dc_voltage | Input 6 Amperage, Output 3 Wattage, Output DC voltage |
-| 24 | Input 6 Amperage | g DSP 067 Debug Data 5 | — | — | — | — | tlx:input_6_amperage, tl3:output_3_power, offgrid:output_dc_voltage | Input 6 Amperage, Output 3 Wattage, Output DC voltage |
-| 24 | Input 6 Amperage | g DSP 067 Debug Data 6 | — | — | — | — | tlx:input_6_amperage, tl3:output_3_power, offgrid:output_dc_voltage | Input 6 Amperage, Output 3 Wattage, Output DC voltage |
-| 24 | Input 6 Amperage | g DSP 067 Debug Data 7 | — | — | — | — | tlx:input_6_amperage, tl3:output_3_power, offgrid:output_dc_voltage | Input 6 Amperage, Output 3 Wattage, Output DC voltage |
-| 24 | Input 6 Amperage | g DSP 067 Debug Data 8 | — | — | — | — | tlx:input_6_amperage, tl3:output_3_power, offgrid:output_dc_voltage | Input 6 Amperage, Output 3 Wattage, Output DC voltage |
-| 24 | Input 6 Amperage | — | — | — | — | — | tlx:input_6_amperage, tl3:output_3_power, offgrid:output_dc_voltage | Input 6 Amperage, Output 3 Wattage, Output DC voltage |
-| 87 | Input 8 energy today | PV 9 voltage | — | — | — | — | tlx:input_8_energy_today | Input 8 energy today |
-| 87 | Input 8 energy today | PV 9 Input current | — | — | — | — | tlx:input_8_energy_today | Input 8 energy today |
-| 87 | Input 8 energy today | PV 9 input power (High) | — | — | — | — | tlx:input_8_energy_today | Input 8 energy today |
-| 87 | Input 8 energy today | PV 9 input power (Low) | — | — | — | — | tlx:input_8_energy_today | Input 8 energy today |
-| 87 | Input 8 energy today | PV 10 voltage | — | — | — | — | tlx:input_8_energy_today | Input 8 energy today |
-| 88 | 0 PV 10 Curr | PV 10 Input current | — | — | — | — | — | — |
-| 88 | 1 Ppv 10 H | PV 10 input power (High) | — | — | — | — | — | — |
-| 88 | 2 Ppv 10 L | PV 10 input power (Low) | — | — | — | — | — | — |
-| 88 | 3 Vpv 11 | PV 11 voltage | — | — | — | — | — | — |
-| 88 | 4 PV 11 Curr | PV 11 Input current | — | — | — | — | — | — |
-| 88 | 5 Ppv 11 H | PV 11 input power (High) | — | — | — | — | — | — |
-| 88 | 6 Ppv 11 L | PV 11 input power (Low) | — | — | — | — | — | — |
-| 88 | 7 Vpv 12 | PV 12 voltage | — | — | — | — | — | — |
-| 88 | 8 PV 12 Curr | PV 12 Input current | — | — | — | — | — | — |
-| 88 | 9 Ppv 12 H | PV 12 input power (High) | — | — | — | — | — | — |
-| 89 | Input 8 total energy | PV 12 input power (Low) | — | — | — | — | tlx:input_8_energy_total | Input 8 total energy |
-| 89 | Input 8 total energy | PV 13 voltage | — | — | — | — | tlx:input_8_energy_total | Input 8 total energy |
-| 89 | Input 8 total energy | PV 13 Input current | — | — | — | — | tlx:input_8_energy_total | Input 8 total energy |
-| 89 | Input 8 total energy | PV 13 input power (High) | — | — | — | — | tlx:input_8_energy_total | Input 8 total energy |
-| 89 | Input 8 total energy | PV 13 input power (Low) | — | — | — | — | tlx:input_8_energy_total | Input 8 total energy |
-| 89 | Input 8 total energy | PV 14 voltage | — | — | — | — | tlx:input_8_energy_total | Input 8 total energy |
-| 89 | Input 8 total energy | PV 14 Input current | — | — | — | — | tlx:input_8_energy_total | Input 8 total energy |
-| 89 | Input 8 total energy | PV 14 input power (High) | — | — | — | — | tlx:input_8_energy_total | Input 8 total energy |
-| 89 | Input 8 total energy | PV 14 input power (Low) | — | — | — | — | tlx:input_8_energy_total | Input 8 total energy |
-| 89 | Input 8 total energy | PV 15 voltage | — | — | — | — | tlx:input_8_energy_total | Input 8 total energy |
-| 90 | 0 PV 15 Curr | PV 15 Input current | — | — | — | — | — | — |
-| 90 | 1 Ppv 15 H | PV 15 input power (High) | — | — | — | — | — | — |
-| 90 | 2 Ppv 15 L | PV 15 input power (Low) | — | — | — | — | — | — |
-| 90 | 3 Vpv 16 | PV 16 voltage | — | — | — | — | — | — |
-| 90 | 4 PV 16 Curr | PV 16 Input current | — | — | — | — | — | — |
-| 90 | 5 Ppv 16 H | PV 16 input power (High) | — | — | — | — | — | — |
-| 90 | 6 Ppv 16 L | PV 16 input power (Low) | — | — | — | — | — | — |
-| 90 | 7 Epv 9_today H | PV 9 energy today (High) | — | — | — | — | — | — |
-| 90 | 8 Epv 9_today L | PV 9 energy today (Low) | — | — | — | — | — | — |
-| 90 | 9 Epv 9_total H | PV 9 energy total (High) | — | — | — | — | — | — |
-| 91 | Total energy input | PV 9 energy total (Low) | — | — | — | — | tlx:input_energy_total | Total energy input |
-| 91 | Total energy input | PV 10 energy today (High) | — | — | — | — | tlx:input_energy_total | Total energy input |
-| 91 | Total energy input | PV 10 energy today (Low) | — | — | — | — | tlx:input_energy_total | Total energy input |
-| 91 | Total energy input | PV 10 energy total (High) | — | — | — | — | tlx:input_energy_total | Total energy input |
-| 91 | Total energy input | PV 10 energy total (Low) | — | — | — | — | tlx:input_energy_total | Total energy input |
-| 91 | Total energy input | PV 11 energy today (High) | — | — | — | — | tlx:input_energy_total | Total energy input |
-| 91 | Total energy input | PV 11 energy today (Low) | — | — | — | — | tlx:input_energy_total | Total energy input |
-| 91 | Total energy input | PV 11 energy total (High) | — | — | — | — | tlx:input_energy_total | Total energy input |
-| 91 | Total energy input | PV 11 energy total (Low) | — | — | — | — | tlx:input_energy_total | Total energy input |
-| 91 | Total energy input | PV 12 energy today (High) | — | — | — | — | tlx:input_energy_total | Total energy input |
-| 92 | 0 Epv 12_today L | PV 12 energy today (Low) | — | — | — | — | — | — |
-| 92 | 1 Epv 12_total H | PV 12 energy total (High) | — | — | — | — | — | — |
-| 92 | 2 Epv 12_total L | PV 12 energy total (Low) | — | — | — | — | — | — |
-| 92 | 3 Epv 13_today H | PV 13 energy today (High) | — | — | — | — | — | — |
-| 92 | 4 Epv 13_today L | PV 13 energy today (Low) | — | — | — | — | — | — |
-| 92 | 5 Epv 13_total H | PV 13 energy total (High) | — | — | — | — | — | — |
-| 92 | 6 Epv 13_total L | PV 13 energy total (Low) | — | — | — | — | — | — |
-| 92 | 7 Epv 14_today H | PV 14 energy today (High) | — | — | — | — | — | — |
-| 92 | 8 Epv 14_today L | PV 14 energy today (Low) | — | — | — | — | — | — |
-| 92 | 9 Epv 14_total H | PV 14 energy total (High) | — | — | — | — | — | — |
-| 93 | Temperature | PV 14 energy total (Low) | — | — | — | — | tlx:inverter_temperature | Temperature |
-| 93 | Temperature | PV 15 energy today (High) | — | — | — | — | tlx:inverter_temperature | Temperature |
-| 93 | Temperature | PV 15 energy today (Low) | — | — | — | — | tlx:inverter_temperature | Temperature |
-| 93 | Temperature | PV 15 energy total (High) | — | — | — | — | tlx:inverter_temperature | Temperature |
-| 93 | Temperature | PV 15 energy total (Low) | — | — | — | — | tlx:inverter_temperature | Temperature |
-| 93 | Temperature | PV 16 energy today (High) | — | — | — | — | tlx:inverter_temperature | Temperature |
-| 93 | Temperature | PV 16 energy today (Low) | — | — | — | — | tlx:inverter_temperature | Temperature |
-| 93 | Temperature | PV 16 energy total (High) | — | — | — | — | tlx:inverter_temperature | Temperature |
-| 93 | Temperature | PV 16 energy total (Low) | — | — | — | — | tlx:inverter_temperature | Temperature |
-| 93 | Temperature | PID PV 9 PE Volt/ Flyspan volta (MAX HV) | — | — | — | — | tlx:inverter_temperature | Temperature |
-| 94 | Intelligent Power Management temperature | PID PV 9 PE Current | — | — | — | — | tlx:ipm_temperature | Intelligent Power Management temperature |
-| 94 | Intelligent Power Management temperature | + PID PV 10 PE/ Flyspan voltage ( HV) | — | — | — | — | tlx:ipm_temperature | Intelligent Power Management temperature |
-| 94 | Intelligent Power Management temperature | 0+ PID PV 10 PE Current | — | — | — | — | tlx:ipm_temperature | Intelligent Power Management temperature |
-| 94 | Intelligent Power Management temperature | 1+ PID PV 11 PE Volt/ Flyspan volt (MAX HV) | — | — | — | — | tlx:ipm_temperature | Intelligent Power Management temperature |
-| 94 | Intelligent Power Management temperature | 1+ PID PV 11 PE Current | — | — | — | — | tlx:ipm_temperature | Intelligent Power Management temperature |
-| 94 | Intelligent Power Management temperature | 2+ PID PV 12 PE Volt/ Flyspan volt (MAX HV) | — | — | — | — | tlx:ipm_temperature | Intelligent Power Management temperature |
-| 94 | Intelligent Power Management temperature | 2+ PID PV 12 PE Current | — | — | — | — | tlx:ipm_temperature | Intelligent Power Management temperature |
-| 94 | Intelligent Power Management temperature | 3+ PID PV 13 PE Volt/ Flyspan volt (MAX HV) | — | — | — | — | tlx:ipm_temperature | Intelligent Power Management temperature |
-| 94 | Intelligent Power Management temperature | 3+ PID PV 13 PE Current | — | — | — | — | tlx:ipm_temperature | Intelligent Power Management temperature |
-| 94 | Intelligent Power Management temperature | 4+ PID PV 14 PE Volt/ Flyspan volt (MAX HV) | — | — | — | — | tlx:ipm_temperature | Intelligent Power Management temperature |
-| 95 | Boost temperature | 4+ PID PV 14 PE Current | — | — | — | — | tlx:boost_temperature | Boost temperature |
-| 95 | Boost temperature | 5+ PID PV 15 PE Volt/ Flyspan volt (MAX HV) | — | — | — | — | tlx:boost_temperature | Boost temperature |
-| 95 | Boost temperature | 5+ PID PV 15 PE Current | — | — | — | — | tlx:boost_temperature | Boost temperature |
-| 95 | Boost temperature | 6+ PID PV 16 PE Volt/ Flyspan volt (MAX HV) | — | — | — | — | tlx:boost_temperature | Boost temperature |
-| 95 | Boost temperature | 6+ PID PV 16 PE Current | — | — | — | — | tlx:boost_temperature | Boost temperature |
-| 95 | Boost temperature | PV String 17 voltage | — | — | — | — | tlx:boost_temperature | Boost temperature |
-| 95 | Boost temperature | PV String 17 Current | — | — | — | — | tlx:boost_temperature | Boost temperature |
-| 95 | Boost temperature | PV String 18 voltage | — | — | — | — | tlx:boost_temperature | Boost temperature |
-| 95 | Boost temperature | PV String 18 Current | — | — | — | — | tlx:boost_temperature | Boost temperature |
-| 95 | Boost temperature | PV String 19 voltage | — | — | — | — | tlx:boost_temperature | Boost temperature |
-| 96 | 0 Curr _String 19 | PV String 19 Current | — | — | — | — | — | — |
-| 96 | 1 V _String 20 | PV String 20 voltage | — | — | — | — | — | — |
-| 96 | 2 Curr _String 20 | PV String 20 Current | — | — | — | — | — | — |
-| 96 | 3 V _String 21 | PV String 21 voltage | — | — | — | — | — | — |
-| 96 | 4 Curr _String 21 | PV String 21 Current | — | — | — | — | — | — |
-| 96 | 5 V _String 22 | PV String 22 voltage | — | — | — | — | — | — |
-| 96 | 6 Curr _String 22 | PV String 22 Current | — | — | — | — | — | — |
-| 96 | 7 V _String 23 | PV String 23 voltage | — | — | — | — | — | — |
-| 96 | 8 Curr _String 23 | PV String 23 Current | — | — | — | — | — | — |
-| 96 | 9 V _String 24 | PV String 24 voltage | — | — | — | — | — | — |
-| 97 | 0 Curr _String 24 | PV String 24 Current | — | — 0.1 A | — | — | — | — |
-| 97 | 1 V _String 25 | PV String 25 voltage | — | — 0.1 V | — | — | — | — |
-| 97 | 2 Curr _String 25 | PV String 25 Current | — | — 0.1 A | — | — | — | — |
-| 97 | 3 V _String 26 | PV String 26 voltage | — | — 0.1 V | — | — | — | — |
-| 97 | 4 Curr _String 26 | PV String 26 Current | — | — 0.1 A | — | — | — | — |
-| 97 | 5 V _String 27 | PV String 27 voltage | — | — 0.1 V | — | — | — | — |
-| 97 | 6 Curr _String 27 | PV String 27 Current | — | — 0.1 A | — | — | — | — |
-| 97 | 7 V _String 28 | PV String 28 voltage | — | — 0.1 V | — | — | — | — |
-| 97 | 8 Curr _String 28 | PV String 28 Current | — | — 0.1 A | — | — | — | — |
-| 97 | 9 V _String 29 | PV String 29 voltage | — | — 0.1 V | — | — | — | — |
-| 98 | P-bus voltage | PV String 29 Current | — | — 0.1 A | — | — | tlx:p_bus_voltage | P-bus voltage |
-| 98 | P-bus voltage | PV String 30 voltage | — | — 0.1 V | — | — | tlx:p_bus_voltage | P-bus voltage |
-| 98 | P-bus voltage | PV String 30 Current | — | — 0.1 A | — | — | tlx:p_bus_voltage | P-bus voltage |
-| 98 | P-bus voltage | PV String 31 voltage | — | — 0.1 V | — | — | tlx:p_bus_voltage | P-bus voltage |
-| 98 | P-bus voltage | PV String 31 Current | — | — 0.1 A | — | — | tlx:p_bus_voltage | P-bus voltage |
-| 98 | P-bus voltage | PV String 32 voltage | — | — 0.1 V | — | — | tlx:p_bus_voltage | P-bus voltage |
-| 98 | P-bus voltage | PV String 32 Current | — | — 0.1 A | — | — | tlx:p_bus_voltage | P-bus voltage |
-| 98 | P-bus voltage | Bit 0~15: String 17~32 unmatch | — | — | — | — | tlx:p_bus_voltage | P-bus voltage |
-| 98 | P-bus voltage | Bit 0~15:String 17~32 unblance | — | — | — | — | tlx:p_bus_voltage | P-bus voltage |
-| 98 | P-bus voltage | Bit 0~15: String 17~32 disconn | — | — | — | — | tlx:p_bus_voltage | P-bus voltage |
-| 99 | N-bus voltage | PV Warning Value (PV 9-PV 16) Contains PV 9~16 abnormal, 和 Boost 9~16 Drive anomalies | — | — | — | — | tlx:n_bus_voltage | N-bus voltage |
-| 99 | N-bus voltage | string 1~string 16 abnormal | — | — | — | — | tlx:n_bus_voltage | N-bus voltage |
-| 99 | N-bus voltage | string 17~string 32 abnormal | — | — | — | — | tlx:n_bus_voltage | N-bus voltage |
-| 99 | N-bus voltage | M 3 to DSP system command | — | — system command | — | — | tlx:n_bus_voltage | N-bus voltage |
-| 10 | 00. uw Sys Work Mode | System work mode | — | — Theworkingmode displayed by the monitoring to the customer is: 0 x 00: waiting module 0 x 01: Self-test mode, 0 x 03:fault module 0 x 04:flash odule x 05|0 x 06|0 x 07|0 08:normal odule | — | — | — | — |
-| 10 | 01. Systemfault word 0 | System fault word 0 | — | — lease refer to hefault escription of ybrid | — | — | — | — |
-| 10 | 02. Systemfault word 1 | System fault word 1 | — | — | — | — | — | — |
-| 10 | 03. Systemfault word 2 | System fault word 2 | — | — | — | — | — | — |
-| 10 | 04. Systemfault word 3 | System fault word 3 | — | — | — | — | — | — |
-| 10 | 05. Systemfault word 4 | System fault word 4 | — | — | — | — | — | — |
-| 10 | 06. Systemfault word 5 | System fault word 5 | — | — | — | — | — | — |
-| 10 | 07. Systemfault word 6 | System fault word 6 | — | — | — | — | — | — |
-| 10 | 08. Systemfault word 7 | System fault word 7 | — | — | — | — | — | — |
-| 10 | 09. Pdischarge 1 H | Discharge power(high) | — | — | — | — | — | — |
-| 10 | 10. Pdischarge 1 L | Discharge power (low) | — | — | — | — | — | — |
-| 10 | 11. Pcharge 1 H | Charge power(high) | — | — | — | — | — | — |
-| 10 | 12. Pcharge 1 L | Charge power (low) | — | — | — | — | — | — |
-| 10 | 13. Vbat | Battery voltage | — | — | — | — | — | — |
-| 10 | 14. SOC | State of charge Capacity | — | — ith/leadacid | — | — | — | — |
-| 10 | 15. Pactouser R | H AC power to user H | — | — | — | — | — | — |
-| 10 | 16. Pactouser R | L AC power to user L | — | — | — | — | — | — |
-| 10 | 17. Pactouser S | H Pactouser S H | — | — | — | — | — | — |
-| 10 | 18. Pactouser S | L Pactouser S L | — | — | — | — | — | — |
-| 10 | 19. Pactouser T | H Pactouser T H | — | — | — | — | — | — |
-| 10 | 20. Pactouser T | L Pactouser T H | — | — | — | — | — | — |
-| 10 | 21. Pactouser Total H | AC power to user total H | — | — | — | — | — | — |
-| 10 | 22. Pactouser Total L | AC power to user total L | — | — | — | — | — | — |
-| 10 | 23. Pac to grid R H | AC power to grid H | — | — c output | — | — | — | — |
-| 10 | 24. Pac to grid R L | AC power to grid L | — | — | — | — | — | — |
-| 10 | 25. Pactogrid S H | — | — | — | — | — | — | — |
-| 10 | 26. Pactogrid S L | — | — | — | — | — | — | — |
-| 10 | 27. Pactogrid T H | — | — | — | — | — | — | — |
-| 10 | 28. Pactogrid T L | — | — | — | — | — | — | — |
-| 10 | 29. Pactogrid total H | AC power to grid total H | — | — | — | — | — | — |
-| 10 | 30. Pactogrid total L | AC power to grid total L | — | — | — | — | — | — |
-| 10 | 31. PLocal Load R | H INV power to local load H | — | — | — | — | — | — |
-| 10 | 32. PLocal Load R | L INV power to local load L | — | — | — | — | — | — |
-| 10 | 33. PLocal Load S | H | — | — | — | — | — | — |
-| 10 | 34. PLocal Load S | L | — | — | — | — | — | — |
-| 10 | 35. PLocal Load T H | — | — | — | — | — | — | — |
-| 10 | 36. PLocal Load T L | — | — | — | — | — | — | — |
-| 10 | 37. PLocal Load total | H INV power to local load tot | — | — | — | — | — | — |
-| 10 | 38. PLocal Load total | L INV power to local load tot L | — | — | — | — | — | — |
-| 10 | 39. IPM 2 Temperature | REC Temperature | — | — | — | — | — | — |
-| 10 | 40. Battery 2 Temperature | Battery Temperature | — | — ithium p | — | — | — | — |
-| 10 | 41. SP DSP Status | SP state | — | — | — | — | — | — |
-| 10 | 42. SP Bus Volt | SP BUS 2 Volt | — | — | — | — | — | — |
-| 10 | 43 | — | — | — | — | — | — | — |
-| 10 | 44. Etouser_today H | Energy to user today high | — | — | — | — | — | — |
-| 10 | 45. Etouser_today L | Energy to user today low | — | — | — | — | — | — |
-| 10 | 46. Etouser_total H | Energy to user total high | — | — | — | — | — | — |
-| 10 | 47. Etouser_ total L | Energy to user total high | — | — | — | — | — | — |
-| 10 | 48. Etogrid_today H | Energy to grid today high | — | — | — | — | — | — |
-| 10 | 49. Etogrid _today L | Energy to grid today low | — | — | — | — | — | — |
-| 10 | 50. Etogrid _total H | Energy to grid total high | — | — | — | — | — | — |
-| 10 | 51. Etogrid _ total L | Energy to grid total high | — | — | — | — | — | — |
-| 10 | 52. Edischarge 1_toda y H | Discharge energy 1 today | — | — | — | — | — | — |
-| 10 | 53. Edischarge 1_toda y L | Discharge energy 1 today | — | — | — | — | — | — |
-| 10 | 54. Edischarge 1_total H | Total discharge energy 1 (high) | — | — | — | — | — | — |
-| 10 | 55. Edischarge 1_total L | Total discharge energy 1 (low) | — | — | — | — | — | — |
-| 10 | 56. Echarge 1_today H | Charge 1 energy today | — | — | — | — | — | — |
-| 10 | 57. Echarge 1_today L | Charge 1 energy today | — | — | — | — | — | — |
-| 10 | 58. Echarge 1_total H | Charge 1 energy total | — | — | — | — | — | — |
-| 10 | 59. Echarge 1_total L | Charge 1 energy total | — | — | — | — | — | — |
-| 10 | 60. ELocal Load_Today H | Local load energy today | — | — | — | — | — | — |
-| 10 | 61. ELocal Load_Today L | Local load energy today | — | — | — | — | — | — |
-| 10 | 62. ELocal Load_Total H | Local load energy total | — | — | — | — | — | — |
-| 10 | 63. ELocal Load_Total L | Local load energy total | — | — | — | — | — | — |
-| 10 | 64. dw Export Limit Ap parent Power | Export Limit Apparent Power H | — | — rent Power | — | — | — | — |
-| 10 | 65. dw Export Limit Ap parent Power | Export Limit Apparent Power L | — | — rent Power | — | — | — | — |
-| 10 | 66. / | / | — | — rved | — | — | — | — |
-| 10 | 67. EPS Fac | UPSfrequency | — | — | — | — | — | — |
-| 10 | 68. EPS Vac 1 | UPS phase R output voltage | — | — | — | — | — | — |
-| 10 | 69. EPS Iac 1 | UPS phase R output current | — | — | — | — | — | — |
-| 10 | 70. EPS Pac 1 H | UPS phase R output power (H) | — | — | — | — | — | — |
-| 10 | 71. EPS Pac 1 L | UPS phase R output power (L) | — | — | — | — | — | — |
-| 10 | 72. EPS Vac 2 | UPS phase S output voltage | — | — | — | — | — | — |
-| 10 | 73. EPS Iac 2 | UPS phase S output current | — | — se | — | — | — | — |
-| 10 | 74. EPS Pac 2 H | UPS phase S output power (H) | — | — | — | — | — | — |
-| 10 | 75. EPS Pac 2 L | UPS phase S output power (L) | — | — | — | — | — | — |
-| 10 | 76. EPS Vac 3 | UPS phase T output voltage | — | — | — | — | — | — |
-| 10 | 77. EPS Iac 3 | UPS phase T output current | — | — se | — | — | — | — |
-| 10 | 78. EPS Pac 3 H | UPS phase T output power (H) | — | — | — | — | — | — |
-| 10 | 79. EPS Pac 3 L | UPS phase T output power (L) | — | — | — | — | — | — |
-| 10 | 80. Loadpercent | Load percent of UPS ouput | — | — | — | — | — | — |
-| 10 | 81. PF | Power factor | — | — ary Value+1 | — | — | — | — |
-| 10 | 82. BMS_Status Old | Status Old from BMS | — | — | — | — | — | — |
-| 10 | 83. BMS_Status | Status from BMS | — | — | — | — | — | — |
-| 10 | 84. BMS_Error Old | Error info Old from BMS | — | — | — | — | — | — |
-| 10 | 85. BMS_Error | Errorinfomation from BMS | — | — | — | — | — | — |
-| 10 | 86. BMS_SOC BMS_Battery Vol | SOC from BMS Battery voltage from BMS | — | — H 6 K H 6 K | — | — | — | — |
-| 10 | 87. t BMS_Battery Cur | Battery current from BMS | — | — | — | — | — | — |
-| 10 | 88. r BMS_Battery Te | Battery temperature from BMS | — | — | — | — | — | — |
-| 10 | 89. mp BMS_Max Curr | Max. charge/discharge current | — | — | — | — | — | — |
-| 10 | 90. | from BMS (pylon) | — | — | — | — | — | — |
-| 10 | 91. BMS_Gauge RM | Gauge RM from BMS | — | — | — | — | — | — |
-| 10 | 92. BMS_Gauge FCC | Gauge FCC from BMS | — | — | — | — | — | — |
-| 10 | 93. BMS_FW | — | — | — | — | — | — | — |
-| 10 | 94. BMS_Delta Volt | Delta V from BMS | — | — | — | — | — | — |
-| 10 | 95. BMS_Cycle Cnt | Cycle Count from BMS | — | — | — | — | — | — |
-| 10 | 96. BMS_SOH BMS_Constant V | SOH from BMS CV voltage from BMS | — | — | — | — | — | — |
-| 10 | 97. olt BMS_Warn Info O | Warning info old from BMS | — | — | — | — | — | — |
-| 10 | 98. ld | — | — | — | — | — | — | — |
-| 10 | 99. BMS_Warn Info BMS_Gauge ICCu | Warning info from BMS Gauge IC current from BMS | — | — | — | — | — | — |
-| 11 | Input 3 voltage | MCU Software version from BMS | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Gauge Version from BMS | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Gauge FR Version L 16 from BMS | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Gauge FR Version H 16 from BMS | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | — | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | BMSInformation from BMS | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Pack Information from BMS | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Using Cap from BMS | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Maximum single battery voltage | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Lowest single battery voltage | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Battery parallel number | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Number of batteries Max Volt Cell No | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Min Volt Cell No | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Max Tempr Cell_10 T | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Min Tempr Cell_10 T | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Max Volt Tempr Cell No | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | — | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Min Volt Tempr Cell No | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Faulty Battery Address | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Parallel maximum SOC | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Parallel minimum SOC Battery Protection 2 | — | — CAN ID: 0 x 323 | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Battery Protection 3 | — | — Byte 4~5 CAN ID: 0 x 323 | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Battery Warn 2 | — | — Byte 6 CAN ID: 0 x 323 | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | — | — | — Byte 7 | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | AC Charge Energy today | — | — Energy today | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | AC Charge Energy today | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | — | — | — Energy total | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | — | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | AC Charge Power | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | AC Charge Power | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | uw Grid Power_70_Adj EE_SP | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | tra inverte AC Power to grid gh | — | — SPA used | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | trainverte AC Power to grid Low | — | — SPA used | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Extra inverter Power TOUser_Extr today (high) | — | — SPA used | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Extra inverter Power TOUser_Extr today (low) | — | — SPA used | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Extra inverter Power TOUser_Extr total(high) | — | — SPA used | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Extra inverter Power TOUser_Extr total(low) | — | — SPA used | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | System electric energy today H | — | — SPA used System electric energy today H | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | stem electric energy today L | — | — d electric today L | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | System electric energy total H | — | — d electric total H | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | System electric energy total L | — | — d electric total L | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | self electric energy today H | — | — electric today H | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | self electric energy today L | — | — electric today L | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | self electric energy total H | — | — electric total H | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | self electric energy total L | — | — electric total L | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | System power H | — | — power H | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | System power L | — | — power L | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | self power H | — | — wer H | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | self power L | — | — wer L | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | PV electric energy today H | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | PV electric energy today L | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Discharge power pack number | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Cumulative discharge power high 16-bit byte | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Cumulative discharge power low 16-bit byte | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | charge power pack serial number | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Cumulative charge power high R 16-bit byte | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Cumulative charge power low R 16-bit byte | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | First Batt Fault Sn | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Second Batt Fault Sn | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Third Batt Fault Sn | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Fourth Batt Fault Sn | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Battery history fault code 1 | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Battery history fault code 2 | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Battery history fault code 3 | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Battery history fault code 4 | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Battery history fault code 5 | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Battery history fault code 6 | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Battery history fault code 7 | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Battery history fault code 8 | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Number of battery codes PACK number + BIC forward and reverse codes | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | — | — | — | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 11 | Input 3 voltage | Intelligent reading is used to identify software compatibility features | — | — rgy; rgy | — | — | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
-| 1 | Input 1 voltage | Maximum cell voltage | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Minimum cell voltage | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Number of Battery modules | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Total number of cells | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Max Volt Cell No | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Min Volt Cell No | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Max Tempr Cell_10 T | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Min Tempr Cell_10 T | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Max Tempr Cell No | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Min Tempr Cell No | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Fault Pack ID | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Parallel maximum SOC | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Parallel minimum SOC | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Bat Protect 1 Add | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Bat Protect 2 Add | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | Bat Warn 1 Add | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | BMS_Highest Soft Version | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | BMS_Hardware Version | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 1 | Input 1 voltage | BMS_Request Type | — | — | — | — | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
-| 12 | Input 3 Amperage | Success sign of key detection before aging | — | — 1:Finished test 0: test not completed | — | — | tlx:input_3_amperage | Input 3 Amperage |
-| 12 | Input 3 Amperage | / | — | — reversed | — | — | tlx:input_3_amperage | Input 3 Amperage |
-| 20 | Grid voltage | Inverter run state | — | — SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Output power (high) | — | — 1 W SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Output power (low) | — | — 1 W SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Grid frequency | — | — 01 Hz SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Three/single phase grid voltage | — | — 1 V SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Three/single phase grid output | — | — 1 A SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Three/single phase grid output VA (high) | — | — 1 VA SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Three/single phase grid output VA(low) | — | — 1 VA SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Today generate energy (high) | — | — 1 k WH SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Today generate energy (low) | — | — 1 k WH SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Total generate energy (high) | — | — WH SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Total generate energy (low) | — | — WH SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Work time total (high) | — | — SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Work time total (low) | — | — SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Inverter temperature | — | — SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | The inside IPM in inverter Temp | — | — SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Boost temperature | — | — SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | — | — | — reserved | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | Bat Volt_DSP | — | — Bat Volt(DSP) | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | P Bus inside Voltage | — | — SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 20 | Grid voltage | N Bus inside Voltage | — | — SPA | — | — | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
-| 21 | AC frequency | / | — | — Remote setup enable | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | / | — | — Remotely set power | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | Extra inverte AC Power to grid | — | — SPA used | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | Extrainverte AC Power to grid L | — | — SPA used | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | Extra inverter Power TOUser_Extr today (high) | — | — Wh SPA used | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | Extra inverter Power TOUser_Extr today (low) | — | — Wh SPA used | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | Extra inverter Power TOUser_Extratotal(high) | — | — Wh SPA used | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | Extra inverter Power TOUser_Extr total(low) | — | — Wh SPA used | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | System electric energy today H | — | — Wh SPA used System electric energy today H | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | stem electric energy today L | — | — Wh SPA used System electric energy today L | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | System electric energy total H | — | — Wh SPA used System c total | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | System electric energy total L | — | — d c total | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | ACCharge energy today | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | ACCharge energy today | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | ACCharge energy total | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | ACCharge energy total | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | Grid power to local load | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | Grid power to local load | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | 0:Load First 1:Battery First 2:Grid First | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | 0:Lead-acid 1:Lithium battery | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | Aging mode | — | — | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 21 | AC frequency | — | — | — d | — | — | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
-| 3 | Input 1 Wattage | 2: Reserved 3:Sys Fault module 4: Flash module 5:PVBATOnline module: 6:Bat Online module 7:PVOffline Mode 8:Bat Offline Mode The lower 8 bits indicate the m status (web page display) 0: Standby Status; 1: Normal Status; 3: Fault Status 4:Flash Status; | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV total power | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 1 voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 1 input current | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 1 power | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 2 voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 2 input current | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 2 power | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 3 voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 3 input current | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 3 power | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 4 voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 4 input current | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 4 power | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | System output power | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | reactive power | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Output power | — | — ut | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Grid frequency | — | — r | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Three/single phase grid voltage | — | — uency e/single | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — e grid age | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Three/single phase grid output | — | — e/single rid | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Three/single phase grid output VA | — | — ingle rid | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Three phase grid voltage | — | — watt hase | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Three phase grid output current | — | — ltage hase | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — tput | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Three phase grid output power | — | — hase tput | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Three phase grid voltage | — | — hase | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Three phase grid output current | — | — ltage hase | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — tput | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Three phase grid output power | — | — hase tput | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Three phase grid voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Three phase grid voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Three phase grid voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Total forward power | — | — orward | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Total reverse power | — | — everse | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Total load power | — | — load | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Work time total | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Today generate energy | — | — e | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Total generate energy | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — e | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV energy total | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 1 energy today | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 1 energy total | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 2 energy today | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 2 energy total | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 3 energy today | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 3 energy total | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Today energy to user | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Total energy to user | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Today energy to grid | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Total energy to grid | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Today energy of user load | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Total energy of user load | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 4 energy today | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV 4 energy total | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV energy today | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Derating Mode | — | — h | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — k T l A i | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | PV ISO value | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | R DCI Curr | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | S DCI Curr | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | T DCI Curr | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | GFCI Curr | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | total bus voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Inverter temperature | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | The inside IPM in inverter temp | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Boost temperature | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Reserved | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Commmunication broad temperatur | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | P Bus inside Voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | N Bus inside Voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Inverter output PF now | — | — 000 | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Real Output power Percent | — | — 0 | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Output Maxpower Limited | — | — ut ower | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Inverter standby flag | — | — ted:turn off r;:PV Low;:AC | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — /Freq of scope; ~bit 7: rved | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Inverter fault maincode | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Inverter Warning maincode | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Inverter fault subcode | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Inverter Warning subcode | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Present FFTValue [CHANNEL_A] | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | AFCI Status | — | — waiting e lf-check Detection | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | AFCI Strength[CHANNEL_A] | — | — arcing e ult state update e | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | AFCI Self Check[CHANNEL_A] | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | inv start delay time | — | — lay | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BDC connect state | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Current status of Dry Contact | — | — of | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | self-use power | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | System energy today | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Today discharge energy | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Total discharge energy | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Charge energy today | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Charge energy total | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Today energy of AC charge | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Total energy of AC charge | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Total energy of system outpu | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Today energy of Self output | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Total energy of Self output | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Word Mode | — | — ad First | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — ery Firs id First | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | UPS frequency | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | UPS phase R output voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | UPS phase R output current | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | UPS phase R output power | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | UPS phase S output voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | UPS phase S output current | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | UPS phase S output power | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | UPS phase T output voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | UPS phase T output current | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | UPS phase T output power | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | UPS output power | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Load percent of UPS ouput | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Power factor | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | DC voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Whether to parse BDC data separ | — | — on't need | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BDCDerating Mode: 0: Normal, unrestricted 1:Standby or fault | — | — ed | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | 2:Maximum battery current limit (discharge) 3:Battery discharge Enable (Dis 4:High bus discharge derating (discharge) 5:High temperature discharge derating (discharge) 6:System warning No discharge (discharge) 7-15 Reserved (Discharge) 16:Maximum charging current of battery (charging) 17:High Temperature (LLC and Buckboost) (Charging) 18:Final soft charge 19:SOC setting limits (charging 20:Battery low temperature (cha 21:High bus voltage (charging) 22:Battery SOC (charging) 23: Need to charge (charge) 24: System warning not charging (charging) 25-29:Reserve (charge) System work State and mode The upper 8 bits indicate the mode; 0:No charge and discharge; 1:charge; 2:Discharge; | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | The lower 8 bits represent the 0: Standby Status; 1: Normal Status; 2: Fault Status 3:Flash Status; | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Storge device fault code | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Storge device warning code | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Battery voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Battery current | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | State of charge Capacity | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Total BUS voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | On the BUS voltage | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BUCK-BOOST Current | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | LLC Current | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Temperture A | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Temperture B | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Discharge power | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Charge power | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Discharge total energy of storg | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Charge total energy of storge d | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Reserved BDC mark (charge and dischar fault alarm code) Bit 0: Charge En; BDC allows char Bit 1: Discharge En; BDC allows discharge | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Bit 2~7: Resvd; reserved Bit 8~11: Warn Sub Code; BDC sub-warning code Bit 12~15: Fault Sub Code; BDC sub-error code | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Lower BUS voltage Bms Max Volt Cell No | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Bms Min Volt Cell No | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Bms Battery Avg Temp | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Bms Max Cell Temp | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Bms Battery Avg Temp | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Bms Max Cell Temp | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Bms Battery Avg Temp | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Bms Max SOC | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Bms Min SOC Parallel Battery Num | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Bms Derate Reason | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Bms Gauge FCC(Ah) | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Bms Gauge RM(Ah) | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BMS Protect 1 | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BMSWarn 1 | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BMS Fault 1 | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BMS Fault 2 | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Battery ISO detection status | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | battery work request | — | — n | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | battery working status | — | — mancy ge harge | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — dby start t te | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BMS Protect 2 | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BMS Warn 2 | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BMS SOC BMS Battery Volt | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BMS Battery Curr | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | battery cell maximum temperatur | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Maximum charging current Maximum discharge current | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BMSCycle Cnt | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BMS SOH Battery charging voltage limit | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | Battery discharge voltage limit | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BMS Warn 3 | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | BMS Protect 3 | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 3 | Input 1 Wattage | — | — | — | — | — | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
-| 32 | Input 8 Amperage | — | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | BMS Battery Single Volt Max | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | BMS Battery Single Volt Min | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Battery Load Volt | — | — 0,650.00] | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | — | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 1 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 2 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 3 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 4 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 5 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 6 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 7 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 8 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 9 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 10 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 10 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 12 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 13 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 14 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 15 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Debug data 16 | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | PV inverter 1 output power H | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | PV inverter 1 output power L | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | PV inverter 2 output power H | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | PV inverter 2 output power L | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | PV inverter 1 energy Today H | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | PV inverter 1 energy Today L | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | PV inverter 2 energy Today H | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | PV inverter 2 energy Today L | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | PV inverter 1 energy Total H | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | PV inverter 1 energy Total L | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | PV inverter 2 energy Total H | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | PV inverter 2 energy Total L | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | battery pack number | — | — C reports e updated ery 15 nutes | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Battery pack serial number SN[0] | — | — C reports e updated | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Battery pack serial number SN[2] | — | — ery 15 | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Battery pack serial number SN[4] | — | — nutes | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Battery pack serial number SN[6] | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Battery pack serial number SN[8] | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Battery pack serial number SN[10]SN[11] | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Battery pack serial number SN[12]SN[13] | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Battery pack serial number SN[14]SN[15] | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Reserve | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | — | — | — | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 32 | Input 8 Amperage | Clear day data flag | — | — ta of the rrent day at the rver determines whether to clear. 0:not cleared. 1: Clear. | — | — | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
-| 40 | Fault code | The first 8 registers are the 1 | — | — en 69 registers have the | — | — | tlx:output_1_power, tl3:fault_code | Fault code, Output 1 Wattage |
-| 41 | Intelligent Power Management temperature | same data area as 3165-3233, th 108 registers (including 8 regi | — | — eserved, a total of r). | — | — | tl3:ipm_temperature | Intelligent Power Management temperature |
-| 41 | Intelligent Power Management temperature | The first 8 registers are the 1 | — | — en 69 registers have the | — | — | tl3:ipm_temperature | Intelligent Power Management temperature |
-| 42 | Fault code | same data area as 3165-3233, th 108 registers (including 8 regi | — | — eserved, a total of r). | — | — | tlx:output_2_voltage, tl3:p_bus_voltage, offgrid:fault_code | Fault code, Output 2 voltage, P-bus voltage |
-| 48 | Input 1 energy today | The first 8 registers are the 1 | — | — en 69 registers have the | — | — | tlx:output_3_power, tl3:input_1_energy_today, offgrid:input_1_energy_today | Input 1 energy today, Output 3 Wattage, PV1 energy produced today |
-| 49 | 71 | same data area as 3165-3233, th 108 registers (including 8 regi | — | — eserved, a total of r). | — | — | — | — |
-| 49 | 72- 10 | The first 8 registers are the 1 | — | — en 69 registers have the | — | — | — | — |
-| 50 | Input 1 total energy | same data area as 3165-3233, th 108 registers (including 8 regi | — | — eserved, a total of r). | — | — | tl3:input_1_energy_total, offgrid:input_1_energy_total | Input 1 total energy, PV1 energy produced Lifetime |
+| 0 | Inverter status | Operating state reported by the inverter controller (0=waiting, 1=normal, 3=fault, 5=PV charge, 6=AC charge, 7=combined charge, 8=combined charge bypass, 9=PV charge bypass, 10=AC charge bypass, 11=bypass, 12=PV charge + discharge). | R | — | — | inverter_status_code | tlx:status_code, tl3:status_code, offgrid:status_code | Status code |
+| 1 | PV input power | Total PV input power summed across all strings (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | tlx:input_power, tl3:input_power, offgrid:input_1_voltage | Input 1 voltage, Internal wattage, PV1 voltage |
+| 3 | PV 1 DC voltage | Instantaneous PV 1 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | tlx:input_1_voltage, tl3:input_1_voltage, offgrid:input_1_power | Input 1 Wattage, Input 1 voltage, PV1 charge power, PV1 voltage |
+| 4 | PV 1 DC current | Instantaneous PV 1 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | tlx:input_1_amperage, tl3:input_1_amperage | Input 1 Amperage, PV1 buck current |
+| 5 | PV 1 DC power | Real-time DC power from PV 1 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | tlx:input_1_power, tl3:input_1_power, offgrid:input_2_power | Input 1 Wattage, Input 2 Wattage, PV1 charge power, PV2 charge power |
+| 7 | PV 2 DC voltage | Instantaneous PV 2 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | tlx:input_2_voltage, tl3:input_2_voltage, offgrid:input_1_amperage | Input 1 Amperage, Input 2 voltage, PV1 buck current, PV2 voltage |
+| 8 | PV 2 DC current | Instantaneous PV 2 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | tlx:input_2_amperage, tl3:input_2_amperage, offgrid:input_2_amperage | Input 2 Amperage, PV2 buck current |
+| 9 | PV 2 DC power | Real-time DC power from PV 2 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | tlx:input_2_power, tl3:input_2_power, offgrid:output_active_power | Input 2 Wattage, Output active power, PV2 charge power |
+| 11 | PV 3 DC voltage | Instantaneous PV 3 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | tlx:input_3_voltage, tl3:output_power | Input 3 voltage, Output power |
+| 12 | PV 3 DC current | Instantaneous PV 3 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | tlx:input_3_amperage | Input 3 Amperage |
+| 13 | PV 3 DC power | Real-time DC power from PV 3 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | tlx:input_3_power, tl3:grid_frequency, offgrid:charge_power | AC frequency, Battery charge power, Charge Power, Grid frequency, Input 3 Wattage |
+| 15 | PV 4 DC voltage | Instantaneous PV 4 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | tlx:input_4_voltage, tl3:output_1_amperage | Input 4 voltage, Output 1 Amperage, Output amperage |
+| 16 | PV 4 DC current | Instantaneous PV 4 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | tlx:input_4_amperage, tl3:output_1_power | Input 4 Amperage, Output 1 Wattage |
+| 17 | PV 4 DC power | Real-time DC power from PV 4 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | tlx:input_4_power, offgrid:battery_voltage | Battery voltage, Input 4 Wattage |
+| 19 | PV 5 DC voltage | Instantaneous PV 5 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | tlx:input_5_voltage, tl3:output_2_amperage, offgrid:bus_voltage | Bus voltage, Input 5 voltage, Output 2 Amperage |
+| 20 | PV 5 DC current | Instantaneous PV 5 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | tlx:input_5_amperage, tl3:output_2_power, offgrid:grid_voltage | Grid voltage, Input 5 Amperage, Output 2 Wattage |
+| 21 | PV 5 DC power | Real-time DC power from PV 5 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | tlx:input_5_power, offgrid:grid_frequency | AC frequency, Grid frequency, Input 5 Wattage |
+| 23 | PV 6 DC voltage | Instantaneous PV 6 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | tlx:input_6_voltage, tl3:output_3_amperage, offgrid:output_frequency | Input 6 voltage, Output 3 Amperage, Output frequency |
+| 24 | PV 6 DC current | Instantaneous PV 6 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | tlx:input_6_amperage, tl3:output_3_power, offgrid:output_dc_voltage | Input 6 Amperage, Output 3 Wattage, Output DC voltage |
+| 25 | PV 6 DC power | Real-time DC power from PV 6 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | tlx:input_6_power, offgrid:inverter_temperature | Input 6 Wattage, Temperature |
+| 27 | PV 7 DC voltage | Instantaneous PV 7 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | tlx:input_7_voltage, offgrid:load_percent | Input 7 voltage, Inverter load |
+| 28 | PV 7 DC current | Instantaneous PV 7 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | tlx:input_7_amperage, tl3:output_energy_total, offgrid:battery_port_voltage | Battery port voltage, Input 7 Amperage, Total energy produced |
+| 29 | PV 7 DC power | Real-time DC power from PV 7 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | tlx:input_7_power, offgrid:battery_bus_voltage | Battery bus voltage, Input 7 Wattage |
+| 31 | PV 8 DC voltage | Instantaneous PV 8 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | tlx:input_8_voltage | Input 8 voltage |
+| 32 | PV 8 DC current | Instantaneous PV 8 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | tlx:input_8_amperage, tl3:inverter_temperature | Input 8 Amperage, Temperature |
+| 33 | PV 8 DC power | Real-time DC power from PV 8 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | tlx:input_8_power | Input 8 Wattage |
+| 35 | AC output power | Active AC output power delivered by the inverter (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | tlx:output_power | Output power |
+| 37 | Grid frequency | Measured grid frequency with 0.01 Hz resolution. | R | — Hz | — | u 16_frequency_centihz | tlx:grid_frequency | AC frequency, Grid frequency |
+| 38 | AC phase L 1 voltage | AC output voltage for phase L 1. | R | — V | — | u 16_voltage_decivolt | tlx:output_1_voltage | Output 1 voltage, Output voltage |
+| 39 | AC phase L 1 current | AC output current for phase L 1. | R | — A | — | u 16_current_deciamp | tlx:output_1_amperage | Output 1 Amperage, Output amperage |
+| 40 | AC phase L 1 power | Active power exported on phase L 1. | R | — W | — | u 32_power_w_decawatt | tlx:output_1_power, tl3:fault_code | Fault code, Output 1 Wattage |
+| 42 | AC phase L 2 voltage | AC output voltage for phase L 2. | R | — V | — | u 16_voltage_decivolt | tlx:output_2_voltage, tl3:p_bus_voltage, offgrid:fault_code | Fault code, Output 2 voltage, P-bus voltage |
+| 43 | AC phase L 2 current | AC output current for phase L 2. | R | — A | — | u 16_current_deciamp | tlx:output_2_amperage, tl3:n_bus_voltage, offgrid:warning_code | N-bus voltage, Output 2 Amperage, Warning code |
+| 44 | AC phase L 2 power | Active power exported on phase L 2. | R | — W | — | u 32_power_w_decawatt | tlx:output_2_power | Output 2 Wattage |
+| 46 | AC phase L 3 voltage | AC output voltage for phase L 3. | R | — V | — | u 16_voltage_decivolt | tlx:output_3_voltage | Output 3 voltage |
+| 47 | AC phase L 3 current | AC output current for phase L 3. | R | — A | — | u 16_current_deciamp | tlx:output_3_amperage, tl3:derating_mode, offgrid:constant_power | Derating mode, Output 3 Amperage |
+| 48 | AC phase L 3 power | Active power exported on phase L 3. | R | — W | — | u 32_power_w_decawatt | tlx:output_3_power, tl3:input_1_energy_today, offgrid:input_1_energy_today | Input 1 energy today, Output 3 Wattage, PV1 energy produced today |
+| 53 | Output energy today | Energy exported to the AC output today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:output_energy_today | Energy produced today |
+| 55 | Output energy total | Lifetime AC output energy (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:output_energy_total | Total energy produced |
+| 57 | Run time | Total cumulative run time of the inverter. Raw values are seconds scaled by 1/7200 (0.0001389 hours). | R | — h | — | u 32_runtime_hours; Raw counter counts seconds; divide by 7200 to obtain hours. | tlx:operation_hours | Running hours |
+| 59 | PV 1 energy today | Energy harvested by PV 1 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_1_energy_today | Input 1 energy today, PV1 energy produced today |
+| 61 | PV 1 energy total | Lifetime energy harvested by PV 1. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_1_energy_total | Input 1 total energy, PV1 energy produced Lifetime |
+| 63 | PV 2 energy today | Energy harvested by PV 2 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_2_energy_today | Input 2 energy today, PV2 energy produced today |
+| 65 | PV 2 energy total | Lifetime energy harvested by PV 2. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_2_energy_total, tl3:warning_value | Input 2 total energy, PV2 energy produced Lifetime |
+| 67 | PV 3 energy today | Energy harvested by PV 3 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_3_energy_today | Input 3 energy today |
+| 69 | PV 3 energy total | Lifetime energy harvested by PV 3. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_3_energy_total, offgrid:discharge_power | Battery discharge power, Discharge Power, Input 3 total energy |
+| 71 | PV 4 energy today | Energy harvested by PV 4 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_4_energy_today | Input 4 energy today |
+| 73 | PV 4 energy total | Lifetime energy harvested by PV 4. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_4_energy_total, offgrid:battery_discharge_amperage | Battery discharge current, Input 4 total energy |
+| 75 | PV 5 energy today | Energy harvested by PV 5 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_5_energy_today | Input 5 energy today |
+| 77 | PV 5 energy total | Lifetime energy harvested by PV 5. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_5_energy_total, offgrid:battery_power | Battery charging/ discharging(-ve), Input 5 total energy |
+| 79 | PV 6 energy today | Energy harvested by PV 6 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_6_energy_today | Input 6 energy today |
+| 81 | PV 6 energy total | Lifetime energy harvested by PV 6. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_6_energy_total | Input 6 total energy |
+| 83 | PV 7 energy today | Energy harvested by PV 7 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_7_energy_today | Input 7 energy today |
+| 85 | PV 7 energy total | Lifetime energy harvested by PV 7. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_7_energy_total | Input 7 total energy |
+| 87 | PV 8 energy today | Energy harvested by PV 8 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_8_energy_today | Input 8 energy today |
+| 89 | PV 8 energy total | Lifetime energy harvested by PV 8. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_8_energy_total | Input 8 total energy |
+| 91 | PV energy total | Total PV energy generated across all strings (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_energy_total | Total energy input |
+| 93 | Inverter temperature | Main inverter heatsink temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:inverter_temperature | Temperature |
+| 94 | IPM temperature | IPM (power module) temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:ipm_temperature | Intelligent Power Management temperature |
+| 95 | Boost temperature | Boost inductor temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:boost_temperature | Boost temperature |
+| 98 | P-bus voltage | Positive DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | tlx:p_bus_voltage | P-bus voltage |
+| 99 | N-bus voltage | Negative DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | tlx:n_bus_voltage | N-bus voltage |
+| 101 | Output power percentage | Instantaneous AC output as a percentage of the inverter's rated power. | R | — % | — | u 16_percent | tlx:real_output_power_percent | Real power output percentage |
+| 104 | Derating mode | Active derating reason reported by the inverter controller. | R | — | — | u 16_raw_code | tlx:derating_mode | Derating mode |
+| 105 | Fault code | Current inverter fault code (see protocol documentation). | R | — | — | u 16_status_word | tlx:fault_code | Fault code |
+| 110 | Warning code | Current inverter warning code (vendor-defined bitmask). | R | — | — | u 16_status_word | tlx:warning_code | Warning code |
+
+## TL-X/TL-XH Input Registers (3000–3124)
+Primary TL-X/TL-XH telemetry mirror (PV/AC metrics).
+
+**Applies to:** TL-X/TL-XH/TL-XH US
+
+| Register | Name | Description | Access | Range/Unit | Initial | Notes | Attributes | Sensors |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 3000 | Inverter status | Operating state reported by the inverter controller (0=waiting, 1=normal, 3=fault, 5=PV charge, 6=AC charge, 7=combined charge, 8=combined charge bypass, 9=PV charge bypass, 10=AC charge bypass, 11=bypass, 12=PV charge + discharge). | R | — | — | inverter_status_code | tlx:status_code | Status code |
+| 3001 | PV input power | Total PV input power summed across all strings (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | tlx:input_power | Internal wattage |
+| 3003 | PV 1 DC voltage | Instantaneous PV 1 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | tlx:input_1_voltage | Input 1 voltage, PV1 voltage |
+| 3004 | PV 1 DC current | Instantaneous PV 1 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | tlx:input_1_amperage | Input 1 Amperage, PV1 buck current |
+| 3005 | PV 1 DC power | Real-time DC power from PV 1 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | tlx:input_1_power | Input 1 Wattage, PV1 charge power |
+| 3007 | PV 2 DC voltage | Instantaneous PV 2 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | tlx:input_2_voltage | Input 2 voltage, PV2 voltage |
+| 3008 | PV 2 DC current | Instantaneous PV 2 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | tlx:input_2_amperage | Input 2 Amperage, PV2 buck current |
+| 3009 | PV 2 DC power | Real-time DC power from PV 2 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | tlx:input_2_power | Input 2 Wattage, PV2 charge power |
+| 3011 | PV 3 DC voltage | Instantaneous PV 3 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | tlx:input_3_voltage | Input 3 voltage |
+| 3012 | PV 3 DC current | Instantaneous PV 3 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | tlx:input_3_amperage | Input 3 Amperage |
+| 3013 | PV 3 DC power | Real-time DC power from PV 3 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | tlx:input_3_power | Input 3 Wattage |
+| 3015 | PV 4 DC voltage | Instantaneous PV 4 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | tlx:input_4_voltage | Input 4 voltage |
+| 3016 | PV 4 DC current | Instantaneous PV 4 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | tlx:input_4_amperage | Input 4 Amperage |
+| 3017 | PV 4 DC power | Real-time DC power from PV 4 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | tlx:input_4_power | Input 4 Wattage |
+| 3021 | Output reactive power | Instantaneous reactive power on the AC output (positive = inductive, negative = capacitive). | R | — var | — | s 32_reactive_power_decivar | tlx:output_reactive_power | Reactive wattage |
+| 3023 | AC output power | Active AC output power delivered by the inverter (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | tlx:output_power | Output power |
+| 3025 | Grid frequency | Measured grid frequency with 0.01 Hz resolution. | R | — Hz | — | u 16_frequency_centihz | tlx:grid_frequency | AC frequency, Grid frequency |
+| 3026 | AC phase L 1 voltage | AC output voltage for phase L 1. | R | — V | — | u 16_voltage_decivolt | tlx:output_1_voltage | Output 1 voltage, Output voltage |
+| 3027 | AC phase L 1 current | AC output current for phase L 1. | R | — A | — | u 16_current_deciamp | tlx:output_1_amperage | Output 1 Amperage, Output amperage |
+| 3028 | AC phase L 1 power | Active power exported on phase L 1. | R | — W | — | u 32_power_w_decawatt | tlx:output_1_power | Output 1 Wattage |
+| 3030 | AC phase L 2 voltage | AC output voltage for phase L 2. | R | — V | — | u 16_voltage_decivolt | tlx:output_2_voltage | Output 2 voltage |
+| 3031 | AC phase L 2 current | AC output current for phase L 2. | R | — A | — | u 16_current_deciamp | tlx:output_2_amperage | Output 2 Amperage |
+| 3032 | AC phase L 2 power | Active power exported on phase L 2. | R | — W | — | u 32_power_w_decawatt | tlx:output_2_power | Output 2 Wattage |
+| 3034 | AC phase L 3 voltage | AC output voltage for phase L 3. | R | — V | — | u 16_voltage_decivolt | tlx:output_3_voltage | Output 3 voltage |
+| 3035 | AC phase L 3 current | AC output current for phase L 3. | R | — A | — | u 16_current_deciamp | tlx:output_3_amperage | Output 3 Amperage |
+| 3036 | AC phase L 3 power | Active power exported on phase L 3. | R | — W | — | u 32_power_w_decawatt | tlx:output_3_power | Output 3 Wattage |
+| 3041 | Load supply power | Real-time active power delivered to on-site (self-consumption) loads. | R | — W | — | u 32_power_w_decawatt | tlx:power_to_user | Power to user |
+| 3043 | Grid export power | Active power exported to the utility grid. | R | — W | — | u 32_power_w_decawatt | tlx:power_to_grid | Power to grid |
+| 3045 | Home load power | Aggregate instantaneous demand from on-site loads. | R | — W | — | u 32_power_w_decawatt | tlx:power_user_load | Power user load |
+| 3047 | Run time | Total cumulative run time of the inverter. Raw values are seconds scaled by 1/7200 (0.0001389 hours). | R | — h | — | u 32_runtime_hours; Raw counter counts seconds; divide by 7200 to obtain hours. | tlx:operation_hours | Running hours |
+| 3049 | Output energy today | Energy exported to the AC output today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:output_energy_today | Energy produced today |
+| 3051 | Output energy total | Lifetime AC output energy (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:output_energy_total | Total energy produced |
+| 3053 | PV energy total | Total PV energy generated across all strings (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_energy_total | Total energy input |
+| 3055 | PV 1 energy today | Energy harvested by PV 1 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_1_energy_today | Input 1 energy today, PV1 energy produced today |
+| 3057 | PV 1 energy total | Lifetime energy harvested by PV 1. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_1_energy_total | Input 1 total energy, PV1 energy produced Lifetime |
+| 3059 | PV 2 energy today | Energy harvested by PV 2 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_2_energy_today | Input 2 energy today, PV2 energy produced today |
+| 3061 | PV 2 energy total | Lifetime energy harvested by PV 2. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_2_energy_total | Input 2 total energy, PV2 energy produced Lifetime |
+| 3063 | PV 3 energy today | Energy harvested by PV 3 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_3_energy_today | Input 3 energy today |
+| 3065 | PV 3 energy total | Lifetime energy harvested by PV 3. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:input_3_energy_total | Input 3 total energy |
+| 3067 | Load energy today | Energy delivered to on-site loads today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:energy_to_user_today | Energy To User (Today) |
+| 3069 | Load energy total | Lifetime energy delivered to on-site loads (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:energy_to_user_total | Energy To User (Total) |
+| 3071 | Export energy today | Energy exported to the grid today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:energy_to_grid_today | Energy To Grid (Today) |
+| 3073 | Export energy total | Lifetime energy exported to the grid (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:energy_to_grid_total | Energy To Grid (Total) |
+| 3086 | Derating mode | Active derating reason reported by the inverter controller. | R | — | — | u 16_raw_code | tlx:derating_mode | Derating mode |
+| 3093 | Inverter temperature | Main inverter heatsink temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:inverter_temperature | Temperature |
+| 3094 | IPM temperature | IPM (power module) temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:ipm_temperature | Intelligent Power Management temperature |
+| 3095 | Boost temperature | Boost inductor temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:boost_temperature | Boost temperature |
+| 3097 | Communication board temperature | Temperature reported by the communication/control board (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:comm_board_temperature | Comm board temperature |
+| 3098 | P-bus voltage | Positive DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | tlx:p_bus_voltage | P-bus voltage |
+| 3099 | N-bus voltage | Negative DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | tlx:n_bus_voltage | N-bus voltage |
+| 3101 | Output power percentage | Instantaneous AC output as a percentage of the inverter's rated power. | R | — % | — | u 16_percent | tlx:real_output_power_percent | Real power output percentage |
+| 3105 | Fault code | Current inverter fault code (see protocol documentation). | R | — | — | u 16_status_word | tlx:fault_code | Fault code |
+| 3110 | Warning code | Current inverter warning code (vendor-defined bitmask). | R | — | — | u 16_status_word | tlx:warning_code | Warning code |
+| 3111 | Present FFT value (channel A) | Latest Fast Fourier Transform diagnostic value for channel A. | R | — | — | u 16_raw | tlx:present_fft_a | Present FFT A |
+| 3115 | Inverter start delay | Seconds remaining before restart once grid conditions recover. | R | — s | — | u 16_raw | tlx:inv_start_delay | Inverter start delay |
+
+## TL-X/TL-XH Battery & Hybrid Input Registers (3125–3249)
+Battery energy, power flow, and BMS telemetry for TL-XH hybrids.
+
+**Applies to:** TL-X/TL-XH hybrids, Storage TL-XH
+
+| Register | Name | Description | Access | Range/Unit | Initial | Notes | Attributes | Sensors |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 3125 | Battery discharge today | Energy discharged from the battery into the AC system today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:discharge_energy_today, storage:discharge_energy_today | Battery Discharged (Today), Battery Discharged Today |
+| 3127 | Battery discharge total | Total energy discharged from the battery (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:discharge_energy_total, storage:discharge_energy_total | Battery Discharged (Total), Battery Discharged Lifetime |
+| 3129 | Battery charge today | Energy charged into the battery today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:charge_energy_today, storage:charge_energy_today | Battery Charged (Today), Battery Charged Today |
+| 3131 | Battery charge total | Total energy charged into the battery (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | tlx:charge_energy_total, storage:charge_energy_total | Battery Charged (Total), Grid Charged Lifetime |
+| 3164 | BDC presence flag | Indicates whether a battery DC converter (BDC) has been detected. | R | — | — | u 16_flag | tlx:bdc_new_flag, storage:bdc_new_flag | BDC present |
+| 3169 | Battery voltage | Pack voltage reported via the inverter-side measurements (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | tlx:battery_voltage, storage:battery_voltage | Battery voltage |
+| 3170 | Battery current | Current flowing between battery and inverter (positive = discharge) with 0.1 A resolution. | R | — A | — | s 16_current_deciamp | tlx:battery_current, storage:battery_current | Battery current |
+| 3171 | Battery SOC | Battery state of charge reported by the inverter. | R | — % | — | u 16_percent | tlx:soc, storage:soc | SOC |
+| 3172 | VBUS 1 voltage | BDC high-side bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | tlx:vbus1_voltage, storage:vbus1_voltage | VBUS1 voltage |
+| 3173 | VBUS 2 voltage | BDC low-side bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | tlx:vbus2_voltage, storage:vbus2_voltage | VBUS2 voltage |
+| 3174 | Buck/boost current | Current through the BDC buck/boost stage (0.1 A resolution). | R | — A | — | u 16_current_deciamp | tlx:buck_boost_current, storage:buck_boost_current | Buck/boost current |
+| 3175 | LLC stage current | Current through the LLC resonant stage (0.1 A resolution). | R | — A | — | u 16_current_deciamp | tlx:llc_current, storage:llc_current | LLC current |
+| 3176 | Battery temperature A | Battery temperature sensor A (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:battery_temperature_a, storage:battery_temperature_a | Battery temperature A |
+| 3177 | Battery temperature B | Battery temperature sensor B (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:battery_temperature_b, storage:battery_temperature_b | Battery temperature B |
+| 3178 | Battery discharge power | Real-time discharge power flowing from the battery (0.1 W resolution). | R | — W | — | s 32_power_w_decawatt | tlx:discharge_power, storage:discharge_power | Battery discharge power, Discharge Power |
+| 3180 | Battery charge power | Real-time charge power flowing into the battery (0.1 W resolution). | R | — W | — | s 32_power_w_decawatt | tlx:charge_power, storage:charge_power | Battery charge power, Charge Power |
+| 3189 | BMS max cell index | Cell index reporting the highest voltage in the battery stack (1-based). | R | — | — | u 16_raw | tlx:bms_max_volt_cell_no, storage:bms_max_volt_cell_no | BMS max volt cell no |
+| 3190 | BMS min cell index | Cell index reporting the lowest voltage in the battery stack (1-based). | R | — | — | u 16_raw | tlx:bms_min_volt_cell_no, storage:bms_min_volt_cell_no | BMS min volt cell no |
+| 3191 | BMS average temperature A | Average temperature reported by sensor group A (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:bms_avg_temp_a, storage:bms_avg_temp_a | BMS avg temp A |
+| 3192 | BMS max cell temperature A | Maximum cell temperature within sensor group A (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:bms_max_cell_temp_a, storage:bms_max_cell_temp_a | BMS max cell temp A |
+| 3193 | BMS average temperature B | Average temperature reported by sensor group B (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:bms_avg_temp_b, storage:bms_avg_temp_b | BMS avg temp B |
+| 3194 | BMS max cell temperature B | Maximum cell temperature within sensor group B (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:bms_max_cell_temp_b, storage:bms_max_cell_temp_b | BMS max cell temp B |
+| 3195 | BMS average temperature C | Average temperature reported by sensor group C (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:bms_avg_temp_c, storage:bms_avg_temp_c | BMS avg temp C |
+| 3196 | BMS max SOC | Highest state of charge observed across battery modules. | R | — % | — | u 16_percent | tlx:bms_max_soc, storage:bms_max_soc | BMS max SOC |
+| 3197 | BMS min SOC | Lowest state of charge observed across battery modules. | R | — % | — | u 16_percent | tlx:bms_min_soc, storage:bms_min_soc | BMS min SOC |
+| 3198 | Parallel battery count | Number of battery modules detected in parallel. | R | — | — | u 16_raw | tlx:parallel_battery_num, storage:parallel_battery_num | — |
+| 3199 | BMS derate reason | Reason code reported by the BMS for power derating. | R | — | — | u 16_raw | tlx:bms_derate_reason, storage:bms_derate_reason | BMS derate reason |
+| 3200 | BMS full charge capacity | Full charge capacity (FCC) reported by the battery fuel gauge (Ah). | R | — Ah | — | u 16_ampere_hour | tlx:bms_gauge_fcc_ah, storage:bms_gauge_fcc_ah | BMS full charge capacity |
+| 3201 | BMS remaining capacity | Remaining capacity (RM) reported by the battery fuel gauge (Ah). | R | — Ah | — | u 16_ampere_hour | tlx:bms_gauge_rm_ah, storage:bms_gauge_rm_ah | BMS remaining capacity |
+| 3202 | BMS protect flags 1 | Protection bitmask word 1 from the battery management system. | R | — | — | u 16_raw | tlx:bms_protect1, storage:bms_protect1 | BMS protect 1 |
+| 3203 | BMS warning flags 1 | Warning bitmask word 1 from the battery management system. | R | — | — | u 16_raw | tlx:bms_warn1, storage:bms_warn1 | BMS warn 1 |
+| 3204 | BMS fault flags 1 | Fault bitmask word 1 from the battery management system. | R | — | — | u 16_raw | tlx:bms_fault1, storage:bms_fault1 | BMS fault 1 |
+| 3205 | BMS fault flags 2 | Fault bitmask word 2 from the battery management system. | R | — | — | u 16_raw | tlx:bms_fault2, storage:bms_fault2 | BMS fault 2 |
+| 3210 | Battery insulation status | Isolation detection status reported by the BMS (0 = not detected, 1 = detected). | R | — | — | u 16_raw | tlx:bat_iso_status, storage:bat_iso_status | — |
+| 3211 | Battery request flags | Bitmask of requests from the BMS to the inverter (charge/discharge permissions). | R | — | — | u 16_raw | tlx:batt_request_flags, storage:batt_request_flags | — |
+| 3212 | BMS status | Overall battery management system status code. | R | — | — | u 16_raw | tlx:bms_status, storage:bms_status | BMS status |
+| 3213 | BMS protect flags 2 | Protection bitmask word 2 from the battery management system. | R | — | — | u 16_raw | tlx:bms_protect2, storage:bms_protect2 | BMS protect 2 |
+| 3214 | BMS warning flags 2 | Warning bitmask word 2 from the battery management system. | R | — | — | u 16_raw | tlx:bms_warn2, storage:bms_warn2 | BMS warn 2 |
+| 3215 | BMS SOC | State of charge reported directly by the BMS. | R | — % | — | u 16_percent | tlx:bms_soc, storage:bms_soc | BMS SOC |
+| 3216 | BMS battery voltage | Pack voltage reported by the BMS (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | tlx:bms_battery_voltage, storage:bms_battery_voltage | BMS battery voltage |
+| 3217 | BMS battery current | Current reported by the BMS with 0.01 A resolution (positive = discharge). | R | — A | — | s 16_current_centiamp; Positive values indicate discharge from the battery; negative values indicate charging. | tlx:bms_battery_current, storage:bms_battery_current | BMS battery current |
+| 3218 | BMS max cell temperature | Maximum cell temperature observed across the battery pack (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | tlx:bms_cell_max_temp, storage:bms_cell_max_temp | BMS cell max temperature |
+| 3219 | BMS max charge current | Maximum charge current allowed by the BMS (0.01 A resolution). | R | — A | — | u 16_current_centiamp | tlx:bms_max_charge_current, storage:bms_max_charge_current | BMS max charge current |
+| 3220 | BMS max discharge current | Maximum discharge current allowed by the BMS (0.01 A resolution). | R | — A | — | u 16_current_centiamp | tlx:bms_max_discharge_current, storage:bms_max_discharge_current | BMS max discharge current |
+| 3221 | BMS cycle count | Total charge/discharge cycles counted by the BMS. | R | — | — | u 16_raw | tlx:bms_cycle_count, storage:bms_cycle_count | BMS cycle count |
+| 3222 | BMS state of health | Battery state of health reported by the BMS. | R | — % | — | u 16_percent | tlx:bms_soh, storage:bms_soh | BMS SOH |
+| 3223 | BMS charge voltage limit | Maximum pack voltage permitted during charge (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | tlx:bms_charge_volt_limit, storage:bms_charge_volt_limit | BMS charge voltage limit |
+| 3224 | BMS discharge voltage limit | Minimum pack voltage permitted during discharge (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | tlx:bms_discharge_volt_limit, storage:bms_discharge_volt_limit | BMS discharge voltage limit |
+| 3225 | BMS warning flags 3 | Warning bitmask word 3 from the battery management system. | R | — | — | u 16_raw | tlx:bms_warn3, storage:bms_warn3 | BMS warn 3 |
+| 3226 | BMS protect flags 3 | Protection bitmask word 3 from the battery management system. | R | — | — | u 16_raw | tlx:bms_protect3, storage:bms_protect3 | BMS protect 3 |
+| 3230 | BMS max cell voltage | Highest individual cell voltage (0.001 V resolution). | R | — V | — | u 16_voltage_millivolt | tlx:bms_cell_volt_max, storage:bms_cell_volt_max | BMS cell voltage max |
+| 3231 | BMS min cell voltage | Lowest individual cell voltage (0.001 V resolution). | R | — V | — | u 16_voltage_millivolt | tlx:bms_cell_volt_min, storage:bms_cell_volt_min | BMS cell voltage min |
+
+## Storage TL-XH Input Registers (3041–3231)
+BDC telemetry (battery module data) for TL-XH hybrids.
+
+**Applies to:** Storage TL-XH
+
+| Register | Name | Description | Access | Range/Unit | Initial | Notes | Attributes | Sensors |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 3041 | Load supply power | Real-time active power delivered to on-site (self-consumption) loads. | R | — W | — | u 32_power_w_decawatt | storage:power_to_user | Power to user |
+| 3043 | Grid export power | Active power exported to the utility grid. | R | — W | — | u 32_power_w_decawatt | storage:power_to_grid | Power to grid |
+| 3045 | Home load power | Aggregate instantaneous demand from on-site loads. | R | — W | — | u 32_power_w_decawatt | storage:power_user_load | Power user load |
+| 3047 | Run time | Total cumulative run time of the inverter. Raw values are seconds scaled by 1/7200 (0.0001389 hours). | R | — h | — | u 32_runtime_hours; Raw counter counts seconds; divide by 7200 to obtain hours. | — | — |
+| 3049 | Output energy today | Energy exported to the AC output today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3051 | Output energy total | Lifetime AC output energy (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3053 | PV energy total | Total PV energy generated across all strings (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3055 | PV 1 energy today | Energy harvested by PV 1 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3057 | PV 1 energy total | Lifetime energy harvested by PV 1. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3059 | PV 2 energy today | Energy harvested by PV 2 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3061 | PV 2 energy total | Lifetime energy harvested by PV 2. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3063 | PV 3 energy today | Energy harvested by PV 3 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3065 | PV 3 energy total | Lifetime energy harvested by PV 3. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3067 | Load energy today | Energy delivered to on-site loads today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:energy_to_user_today | Energy To User (Today) |
+| 3069 | Load energy total | Lifetime energy delivered to on-site loads (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:energy_to_user_total | Energy To User (Total) |
+| 3071 | Export energy today | Energy exported to the grid today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:energy_to_grid_today | Energy To Grid (Today) |
+| 3073 | Export energy total | Lifetime energy exported to the grid (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:energy_to_grid_total | Energy To Grid (Total) |
+| 3086 | Derating mode | Active derating reason reported by the inverter controller. | R | — | — | u 16_raw_code | — | — |
+| 3093 | Inverter temperature | Main inverter heatsink temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3094 | IPM temperature | IPM (power module) temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3095 | Boost temperature | Boost inductor temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3097 | Communication board temperature | Temperature reported by the communication/control board (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | storage:comm_board_temperature | Comm board temperature |
+| 3098 | P-bus voltage | Positive DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3099 | N-bus voltage | Negative DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3101 | Output power percentage | Instantaneous AC output as a percentage of the inverter's rated power. | R | — % | — | u 16_percent | — | — |
+| 3105 | Fault code | Current inverter fault code (see protocol documentation). | R | — | — | u 16_status_word | — | — |
+| 3110 | Warning code | Current inverter warning code (vendor-defined bitmask). | R | — | — | u 16_status_word | — | — |
+| 3111 | Present FFT value (channel A) | Latest Fast Fourier Transform diagnostic value for channel A. | R | — | — | u 16_raw | storage:present_fft_a | Present FFT A |
+| 3115 | Inverter start delay | Seconds remaining before restart once grid conditions recover. | R | — s | — | u 16_raw | storage:inv_start_delay | Inverter start delay |
+| 3125 | Battery discharge today | Energy discharged from the battery into the AC system today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:discharge_energy_today | Battery Discharged (Today), Battery Discharged Today |
+| 3127 | Battery discharge total | Total energy discharged from the battery (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:discharge_energy_total | Battery Discharged (Total), Battery Discharged Lifetime |
+| 3129 | Battery charge today | Energy charged into the battery today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:charge_energy_today | Battery Charged (Today), Battery Charged Today |
+| 3131 | Battery charge total | Total energy charged into the battery (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | storage:charge_energy_total | Battery Charged (Total), Grid Charged Lifetime |
+| 3164 | BDC presence flag | Indicates whether a battery DC converter (BDC) has been detected. | R | — | — | u 16_flag | storage:bdc_new_flag | BDC present |
+| 3169 | Battery voltage | Pack voltage reported via the inverter-side measurements (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | storage:battery_voltage | Battery voltage |
+| 3170 | Battery current | Current flowing between battery and inverter (positive = discharge) with 0.1 A resolution. | R | — A | — | s 16_current_deciamp | storage:battery_current | Battery current |
+| 3171 | Battery SOC | Battery state of charge reported by the inverter. | R | — % | — | u 16_percent | storage:soc | SOC |
+| 3172 | VBUS 1 voltage | BDC high-side bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | storage:vbus1_voltage | VBUS1 voltage |
+| 3173 | VBUS 2 voltage | BDC low-side bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | storage:vbus2_voltage | VBUS2 voltage |
+| 3174 | Buck/boost current | Current through the BDC buck/boost stage (0.1 A resolution). | R | — A | — | u 16_current_deciamp | storage:buck_boost_current | Buck/boost current |
+| 3175 | LLC stage current | Current through the LLC resonant stage (0.1 A resolution). | R | — A | — | u 16_current_deciamp | storage:llc_current | LLC current |
+| 3176 | Battery temperature A | Battery temperature sensor A (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | storage:battery_temperature_a | Battery temperature A |
+| 3177 | Battery temperature B | Battery temperature sensor B (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | storage:battery_temperature_b | Battery temperature B |
+| 3178 | Battery discharge power | Real-time discharge power flowing from the battery (0.1 W resolution). | R | — W | — | s 32_power_w_decawatt | storage:discharge_power | Battery discharge power, Discharge Power |
+| 3180 | Battery charge power | Real-time charge power flowing into the battery (0.1 W resolution). | R | — W | — | s 32_power_w_decawatt | storage:charge_power | Battery charge power, Charge Power |
+| 3189 | BMS max cell index | Cell index reporting the highest voltage in the battery stack (1-based). | R | — | — | u 16_raw | storage:bms_max_volt_cell_no | BMS max volt cell no |
+| 3190 | BMS min cell index | Cell index reporting the lowest voltage in the battery stack (1-based). | R | — | — | u 16_raw | storage:bms_min_volt_cell_no | BMS min volt cell no |
+| 3191 | BMS average temperature A | Average temperature reported by sensor group A (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | storage:bms_avg_temp_a | BMS avg temp A |
+| 3192 | BMS max cell temperature A | Maximum cell temperature within sensor group A (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | storage:bms_max_cell_temp_a | BMS max cell temp A |
+| 3193 | BMS average temperature B | Average temperature reported by sensor group B (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | storage:bms_avg_temp_b | BMS avg temp B |
+| 3194 | BMS max cell temperature B | Maximum cell temperature within sensor group B (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | storage:bms_max_cell_temp_b | BMS max cell temp B |
+| 3195 | BMS average temperature C | Average temperature reported by sensor group C (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | storage:bms_avg_temp_c | BMS avg temp C |
+| 3196 | BMS max SOC | Highest state of charge observed across battery modules. | R | — % | — | u 16_percent | storage:bms_max_soc | BMS max SOC |
+| 3197 | BMS min SOC | Lowest state of charge observed across battery modules. | R | — % | — | u 16_percent | storage:bms_min_soc | BMS min SOC |
+| 3198 | Parallel battery count | Number of battery modules detected in parallel. | R | — | — | u 16_raw | storage:parallel_battery_num | — |
+| 3199 | BMS derate reason | Reason code reported by the BMS for power derating. | R | — | — | u 16_raw | storage:bms_derate_reason | BMS derate reason |
+| 3200 | BMS full charge capacity | Full charge capacity (FCC) reported by the battery fuel gauge (Ah). | R | — Ah | — | u 16_ampere_hour | storage:bms_gauge_fcc_ah | BMS full charge capacity |
+| 3201 | BMS remaining capacity | Remaining capacity (RM) reported by the battery fuel gauge (Ah). | R | — Ah | — | u 16_ampere_hour | storage:bms_gauge_rm_ah | BMS remaining capacity |
+| 3202 | BMS protect flags 1 | Protection bitmask word 1 from the battery management system. | R | — | — | u 16_raw | storage:bms_protect1 | BMS protect 1 |
+| 3203 | BMS warning flags 1 | Warning bitmask word 1 from the battery management system. | R | — | — | u 16_raw | storage:bms_warn1 | BMS warn 1 |
+| 3204 | BMS fault flags 1 | Fault bitmask word 1 from the battery management system. | R | — | — | u 16_raw | storage:bms_fault1 | BMS fault 1 |
+| 3205 | BMS fault flags 2 | Fault bitmask word 2 from the battery management system. | R | — | — | u 16_raw | storage:bms_fault2 | BMS fault 2 |
+| 3210 | Battery insulation status | Isolation detection status reported by the BMS (0 = not detected, 1 = detected). | R | — | — | u 16_raw | storage:bat_iso_status | — |
+| 3211 | Battery request flags | Bitmask of requests from the BMS to the inverter (charge/discharge permissions). | R | — | — | u 16_raw | storage:batt_request_flags | — |
+| 3212 | BMS status | Overall battery management system status code. | R | — | — | u 16_raw | storage:bms_status | BMS status |
+| 3213 | BMS protect flags 2 | Protection bitmask word 2 from the battery management system. | R | — | — | u 16_raw | storage:bms_protect2 | BMS protect 2 |
+| 3214 | BMS warning flags 2 | Warning bitmask word 2 from the battery management system. | R | — | — | u 16_raw | storage:bms_warn2 | BMS warn 2 |
+| 3215 | BMS SOC | State of charge reported directly by the BMS. | R | — % | — | u 16_percent | storage:bms_soc | BMS SOC |
+| 3216 | BMS battery voltage | Pack voltage reported by the BMS (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | storage:bms_battery_voltage | BMS battery voltage |
+| 3217 | BMS battery current | Current reported by the BMS with 0.01 A resolution (positive = discharge). | R | — A | — | s 16_current_centiamp; Positive values indicate discharge from the battery; negative values indicate charging. | storage:bms_battery_current | BMS battery current |
+| 3218 | BMS max cell temperature | Maximum cell temperature observed across the battery pack (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | storage:bms_cell_max_temp | BMS cell max temperature |
+| 3219 | BMS max charge current | Maximum charge current allowed by the BMS (0.01 A resolution). | R | — A | — | u 16_current_centiamp | storage:bms_max_charge_current | BMS max charge current |
+| 3220 | BMS max discharge current | Maximum discharge current allowed by the BMS (0.01 A resolution). | R | — A | — | u 16_current_centiamp | storage:bms_max_discharge_current | BMS max discharge current |
+| 3221 | BMS cycle count | Total charge/discharge cycles counted by the BMS. | R | — | — | u 16_raw | storage:bms_cycle_count | BMS cycle count |
+| 3222 | BMS state of health | Battery state of health reported by the BMS. | R | — % | — | u 16_percent | storage:bms_soh | BMS SOH |
+| 3223 | BMS charge voltage limit | Maximum pack voltage permitted during charge (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | storage:bms_charge_volt_limit | BMS charge voltage limit |
+| 3224 | BMS discharge voltage limit | Minimum pack voltage permitted during discharge (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | storage:bms_discharge_volt_limit | BMS discharge voltage limit |
+| 3225 | BMS warning flags 3 | Warning bitmask word 3 from the battery management system. | R | — | — | u 16_raw | storage:bms_warn3 | BMS warn 3 |
+| 3226 | BMS protect flags 3 | Protection bitmask word 3 from the battery management system. | R | — | — | u 16_raw | storage:bms_protect3 | BMS protect 3 |
+| 3230 | BMS max cell voltage | Highest individual cell voltage (0.001 V resolution). | R | — V | — | u 16_voltage_millivolt | storage:bms_cell_volt_max | BMS cell voltage max |
+| 3231 | BMS min cell voltage | Lowest individual cell voltage (0.001 V resolution). | R | — V | — | u 16_voltage_millivolt | storage:bms_cell_volt_min | BMS cell voltage min |
 
 ## Offgrid SPF Input Registers
 Observed off-grid register map (from integration implementation).
@@ -1296,888 +690,179 @@ Observed off-grid register map (from integration implementation).
 
 | Register | Name | Description | Access | Range/Unit | Initial | Notes | Attributes | Sensors |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 0 | Status code | Inverter run state | — | — | — | — | offgrid:status_code | Status code |
-| 1 | Input 1 voltage | Input power (high) | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 2 | Input 2 voltage | Input power (low) | — | — | — | — | offgrid:input_2_voltage | Input 2 voltage, PV2 voltage |
-| 3 | Input 1 Wattage | PV 1 voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 4 | Input 1 Amperage | PV 1 input current | — | — | — | — | — | — |
-| 5 | Input 1 Wattage | PV 1 input power(high) | — | — | — | — | offgrid:input_2_power | Input 2 Wattage, PV2 charge power |
-| 6 | Ppv 1 L | PV 1 input power(low) | — | — | — | — | — | — |
-| 7 | Input 1 Amperage | PV 2 voltage | — | — | — | — | offgrid:input_1_amperage | Input 1 Amperage, PV1 buck current |
-| 8 | Input 2 Amperage | PV 2 input current | — | — | — | — | offgrid:input_2_amperage | Input 2 Amperage, PV2 buck current |
-| 9 | Input 2 Wattage | PV 2 input power (high) | — | — | — | — | offgrid:output_active_power | Output active power |
-| 10 | . Ppv 2 L | PV 2 input power (low) | — | — | — | — | — | — |
-| 11 | Input 3 voltage | PV 3 voltage | — | — | — | — | — | — |
-| 12 | Input 3 Amperage | PV 3 input current | — | — | — | — | — | — |
-| 13 | AC frequency | PV 3 input power (high) | — | — | — | — | offgrid:charge_power | Battery charge power, Charge Power |
-| 14 | Output 1 voltage | PV 3 input power (low) | — | — | — | — | — | — |
-| 15 | Input 4 voltage | PV 4 voltage | — | — | — | — | — | — |
-| 16 | Input 4 Amperage | PV 4 input current | — | — | — | — | — | — |
-| 17 | Battery voltage | PV 4 input power (high) | — | — | — | — | offgrid:battery_voltage | Battery voltage |
-| 18 | Output 2 voltage | PV 4 input power (low) | — | — | — | — | offgrid:soc | SOC |
-| 19 | Bus voltage | PV 5 voltage | — | — | — | — | offgrid:bus_voltage | Bus voltage |
-| 20 | Grid voltage | PV 5 input current | — | — | — | — | offgrid:grid_voltage | Grid voltage |
-| 21 | AC frequency | PV 5 input power(high) | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 22 | Output 1 voltage | PV 5 input power(low) | — | — | — | — | offgrid:output_1_voltage | Output 1 voltage, Output voltage |
-| 23 | Input 6 voltage | PV 6 voltage | — | — | — | — | offgrid:output_frequency | Output frequency |
-| 24 | Input 6 Amperage | PV 6 input current | — | — | — | — | offgrid:output_dc_voltage | Output DC voltage |
-| 25 | Input 6 Wattage | PV 6 input power (high) | — | — | — | — | offgrid:inverter_temperature | Temperature |
-| 26 | DC-DC temperature | PV 6 input power (low) | — | — | — | — | offgrid:dc_dc_temperature | DC-DC temperature |
-| 27 | Input 7 voltage | PV 7 voltage | — | — | — | — | offgrid:load_percent | Inverter load |
-| 28 | Battery port voltage | PV 7 input current | — | — | — | — | offgrid:battery_port_voltage | Battery port voltage |
-| 29 | Battery bus voltage | PV 7 input power (high) | — | — | — | — | offgrid:battery_bus_voltage | Battery bus voltage |
-| 30 | Running hours | PV 7 input power (low) | — | — | — | — | offgrid:operation_hours | Running hours |
-| 31 | Input 8 voltage | PV 8 voltage | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | PV 8 input current | — | — | — | — | — | — |
-| 33 | Input 8 Wattage | PV 8 input power (high) | — | — | — | — | — | — |
-| 34 | Output 1 Amperage | PV 8 input power (low) | — | — | — | — | offgrid:output_1_amperage | Output 1 Amperage, Output amperage |
-| 35 | Output power | Output power (high) | — | — | — | — | — | — |
-| 36 | . Pac L | Output power (low) | — | — | — | — | — | — |
-| 37 | AC frequency | Grid frequency | — | — | — | — | — | — |
-| 38 | Output 1 voltage | Three/single phase grid voltage | — | — | — | — | — | — |
-| 39 | Output 1 Amperage | Three/single phase grid output | — | — | — | — | — | — |
-| 40 | Fault code | Three/single phase grid output VA (high) | — | — | — | — | — | — |
-| 41 | Intelligent Power Management temperature | Three/single phase grid output VA(low) | — | — | — | — | — | — |
-| 42 | Fault code | Three phase grid voltage | — | — | — | — | offgrid:fault_code | Fault code |
-| 43 | N-bus voltage | Three phase grid output current | — | — | — | — | offgrid:warning_code | Warning code |
-| 44 | Output 2 Wattage | Three phase grid output power ( | — | — | — | — | — | — |
-| 45 | . Pac 2 L | Three phase grid output power ( | — | — | — | — | — | — |
-| 46 | Output 3 voltage | Three phase grid voltage | — | — | — | — | — | — |
-| 47 | Derating mode | Three phase grid output current | — | — | — | — | offgrid:constant_power | — |
-| 48 | Input 1 energy today | Three phase grid output power ( | — | — | — | — | offgrid:input_1_energy_today | Input 1 energy today, PV1 energy produced today |
-| 49 | . Pac 3 L | Three phase grid output power ( | — | — | — | — | — | — |
-| 50 | Input 1 total energy | Three phase grid voltage | — | — ne voltage | — | — | offgrid:input_1_energy_total | Input 1 total energy, PV1 energy produced Lifetime |
-| 51 | . Vac_ST | Three phase grid voltage | — | — ne voltage | — | — | — | — |
-| 52 | Input 2 energy today | Three phase grid voltage | — | — ne voltage | — | — | offgrid:input_2_energy_today | Input 2 energy today, PV2 energy produced today |
-| 53 | Energy produced today | Today generate energy (high) | — | — | — | — | — | — |
-| 54 | Input 2 total energy | Today generate energy (low) | — | — | — | — | offgrid:input_2_energy_total | Input 2 total energy, PV2 energy produced Lifetime |
-| 55 | Total energy produced | Total generate energy (high) | — | — | — | — | — | — |
-| 56 | Battery Charged (Today) | Total generate energy (low) | — | — | — | — | offgrid:charge_energy_today | Battery Charged (Today), Battery Charged Today |
-| 57 | Running hours | Work time total (high) | — | — | — | — | — | — |
-| 58 | Battery Charged (Total) | Work time total (low) | — | — | — | — | offgrid:charge_energy_total | Battery Charged (Total), Grid Charged Lifetime |
-| 59 | Input 1 energy today | PV 1 Energy today(high) | — | — | — | — | — | — |
-| 60 | Battery Discharged (Today) | PV 1 Energy today (low) | — | — | — | — | offgrid:discharge_energy_today | Battery Discharged (Today), Battery Discharged Today |
-| 61 | Input 1 total energy | PV 1 Energy total(high) | — | — | — | — | — | — |
-| 62 | Battery Discharged (Total) | PV 1 Energy total (low) | — | — | — | — | offgrid:discharge_energy_total | Battery Discharged (Total), Battery Discharged Lifetime |
-| 63 | Input 2 energy today | PV 2 Energy today(high) | — | — | — | — | — | — |
-| 64 | AC Discharged Today | PV 2 Energy today (low) | — | — h | — | — | offgrid:ac_discharge_energy_today | AC Discharged Today |
-| 65 | Input 2 total energy | PV 2 Energy total(high) | — | — h | — | — | — | — |
-| 66 | Grid Discharged Lifetime | PV 2 Energy total (low) | — | — h | — | — | offgrid:ac_discharge_energy_total | Grid Discharged Lifetime |
-| 67 | Input 3 energy today | PV 3 Energy today(high) | — | — h | — | — | — | — |
-| 68 | AC charge battery current | PV 3 Energy today (low) | — | — h | — | — | offgrid:ac_charge_amperage | AC charge battery current |
-| 69 | Battery discharge power | PV 3 Energy total(high) | — | — h | — | — | offgrid:discharge_power | Battery discharge power, Discharge Power |
-| 70 | . Epv 3_total L | PV 3 Energy total (low) | — | — h | — | — | — | — |
-| 71 | Input 4 energy today | PV 4 Energy today(high) | — | — h | — | — | — | — |
-| 72 | . Epv 4_today L | PV 4 Energy today (low) | — | — h | — | — | — | — |
-| 73 | Battery discharge current | PV 4 Energy total(high) | — | — h | — | — | offgrid:battery_discharge_amperage | Battery discharge current |
-| 74 | . Epv 4_total L | PV 4 Energy total (low) | — | — h | — | — | — | — |
-| 75 | Input 5 energy today | PV 5 Energy today(high) | — | — h | — | — | — | — |
-| 76 | . Epv 5_today L | PV 5 Energy today (low) | — | — h | — | — | — | — |
-| 77 | Battery charging/ discharging(-ve) | PV 5 Energy total(high) | — | — h | — | — | offgrid:battery_power | Battery charging/ discharging(-ve) |
-| 78 | . Epv 5_total L | PV 5 Energy total (low) | — | — h | — | — | — | — |
-| 79 | Input 6 energy today | PV 6 Energy today(high) | — | — h | — | — | — | — |
-| 80 | . Epv 6_today L | PV 6 Energy today (low) | — | — h | — | — | — | — |
-| 81 | Input 6 total energy | PV 6 Energy total(high) | — | — h | — | — | — | — |
-| 82 | . Epv 6_total L | PV 6 Energy total (low) | — | — h | — | — | — | — |
-| 83 | Input 7 energy today | PV 7 Energy today(high) | — | — h | — | — | — | — |
-| 84 | . Epv 7_today L | PV 7 Energy today (low) | — | — h | — | — | — | — |
-| 85 | Input 7 total energy | PV 7 Energy total(high) | — | — h | — | — | — | — |
-| 86 | . Epv 7_total L | PV 7 Energy total (low) | — | — h | — | — | — | — |
-| 87 | Input 8 energy today | PV 8 Energy today(high) | — | — h | — | — | — | — |
-| 88 | . Epv 8_today L | PV 8 Energy today (low) | — | — h | — | — | — | — |
-| 89 | Input 8 total energy | PV 8 Energy total(high) | — | — h | — | — | — | — |
-| 90 | . Epv 8_total L | PV 8 Energy total (low) | — | — h | — | — | — | — |
-| 91 | Total energy input | PV Energy total(high) | — | — h | — | — | — | — |
-| 92 | . Epv_total L | PV Energy total (low) | — | — h | — | — | — | — |
-| 93 | Temperature | Inverter temperature | — | — | — | — | — | — |
-| 94 | Intelligent Power Management temperature | The inside IPM in inverter Temp | — | — | — | — | — | — |
-| 95 | Boost temperature | Boost temperature | — | — | — | — | — | — |
-| 96 | . Temp 4 | — | — | — reserved | — | — | — | — |
-| 97 | . uw Bat Volt_DSP | Bat Volt_DSP | — | — Bat Volt(DSP) | — | — | — | — |
-| 98 | P-bus voltage | P Bus inside Voltage | — | — | — | — | — | — |
-| 99 | N-bus voltage | N Bus inside Voltage | — | — | — | — | — | — |
-| 10 | 0. IPF | Inverter output PF now | — | — | — | — | — | — |
-| 10 | 1. Real OPPercent | Real Output power Percent | — | — | — | — | — | — |
-| 10 | 2. OPFullwatt H | Output Maxpower Limited high | — | — | — | — | — | — |
-| 10 | 3. OPFullwatt L | Output Maxpower Limited low | — | — | — | — | — | — |
-| 10 | 4. Derating Mode | Derating Mode 0 1 2 3 4 5 6 7 8 9 B | — | — | — | — | — | — |
-| 10 | 5. Fault Maincode | Inverter fault maincode | — | — | — | — | — | — |
-| 10 | 6. | — | — | — | — | — | — | — |
-| 10 | 7. Fault Subcode | Inverter fault subcode | — | — | — | — | — | — |
-| 10 | 8. Remote Ctrl En | / 0 1 | — | — orage Pow (SPA) | — | — | — | — |
-| 10 | 9. Remote Ctrl Pow er | / 2 | — | — orage Pow (SPA) | — | — | — | — |
-| 11 | Input 3 voltage | Warning bit H | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Inverter warn subcode | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Inverter warn maincode ACCharge energy today | — | — orage wer | — | — | — | — |
-| 11 | Input 3 voltage | real Power Percent 0 ACCharge energy today | — | — X orage wer | — | — | — | — |
-| 11 | Input 3 voltage | nv start delay time ACCharge energy total | — | — X orage wer | — | — | — | — |
-| 11 | Input 3 voltage | b INVAll Fault Code ACCharge energy total | — | — X orage wer | — | — | — | — |
-| 11 | Input 3 voltage | Grid power to local load | — | — orage wer | — | — | — | — |
-| 11 | Input 3 voltage | Grid power to local load | — | — orage wer | — | — | — | — |
-| 11 | Input 3 voltage | 0:Load First 1:Battery First 2:Grid First | — | — orage Power | — | — | — | — |
-| 11 | Input 3 voltage | 0:Lead-acid 1:Lithium battery | — | — Storage Power | — | — | — | — |
-| 12 | Input 3 Amperage | Aging mode Auto-cal command | — | — Storage Power | — | — | — | — |
-| 12 | Input 3 Amperage | — | — | — reserved | — | — | — | — |
-| 12 | Input 3 Amperage | PID PV 1 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | — | — |
-| 12 | Input 3 Amperage | PID PV 1 PE Curr | — | — m A | — | — | — | — |
-| 12 | Input 3 Amperage | PID PV 2 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | — | — |
-| 12 | Input 3 Amperage | PID PV 2 PE Curr | — | — m A | — | — | — | — |
-| 12 | Input 3 Amperage | PID PV 3 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | — | — |
-| 13 | AC frequency | PID PV 3 PE Curr | — | — m A | — | — | offgrid:charge_power | Battery charge power, Charge Power |
-| 13 | AC frequency | PID PV 4 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | offgrid:charge_power | Battery charge power, Charge Power |
-| 13 | AC frequency | PID PV 4 PE Curr | — | — m A | — | — | offgrid:charge_power | Battery charge power, Charge Power |
-| 13 | AC frequency | PID PV 5 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | offgrid:charge_power | Battery charge power, Charge Power |
-| 13 | AC frequency | PID PV 5 PE Curr | — | — m A | — | — | offgrid:charge_power | Battery charge power, Charge Power |
-| 13 | AC frequency | PID PV 6 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | offgrid:charge_power | Battery charge power, Charge Power |
-| 13 | AC frequency | PID PV 6 PE Curr | — | — m A | — | — | offgrid:charge_power | Battery charge power, Charge Power |
-| 13 | AC frequency | PID PV 7 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | offgrid:charge_power | Battery charge power, Charge Power |
-| 13 | AC frequency | PID PV 7 PE Curr | — | — m A | — | — | offgrid:charge_power | Battery charge power, Charge Power |
-| 13 | AC frequency | PID PV 8 PE Volt/ Flyspan volta (MAX HV) | — | — V | — | — | offgrid:charge_power | Battery charge power, Charge Power |
-| 14 | Output 1 voltage | PID PV 8 PE Curr | — | — m A | — | — | — | — |
-| 14 | Output 1 voltage | Bit 0~7:PID Working Status 1:Wait Status 2:Normal Status 3:Fault Status Bit 8~15:Reversed | — | — | — | — | — | — |
-| 14 | Output 1 voltage | PV String 1 voltage | — | — V | — | — | — | — |
-| 14 | Output 1 voltage | PV String 1 current | — | — A | — | — | — | — |
-| 14 | Output 1 voltage | PV String 2 voltage | — | — V | — | — | — | — |
-| 14 | Output 1 voltage | PV String 2 current | — | — | — | — | — | — |
-| 14 | Output 1 voltage | PV String 3 voltage | — | — | — | — | — | — |
-| 14 | Output 1 voltage | PV String 3 current | — | — | — | — | — | — |
-| 14 | Output 1 voltage | PV String 4 voltage | — | — | — | — | — | — |
-| 14 | Output 1 voltage | PV String 4 current | — | — | — | — | — | — |
-| 15 | Input 4 voltage | PV String 5 voltage | — | — | — | — | — | — |
-| 15 | Input 4 voltage | PV String 5 current | — | — | — | — | — | — |
-| 15 | Input 4 voltage | PV String 6 voltage | — | — | — | — | — | — |
-| 15 | Input 4 voltage | PV String 6 current | — | — | — | — | — | — |
-| 15 | Input 4 voltage | PV String 7 voltage | — | — | — | — | — | — |
-| 15 | Input 4 voltage | PV String 7 current | — | — | — | — | — | — |
-| 15 | Input 4 voltage | PV String 8 voltage | — | — | — | — | — | — |
-| 15 | Input 4 voltage | PV String 8 current | — | — | — | — | — | — |
-| 15 | Input 4 voltage | PV String 9 voltage | — | — | — | — | — | — |
-| 15 | Input 4 voltage | PV String 9 current | — | — | — | — | — | — |
-| 16 | Input 4 Amperage | PV String 10 voltage | — | — | — | — | — | — |
-| 16 | Input 4 Amperage | PV String 10 current | — | — | — | — | — | — |
-| 16 | Input 4 Amperage | PV String 11 voltage | — | — | — | — | — | — |
-| 16 | Input 4 Amperage | PV String 11 current | — | — | — | — | — | — |
-| 16 | Input 4 Amperage | PV String 12 voltage | — | — | — | — | — | — |
-| 16 | Input 4 Amperage | PV String 12 current | — | — | — | — | — | — |
-| 16 | Input 4 Amperage | PV String 13 voltage | — | — | — | — | — | — |
-| 16 | Input 4 Amperage | PV String 13 current | — | — | — | — | — | — |
-| 16 | Input 4 Amperage | PV String 14 voltage | — | — | — | — | — | — |
-| 16 | Input 4 Amperage | PV String 14 current | — | — | — | — | — | — |
-| 17 | Battery voltage | PV String 15 voltage | — | — | — | — | offgrid:battery_voltage | Battery voltage |
-| 17 | Battery voltage | PV String 15 current | — | — | — | — | offgrid:battery_voltage | Battery voltage |
-| 17 | Battery voltage | PV String 16 voltage | — | — | — | — | offgrid:battery_voltage | Battery voltage |
-| 17 | Battery voltage | PV String 16 current | — | — | — | — | offgrid:battery_voltage | Battery voltage |
-| 17 | Battery voltage | Bit 0~15: String 1~16 unmatch | — | — suggestive | — | — | offgrid:battery_voltage | Battery voltage |
-| 17 | Battery voltage | Bit 0~15: String 1~16 current u | — | — suggestive | — | — | offgrid:battery_voltage | Battery voltage |
-| 17 | Battery voltage | Bit 0~15: String 1~16 disconnec | — | — suggestive | — | — | offgrid:battery_voltage | Battery voltage |
-| 17 | Battery voltage | Bit 0:Output over voltage Bit 1: ISO fault Bit 2: BUS voltage abnormal Bit 3~15:reserved | — | — | — | — | offgrid:battery_voltage | Battery voltage |
-| 17 | Battery voltage | String Prompt Bit 0:String Unmatch Bit 1:Str Disconnect Bit 2:Str Current Unblance Bit 3~15:reserved | — | — | — | — | offgrid:battery_voltage | Battery voltage |
-| 17 | Battery voltage | PV Warning Value | — | — | — | — | offgrid:battery_voltage | Battery voltage |
-| 18 | Output 2 voltage | DSP 075 Warning Value | — | — | — | — | offgrid:soc | SOC |
-| 18 | Output 2 voltage | ult DSP 075 Fault Value | — | — | — | — | offgrid:soc | SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 1 | — | — | — | — | offgrid:soc | SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 2 | — | — | — | — | offgrid:soc | SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 3 | — | — | — | — | offgrid:soc | SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 4 | — | — | — | — | offgrid:soc | SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 5 | — | — | — | — | offgrid:soc | SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 6 | — | — | — | — | offgrid:soc | SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 7 | — | — | — | — | offgrid:soc | SOC |
-| 18 | Output 2 voltage | g DSP 067 Debug Data 8 | — | — | — | — | offgrid:soc | SOC |
-| 19 | Bus voltage | g DSP 075 Debug Data 1 | — | — | — | — | offgrid:bus_voltage | Bus voltage |
-| 19 | Bus voltage | g DSP 075 Debug Data 2 | — | — | — | — | offgrid:bus_voltage | Bus voltage |
-| 19 | Bus voltage | g DSP 075 Debug Data 3 | — | — | — | — | offgrid:bus_voltage | Bus voltage |
-| 19 | Bus voltage | g DSP 075 Debug Data 4 | — | — | — | — | offgrid:bus_voltage | Bus voltage |
-| 19 | Bus voltage | g DSP 075 Debug Data 5 | — | — | — | — | offgrid:bus_voltage | Bus voltage |
-| 19 | Bus voltage | g DSP 075 Debug Data 6 | — | — | — | — | offgrid:bus_voltage | Bus voltage |
-| 19 | Bus voltage | g DSP 075 Debug Data 7 | — | — | — | — | offgrid:bus_voltage | Bus voltage |
-| 19 | Bus voltage | g DSP 075 Debug Data 8 | — | — | — | — | offgrid:bus_voltage | Bus voltage |
-| 19 | Bus voltage | USBAging Test Ok Flag 0-1 | — | — | — | — | offgrid:bus_voltage | Bus voltage |
-| 19 | Bus voltage | Flash Erase Aging Ok Flag 0-1 | — | — | — | — | offgrid:bus_voltage | Bus voltage |
-| 20 | Grid voltage | PVISOValue | — | — | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | R DCI Curr | — | — | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | S DCI Curr | — | — | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | T DCI Curr | — | — | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | PIDBus Volt | — | — | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | GFCI Curr | — | — | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | SVG/APF Status+SVGAPFEqual Rat | — | — | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | R phase load side current for | — | — | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | S phase load side current for | — | — | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | T phase load side current for | — | — | — | — | offgrid:grid_voltage | Grid voltage |
-| 21 | AC frequency | R phase load side output reac power for SVG(High) | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | R phase load side output reac power for SVG(low) | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | S phase load side output reac power for SVG(High) | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | S phase load side output reac power for SVG(low) | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | T phase load side output reac power for SVG(High) | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | T phase load side output reac power for SVG(low) | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | R phase load side harmonic | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | S phase load side harmonic | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | T phase load side harmonic | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | R phase compensate reactive p for SVG(High) | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 22 | Output 1 voltage | R phase compensate reactive p for SVG(low) | — | — | — | — | offgrid:output_1_voltage | Output 1 voltage, Output voltage |
-| 22 | Output 1 voltage | S phase compensate reactive p for SVG(High) | — | — | — | — | offgrid:output_1_voltage | Output 1 voltage, Output voltage |
-| 22 | Output 1 voltage | S phase compensate reactive p for SVG(low) | — | — | — | — | offgrid:output_1_voltage | Output 1 voltage, Output voltage |
-| 22 | Output 1 voltage | T phase compensate reactive p for SVG(High) | — | — | — | — | offgrid:output_1_voltage | Output 1 voltage, Output voltage |
-| 22 | Output 1 voltage | T phase compensate reactive p for SVG(low) | — | — | — | — | offgrid:output_1_voltage | Output 1 voltage, Output voltage |
-| 22 | Output 1 voltage | R phase compensate harmonic f SVG | — | — | — | — | offgrid:output_1_voltage | Output 1 voltage, Output voltage |
-| 22 | Output 1 voltage | S phase compensate harmonic f SVG | — | — | — | — | offgrid:output_1_voltage | Output 1 voltage, Output voltage |
-| 22 | Output 1 voltage | T phase compensate harmonic f SVG | — | — | — | — | offgrid:output_1_voltage | Output 1 voltage, Output voltage |
-| 22 | Output 1 voltage | RS 232 Aging Test Ok Flag | — | — | — | — | offgrid:output_1_voltage | Output 1 voltage, Output voltage |
-| 22 | Output 1 voltage | Bit 0: Fan 1 fault bit Bit 1: Fan 2 fault bit Bit 2: Fan 3 fault bit Bit 3: Fan 4 fault bit Bit 4-7: Reserved | — | — | — | — | offgrid:output_1_voltage | Output 1 voltage, Output voltage |
-| 23 | Input 6 voltage | Output apparent power H | — | — | — | — | offgrid:output_frequency | Output frequency |
-| 23 | Input 6 voltage | Output apparent power L | — | — | — | — | offgrid:output_frequency | Output frequency |
-| 23 | Input 6 voltage | Real Output Reactive Power H | — | — | — | — | offgrid:output_frequency | Output frequency |
-| 23 | Input 6 voltage | Real Output Reactive Power L | — | — | — | — | offgrid:output_frequency | Output frequency |
-| 23 | Input 6 voltage | Nominal Output Reactive Power | — | — | — | — | offgrid:output_frequency | Output frequency |
-| 23 | Input 6 voltage | Nominal Output Reactive Power | — | — | — | — | offgrid:output_frequency | Output frequency |
-| 23 | Input 6 voltage | Reactive power generation | — | — | — | — | offgrid:output_frequency | Output frequency |
-| 23 | Input 6 voltage | Reactive power generation | — | — | — | — | offgrid:output_frequency | Output frequency |
-| 23 | Input 6 voltage | 0:Waiting 1:Self-check state 2:Detect pull arc state 3:Fault 4:Update | — | — | — | — | offgrid:output_frequency | Output frequency |
-| 23 | Input 6 voltage | Present FFTValue [CHANNEL_A] | — | — | — | — | offgrid:output_frequency | Output frequency |
-| 24 | Input 6 Amperage | Present FFTValue [CHANNEL_B] | — | — | — | — | offgrid:output_dc_voltage | Output DC voltage |
-| 24 | Input 6 Amperage | ug DSP 067 Debug Data 1 | — | — | — | — | offgrid:output_dc_voltage | Output DC voltage |
-| 24 | Input 6 Amperage | ug DSP 067 Debug Data 2 | — | — | — | — | offgrid:output_dc_voltage | Output DC voltage |
-| 24 | Input 6 Amperage | ug DSP 067 Debug Data 3 | — | — | — | — | offgrid:output_dc_voltage | Output DC voltage |
-| 24 | Input 6 Amperage | g DSP 067 Debug Data 4 | — | — | — | — | offgrid:output_dc_voltage | Output DC voltage |
-| 24 | Input 6 Amperage | g DSP 067 Debug Data 5 | — | — | — | — | offgrid:output_dc_voltage | Output DC voltage |
-| 24 | Input 6 Amperage | g DSP 067 Debug Data 6 | — | — | — | — | offgrid:output_dc_voltage | Output DC voltage |
-| 24 | Input 6 Amperage | g DSP 067 Debug Data 7 | — | — | — | — | offgrid:output_dc_voltage | Output DC voltage |
-| 24 | Input 6 Amperage | g DSP 067 Debug Data 8 | — | — | — | — | offgrid:output_dc_voltage | Output DC voltage |
-| 24 | Input 6 Amperage | — | — | — | — | — | offgrid:output_dc_voltage | Output DC voltage |
-| 87 | Input 8 energy today | PV 9 voltage | — | — | — | — | — | — |
-| 87 | Input 8 energy today | PV 9 Input current | — | — | — | — | — | — |
-| 87 | Input 8 energy today | PV 9 input power (High) | — | — | — | — | — | — |
-| 87 | Input 8 energy today | PV 9 input power (Low) | — | — | — | — | — | — |
-| 87 | Input 8 energy today | PV 10 voltage | — | — | — | — | — | — |
-| 88 | 0 PV 10 Curr | PV 10 Input current | — | — | — | — | — | — |
-| 88 | 1 Ppv 10 H | PV 10 input power (High) | — | — | — | — | — | — |
-| 88 | 2 Ppv 10 L | PV 10 input power (Low) | — | — | — | — | — | — |
-| 88 | 3 Vpv 11 | PV 11 voltage | — | — | — | — | — | — |
-| 88 | 4 PV 11 Curr | PV 11 Input current | — | — | — | — | — | — |
-| 88 | 5 Ppv 11 H | PV 11 input power (High) | — | — | — | — | — | — |
-| 88 | 6 Ppv 11 L | PV 11 input power (Low) | — | — | — | — | — | — |
-| 88 | 7 Vpv 12 | PV 12 voltage | — | — | — | — | — | — |
-| 88 | 8 PV 12 Curr | PV 12 Input current | — | — | — | — | — | — |
-| 88 | 9 Ppv 12 H | PV 12 input power (High) | — | — | — | — | — | — |
-| 89 | Input 8 total energy | PV 12 input power (Low) | — | — | — | — | — | — |
-| 89 | Input 8 total energy | PV 13 voltage | — | — | — | — | — | — |
-| 89 | Input 8 total energy | PV 13 Input current | — | — | — | — | — | — |
-| 89 | Input 8 total energy | PV 13 input power (High) | — | — | — | — | — | — |
-| 89 | Input 8 total energy | PV 13 input power (Low) | — | — | — | — | — | — |
-| 89 | Input 8 total energy | PV 14 voltage | — | — | — | — | — | — |
-| 89 | Input 8 total energy | PV 14 Input current | — | — | — | — | — | — |
-| 89 | Input 8 total energy | PV 14 input power (High) | — | — | — | — | — | — |
-| 89 | Input 8 total energy | PV 14 input power (Low) | — | — | — | — | — | — |
-| 89 | Input 8 total energy | PV 15 voltage | — | — | — | — | — | — |
-| 90 | 0 PV 15 Curr | PV 15 Input current | — | — | — | — | — | — |
-| 90 | 1 Ppv 15 H | PV 15 input power (High) | — | — | — | — | — | — |
-| 90 | 2 Ppv 15 L | PV 15 input power (Low) | — | — | — | — | — | — |
-| 90 | 3 Vpv 16 | PV 16 voltage | — | — | — | — | — | — |
-| 90 | 4 PV 16 Curr | PV 16 Input current | — | — | — | — | — | — |
-| 90 | 5 Ppv 16 H | PV 16 input power (High) | — | — | — | — | — | — |
-| 90 | 6 Ppv 16 L | PV 16 input power (Low) | — | — | — | — | — | — |
-| 90 | 7 Epv 9_today H | PV 9 energy today (High) | — | — | — | — | — | — |
-| 90 | 8 Epv 9_today L | PV 9 energy today (Low) | — | — | — | — | — | — |
-| 90 | 9 Epv 9_total H | PV 9 energy total (High) | — | — | — | — | — | — |
-| 91 | Total energy input | PV 9 energy total (Low) | — | — | — | — | — | — |
-| 91 | Total energy input | PV 10 energy today (High) | — | — | — | — | — | — |
-| 91 | Total energy input | PV 10 energy today (Low) | — | — | — | — | — | — |
-| 91 | Total energy input | PV 10 energy total (High) | — | — | — | — | — | — |
-| 91 | Total energy input | PV 10 energy total (Low) | — | — | — | — | — | — |
-| 91 | Total energy input | PV 11 energy today (High) | — | — | — | — | — | — |
-| 91 | Total energy input | PV 11 energy today (Low) | — | — | — | — | — | — |
-| 91 | Total energy input | PV 11 energy total (High) | — | — | — | — | — | — |
-| 91 | Total energy input | PV 11 energy total (Low) | — | — | — | — | — | — |
-| 91 | Total energy input | PV 12 energy today (High) | — | — | — | — | — | — |
-| 92 | 0 Epv 12_today L | PV 12 energy today (Low) | — | — | — | — | — | — |
-| 92 | 1 Epv 12_total H | PV 12 energy total (High) | — | — | — | — | — | — |
-| 92 | 2 Epv 12_total L | PV 12 energy total (Low) | — | — | — | — | — | — |
-| 92 | 3 Epv 13_today H | PV 13 energy today (High) | — | — | — | — | — | — |
-| 92 | 4 Epv 13_today L | PV 13 energy today (Low) | — | — | — | — | — | — |
-| 92 | 5 Epv 13_total H | PV 13 energy total (High) | — | — | — | — | — | — |
-| 92 | 6 Epv 13_total L | PV 13 energy total (Low) | — | — | — | — | — | — |
-| 92 | 7 Epv 14_today H | PV 14 energy today (High) | — | — | — | — | — | — |
-| 92 | 8 Epv 14_today L | PV 14 energy today (Low) | — | — | — | — | — | — |
-| 92 | 9 Epv 14_total H | PV 14 energy total (High) | — | — | — | — | — | — |
-| 93 | Temperature | PV 14 energy total (Low) | — | — | — | — | — | — |
-| 93 | Temperature | PV 15 energy today (High) | — | — | — | — | — | — |
-| 93 | Temperature | PV 15 energy today (Low) | — | — | — | — | — | — |
-| 93 | Temperature | PV 15 energy total (High) | — | — | — | — | — | — |
-| 93 | Temperature | PV 15 energy total (Low) | — | — | — | — | — | — |
-| 93 | Temperature | PV 16 energy today (High) | — | — | — | — | — | — |
-| 93 | Temperature | PV 16 energy today (Low) | — | — | — | — | — | — |
-| 93 | Temperature | PV 16 energy total (High) | — | — | — | — | — | — |
-| 93 | Temperature | PV 16 energy total (Low) | — | — | — | — | — | — |
-| 93 | Temperature | PID PV 9 PE Volt/ Flyspan volta (MAX HV) | — | — | — | — | — | — |
-| 94 | Intelligent Power Management temperature | PID PV 9 PE Current | — | — | — | — | — | — |
-| 94 | Intelligent Power Management temperature | + PID PV 10 PE/ Flyspan voltage ( HV) | — | — | — | — | — | — |
-| 94 | Intelligent Power Management temperature | 0+ PID PV 10 PE Current | — | — | — | — | — | — |
-| 94 | Intelligent Power Management temperature | 1+ PID PV 11 PE Volt/ Flyspan volt (MAX HV) | — | — | — | — | — | — |
-| 94 | Intelligent Power Management temperature | 1+ PID PV 11 PE Current | — | — | — | — | — | — |
-| 94 | Intelligent Power Management temperature | 2+ PID PV 12 PE Volt/ Flyspan volt (MAX HV) | — | — | — | — | — | — |
-| 94 | Intelligent Power Management temperature | 2+ PID PV 12 PE Current | — | — | — | — | — | — |
-| 94 | Intelligent Power Management temperature | 3+ PID PV 13 PE Volt/ Flyspan volt (MAX HV) | — | — | — | — | — | — |
-| 94 | Intelligent Power Management temperature | 3+ PID PV 13 PE Current | — | — | — | — | — | — |
-| 94 | Intelligent Power Management temperature | 4+ PID PV 14 PE Volt/ Flyspan volt (MAX HV) | — | — | — | — | — | — |
-| 95 | Boost temperature | 4+ PID PV 14 PE Current | — | — | — | — | — | — |
-| 95 | Boost temperature | 5+ PID PV 15 PE Volt/ Flyspan volt (MAX HV) | — | — | — | — | — | — |
-| 95 | Boost temperature | 5+ PID PV 15 PE Current | — | — | — | — | — | — |
-| 95 | Boost temperature | 6+ PID PV 16 PE Volt/ Flyspan volt (MAX HV) | — | — | — | — | — | — |
-| 95 | Boost temperature | 6+ PID PV 16 PE Current | — | — | — | — | — | — |
-| 95 | Boost temperature | PV String 17 voltage | — | — | — | — | — | — |
-| 95 | Boost temperature | PV String 17 Current | — | — | — | — | — | — |
-| 95 | Boost temperature | PV String 18 voltage | — | — | — | — | — | — |
-| 95 | Boost temperature | PV String 18 Current | — | — | — | — | — | — |
-| 95 | Boost temperature | PV String 19 voltage | — | — | — | — | — | — |
-| 96 | 0 Curr _String 19 | PV String 19 Current | — | — | — | — | — | — |
-| 96 | 1 V _String 20 | PV String 20 voltage | — | — | — | — | — | — |
-| 96 | 2 Curr _String 20 | PV String 20 Current | — | — | — | — | — | — |
-| 96 | 3 V _String 21 | PV String 21 voltage | — | — | — | — | — | — |
-| 96 | 4 Curr _String 21 | PV String 21 Current | — | — | — | — | — | — |
-| 96 | 5 V _String 22 | PV String 22 voltage | — | — | — | — | — | — |
-| 96 | 6 Curr _String 22 | PV String 22 Current | — | — | — | — | — | — |
-| 96 | 7 V _String 23 | PV String 23 voltage | — | — | — | — | — | — |
-| 96 | 8 Curr _String 23 | PV String 23 Current | — | — | — | — | — | — |
-| 96 | 9 V _String 24 | PV String 24 voltage | — | — | — | — | — | — |
-| 97 | 0 Curr _String 24 | PV String 24 Current | — | — 0.1 A | — | — | — | — |
-| 97 | 1 V _String 25 | PV String 25 voltage | — | — 0.1 V | — | — | — | — |
-| 97 | 2 Curr _String 25 | PV String 25 Current | — | — 0.1 A | — | — | — | — |
-| 97 | 3 V _String 26 | PV String 26 voltage | — | — 0.1 V | — | — | — | — |
-| 97 | 4 Curr _String 26 | PV String 26 Current | — | — 0.1 A | — | — | — | — |
-| 97 | 5 V _String 27 | PV String 27 voltage | — | — 0.1 V | — | — | — | — |
-| 97 | 6 Curr _String 27 | PV String 27 Current | — | — 0.1 A | — | — | — | — |
-| 97 | 7 V _String 28 | PV String 28 voltage | — | — 0.1 V | — | — | — | — |
-| 97 | 8 Curr _String 28 | PV String 28 Current | — | — 0.1 A | — | — | — | — |
-| 97 | 9 V _String 29 | PV String 29 voltage | — | — 0.1 V | — | — | — | — |
-| 98 | P-bus voltage | PV String 29 Current | — | — 0.1 A | — | — | — | — |
-| 98 | P-bus voltage | PV String 30 voltage | — | — 0.1 V | — | — | — | — |
-| 98 | P-bus voltage | PV String 30 Current | — | — 0.1 A | — | — | — | — |
-| 98 | P-bus voltage | PV String 31 voltage | — | — 0.1 V | — | — | — | — |
-| 98 | P-bus voltage | PV String 31 Current | — | — 0.1 A | — | — | — | — |
-| 98 | P-bus voltage | PV String 32 voltage | — | — 0.1 V | — | — | — | — |
-| 98 | P-bus voltage | PV String 32 Current | — | — 0.1 A | — | — | — | — |
-| 98 | P-bus voltage | Bit 0~15: String 17~32 unmatch | — | — | — | — | — | — |
-| 98 | P-bus voltage | Bit 0~15:String 17~32 unblance | — | — | — | — | — | — |
-| 98 | P-bus voltage | Bit 0~15: String 17~32 disconn | — | — | — | — | — | — |
-| 99 | N-bus voltage | PV Warning Value (PV 9-PV 16) Contains PV 9~16 abnormal, 和 Boost 9~16 Drive anomalies | — | — | — | — | — | — |
-| 99 | N-bus voltage | string 1~string 16 abnormal | — | — | — | — | — | — |
-| 99 | N-bus voltage | string 17~string 32 abnormal | — | — | — | — | — | — |
-| 99 | N-bus voltage | M 3 to DSP system command | — | — system command | — | — | — | — |
-| 10 | 00. uw Sys Work Mode | System work mode | — | — Theworkingmode displayed by the monitoring to the customer is: 0 x 00: waiting module 0 x 01: Self-test mode, 0 x 03:fault module 0 x 04:flash odule x 05|0 x 06|0 x 07|0 08:normal odule | — | — | — | — |
-| 10 | 01. Systemfault word 0 | System fault word 0 | — | — lease refer to hefault escription of ybrid | — | — | — | — |
-| 10 | 02. Systemfault word 1 | System fault word 1 | — | — | — | — | — | — |
-| 10 | 03. Systemfault word 2 | System fault word 2 | — | — | — | — | — | — |
-| 10 | 04. Systemfault word 3 | System fault word 3 | — | — | — | — | — | — |
-| 10 | 05. Systemfault word 4 | System fault word 4 | — | — | — | — | — | — |
-| 10 | 06. Systemfault word 5 | System fault word 5 | — | — | — | — | — | — |
-| 10 | 07. Systemfault word 6 | System fault word 6 | — | — | — | — | — | — |
-| 10 | 08. Systemfault word 7 | System fault word 7 | — | — | — | — | — | — |
-| 10 | 09. Pdischarge 1 H | Discharge power(high) | — | — | — | — | — | — |
-| 10 | 10. Pdischarge 1 L | Discharge power (low) | — | — | — | — | — | — |
-| 10 | 11. Pcharge 1 H | Charge power(high) | — | — | — | — | — | — |
-| 10 | 12. Pcharge 1 L | Charge power (low) | — | — | — | — | — | — |
-| 10 | 13. Vbat | Battery voltage | — | — | — | — | — | — |
-| 10 | 14. SOC | State of charge Capacity | — | — ith/leadacid | — | — | — | — |
-| 10 | 15. Pactouser R | H AC power to user H | — | — | — | — | — | — |
-| 10 | 16. Pactouser R | L AC power to user L | — | — | — | — | — | — |
-| 10 | 17. Pactouser S | H Pactouser S H | — | — | — | — | — | — |
-| 10 | 18. Pactouser S | L Pactouser S L | — | — | — | — | — | — |
-| 10 | 19. Pactouser T | H Pactouser T H | — | — | — | — | — | — |
-| 10 | 20. Pactouser T | L Pactouser T H | — | — | — | — | — | — |
-| 10 | 21. Pactouser Total H | AC power to user total H | — | — | — | — | — | — |
-| 10 | 22. Pactouser Total L | AC power to user total L | — | — | — | — | — | — |
-| 10 | 23. Pac to grid R H | AC power to grid H | — | — c output | — | — | — | — |
-| 10 | 24. Pac to grid R L | AC power to grid L | — | — | — | — | — | — |
-| 10 | 25. Pactogrid S H | — | — | — | — | — | — | — |
-| 10 | 26. Pactogrid S L | — | — | — | — | — | — | — |
-| 10 | 27. Pactogrid T H | — | — | — | — | — | — | — |
-| 10 | 28. Pactogrid T L | — | — | — | — | — | — | — |
-| 10 | 29. Pactogrid total H | AC power to grid total H | — | — | — | — | — | — |
-| 10 | 30. Pactogrid total L | AC power to grid total L | — | — | — | — | — | — |
-| 10 | 31. PLocal Load R | H INV power to local load H | — | — | — | — | — | — |
-| 10 | 32. PLocal Load R | L INV power to local load L | — | — | — | — | — | — |
-| 10 | 33. PLocal Load S | H | — | — | — | — | — | — |
-| 10 | 34. PLocal Load S | L | — | — | — | — | — | — |
-| 10 | 35. PLocal Load T H | — | — | — | — | — | — | — |
-| 10 | 36. PLocal Load T L | — | — | — | — | — | — | — |
-| 10 | 37. PLocal Load total | H INV power to local load tot | — | — | — | — | — | — |
-| 10 | 38. PLocal Load total | L INV power to local load tot L | — | — | — | — | — | — |
-| 10 | 39. IPM 2 Temperature | REC Temperature | — | — | — | — | — | — |
-| 10 | 40. Battery 2 Temperature | Battery Temperature | — | — ithium p | — | — | — | — |
-| 10 | 41. SP DSP Status | SP state | — | — | — | — | — | — |
-| 10 | 42. SP Bus Volt | SP BUS 2 Volt | — | — | — | — | — | — |
-| 10 | 43 | — | — | — | — | — | — | — |
-| 10 | 44. Etouser_today H | Energy to user today high | — | — | — | — | — | — |
-| 10 | 45. Etouser_today L | Energy to user today low | — | — | — | — | — | — |
-| 10 | 46. Etouser_total H | Energy to user total high | — | — | — | — | — | — |
-| 10 | 47. Etouser_ total L | Energy to user total high | — | — | — | — | — | — |
-| 10 | 48. Etogrid_today H | Energy to grid today high | — | — | — | — | — | — |
-| 10 | 49. Etogrid _today L | Energy to grid today low | — | — | — | — | — | — |
-| 10 | 50. Etogrid _total H | Energy to grid total high | — | — | — | — | — | — |
-| 10 | 51. Etogrid _ total L | Energy to grid total high | — | — | — | — | — | — |
-| 10 | 52. Edischarge 1_toda y H | Discharge energy 1 today | — | — | — | — | — | — |
-| 10 | 53. Edischarge 1_toda y L | Discharge energy 1 today | — | — | — | — | — | — |
-| 10 | 54. Edischarge 1_total H | Total discharge energy 1 (high) | — | — | — | — | — | — |
-| 10 | 55. Edischarge 1_total L | Total discharge energy 1 (low) | — | — | — | — | — | — |
-| 10 | 56. Echarge 1_today H | Charge 1 energy today | — | — | — | — | — | — |
-| 10 | 57. Echarge 1_today L | Charge 1 energy today | — | — | — | — | — | — |
-| 10 | 58. Echarge 1_total H | Charge 1 energy total | — | — | — | — | — | — |
-| 10 | 59. Echarge 1_total L | Charge 1 energy total | — | — | — | — | — | — |
-| 10 | 60. ELocal Load_Today H | Local load energy today | — | — | — | — | — | — |
-| 10 | 61. ELocal Load_Today L | Local load energy today | — | — | — | — | — | — |
-| 10 | 62. ELocal Load_Total H | Local load energy total | — | — | — | — | — | — |
-| 10 | 63. ELocal Load_Total L | Local load energy total | — | — | — | — | — | — |
-| 10 | 64. dw Export Limit Ap parent Power | Export Limit Apparent Power H | — | — rent Power | — | — | — | — |
-| 10 | 65. dw Export Limit Ap parent Power | Export Limit Apparent Power L | — | — rent Power | — | — | — | — |
-| 10 | 66. / | / | — | — rved | — | — | — | — |
-| 10 | 67. EPS Fac | UPSfrequency | — | — | — | — | — | — |
-| 10 | 68. EPS Vac 1 | UPS phase R output voltage | — | — | — | — | — | — |
-| 10 | 69. EPS Iac 1 | UPS phase R output current | — | — | — | — | — | — |
-| 10 | 70. EPS Pac 1 H | UPS phase R output power (H) | — | — | — | — | — | — |
-| 10 | 71. EPS Pac 1 L | UPS phase R output power (L) | — | — | — | — | — | — |
-| 10 | 72. EPS Vac 2 | UPS phase S output voltage | — | — | — | — | — | — |
-| 10 | 73. EPS Iac 2 | UPS phase S output current | — | — se | — | — | — | — |
-| 10 | 74. EPS Pac 2 H | UPS phase S output power (H) | — | — | — | — | — | — |
-| 10 | 75. EPS Pac 2 L | UPS phase S output power (L) | — | — | — | — | — | — |
-| 10 | 76. EPS Vac 3 | UPS phase T output voltage | — | — | — | — | — | — |
-| 10 | 77. EPS Iac 3 | UPS phase T output current | — | — se | — | — | — | — |
-| 10 | 78. EPS Pac 3 H | UPS phase T output power (H) | — | — | — | — | — | — |
-| 10 | 79. EPS Pac 3 L | UPS phase T output power (L) | — | — | — | — | — | — |
-| 10 | 80. Loadpercent | Load percent of UPS ouput | — | — | — | — | — | — |
-| 10 | 81. PF | Power factor | — | — ary Value+1 | — | — | — | — |
-| 10 | 82. BMS_Status Old | Status Old from BMS | — | — | — | — | — | — |
-| 10 | 83. BMS_Status | Status from BMS | — | — | — | — | — | — |
-| 10 | 84. BMS_Error Old | Error info Old from BMS | — | — | — | — | — | — |
-| 10 | 85. BMS_Error | Errorinfomation from BMS | — | — | — | — | — | — |
-| 10 | 86. BMS_SOC BMS_Battery Vol | SOC from BMS Battery voltage from BMS | — | — H 6 K H 6 K | — | — | — | — |
-| 10 | 87. t BMS_Battery Cur | Battery current from BMS | — | — | — | — | — | — |
-| 10 | 88. r BMS_Battery Te | Battery temperature from BMS | — | — | — | — | — | — |
-| 10 | 89. mp BMS_Max Curr | Max. charge/discharge current | — | — | — | — | — | — |
-| 10 | 90. | from BMS (pylon) | — | — | — | — | — | — |
-| 10 | 91. BMS_Gauge RM | Gauge RM from BMS | — | — | — | — | — | — |
-| 10 | 92. BMS_Gauge FCC | Gauge FCC from BMS | — | — | — | — | — | — |
-| 10 | 93. BMS_FW | — | — | — | — | — | — | — |
-| 10 | 94. BMS_Delta Volt | Delta V from BMS | — | — | — | — | — | — |
-| 10 | 95. BMS_Cycle Cnt | Cycle Count from BMS | — | — | — | — | — | — |
-| 10 | 96. BMS_SOH BMS_Constant V | SOH from BMS CV voltage from BMS | — | — | — | — | — | — |
-| 10 | 97. olt BMS_Warn Info O | Warning info old from BMS | — | — | — | — | — | — |
-| 10 | 98. ld | — | — | — | — | — | — | — |
-| 10 | 99. BMS_Warn Info BMS_Gauge ICCu | Warning info from BMS Gauge IC current from BMS | — | — | — | — | — | — |
-| 11 | Input 3 voltage | MCU Software version from BMS | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Gauge Version from BMS | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Gauge FR Version L 16 from BMS | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Gauge FR Version H 16 from BMS | — | — | — | — | — | — |
-| 11 | Input 3 voltage | — | — | — | — | — | — | — |
-| 11 | Input 3 voltage | BMSInformation from BMS | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Pack Information from BMS | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Using Cap from BMS | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Maximum single battery voltage | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Lowest single battery voltage | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Battery parallel number | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Number of batteries Max Volt Cell No | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Min Volt Cell No | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Max Tempr Cell_10 T | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Min Tempr Cell_10 T | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Max Volt Tempr Cell No | — | — | — | — | — | — |
-| 11 | Input 3 voltage | — | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Min Volt Tempr Cell No | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Faulty Battery Address | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Parallel maximum SOC | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Parallel minimum SOC Battery Protection 2 | — | — CAN ID: 0 x 323 | — | — | — | — |
-| 11 | Input 3 voltage | Battery Protection 3 | — | — Byte 4~5 CAN ID: 0 x 323 | — | — | — | — |
-| 11 | Input 3 voltage | Battery Warn 2 | — | — Byte 6 CAN ID: 0 x 323 | — | — | — | — |
-| 11 | Input 3 voltage | — | — | — Byte 7 | — | — | — | — |
-| 11 | Input 3 voltage | AC Charge Energy today | — | — Energy today | — | — | — | — |
-| 11 | Input 3 voltage | AC Charge Energy today | — | — | — | — | — | — |
-| 11 | Input 3 voltage | — | — | — Energy total | — | — | — | — |
-| 11 | Input 3 voltage | — | — | — | — | — | — | — |
-| 11 | Input 3 voltage | AC Charge Power | — | — | — | — | — | — |
-| 11 | Input 3 voltage | AC Charge Power | — | — | — | — | — | — |
-| 11 | Input 3 voltage | uw Grid Power_70_Adj EE_SP | — | — | — | — | — | — |
-| 11 | Input 3 voltage | tra inverte AC Power to grid gh | — | — SPA used | — | — | — | — |
-| 11 | Input 3 voltage | trainverte AC Power to grid Low | — | — SPA used | — | — | — | — |
-| 11 | Input 3 voltage | Extra inverter Power TOUser_Extr today (high) | — | — SPA used | — | — | — | — |
-| 11 | Input 3 voltage | Extra inverter Power TOUser_Extr today (low) | — | — SPA used | — | — | — | — |
-| 11 | Input 3 voltage | Extra inverter Power TOUser_Extr total(high) | — | — SPA used | — | — | — | — |
-| 11 | Input 3 voltage | Extra inverter Power TOUser_Extr total(low) | — | — SPA used | — | — | — | — |
-| 11 | Input 3 voltage | System electric energy today H | — | — SPA used System electric energy today H | — | — | — | — |
-| 11 | Input 3 voltage | stem electric energy today L | — | — d electric today L | — | — | — | — |
-| 11 | Input 3 voltage | System electric energy total H | — | — d electric total H | — | — | — | — |
-| 11 | Input 3 voltage | System electric energy total L | — | — d electric total L | — | — | — | — |
-| 11 | Input 3 voltage | self electric energy today H | — | — electric today H | — | — | — | — |
-| 11 | Input 3 voltage | self electric energy today L | — | — electric today L | — | — | — | — |
-| 11 | Input 3 voltage | self electric energy total H | — | — electric total H | — | — | — | — |
-| 11 | Input 3 voltage | self electric energy total L | — | — electric total L | — | — | — | — |
-| 11 | Input 3 voltage | System power H | — | — power H | — | — | — | — |
-| 11 | Input 3 voltage | System power L | — | — power L | — | — | — | — |
-| 11 | Input 3 voltage | self power H | — | — wer H | — | — | — | — |
-| 11 | Input 3 voltage | self power L | — | — wer L | — | — | — | — |
-| 11 | Input 3 voltage | PV electric energy today H | — | — | — | — | — | — |
-| 11 | Input 3 voltage | PV electric energy today L | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Discharge power pack number | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Cumulative discharge power high 16-bit byte | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Cumulative discharge power low 16-bit byte | — | — | — | — | — | — |
-| 11 | Input 3 voltage | charge power pack serial number | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Cumulative charge power high R 16-bit byte | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Cumulative charge power low R 16-bit byte | — | — | — | — | — | — |
-| 11 | Input 3 voltage | First Batt Fault Sn | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Second Batt Fault Sn | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Third Batt Fault Sn | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Fourth Batt Fault Sn | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Battery history fault code 1 | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Battery history fault code 2 | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Battery history fault code 3 | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Battery history fault code 4 | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Battery history fault code 5 | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Battery history fault code 6 | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Battery history fault code 7 | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Battery history fault code 8 | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Number of battery codes PACK number + BIC forward and reverse codes | — | — | — | — | — | — |
-| 11 | Input 3 voltage | — | — | — | — | — | — | — |
-| 11 | Input 3 voltage | Intelligent reading is used to identify software compatibility features | — | — rgy; rgy | — | — | — | — |
-| 1 | Input 1 voltage | Maximum cell voltage | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Minimum cell voltage | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Number of Battery modules | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Total number of cells | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Max Volt Cell No | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Min Volt Cell No | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Max Tempr Cell_10 T | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Min Tempr Cell_10 T | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Max Tempr Cell No | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Min Tempr Cell No | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Fault Pack ID | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Parallel maximum SOC | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Parallel minimum SOC | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Bat Protect 1 Add | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Bat Protect 2 Add | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | Bat Warn 1 Add | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | BMS_Highest Soft Version | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | BMS_Hardware Version | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 1 | Input 1 voltage | BMS_Request Type | — | — | — | — | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
-| 12 | Input 3 Amperage | Success sign of key detection before aging | — | — 1:Finished test 0: test not completed | — | — | — | — |
-| 12 | Input 3 Amperage | / | — | — reversed | — | — | — | — |
-| 20 | Grid voltage | Inverter run state | — | — SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Output power (high) | — | — 1 W SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Output power (low) | — | — 1 W SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Grid frequency | — | — 01 Hz SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Three/single phase grid voltage | — | — 1 V SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Three/single phase grid output | — | — 1 A SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Three/single phase grid output VA (high) | — | — 1 VA SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Three/single phase grid output VA(low) | — | — 1 VA SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Today generate energy (high) | — | — 1 k WH SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Today generate energy (low) | — | — 1 k WH SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Total generate energy (high) | — | — WH SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Total generate energy (low) | — | — WH SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Work time total (high) | — | — SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Work time total (low) | — | — SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Inverter temperature | — | — SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | The inside IPM in inverter Temp | — | — SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Boost temperature | — | — SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | — | — | — reserved | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | Bat Volt_DSP | — | — Bat Volt(DSP) | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | P Bus inside Voltage | — | — SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 20 | Grid voltage | N Bus inside Voltage | — | — SPA | — | — | offgrid:grid_voltage | Grid voltage |
-| 21 | AC frequency | / | — | — Remote setup enable | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | / | — | — Remotely set power | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | Extra inverte AC Power to grid | — | — SPA used | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | Extrainverte AC Power to grid L | — | — SPA used | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | Extra inverter Power TOUser_Extr today (high) | — | — Wh SPA used | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | Extra inverter Power TOUser_Extr today (low) | — | — Wh SPA used | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | Extra inverter Power TOUser_Extratotal(high) | — | — Wh SPA used | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | Extra inverter Power TOUser_Extr total(low) | — | — Wh SPA used | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | System electric energy today H | — | — Wh SPA used System electric energy today H | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | stem electric energy today L | — | — Wh SPA used System electric energy today L | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | System electric energy total H | — | — Wh SPA used System c total | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | System electric energy total L | — | — d c total | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | ACCharge energy today | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | ACCharge energy today | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | ACCharge energy total | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | ACCharge energy total | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | Grid power to local load | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | Grid power to local load | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | 0:Load First 1:Battery First 2:Grid First | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | 0:Lead-acid 1:Lithium battery | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | Aging mode | — | — | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 21 | AC frequency | — | — | — d | — | — | offgrid:grid_frequency | AC frequency, Grid frequency |
-| 3 | Input 1 Wattage | 2: Reserved 3:Sys Fault module 4: Flash module 5:PVBATOnline module: 6:Bat Online module 7:PVOffline Mode 8:Bat Offline Mode The lower 8 bits indicate the m status (web page display) 0: Standby Status; 1: Normal Status; 3: Fault Status 4:Flash Status; | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV total power | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 1 voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 1 input current | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 1 power | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 2 voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 2 input current | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 2 power | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 3 voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 3 input current | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 3 power | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 4 voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 4 input current | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 4 power | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | System output power | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | reactive power | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Output power | — | — ut | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Grid frequency | — | — r | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Three/single phase grid voltage | — | — uency e/single | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — e grid age | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Three/single phase grid output | — | — e/single rid | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Three/single phase grid output VA | — | — ingle rid | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Three phase grid voltage | — | — watt hase | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Three phase grid output current | — | — ltage hase | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — tput | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Three phase grid output power | — | — hase tput | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Three phase grid voltage | — | — hase | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Three phase grid output current | — | — ltage hase | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — tput | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Three phase grid output power | — | — hase tput | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Three phase grid voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Three phase grid voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Three phase grid voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Total forward power | — | — orward | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Total reverse power | — | — everse | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Total load power | — | — load | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Work time total | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Today generate energy | — | — e | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Total generate energy | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — e | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV energy total | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 1 energy today | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 1 energy total | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 2 energy today | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 2 energy total | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 3 energy today | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 3 energy total | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Today energy to user | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Total energy to user | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Today energy to grid | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Total energy to grid | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Today energy of user load | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Total energy of user load | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 4 energy today | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV 4 energy total | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV energy today | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Derating Mode | — | — h | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — k T l A i | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | PV ISO value | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | R DCI Curr | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | S DCI Curr | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | T DCI Curr | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | GFCI Curr | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | total bus voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Inverter temperature | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | The inside IPM in inverter temp | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Boost temperature | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Reserved | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Commmunication broad temperatur | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | P Bus inside Voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | N Bus inside Voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Inverter output PF now | — | — 000 | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Real Output power Percent | — | — 0 | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Output Maxpower Limited | — | — ut ower | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Inverter standby flag | — | — ted:turn off r;:PV Low;:AC | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — /Freq of scope; ~bit 7: rved | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Inverter fault maincode | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Inverter Warning maincode | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Inverter fault subcode | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Inverter Warning subcode | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Present FFTValue [CHANNEL_A] | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | AFCI Status | — | — waiting e lf-check Detection | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | AFCI Strength[CHANNEL_A] | — | — arcing e ult state update e | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | AFCI Self Check[CHANNEL_A] | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | inv start delay time | — | — lay | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BDC connect state | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Current status of Dry Contact | — | — of | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | self-use power | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | System energy today | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Today discharge energy | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Total discharge energy | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Charge energy today | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Charge energy total | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Today energy of AC charge | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Total energy of AC charge | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Total energy of system outpu | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Today energy of Self output | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Total energy of Self output | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Word Mode | — | — ad First | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — ery Firs id First | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | UPS frequency | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | UPS phase R output voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | UPS phase R output current | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | UPS phase R output power | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | UPS phase S output voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | UPS phase S output current | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | UPS phase S output power | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | UPS phase T output voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | UPS phase T output current | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | UPS phase T output power | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | UPS output power | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Load percent of UPS ouput | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Power factor | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | DC voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Whether to parse BDC data separ | — | — on't need | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BDCDerating Mode: 0: Normal, unrestricted 1:Standby or fault | — | — ed | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | 2:Maximum battery current limit (discharge) 3:Battery discharge Enable (Dis 4:High bus discharge derating (discharge) 5:High temperature discharge derating (discharge) 6:System warning No discharge (discharge) 7-15 Reserved (Discharge) 16:Maximum charging current of battery (charging) 17:High Temperature (LLC and Buckboost) (Charging) 18:Final soft charge 19:SOC setting limits (charging 20:Battery low temperature (cha 21:High bus voltage (charging) 22:Battery SOC (charging) 23: Need to charge (charge) 24: System warning not charging (charging) 25-29:Reserve (charge) System work State and mode The upper 8 bits indicate the mode; 0:No charge and discharge; 1:charge; 2:Discharge; | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | The lower 8 bits represent the 0: Standby Status; 1: Normal Status; 2: Fault Status 3:Flash Status; | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Storge device fault code | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Storge device warning code | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Battery voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Battery current | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | State of charge Capacity | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Total BUS voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | On the BUS voltage | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BUCK-BOOST Current | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | LLC Current | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Temperture A | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Temperture B | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Discharge power | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Charge power | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Discharge total energy of storg | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Charge total energy of storge d | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Reserved BDC mark (charge and dischar fault alarm code) Bit 0: Charge En; BDC allows char Bit 1: Discharge En; BDC allows discharge | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Bit 2~7: Resvd; reserved Bit 8~11: Warn Sub Code; BDC sub-warning code Bit 12~15: Fault Sub Code; BDC sub-error code | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Lower BUS voltage Bms Max Volt Cell No | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Bms Min Volt Cell No | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Bms Battery Avg Temp | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Bms Max Cell Temp | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Bms Battery Avg Temp | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Bms Max Cell Temp | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Bms Battery Avg Temp | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Bms Max SOC | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Bms Min SOC Parallel Battery Num | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Bms Derate Reason | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Bms Gauge FCC(Ah) | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Bms Gauge RM(Ah) | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BMS Protect 1 | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BMSWarn 1 | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BMS Fault 1 | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BMS Fault 2 | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Battery ISO detection status | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | battery work request | — | — n | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | battery working status | — | — mancy ge harge | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — dby start t te | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BMS Protect 2 | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BMS Warn 2 | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BMS SOC BMS Battery Volt | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BMS Battery Curr | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | battery cell maximum temperatur | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Maximum charging current Maximum discharge current | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BMSCycle Cnt | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BMS SOH Battery charging voltage limit | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | Battery discharge voltage limit | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BMS Warn 3 | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | BMS Protect 3 | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 3 | Input 1 Wattage | — | — | — | — | — | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
-| 32 | Input 8 Amperage | — | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | BMS Battery Single Volt Max | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | BMS Battery Single Volt Min | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Battery Load Volt | — | — 0,650.00] | — | — | — | — |
-| 32 | Input 8 Amperage | — | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 1 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 2 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 3 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 4 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 5 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 6 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 7 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 8 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 9 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 10 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 10 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 12 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 13 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 14 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 15 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Debug data 16 | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | PV inverter 1 output power H | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | PV inverter 1 output power L | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | PV inverter 2 output power H | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | PV inverter 2 output power L | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | PV inverter 1 energy Today H | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | PV inverter 1 energy Today L | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | PV inverter 2 energy Today H | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | PV inverter 2 energy Today L | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | PV inverter 1 energy Total H | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | PV inverter 1 energy Total L | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | PV inverter 2 energy Total H | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | PV inverter 2 energy Total L | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | battery pack number | — | — C reports e updated ery 15 nutes | — | — | — | — |
-| 32 | Input 8 Amperage | Battery pack serial number SN[0] | — | — C reports e updated | — | — | — | — |
-| 32 | Input 8 Amperage | Battery pack serial number SN[2] | — | — ery 15 | — | — | — | — |
-| 32 | Input 8 Amperage | Battery pack serial number SN[4] | — | — nutes | — | — | — | — |
-| 32 | Input 8 Amperage | Battery pack serial number SN[6] | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Battery pack serial number SN[8] | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Battery pack serial number SN[10]SN[11] | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Battery pack serial number SN[12]SN[13] | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Battery pack serial number SN[14]SN[15] | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Reserve | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | — | — | — | — | — | — | — |
-| 32 | Input 8 Amperage | Clear day data flag | — | — ta of the rrent day at the rver determines whether to clear. 0:not cleared. 1: Clear. | — | — | — | — |
-| 40 | Fault code | The first 8 registers are the 1 | — | — en 69 registers have the | — | — | — | — |
-| 41 | Intelligent Power Management temperature | same data area as 3165-3233, th 108 registers (including 8 regi | — | — eserved, a total of r). | — | — | — | — |
-| 41 | Intelligent Power Management temperature | The first 8 registers are the 1 | — | — en 69 registers have the | — | — | — | — |
-| 42 | Fault code | same data area as 3165-3233, th 108 registers (including 8 regi | — | — eserved, a total of r). | — | — | offgrid:fault_code | Fault code |
-| 48 | Input 1 energy today | The first 8 registers are the 1 | — | — en 69 registers have the | — | — | offgrid:input_1_energy_today | Input 1 energy today, PV1 energy produced today |
-| 49 | 71 | same data area as 3165-3233, th 108 registers (including 8 regi | — | — eserved, a total of r). | — | — | — | — |
-| 49 | 72- 10 | The first 8 registers are the 1 | — | — en 69 registers have the | — | — | — | — |
-| 50 | Input 1 total energy | same data area as 3165-3233, th 108 registers (including 8 regi | — | — eserved, a total of r). | — | — | offgrid:input_1_energy_total | Input 1 total energy, PV1 energy produced Lifetime |
+| 0 | Inverter status | Operating state reported by the inverter controller (0=waiting, 1=normal, 3=fault, 5=PV charge, 6=AC charge, 7=combined charge, 8=combined charge bypass, 9=PV charge bypass, 10=AC charge bypass, 11=bypass, 12=PV charge + discharge). | R | — | — | inverter_status_code | offgrid:status_code | Status code |
+| 1 | PV input power | Total PV input power summed across all strings (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | offgrid:input_1_voltage | Input 1 voltage, PV1 voltage |
+| 3 | PV 1 DC voltage | Instantaneous PV 1 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | offgrid:input_1_power | Input 1 Wattage, PV1 charge power |
+| 4 | PV 1 DC current | Instantaneous PV 1 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | — | — |
+| 5 | PV 1 DC power | Real-time DC power from PV 1 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | offgrid:input_2_power | Input 2 Wattage, PV2 charge power |
+| 7 | PV 2 DC voltage | Instantaneous PV 2 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | offgrid:input_1_amperage | Input 1 Amperage, PV1 buck current |
+| 8 | PV 2 DC current | Instantaneous PV 2 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | offgrid:input_2_amperage | Input 2 Amperage, PV2 buck current |
+| 9 | PV 2 DC power | Real-time DC power from PV 2 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | offgrid:output_active_power | Output active power |
+| 11 | PV 3 DC voltage | Instantaneous PV 3 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 12 | PV 3 DC current | Instantaneous PV 3 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | — | — |
+| 13 | PV 3 DC power | Real-time DC power from PV 3 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | offgrid:charge_power | Battery charge power, Charge Power |
+| 15 | PV 4 DC voltage | Instantaneous PV 4 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 16 | PV 4 DC current | Instantaneous PV 4 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | — | — |
+| 17 | PV 4 DC power | Real-time DC power from PV 4 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | offgrid:battery_voltage | Battery voltage |
+| 19 | PV 5 DC voltage | Instantaneous PV 5 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | offgrid:bus_voltage | Bus voltage |
+| 20 | PV 5 DC current | Instantaneous PV 5 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | offgrid:grid_voltage | Grid voltage |
+| 21 | PV 5 DC power | Real-time DC power from PV 5 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | offgrid:grid_frequency | AC frequency, Grid frequency |
+| 23 | PV 6 DC voltage | Instantaneous PV 6 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | offgrid:output_frequency | Output frequency |
+| 24 | PV 6 DC current | Instantaneous PV 6 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | offgrid:output_dc_voltage | Output DC voltage |
+| 25 | PV 6 DC power | Real-time DC power from PV 6 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | offgrid:inverter_temperature | Temperature |
+| 27 | PV 7 DC voltage | Instantaneous PV 7 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | offgrid:load_percent | Inverter load |
+| 28 | PV 7 DC current | Instantaneous PV 7 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | offgrid:battery_port_voltage | Battery port voltage |
+| 29 | PV 7 DC power | Real-time DC power from PV 7 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | offgrid:battery_bus_voltage | Battery bus voltage |
+| 31 | PV 8 DC voltage | Instantaneous PV 8 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 32 | PV 8 DC current | Instantaneous PV 8 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | — | — |
+| 33 | PV 8 DC power | Real-time DC power from PV 8 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 35 | AC output power | Active AC output power delivered by the inverter (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | — | — |
+| 37 | Grid frequency | Measured grid frequency with 0.01 Hz resolution. | R | — Hz | — | u 16_frequency_centihz | — | — |
+| 38 | AC phase L 1 voltage | AC output voltage for phase L 1. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 39 | AC phase L 1 current | AC output current for phase L 1. | R | — A | — | u 16_current_deciamp | — | — |
+| 40 | AC phase L 1 power | Active power exported on phase L 1. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 42 | AC phase L 2 voltage | AC output voltage for phase L 2. | R | — V | — | u 16_voltage_decivolt | offgrid:fault_code | Fault code |
+| 43 | AC phase L 2 current | AC output current for phase L 2. | R | — A | — | u 16_current_deciamp | offgrid:warning_code | Warning code |
+| 44 | AC phase L 2 power | Active power exported on phase L 2. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 46 | AC phase L 3 voltage | AC output voltage for phase L 3. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 47 | AC phase L 3 current | AC output current for phase L 3. | R | — A | — | u 16_current_deciamp | offgrid:constant_power | — |
+| 48 | AC phase L 3 power | Active power exported on phase L 3. | R | — W | — | u 32_power_w_decawatt | offgrid:input_1_energy_today | Input 1 energy today, PV1 energy produced today |
+| 53 | Output energy today | Energy exported to the AC output today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 55 | Output energy total | Lifetime AC output energy (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 57 | Run time | Total cumulative run time of the inverter. Raw values are seconds scaled by 1/7200 (0.0001389 hours). | R | — h | — | u 32_runtime_hours; Raw counter counts seconds; divide by 7200 to obtain hours. | — | — |
+| 59 | PV 1 energy today | Energy harvested by PV 1 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 61 | PV 1 energy total | Lifetime energy harvested by PV 1. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 63 | PV 2 energy today | Energy harvested by PV 2 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 65 | PV 2 energy total | Lifetime energy harvested by PV 2. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 67 | PV 3 energy today | Energy harvested by PV 3 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 69 | PV 3 energy total | Lifetime energy harvested by PV 3. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | offgrid:discharge_power | Battery discharge power, Discharge Power |
+| 71 | PV 4 energy today | Energy harvested by PV 4 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 73 | PV 4 energy total | Lifetime energy harvested by PV 4. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | offgrid:battery_discharge_amperage | Battery discharge current |
+| 75 | PV 5 energy today | Energy harvested by PV 5 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 77 | PV 5 energy total | Lifetime energy harvested by PV 5. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | offgrid:battery_power | Battery charging/ discharging(-ve) |
+| 79 | PV 6 energy today | Energy harvested by PV 6 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 81 | PV 6 energy total | Lifetime energy harvested by PV 6. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 83 | PV 7 energy today | Energy harvested by PV 7 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 85 | PV 7 energy total | Lifetime energy harvested by PV 7. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 87 | PV 8 energy today | Energy harvested by PV 8 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 89 | PV 8 energy total | Lifetime energy harvested by PV 8. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 91 | PV energy total | Total PV energy generated across all strings (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 93 | Inverter temperature | Main inverter heatsink temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 94 | IPM temperature | IPM (power module) temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 95 | Boost temperature | Boost inductor temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 98 | P-bus voltage | Positive DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 99 | N-bus voltage | Negative DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 101 | Output power percentage | Instantaneous AC output as a percentage of the inverter's rated power. | R | — % | — | u 16_percent | — | — |
+| 104 | Derating mode | Active derating reason reported by the inverter controller. | R | — | — | u 16_raw_code | — | — |
+| 105 | Fault code | Current inverter fault code (see protocol documentation). | R | — | — | u 16_status_word | — | — |
+| 110 | Warning code | Current inverter warning code (vendor-defined bitmask). | R | — | — | u 16_status_word | — | — |
+| 234 | Output reactive power | Instantaneous reactive power on the AC output (positive = inductive, negative = capacitive). | R | — var | — | s 32_reactive_power_decivar | — | — |
+| 236 | Reactive energy total | Lifetime accumulated reactive energy (0.1 kvarh resolution). | R | — kvarh | — | u 32_energy_kvarh_decitenth | — | — |
+| 3000 | Inverter status | Operating state reported by the inverter controller (0=waiting, 1=normal, 3=fault, 5=PV charge, 6=AC charge, 7=combined charge, 8=combined charge bypass, 9=PV charge bypass, 10=AC charge bypass, 11=bypass, 12=PV charge + discharge). | R | — | — | inverter_status_code | — | — |
+| 3001 | PV input power | Total PV input power summed across all strings (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3003 | PV 1 DC voltage | Instantaneous PV 1 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3004 | PV 1 DC current | Instantaneous PV 1 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | — | — |
+| 3005 | PV 1 DC power | Real-time DC power from PV 1 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3007 | PV 2 DC voltage | Instantaneous PV 2 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3008 | PV 2 DC current | Instantaneous PV 2 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | — | — |
+| 3009 | PV 2 DC power | Real-time DC power from PV 2 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3011 | PV 3 DC voltage | Instantaneous PV 3 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3012 | PV 3 DC current | Instantaneous PV 3 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | — | — |
+| 3013 | PV 3 DC power | Real-time DC power from PV 3 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3015 | PV 4 DC voltage | Instantaneous PV 4 string voltage measured at the inverter input. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3016 | PV 4 DC current | Instantaneous PV 4 string current flowing into the inverter. | R | — A | — | u 16_current_deciamp | — | — |
+| 3017 | PV 4 DC power | Real-time DC power from PV 4 computed from voltage and current readings. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3021 | Output reactive power | Instantaneous reactive power on the AC output (positive = inductive, negative = capacitive). | R | — var | — | s 32_reactive_power_decivar | — | — |
+| 3023 | AC output power | Active AC output power delivered by the inverter (0.1 W resolution). | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3025 | Grid frequency | Measured grid frequency with 0.01 Hz resolution. | R | — Hz | — | u 16_frequency_centihz | — | — |
+| 3026 | AC phase L 1 voltage | AC output voltage for phase L 1. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3027 | AC phase L 1 current | AC output current for phase L 1. | R | — A | — | u 16_current_deciamp | — | — |
+| 3028 | AC phase L 1 power | Active power exported on phase L 1. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3030 | AC phase L 2 voltage | AC output voltage for phase L 2. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3031 | AC phase L 2 current | AC output current for phase L 2. | R | — A | — | u 16_current_deciamp | — | — |
+| 3032 | AC phase L 2 power | Active power exported on phase L 2. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3034 | AC phase L 3 voltage | AC output voltage for phase L 3. | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3035 | AC phase L 3 current | AC output current for phase L 3. | R | — A | — | u 16_current_deciamp | — | — |
+| 3036 | AC phase L 3 power | Active power exported on phase L 3. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3041 | Load supply power | Real-time active power delivered to on-site (self-consumption) loads. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3043 | Grid export power | Active power exported to the utility grid. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3045 | Home load power | Aggregate instantaneous demand from on-site loads. | R | — W | — | u 32_power_w_decawatt | — | — |
+| 3047 | Run time | Total cumulative run time of the inverter. Raw values are seconds scaled by 1/7200 (0.0001389 hours). | R | — h | — | u 32_runtime_hours; Raw counter counts seconds; divide by 7200 to obtain hours. | — | — |
+| 3049 | Output energy today | Energy exported to the AC output today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3051 | Output energy total | Lifetime AC output energy (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3053 | PV energy total | Total PV energy generated across all strings (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3055 | PV 1 energy today | Energy harvested by PV 1 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3057 | PV 1 energy total | Lifetime energy harvested by PV 1. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3059 | PV 2 energy today | Energy harvested by PV 2 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3061 | PV 2 energy total | Lifetime energy harvested by PV 2. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3063 | PV 3 energy today | Energy harvested by PV 3 today. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3065 | PV 3 energy total | Lifetime energy harvested by PV 3. Values use 0.1 k Wh resolution. | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3067 | Load energy today | Energy delivered to on-site loads today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3069 | Load energy total | Lifetime energy delivered to on-site loads (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3071 | Export energy today | Energy exported to the grid today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3073 | Export energy total | Lifetime energy exported to the grid (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3086 | Derating mode | Active derating reason reported by the inverter controller. | R | — | — | u 16_raw_code | — | — |
+| 3093 | Inverter temperature | Main inverter heatsink temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3094 | IPM temperature | IPM (power module) temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3095 | Boost temperature | Boost inductor temperature (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3097 | Communication board temperature | Temperature reported by the communication/control board (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3098 | P-bus voltage | Positive DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3099 | N-bus voltage | Negative DC bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3101 | Output power percentage | Instantaneous AC output as a percentage of the inverter's rated power. | R | — % | — | u 16_percent | — | — |
+| 3105 | Fault code | Current inverter fault code (see protocol documentation). | R | — | — | u 16_status_word | — | — |
+| 3110 | Warning code | Current inverter warning code (vendor-defined bitmask). | R | — | — | u 16_status_word | — | — |
+| 3111 | Present FFT value (channel A) | Latest Fast Fourier Transform diagnostic value for channel A. | R | — | — | u 16_raw | — | — |
+| 3115 | Inverter start delay | Seconds remaining before restart once grid conditions recover. | R | — s | — | u 16_raw | — | — |
+| 3125 | Battery discharge today | Energy discharged from the battery into the AC system today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3127 | Battery discharge total | Total energy discharged from the battery (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3129 | Battery charge today | Energy charged into the battery today (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3131 | Battery charge total | Total energy charged into the battery (0.1 k Wh resolution). | R | — k Wh | — | u 32_energy_kwh_decitenth | — | — |
+| 3164 | BDC presence flag | Indicates whether a battery DC converter (BDC) has been detected. | R | — | — | u 16_flag | — | — |
+| 3169 | Battery voltage | Pack voltage reported via the inverter-side measurements (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | — | — |
+| 3170 | Battery current | Current flowing between battery and inverter (positive = discharge) with 0.1 A resolution. | R | — A | — | s 16_current_deciamp | — | — |
+| 3171 | Battery SOC | Battery state of charge reported by the inverter. | R | — % | — | u 16_percent | — | — |
+| 3172 | VBUS 1 voltage | BDC high-side bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3173 | VBUS 2 voltage | BDC low-side bus voltage (0.1 V resolution). | R | — V | — | u 16_voltage_decivolt | — | — |
+| 3174 | Buck/boost current | Current through the BDC buck/boost stage (0.1 A resolution). | R | — A | — | u 16_current_deciamp | — | — |
+| 3175 | LLC stage current | Current through the LLC resonant stage (0.1 A resolution). | R | — A | — | u 16_current_deciamp | — | — |
+| 3176 | Battery temperature A | Battery temperature sensor A (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3177 | Battery temperature B | Battery temperature sensor B (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3178 | Battery discharge power | Real-time discharge power flowing from the battery (0.1 W resolution). | R | — W | — | s 32_power_w_decawatt | — | — |
+| 3180 | Battery charge power | Real-time charge power flowing into the battery (0.1 W resolution). | R | — W | — | s 32_power_w_decawatt | — | — |
+| 3189 | BMS max cell index | Cell index reporting the highest voltage in the battery stack (1-based). | R | — | — | u 16_raw | — | — |
+| 3190 | BMS min cell index | Cell index reporting the lowest voltage in the battery stack (1-based). | R | — | — | u 16_raw | — | — |
+| 3191 | BMS average temperature A | Average temperature reported by sensor group A (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3192 | BMS max cell temperature A | Maximum cell temperature within sensor group A (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3193 | BMS average temperature B | Average temperature reported by sensor group B (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3194 | BMS max cell temperature B | Maximum cell temperature within sensor group B (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3195 | BMS average temperature C | Average temperature reported by sensor group C (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3196 | BMS max SOC | Highest state of charge observed across battery modules. | R | — % | — | u 16_percent | — | — |
+| 3197 | BMS min SOC | Lowest state of charge observed across battery modules. | R | — % | — | u 16_percent | — | — |
+| 3198 | Parallel battery count | Number of battery modules detected in parallel. | R | — | — | u 16_raw | — | — |
+| 3199 | BMS derate reason | Reason code reported by the BMS for power derating. | R | — | — | u 16_raw | — | — |
+| 3200 | BMS full charge capacity | Full charge capacity (FCC) reported by the battery fuel gauge (Ah). | R | — Ah | — | u 16_ampere_hour | — | — |
+| 3201 | BMS remaining capacity | Remaining capacity (RM) reported by the battery fuel gauge (Ah). | R | — Ah | — | u 16_ampere_hour | — | — |
+| 3202 | BMS protect flags 1 | Protection bitmask word 1 from the battery management system. | R | — | — | u 16_raw | — | — |
+| 3203 | BMS warning flags 1 | Warning bitmask word 1 from the battery management system. | R | — | — | u 16_raw | — | — |
+| 3204 | BMS fault flags 1 | Fault bitmask word 1 from the battery management system. | R | — | — | u 16_raw | — | — |
+| 3205 | BMS fault flags 2 | Fault bitmask word 2 from the battery management system. | R | — | — | u 16_raw | — | — |
+| 3210 | Battery insulation status | Isolation detection status reported by the BMS (0 = not detected, 1 = detected). | R | — | — | u 16_raw | — | — |
+| 3211 | Battery request flags | Bitmask of requests from the BMS to the inverter (charge/discharge permissions). | R | — | — | u 16_raw | — | — |
+| 3212 | BMS status | Overall battery management system status code. | R | — | — | u 16_raw | — | — |
+| 3213 | BMS protect flags 2 | Protection bitmask word 2 from the battery management system. | R | — | — | u 16_raw | — | — |
+| 3214 | BMS warning flags 2 | Warning bitmask word 2 from the battery management system. | R | — | — | u 16_raw | — | — |
+| 3215 | BMS SOC | State of charge reported directly by the BMS. | R | — % | — | u 16_percent | — | — |
+| 3216 | BMS battery voltage | Pack voltage reported by the BMS (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | — | — |
+| 3217 | BMS battery current | Current reported by the BMS with 0.01 A resolution (positive = discharge). | R | — A | — | s 16_current_centiamp; Positive values indicate discharge from the battery; negative values indicate charging. | — | — |
+| 3218 | BMS max cell temperature | Maximum cell temperature observed across the battery pack (0.1 °C resolution). | R | — °C | — | s 16_temperature_decic | — | — |
+| 3219 | BMS max charge current | Maximum charge current allowed by the BMS (0.01 A resolution). | R | — A | — | u 16_current_centiamp | — | — |
+| 3220 | BMS max discharge current | Maximum discharge current allowed by the BMS (0.01 A resolution). | R | — A | — | u 16_current_centiamp | — | — |
+| 3221 | BMS cycle count | Total charge/discharge cycles counted by the BMS. | R | — | — | u 16_raw | — | — |
+| 3222 | BMS state of health | Battery state of health reported by the BMS. | R | — % | — | u 16_percent | — | — |
+| 3223 | BMS charge voltage limit | Maximum pack voltage permitted during charge (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | — | — |
+| 3224 | BMS discharge voltage limit | Minimum pack voltage permitted during discharge (0.01 V resolution). | R | — V | — | u 16_voltage_centivolt | — | — |
+| 3225 | BMS warning flags 3 | Warning bitmask word 3 from the battery management system. | R | — | — | u 16_raw | — | — |
+| 3226 | BMS protect flags 3 | Protection bitmask word 3 from the battery management system. | R | — | — | u 16_raw | — | — |
+| 3230 | BMS max cell voltage | Highest individual cell voltage (0.001 V resolution). | R | — V | — | u 16_voltage_millivolt | — | — |
+| 3231 | BMS min cell voltage | Lowest individual cell voltage (0.001 V resolution). | R | — V | — | u 16_voltage_millivolt | — | — |
 
