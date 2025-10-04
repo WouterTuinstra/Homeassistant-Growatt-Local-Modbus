@@ -1,0 +1,5483 @@
+{
+  "types": {
+    "ac_charge_enable_flag": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "disabled"
+        },
+        "1": {
+          "label": "enabled"
+        }
+      },
+      "read_write": true,
+      "notes": "0 disables AC-side charging; 1 allows grid charging when configured."
+    },
+    "active_power_percent_limit": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 1,
+      "unit": "%",
+      "range": [
+        0,
+        100
+      ],
+      "special_values": {
+        "255": {
+          "label": "no_limit",
+          "description": "255 disables the active power cap."
+        }
+      }
+    },
+    "ascii_10": {
+      "kind": "ascii",
+      "registers": 5,
+      "characters": 10,
+      "read_write": false
+    },
+    "ascii_12": {
+      "kind": "ascii",
+      "registers": 6,
+      "characters": 12,
+      "read_write": false
+    },
+    "ascii_2": {
+      "kind": "ascii",
+      "registers": 1,
+      "characters": 2,
+      "read_write": false
+    },
+    "ascii_30": {
+      "kind": "ascii",
+      "registers": 15,
+      "characters": 30,
+      "read_write": false
+    },
+    "ascii_4": {
+      "kind": "ascii",
+      "registers": 2,
+      "characters": 4,
+      "read_write": false
+    },
+    "baud_rate_selection": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "9600 bps"
+        },
+        "1": {
+          "label": "38400 bps"
+        }
+      },
+      "notes": "Applies to the RS-485 Modbus RTU interface."
+    },
+    "bdc_onoff_state_flag": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "off"
+        },
+        "1": {
+          "label": "on"
+        }
+      }
+    },
+    "bdc_protocol_version_word": {
+      "kind": "raw",
+      "registers": 1,
+      "bits": 16,
+      "read_write": false,
+      "notes": "High byte = major version, low byte = minor version."
+    },
+    "bdc_reset_command": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "invalid"
+        },
+        "1": {
+          "label": "reset_settings"
+        },
+        "2": {
+          "label": "reset_calibration"
+        },
+        "3": {
+          "label": "clear_history"
+        }
+      },
+      "read_write": true
+    },
+    "bms_comm_interface_type": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "rs485"
+        },
+        "1": {
+          "label": "can"
+        }
+      }
+    },
+    "boolean_flag": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "disabled"
+        },
+        "1": {
+          "label": "enabled"
+        }
+      }
+    },
+    "current_dec_ampere": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "A",
+      "read_write": true
+    },
+    "dry_contact_enable_flag": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "disabled"
+        },
+        "1": {
+          "label": "enabled"
+        }
+      },
+      "read_write": true
+    },
+    "export_limit_failure_percent": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "%",
+      "range": [
+        0,
+        100
+      ],
+      "read_write": true,
+      "notes": "Fallback output percentage used when the export-limit controller is unavailable."
+    },
+    "external_comm_offgrid_enable_flag": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "disabled"
+        },
+        "1": {
+          "label": "enabled"
+        }
+      },
+      "read_write": true
+    },
+    "grid_first_schedule_control": {
+      "kind": "raw",
+      "registers": 1,
+      "bits": 16,
+      "read_write": true,
+      "notes": "Bits 0–7 start minute, 8–12 start hour, 13–14 priority, bit 15 enable."
+    },
+    "grid_first_schedule_end": {
+      "kind": "raw",
+      "registers": 1,
+      "bits": 16,
+      "read_write": true,
+      "notes": "Bits 0–7 end minute, 8–12 end hour; other bits reserved."
+    },
+    "grid_topology_code": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "single_phase"
+        },
+        "1": {
+          "label": "three_phase"
+        },
+        "2": {
+          "label": "split_phase"
+        }
+      },
+      "read_write": true
+    },
+    "inverter_enable_flags": {
+      "kind": "bitfield",
+      "registers": 1,
+      "bits": 16,
+      "flags": [
+        {
+          "bit": 0,
+          "name": "inverter_run_request",
+          "description": "1 keeps the inverter enabled; 0 issues a remote stop command."
+        },
+        {
+          "bit": 1,
+          "name": "bdc_enable_request",
+          "description": "Enable the BDC (battery DC converter) for battery-ready mode."
+        }
+      ],
+      "notes": "Write the combined bit mask (0–3). Bits 2–15 are reserved and should remain 0."
+    },
+    "lcd_language_code": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "Italian"
+        },
+        "1": {
+          "label": "English"
+        },
+        "2": {
+          "label": "German"
+        },
+        "3": {
+          "label": "Spanish"
+        },
+        "4": {
+          "label": "French"
+        },
+        "5": {
+          "label": "Chinese"
+        },
+        "6": {
+          "label": "Polish"
+        },
+        "7": {
+          "label": "Portuguese"
+        },
+        "8": {
+          "label": "Hungarian"
+        }
+      }
+    },
+    "pf_command_persistence": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "volatile",
+          "description": "Restore defaults after a restart."
+        },
+        "1": {
+          "label": "persist",
+          "description": "Keep power-factor related commands in NVRAM."
+        }
+      }
+    },
+    "power_factor_x10000": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10000,
+      "unit": "pf",
+      "notes": "Divide by 10 000 to obtain the power factor. Values <1 lead (capacitive), >1 lag (inductive)."
+    },
+    "ramp_percent_per_second": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "%/s",
+      "range": [
+        1,
+        1000
+      ]
+    },
+    "raw_u16": {
+      "kind": "raw",
+      "registers": 1,
+      "bits": 16,
+      "read_write": false
+    },
+    "raw_u32": {
+      "kind": "raw",
+      "registers": 2,
+      "bits": 32,
+      "read_write": false
+    },
+    "reactive_power_percent_limit": {
+      "kind": "scaled_signed",
+      "registers": 1,
+      "bits": 16,
+      "scale": 1,
+      "unit": "%",
+      "range": [
+        -100,
+        100
+      ],
+      "special_values": {
+        "255": {
+          "label": "no_limit",
+          "description": "255 disables the reactive power cap."
+        }
+      }
+    },
+    "safety_function_flags": {
+      "kind": "bitfield",
+      "registers": 1,
+      "bits": 16,
+      "flags": [
+        {
+          "bit": 0,
+          "name": "spi_enable",
+          "description": "Enable the System Protection Interface (SPI)."
+        },
+        {
+          "bit": 1,
+          "name": "auto_test_start",
+          "description": "Allow automatic anti-islanding test routines."
+        },
+        {
+          "bit": 2,
+          "name": "lvfrt_enable",
+          "description": "Enable low-voltage fault ride through."
+        },
+        {
+          "bit": 3,
+          "name": "frequency_derating_enable",
+          "description": "Apply frequency-based active power derating."
+        },
+        {
+          "bit": 4,
+          "name": "soft_start_enable",
+          "description": "Enable soft-start behaviour."
+        },
+        {
+          "bit": 5,
+          "name": "drms_enable",
+          "description": "Enable DRMS/DRAS demand response mode."
+        },
+        {
+          "bit": 6,
+          "name": "volt_var_enable",
+          "description": "Enable Volt-Var (Power-Volt) function."
+        },
+        {
+          "bit": 7,
+          "name": "hvfrt_enable",
+          "description": "Enable high-voltage fault ride through."
+        },
+        {
+          "bit": 8,
+          "name": "rocof_enable",
+          "description": "Enable rate-of-change-of-frequency protection."
+        },
+        {
+          "bit": 9,
+          "name": "freq_derating_recover",
+          "description": "Allow automatic recovery after frequency derating."
+        },
+        {
+          "bit": 10,
+          "name": "split_phase_enable",
+          "description": "Enable split-phase operation."
+        }
+      ],
+      "notes": "Bits 0–3 relate to CEI 0-21 compliance; bits 4–6 to AS/NZS (SAA) requirements. Bits 11–15 are reserved."
+    },
+    "storage_work_mode": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "default"
+        },
+        "1": {
+          "label": "system_retrofit"
+        },
+        "2": {
+          "label": "multi_parallel"
+        }
+      },
+      "read_write": true,
+      "notes": "Selects the hybrid operating mode for retrofits or parallel stacks."
+    },
+    "temperature_decicelsius_offset": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "°C",
+      "read_write": true,
+      "notes": "Values 0–200 map to 0–20 °C; subtract 1000 from values ≥1000 to obtain negative limits."
+    },
+    "u16_decivolt": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "V"
+    },
+    "u16_scale10": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "read_write": false
+    },
+    "u16_scale100": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 100,
+      "read_write": false
+    },
+    "u16_scale1000": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 1000,
+      "read_write": false
+    },
+    "u16_scale10_rw": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "read_write": true
+    },
+    "u16_seconds": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 1,
+      "unit": "s"
+    },
+    "u32_decikwh": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "kWh"
+    },
+    "u32_decivolt_ampere": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "VA",
+      "notes": "Unsigned 32-bit value stored in 0.1 VA increments (high word first)."
+    },
+    "u32_deciwatt": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "W"
+    },
+    "u32_scale10": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "read_write": false
+    },
+    "u32_scale7200": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 7200,
+      "read_write": false
+    },
+    "u32_work_hours_half_second": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 7200,
+      "unit": "h",
+      "notes": "Value / 7200 gives operating hours with 0.5 s resolution."
+    },
+    "voltage_centivolt": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 100,
+      "unit": "V",
+      "read_write": true
+    },
+    "ascii_8": {
+      "kind": "ascii",
+      "registers": 4,
+      "characters": 8,
+      "read_write": false
+    },
+    "ascii_16": {
+      "kind": "ascii",
+      "registers": 8,
+      "characters": 16,
+      "read_write": true
+    },
+    "us_tou_month_range": {
+      "kind": "bitfield",
+      "registers": 1,
+      "bits": 16,
+      "flags": [
+        {
+          "bit": 8,
+          "name": "enabled",
+          "description": "Set to 1 to apply the associated schedule slots during the selected months."
+        }
+      ],
+      "fields": [
+        {
+          "name": "start_month",
+          "start_bit": 0,
+          "bit_length": 4,
+          "description": "First month (1 = January) when the slots become active."
+        },
+        {
+          "name": "end_month",
+          "start_bit": 4,
+          "bit_length": 4,
+          "description": "Final month (1 = January) keeping the slots active."
+        }
+      ],
+      "notes": "Bits 9–15 are reserved. Register 3125 controls slots 1–9, 3126 slots 10–18, 3127 slots 19–27, and 3128 slots 28–36."
+    },
+    "us_tou_schedule_start": {
+      "kind": "bitfield",
+      "registers": 1,
+      "bits": 16,
+      "flags": [
+        {
+          "bit": 15,
+          "name": "slot_enabled",
+          "description": "Write 1 to enable the time window; 0 disables it."
+        }
+      ],
+      "fields": [
+        {
+          "name": "start_minute",
+          "start_bit": 0,
+          "bit_length": 7,
+          "description": "Minute (0–59) when the slot opens."
+        },
+        {
+          "name": "start_hour",
+          "start_bit": 7,
+          "bit_length": 5,
+          "description": "Hour (0–23) when the slot opens."
+        },
+        {
+          "name": "priority_mode",
+          "start_bit": 12,
+          "bit_length": 3,
+          "description": "0 = load-first, 1 = battery-first, 2 = grid-first, 3 = anti-reflux; other values reserved."
+        }
+      ],
+      "notes": "Applies to the first word of each US time-of-use window."
+    },
+    "us_tou_schedule_end": {
+      "kind": "bitfield",
+      "registers": 1,
+      "bits": 16,
+      "fields": [
+        {
+          "name": "end_minute",
+          "start_bit": 0,
+          "bit_length": 7,
+          "description": "Minute (0–59) when the slot closes."
+        },
+        {
+          "name": "end_hour",
+          "start_bit": 7,
+          "bit_length": 5,
+          "description": "Hour (0–23) when the slot closes."
+        },
+        {
+          "name": "day_group",
+          "start_bit": 12,
+          "bit_length": 2,
+          "description": "0 = weekday, 1 = weekend, 2 = entire week; other values reserved."
+        }
+      ],
+      "notes": "Bits 14–15 are reserved."
+    },
+    "us_special_day_end": {
+      "kind": "bitfield",
+      "registers": 1,
+      "bits": 16,
+      "fields": [
+        {
+          "name": "end_minute",
+          "start_bit": 0,
+          "bit_length": 7,
+          "description": "Minute (0–59) when the override slot closes."
+        },
+        {
+          "name": "end_hour",
+          "start_bit": 7,
+          "bit_length": 5,
+          "description": "Hour (0–23) when the override slot closes."
+        }
+      ],
+      "notes": "Bits 12–15 are reserved."
+    },
+    "us_special_day_date": {
+      "kind": "bitfield",
+      "registers": 1,
+      "bits": 16,
+      "flags": [
+        {
+          "bit": 15,
+          "name": "enabled",
+          "description": "Set to 1 to activate the special-day override."
+        }
+      ],
+      "fields": [
+        {
+          "name": "day",
+          "start_bit": 0,
+          "bit_length": 8,
+          "description": "Day-of-month (1–31)."
+        },
+        {
+          "name": "month",
+          "start_bit": 8,
+          "bit_length": 7,
+          "description": "Month (1–12)."
+        }
+      ],
+      "notes": "Bit 15 enables the override. Remaining bits are reserved."
+    },
+    "us_tou_schedule_slot": {
+      "kind": "struct",
+      "registers": 2,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "us_tou_schedule_start",
+          "name": "start"
+        },
+        {
+          "offset": 1,
+          "type": "us_tou_schedule_end",
+          "name": "end"
+        }
+      ],
+      "notes": "Two-register window specifying the start/stop times, priority mode, and day grouping."
+    },
+    "us_special_day_slot": {
+      "kind": "struct",
+      "registers": 2,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "us_tou_schedule_start",
+          "name": "start"
+        },
+        {
+          "offset": 1,
+          "type": "us_special_day_end",
+          "name": "end"
+        }
+      ],
+      "notes": "Special-day override slot; uses the same start encoding but an end word without weekday/weekend flags."
+    },
+    "bdc_metadata_block": {
+      "kind": "struct",
+      "registers": 40,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "raw_u16",
+          "name": "modbus_address",
+          "description": "BDC Modbus RTU slave address (1–254)."
+        },
+        {
+          "offset": 1,
+          "type": "baud_rate_selection",
+          "name": "baud_rate",
+          "description": "RS-485 baud rate selection."
+        },
+        {
+          "offset": 2,
+          "type": "ascii_16",
+          "name": "serial_number",
+          "description": "Battery rack serial number reported by the BMS."
+        },
+        {
+          "offset": 10,
+          "type": "bdc_reset_command",
+          "name": "reset_command"
+        },
+        {
+          "offset": 11,
+          "type": "ascii_4",
+          "name": "monitoring_code",
+          "description": "BDC monitoring firmware identifier."
+        },
+        {
+          "offset": 13,
+          "type": "raw_u16",
+          "name": "dtc_code",
+          "description": "Latest BDC diagnostic trouble code."
+        },
+        {
+          "offset": 14,
+          "type": "ascii_4",
+          "name": "firmware_code",
+          "description": "DSP firmware build identifier."
+        },
+        {
+          "offset": 16,
+          "type": "ascii_2",
+          "name": "dsp_version",
+          "description": "DSP firmware version."
+        },
+        {
+          "offset": 17,
+          "type": "raw_u16",
+          "name": "bus_voltage_reference",
+          "description": "Minimum DC bus voltage used for BDC control."
+        },
+        {
+          "offset": 18,
+          "type": "ascii_8",
+          "name": "bdc_monitor_version",
+          "description": "BDC monitoring software version string."
+        },
+        {
+          "offset": 22,
+          "type": "bms_comm_interface_type",
+          "name": "bms_comm_type"
+        },
+        {
+          "offset": 23,
+          "type": "ascii_2",
+          "name": "module_token_4",
+          "description": "BDC module identifier (suffix SxxBxx)."
+        },
+        {
+          "offset": 24,
+          "type": "ascii_2",
+          "name": "module_token_3",
+          "description": "BDC module identifier (suffix DxxTxx)."
+        },
+        {
+          "offset": 25,
+          "type": "ascii_2",
+          "name": "module_token_2",
+          "description": "BDC module identifier (suffix PxxUxx)."
+        },
+        {
+          "offset": 26,
+          "type": "ascii_2",
+          "name": "module_token_1",
+          "description": "BDC module identifier (prefix Mxxxx)."
+        },
+        {
+          "offset": 28,
+          "type": "bdc_protocol_version_word",
+          "name": "protocol_version"
+        },
+        {
+          "offset": 29,
+          "type": "raw_u16",
+          "name": "certification_version"
+        }
+      ],
+      "notes": "Matches the 40-register block at 3085–3124. Registers 27 and 30–39 remain reserved."
+    },
+    "us_tou_month_range_block": {
+      "kind": "struct",
+      "registers": 4,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "us_tou_month_range",
+          "name": "slots_1_9"
+        },
+        {
+          "offset": 1,
+          "type": "us_tou_month_range",
+          "name": "slots_10_18"
+        },
+        {
+          "offset": 2,
+          "type": "us_tou_month_range",
+          "name": "slots_19_27"
+        },
+        {
+          "offset": 3,
+          "type": "us_tou_month_range",
+          "name": "slots_28_36"
+        }
+      ],
+      "notes": "Groups of nine US time-of-use slots enabled by month bitfields."
+    },
+    "us_tou_schedule_group": {
+      "kind": "struct",
+      "registers": 18,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_1"
+        },
+        {
+          "offset": 2,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_2"
+        },
+        {
+          "offset": 4,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_3"
+        },
+        {
+          "offset": 6,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_4"
+        },
+        {
+          "offset": 8,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_5"
+        },
+        {
+          "offset": 10,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_6"
+        },
+        {
+          "offset": 12,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_7"
+        },
+        {
+          "offset": 14,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_8"
+        },
+        {
+          "offset": 16,
+          "type": "us_tou_schedule_slot",
+          "name": "slot_9"
+        }
+      ],
+      "notes": "Nine consecutive US time-of-use slots; each slot spans two registers."
+    },
+    "us_tou_schedule_table": {
+      "kind": "struct",
+      "registers": 72,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "us_tou_schedule_group",
+          "name": "slots_1_9"
+        },
+        {
+          "offset": 18,
+          "type": "us_tou_schedule_group",
+          "name": "slots_10_18"
+        },
+        {
+          "offset": 36,
+          "type": "us_tou_schedule_group",
+          "name": "slots_19_27"
+        },
+        {
+          "offset": 54,
+          "type": "us_tou_schedule_group",
+          "name": "slots_28_36"
+        }
+      ],
+      "notes": "Complete table of 36 US time-of-use slots (start/end, mode, and day grouping)."
+    },
+    "us_special_day_schedule": {
+      "kind": "struct",
+      "registers": 18,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "us_special_day_slot",
+          "name": "slot_1"
+        },
+        {
+          "offset": 2,
+          "type": "us_special_day_slot",
+          "name": "slot_2"
+        },
+        {
+          "offset": 4,
+          "type": "us_special_day_slot",
+          "name": "slot_3"
+        },
+        {
+          "offset": 6,
+          "type": "us_special_day_slot",
+          "name": "slot_4"
+        },
+        {
+          "offset": 8,
+          "type": "us_special_day_slot",
+          "name": "slot_5"
+        },
+        {
+          "offset": 10,
+          "type": "us_special_day_slot",
+          "name": "slot_6"
+        },
+        {
+          "offset": 12,
+          "type": "us_special_day_slot",
+          "name": "slot_7"
+        },
+        {
+          "offset": 14,
+          "type": "us_special_day_slot",
+          "name": "slot_8"
+        },
+        {
+          "offset": 16,
+          "type": "us_special_day_slot",
+          "name": "slot_9"
+        }
+      ],
+      "notes": "Override slots that apply on the configured special day (same encoding as normal slots)."
+    },
+    "us_special_day_definition": {
+      "kind": "struct",
+      "registers": 19,
+      "fields": [
+        {
+          "offset": 0,
+          "type": "us_special_day_date",
+          "name": "date"
+        },
+        {
+          "offset": 1,
+          "type": "us_special_day_schedule",
+          "name": "schedule"
+        }
+      ],
+      "notes": "Date enable register followed by up to nine override slots for the selected day."
+    },
+    "inverter_status_code": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "waiting"
+        },
+        "1": {
+          "label": "normal"
+        },
+        "3": {
+          "label": "fault"
+        },
+        "5": {
+          "label": "pv_charge"
+        },
+        "6": {
+          "label": "ac_charge"
+        },
+        "7": {
+          "label": "combined_charge"
+        },
+        "8": {
+          "label": "combined_charge_bypass"
+        },
+        "9": {
+          "label": "pv_charge_bypass"
+        },
+        "10": {
+          "label": "ac_charge_bypass"
+        },
+        "11": {
+          "label": "bypass"
+        },
+        "12": {
+          "label": "pv_charge_discharge"
+        }
+      },
+      "notes": "Enum derived from Growatt protocol inverter status codes."
+    },
+    "u16_voltage_decivolt": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "V"
+    },
+    "u16_voltage_centivolt": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 100,
+      "unit": "V"
+    },
+    "u16_voltage_millivolt": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 1000,
+      "unit": "V"
+    },
+    "u16_current_deciamp": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "A"
+    },
+    "s16_current_deciamp": {
+      "kind": "scaled_signed",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "A"
+    },
+    "u16_current_centiamp": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 100,
+      "unit": "A"
+    },
+    "s16_temperature_decic": {
+      "kind": "scaled_signed",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "°C"
+    },
+    "u16_percent": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 1,
+      "unit": "%"
+    },
+    "u16_ampere_hour": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 1,
+      "unit": "Ah"
+    },
+    "u16_flag": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "no"
+        },
+        "1": {
+          "label": "yes"
+        }
+      }
+    },
+    "u16_raw": {
+      "kind": "raw",
+      "registers": 1,
+      "bits": 16
+    },
+    "u16_raw_code": {
+      "kind": "raw",
+      "registers": 1,
+      "bits": 16,
+      "notes": "Vendor-specific state code."
+    },
+    "u16_status_word": {
+      "kind": "raw",
+      "registers": 1,
+      "bits": 16,
+      "notes": "Vendor-specific fault/warning bitmask."
+    },
+    "u32_power_w_decawatt": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "W",
+      "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution."
+    },
+    "s32_power_w_decawatt": {
+      "kind": "scaled_signed",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "W",
+      "notes": "Signed 32-bit value stored as high/low words with 0.1 W resolution."
+    },
+    "u16_power_decawatt": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "W"
+    },
+    "u32_energy_kwh_decitenth": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "kWh",
+      "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+    },
+    "u32_runtime_hours": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 7200,
+      "unit": "h",
+      "notes": "Divide raw seconds by 7200 to obtain hours."
+    },
+    "u16_scaled_100": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 100
+    },
+    "s32_reactive_power_decivar": {
+      "kind": "scaled_signed",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "var",
+      "notes": "Signed 32-bit reactive power measurement with 0.1 var resolution."
+    },
+    "u32_energy_kvarh_decitenth": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "kvarh",
+      "notes": "Cumulative reactive energy counter with 0.1 kvarh resolution (high word first)."
+    },
+    "u16_frequency_centihz": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 100,
+      "unit": "Hz",
+      "notes": "Divide by 100 to obtain the grid frequency in hertz."
+    },
+    "s16_current_centiamp": {
+      "kind": "scaled_signed",
+      "registers": 1,
+      "bits": 16,
+      "scale": 100,
+      "unit": "A"
+    },
+    "u16_resistance_kiloohm": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 1,
+      "unit": "kΩ",
+      "notes": "PV insulation resistance reported in kilo-ohms."
+    },
+    "u16_current_decimilliamp": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "mA",
+      "notes": "Divide by 10 to obtain milliamps."
+    },
+    "u16_current_milliamp": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 1,
+      "unit": "mA"
+    },
+    "u32_apparent_power_decava": {
+      "kind": "scaled",
+      "registers": 2,
+      "bits": 32,
+      "scale": 10,
+      "unit": "VA",
+      "notes": "Unsigned 32-bit apparent power value with 0.1 VA resolution (high word first)."
+    },
+    "u16_percent_decitenth": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "%",
+      "notes": "Divide by 10 for percent values."
+    },
+    "u16_power_factor_decitenth": {
+      "kind": "scaled",
+      "registers": 1,
+      "bits": 16,
+      "scale": 10,
+      "unit": "pf",
+      "notes": "Divide by 10 to obtain the power factor."
+    },
+    "priority_mode": {
+      "kind": "enum",
+      "registers": 1,
+      "bits": 16,
+      "values": {
+        "0": {
+          "label": "load_first"
+        },
+        "1": {
+          "label": "battery_first"
+        },
+        "2": {
+          "label": "grid_first"
+        }
+      },
+      "notes": "Hybrid priority mode selector."
+    }
+  },
+  "register_types": [
+    {
+      "table": "holding",
+      "register": 0,
+      "register_end": 0,
+      "type": "inverter_enable_flags",
+      "attributes": [
+        "inverter_enabled"
+      ],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ],
+      "description": "Remote enable bits for the inverter (bit 0) and BDC (bit 1)."
+    },
+    {
+      "table": "holding",
+      "register": 1,
+      "register_end": 1,
+      "type": "safety_function_flags",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ],
+      "description": "Safety function enable mask (SPI, LVFRT, DRMS, Volt/Var, etc.)."
+    },
+    {
+      "table": "holding",
+      "register": 2,
+      "register_end": 2,
+      "type": "pf_command_persistence",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3,
+      "register_end": 3,
+      "type": "active_power_percent_limit",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 4,
+      "register_end": 4,
+      "type": "reactive_power_percent_limit",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 5,
+      "register_end": 5,
+      "type": "power_factor_x10000",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 6,
+      "register_end": 7,
+      "type": "u32_decivolt_ampere",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 8,
+      "register_end": 8,
+      "type": "u16_decivolt",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 9,
+      "register_end": 14,
+      "type": "ascii_12",
+      "attributes": [
+        "firmware"
+      ],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ],
+      "description": "Concatenated DSP/control firmware identification string (ASCII)."
+    },
+    {
+      "table": "holding",
+      "register": 15,
+      "register_end": 15,
+      "type": "lcd_language_code",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 16,
+      "register_end": 16,
+      "type": "boolean_flag",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ],
+      "description": "Indicates whether a country/regional profile has been selected."
+    },
+    {
+      "table": "holding",
+      "register": 17,
+      "register_end": 17,
+      "type": "u16_decivolt",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 18,
+      "register_end": 18,
+      "type": "u16_seconds",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 19,
+      "register_end": 19,
+      "type": "u16_seconds",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 20,
+      "register_end": 20,
+      "type": "ramp_percent_per_second",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 21,
+      "register_end": 21,
+      "type": "ramp_percent_per_second",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 22,
+      "register_end": 22,
+      "type": "baud_rate_selection",
+      "attributes": [],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 23,
+      "register_end": 27,
+      "type": "ascii_10",
+      "attributes": [
+        "serial number"
+      ],
+      "families": [
+        "tlx",
+        "tl3",
+        "storage"
+      ],
+      "description": "Inverter serial number stored as a 10-character ASCII string."
+    },
+    {
+      "table": "holding",
+      "register": 28,
+      "register_end": 29,
+      "type": "raw_u32",
+      "attributes": [
+        "Inverter model"
+      ],
+      "families": [
+        "storage",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 43,
+      "register_end": 43,
+      "type": "raw_u16",
+      "attributes": [
+        "device type code"
+      ],
+      "families": [
+        "storage",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 44,
+      "register_end": 44,
+      "type": "raw_u16",
+      "attributes": [
+        "number of trackers and phases"
+      ],
+      "families": [
+        "storage",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 73,
+      "register_end": 73,
+      "type": "u16_scale100",
+      "attributes": [
+        "modbus version"
+      ],
+      "families": [
+        "tl3"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 88,
+      "register_end": 88,
+      "type": "u16_scale100",
+      "attributes": [
+        "modbus version"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3000,
+      "register_end": 3000,
+      "type": "export_limit_failure_percent",
+      "families": [
+        "storage"
+      ],
+      "description": "Fallback output percentage when export limiting fails."
+    },
+    {
+      "table": "holding",
+      "register": 3001,
+      "register_end": 3015,
+      "type": "ascii_30",
+      "attributes": [
+        "serial number"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3016,
+      "register_end": 3016,
+      "type": "dry_contact_enable_flag",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3018,
+      "register_end": 3018,
+      "type": "storage_work_mode",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3021,
+      "register_end": 3021,
+      "type": "external_comm_offgrid_enable_flag",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3023,
+      "register_end": 3023,
+      "type": "grid_topology_code",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3024,
+      "register_end": 3024,
+      "type": "current_dec_ampere",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3028,
+      "register_end": 3030,
+      "type": "voltage_centivolt",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3031,
+      "register_end": 3034,
+      "type": "temperature_decicelsius_offset",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3038,
+      "register_end": 3038,
+      "type": "grid_first_schedule_control",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3039,
+      "register_end": 3039,
+      "type": "grid_first_schedule_end",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3041,
+      "register_end": 3042,
+      "type": "u32_deciwatt",
+      "attributes": [
+        "power_to_user"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3043,
+      "register_end": 3044,
+      "type": "u32_deciwatt",
+      "attributes": [
+        "power_to_grid"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3045,
+      "register_end": 3046,
+      "type": "u32_deciwatt",
+      "attributes": [
+        "power_user_load"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3047,
+      "register_end": 3048,
+      "type": "u32_work_hours_half_second",
+      "attributes": [
+        "operation_hours"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3049,
+      "register_end": 3049,
+      "type": "ac_charge_enable_flag",
+      "attributes": [
+        "ac_charge_enabled"
+      ],
+      "families": [
+        "storage"
+      ],
+      "description": "Remote enable for AC-side charging on TL-XH hybrids."
+    },
+    {
+      "table": "holding",
+      "register": 3051,
+      "register_end": 3052,
+      "type": "u32_decikwh",
+      "attributes": [
+        "output_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3053,
+      "register_end": 3054,
+      "type": "u32_decikwh",
+      "attributes": [
+        "input_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3055,
+      "register_end": 3056,
+      "type": "u32_decikwh",
+      "attributes": [
+        "input_1_energy_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3057,
+      "register_end": 3058,
+      "type": "u32_decikwh",
+      "attributes": [
+        "input_1_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3059,
+      "register_end": 3060,
+      "type": "u32_decikwh",
+      "attributes": [
+        "input_2_energy_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3061,
+      "register_end": 3062,
+      "type": "u32_decikwh",
+      "attributes": [
+        "input_2_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3063,
+      "register_end": 3064,
+      "type": "u32_decikwh",
+      "attributes": [
+        "input_3_energy_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3065,
+      "register_end": 3066,
+      "type": "u32_decikwh",
+      "attributes": [
+        "input_3_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3067,
+      "register_end": 3068,
+      "type": "u32_decikwh",
+      "attributes": [
+        "energy_to_user_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3069,
+      "register_end": 3070,
+      "type": "u32_decikwh",
+      "attributes": [
+        "energy_to_user_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3071,
+      "register_end": 3072,
+      "type": "u32_decikwh",
+      "attributes": [
+        "energy_to_grid_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3073,
+      "register_end": 3074,
+      "type": "u32_decikwh",
+      "attributes": [
+        "energy_to_grid_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3075,
+      "register_end": 3076,
+      "type": "u32_decikwh",
+      "attributes": [
+        "load_energy_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3077,
+      "register_end": 3078,
+      "type": "u32_decikwh",
+      "attributes": [
+        "load_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3079,
+      "register_end": 3082,
+      "type": "u32_decikwh",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3083,
+      "register_end": 3084,
+      "type": "u32_decikwh",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3087,
+      "register_end": 3094,
+      "type": "ascii_16",
+      "families": [
+        "storage"
+      ],
+      "description": "Battery rack serial number string from the BMS."
+    },
+    {
+      "table": "holding",
+      "register": 3095,
+      "register_end": 3095,
+      "type": "bdc_reset_command",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3096,
+      "register_end": 3097,
+      "type": "ascii_4",
+      "families": [
+        "storage"
+      ],
+      "description": "BDC monitoring firmware code."
+    },
+    {
+      "table": "holding",
+      "register": 3099,
+      "register_end": 3100,
+      "type": "ascii_4",
+      "families": [
+        "storage"
+      ],
+      "description": "DSP firmware code identifier."
+    },
+    {
+      "table": "holding",
+      "register": 3101,
+      "register_end": 3101,
+      "type": "ascii_2",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3103,
+      "register_end": 3106,
+      "type": "ascii_2",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3107,
+      "register_end": 3107,
+      "type": "bms_comm_interface_type",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3108,
+      "register_end": 3111,
+      "type": "ascii_2",
+      "families": [
+        "storage"
+      ],
+      "description": "BDC module identification tokens."
+    },
+    {
+      "table": "holding",
+      "register": 3113,
+      "register_end": 3113,
+      "type": "bdc_protocol_version_word",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3118,
+      "register_end": 3118,
+      "type": "bdc_onoff_state_flag",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3121,
+      "register_end": 3122,
+      "type": "u32_deciwatt",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3123,
+      "register_end": 3124,
+      "type": "u32_decikwh",
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "holding",
+      "register": 3125,
+      "register_end": 3128,
+      "type": "us_tou_month_range_block",
+      "families": [
+        "tlx"
+      ],
+      "description": "US time-of-use month enable ranges (slots 1–36 in groups of nine)."
+    },
+    {
+      "table": "holding",
+      "register": 3129,
+      "register_end": 3200,
+      "type": "us_tou_schedule_table",
+      "families": [
+        "tlx"
+      ],
+      "description": "US time-of-use schedule table containing 36 start/stop windows."
+    },
+    {
+      "table": "holding",
+      "register": 3201,
+      "register_end": 3219,
+      "type": "us_special_day_definition",
+      "families": [
+        "tlx"
+      ],
+      "description": "Special day 1 override date and slot definitions."
+    },
+    {
+      "table": "holding",
+      "register": 3220,
+      "register_end": 3238,
+      "type": "us_special_day_definition",
+      "families": [
+        "tlx"
+      ],
+      "description": "Special day 2 override date and slot definitions."
+    },
+    {
+      "table": "holding",
+      "register": 5000,
+      "register_end": 5039,
+      "type": "bdc_metadata_block",
+      "families": [
+        "tlx"
+      ],
+      "description": "BDC slot 1 metadata mirror (repeat every 40 registers for additional slots)."
+    },
+    {
+      "table": "input",
+      "register": 0,
+      "register_end": 0,
+      "type": "inverter_status_code",
+      "attributes": [
+        "status_code"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 1,
+      "register_end": 2,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "input_power"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 2,
+      "register_end": 2,
+      "type": "u16_scale10",
+      "attributes": [
+        "input_2_voltage"
+      ],
+      "families": [
+        "offgrid"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3,
+      "register_end": 3,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "input_1_voltage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 4,
+      "register_end": 4,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "input_1_amperage"
+      ],
+      "families": [
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 5,
+      "register_end": 6,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "input_1_power"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 7,
+      "register_end": 7,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "input_2_voltage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 8,
+      "register_end": 8,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "input_2_amperage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 9,
+      "register_end": 10,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "input_2_power"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 11,
+      "register_end": 11,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "input_3_voltage"
+      ],
+      "families": [
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 12,
+      "register_end": 12,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "input_3_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 13,
+      "register_end": 14,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "input_3_power"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 14,
+      "register_end": 14,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_1_voltage"
+      ],
+      "families": [
+        "tl3"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 15,
+      "register_end": 15,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "input_4_voltage"
+      ],
+      "families": [
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 16,
+      "register_end": 16,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "input_4_amperage"
+      ],
+      "families": [
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 17,
+      "register_end": 18,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "input_4_power"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 18,
+      "register_end": 18,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_2_voltage",
+        "soc"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 19,
+      "register_end": 19,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "input_5_voltage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 20,
+      "register_end": 20,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "input_5_amperage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 21,
+      "register_end": 22,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "input_5_power"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 22,
+      "register_end": 22,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_1_voltage",
+        "output_3_voltage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 23,
+      "register_end": 23,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "input_6_voltage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 24,
+      "register_end": 24,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "input_6_amperage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 25,
+      "register_end": 26,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "input_6_power"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 26,
+      "register_end": 27,
+      "type": "u32_scale10",
+      "attributes": [
+        "dc_dc_temperature",
+        "output_energy_today"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ],
+      "type_conflicts": [
+        "u16_scale10"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 27,
+      "register_end": 27,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "input_7_voltage"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 28,
+      "register_end": 28,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "input_7_amperage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 29,
+      "register_end": 30,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "input_7_power"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 30,
+      "register_end": 31,
+      "type": "u32_scale7200",
+      "attributes": [
+        "operation_hours"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 31,
+      "register_end": 31,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "input_8_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 32,
+      "register_end": 32,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "input_8_amperage"
+      ],
+      "families": [
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 33,
+      "register_end": 34,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "input_8_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 34,
+      "register_end": 34,
+      "type": "u16_scale10",
+      "attributes": [
+        "output_1_amperage"
+      ],
+      "families": [
+        "offgrid"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 35,
+      "register_end": 36,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "output_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 37,
+      "register_end": 37,
+      "type": "u16_frequency_centihz",
+      "attributes": [
+        "grid_frequency"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 38,
+      "register_end": 38,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "output_1_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 39,
+      "register_end": 39,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "output_1_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 40,
+      "register_end": 41,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "output_1_power"
+      ],
+      "families": [
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 41,
+      "register_end": 41,
+      "type": "u16_scale10",
+      "attributes": [
+        "ipm_temperature"
+      ],
+      "families": [
+        "tl3"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 42,
+      "register_end": 42,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "output_2_voltage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 43,
+      "register_end": 43,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "output_2_amperage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 44,
+      "register_end": 45,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "output_2_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 46,
+      "register_end": 46,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "output_3_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 47,
+      "register_end": 47,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "output_3_amperage"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 48,
+      "register_end": 49,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "output_3_power"
+      ],
+      "families": [
+        "offgrid",
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 50,
+      "register_end": 51,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_1_energy_total"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 52,
+      "register_end": 53,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_2_energy_today"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 53,
+      "register_end": 54,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "output_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 54,
+      "register_end": 55,
+      "type": "u32_scale10",
+      "attributes": [
+        "input_2_energy_total"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 55,
+      "register_end": 56,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "output_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 56,
+      "register_end": 57,
+      "type": "u32_scale10",
+      "attributes": [
+        "charge_energy_today",
+        "input_energy_total"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 57,
+      "register_end": 58,
+      "type": "u32_runtime_hours",
+      "attributes": [
+        "operation_hours"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 58,
+      "register_end": 59,
+      "type": "u32_scale10",
+      "attributes": [
+        "charge_energy_total",
+        "output_reactive_power"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 59,
+      "register_end": 60,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_1_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 60,
+      "register_end": 61,
+      "type": "u32_scale10",
+      "attributes": [
+        "discharge_energy_today",
+        "output_reactive_energy_today"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 61,
+      "register_end": 62,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_1_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 62,
+      "register_end": 63,
+      "type": "u32_scale10",
+      "attributes": [
+        "discharge_energy_total",
+        "output_reactive_energy_total"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 63,
+      "register_end": 64,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_2_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 64,
+      "register_end": 65,
+      "type": "u16_scale10",
+      "attributes": [
+        "ac_discharge_energy_today",
+        "warning_code"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ],
+      "type_conflicts": [
+        "u32_scale10"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 65,
+      "register_end": 66,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_2_energy_total"
+      ],
+      "families": [
+        "tl3",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 66,
+      "register_end": 67,
+      "type": "u16_scale10",
+      "attributes": [
+        "ac_discharge_energy_total",
+        "real_output_power_percent"
+      ],
+      "families": [
+        "offgrid",
+        "tl3"
+      ],
+      "type_conflicts": [
+        "u32_scale10"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 67,
+      "register_end": 68,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_3_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 68,
+      "register_end": 68,
+      "type": "u16_scale10",
+      "attributes": [
+        "ac_charge_amperage"
+      ],
+      "families": [
+        "offgrid"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 69,
+      "register_end": 70,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_3_energy_total"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 71,
+      "register_end": 72,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_4_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 73,
+      "register_end": 74,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_4_energy_total"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 75,
+      "register_end": 76,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_5_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 77,
+      "register_end": 78,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_5_energy_total"
+      ],
+      "families": [
+        "offgrid",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 79,
+      "register_end": 80,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_6_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 81,
+      "register_end": 82,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_6_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 83,
+      "register_end": 84,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_7_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 85,
+      "register_end": 86,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_7_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 87,
+      "register_end": 88,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_8_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 89,
+      "register_end": 90,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_8_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 91,
+      "register_end": 92,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 93,
+      "register_end": 93,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "inverter_temperature"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 94,
+      "register_end": 94,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "ipm_temperature"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 95,
+      "register_end": 95,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "boost_temperature"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 98,
+      "register_end": 98,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "p_bus_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 99,
+      "register_end": 99,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "n_bus_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 101,
+      "register_end": 101,
+      "type": "u16_percent",
+      "attributes": [
+        "real_output_power_percent"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 104,
+      "register_end": 104,
+      "type": "u16_raw_code",
+      "attributes": [
+        "derating_mode"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 105,
+      "register_end": 105,
+      "type": "u16_status_word",
+      "attributes": [
+        "fault_code"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 110,
+      "register_end": 111,
+      "type": "u16_status_word",
+      "attributes": [
+        "warning_code"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 234,
+      "register_end": 235,
+      "type": "s32_reactive_power_decivar",
+      "attributes": [
+        "output_reactive_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 236,
+      "register_end": 237,
+      "type": "u32_energy_kvarh_decitenth",
+      "attributes": [
+        "output_reactive_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 1009,
+      "register_end": 1010,
+      "type": "u32_scale10",
+      "attributes": [
+        "discharge_power"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 1011,
+      "register_end": 1012,
+      "type": "u32_scale10",
+      "attributes": [
+        "charge_power"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 1014,
+      "register_end": 1014,
+      "type": "u16_scale10",
+      "attributes": [
+        "soc"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 1021,
+      "register_end": 1022,
+      "type": "u32_scale10",
+      "attributes": [
+        "pac_to_user_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 1029,
+      "register_end": 1030,
+      "type": "u32_scale10",
+      "attributes": [
+        "pac_to_grid_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 1044,
+      "register_end": 1045,
+      "type": "u32_scale10",
+      "attributes": [
+        "energy_to_user_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 1046,
+      "register_end": 1047,
+      "type": "u32_scale10",
+      "attributes": [
+        "energy_to_user_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 1048,
+      "register_end": 1049,
+      "type": "u32_scale10",
+      "attributes": [
+        "energy_to_grid_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 1050,
+      "register_end": 1051,
+      "type": "u32_scale10",
+      "attributes": [
+        "energy_to_grid_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 1052,
+      "register_end": 1053,
+      "type": "u32_scale10",
+      "attributes": [
+        "discharge_energy_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 1054,
+      "register_end": 1055,
+      "type": "u32_scale10",
+      "attributes": [
+        "discharge_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 1056,
+      "register_end": 1057,
+      "type": "u32_scale10",
+      "attributes": [
+        "charge_energy_today"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 1058,
+      "register_end": 1059,
+      "type": "u32_scale10",
+      "attributes": [
+        "charge_energy_total"
+      ],
+      "families": [
+        "storage"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3000,
+      "register_end": 3000,
+      "type": "inverter_status_code",
+      "attributes": [
+        "status_code"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3001,
+      "register_end": 3002,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "input_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3003,
+      "register_end": 3003,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "input_1_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3004,
+      "register_end": 3004,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "input_1_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3005,
+      "register_end": 3006,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "input_1_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3007,
+      "register_end": 3007,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "input_2_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3008,
+      "register_end": 3008,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "input_2_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3009,
+      "register_end": 3010,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "input_2_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3011,
+      "register_end": 3011,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "input_3_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3012,
+      "register_end": 3012,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "input_3_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3013,
+      "register_end": 3014,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "input_3_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3015,
+      "register_end": 3015,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "input_4_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3016,
+      "register_end": 3016,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "input_4_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3017,
+      "register_end": 3018,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "input_4_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3019,
+      "register_end": 3020,
+      "type": "u32_power_w_decawatt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3021,
+      "register_end": 3022,
+      "type": "s32_reactive_power_decivar",
+      "attributes": [
+        "output_reactive_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3023,
+      "register_end": 3024,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "output_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3025,
+      "register_end": 3025,
+      "type": "u16_frequency_centihz",
+      "attributes": [
+        "grid_frequency"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3026,
+      "register_end": 3026,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "output_1_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3027,
+      "register_end": 3027,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "output_1_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3028,
+      "register_end": 3029,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "output_1_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3030,
+      "register_end": 3030,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "output_2_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3031,
+      "register_end": 3031,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "output_2_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3032,
+      "register_end": 3033,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "output_2_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3034,
+      "register_end": 3034,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "output_3_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3035,
+      "register_end": 3035,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "output_3_amperage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3036,
+      "register_end": 3037,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "output_3_power"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3038,
+      "register_end": 3038,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3039,
+      "register_end": 3039,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3040,
+      "register_end": 3040,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3041,
+      "register_end": 3042,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "power_to_user"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3043,
+      "register_end": 3044,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "power_to_grid"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3045,
+      "register_end": 3046,
+      "type": "u32_power_w_decawatt",
+      "attributes": [
+        "power_user_load"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3047,
+      "register_end": 3048,
+      "type": "u32_runtime_hours",
+      "attributes": [
+        "operation_hours"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3049,
+      "register_end": 3050,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "output_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3051,
+      "register_end": 3052,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "output_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3053,
+      "register_end": 3054,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3055,
+      "register_end": 3056,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_1_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3057,
+      "register_end": 3058,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_1_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3059,
+      "register_end": 3060,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_2_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3061,
+      "register_end": 3062,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_2_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3063,
+      "register_end": 3064,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_3_energy_today"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3065,
+      "register_end": 3066,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "input_3_energy_total"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3067,
+      "register_end": 3068,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "energy_to_user_today"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3069,
+      "register_end": 3070,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "energy_to_user_total"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3071,
+      "register_end": 3072,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "energy_to_grid_today"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3073,
+      "register_end": 3074,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "energy_to_grid_total"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3075,
+      "register_end": 3076,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3077,
+      "register_end": 3078,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3079,
+      "register_end": 3080,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3081,
+      "register_end": 3082,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3083,
+      "register_end": 3084,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3086,
+      "register_end": 3086,
+      "type": "u16_raw_code",
+      "attributes": [
+        "derating_mode"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3087,
+      "register_end": 3087,
+      "type": "u16_resistance_kiloohm",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3088,
+      "register_end": 3088,
+      "type": "u16_current_decimilliamp",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3089,
+      "register_end": 3089,
+      "type": "u16_current_decimilliamp",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3090,
+      "register_end": 3090,
+      "type": "u16_current_decimilliamp",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3091,
+      "register_end": 3091,
+      "type": "u16_current_milliamp",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3092,
+      "register_end": 3092,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3093,
+      "register_end": 3093,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "inverter_temperature"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3094,
+      "register_end": 3094,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "ipm_temperature"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3095,
+      "register_end": 3095,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "boost_temperature"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3097,
+      "register_end": 3097,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "comm_board_temperature"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3098,
+      "register_end": 3098,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "p_bus_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3099,
+      "register_end": 3099,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "n_bus_voltage"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3100,
+      "register_end": 3100,
+      "type": "power_factor_x10000",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3101,
+      "register_end": 3101,
+      "type": "u16_percent",
+      "attributes": [
+        "real_output_power_percent"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3102,
+      "register_end": 3103,
+      "type": "u32_power_w_decawatt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3104,
+      "register_end": 3104,
+      "type": "u16_status_word",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3105,
+      "register_end": 3105,
+      "type": "u16_status_word",
+      "attributes": [
+        "fault_code"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3106,
+      "register_end": 3106,
+      "type": "u16_raw_code",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3107,
+      "register_end": 3107,
+      "type": "u16_status_word",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3108,
+      "register_end": 3108,
+      "type": "u16_status_word",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3110,
+      "register_end": 3111,
+      "type": "u16_status_word",
+      "attributes": [
+        "warning_code"
+      ],
+      "families": [
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3111,
+      "register_end": 3111,
+      "type": "u16_raw",
+      "attributes": [
+        "present_fft_a"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3112,
+      "register_end": 3112,
+      "type": "u16_raw_code",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3113,
+      "register_end": 3113,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3114,
+      "register_end": 3114,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3115,
+      "register_end": 3115,
+      "type": "u16_raw",
+      "attributes": [
+        "inv_start_delay"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3118,
+      "register_end": 3118,
+      "type": "bdc_onoff_state_flag",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3119,
+      "register_end": 3119,
+      "type": "boolean_flag",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3121,
+      "register_end": 3122,
+      "type": "u32_power_w_decawatt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3123,
+      "register_end": 3124,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3125,
+      "register_end": 3126,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "discharge_energy_today"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3127,
+      "register_end": 3128,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "discharge_energy_total"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3129,
+      "register_end": 3130,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "charge_energy_today"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3131,
+      "register_end": 3132,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [
+        "charge_energy_total"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3133,
+      "register_end": 3134,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3135,
+      "register_end": 3136,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3137,
+      "register_end": 3138,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3139,
+      "register_end": 3140,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3141,
+      "register_end": 3142,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3144,
+      "register_end": 3144,
+      "type": "priority_mode",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3145,
+      "register_end": 3145,
+      "type": "u16_frequency_centihz",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3146,
+      "register_end": 3146,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3147,
+      "register_end": 3147,
+      "type": "u16_current_deciamp",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3148,
+      "register_end": 3149,
+      "type": "u32_apparent_power_decava",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3150,
+      "register_end": 3150,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3151,
+      "register_end": 3151,
+      "type": "u16_current_deciamp",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3152,
+      "register_end": 3153,
+      "type": "u32_apparent_power_decava",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3154,
+      "register_end": 3154,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3155,
+      "register_end": 3155,
+      "type": "u16_current_deciamp",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3156,
+      "register_end": 3157,
+      "type": "u32_apparent_power_decava",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3158,
+      "register_end": 3159,
+      "type": "u32_apparent_power_decava",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3160,
+      "register_end": 3160,
+      "type": "u16_percent_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3161,
+      "register_end": 3161,
+      "type": "u16_power_factor_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3162,
+      "register_end": 3162,
+      "type": "u16_voltage_millivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3164,
+      "register_end": 3164,
+      "type": "u16_flag",
+      "attributes": [
+        "bdc_new_flag"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3165,
+      "register_end": 3165,
+      "type": "u16_raw_code",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3166,
+      "register_end": 3166,
+      "type": "u16_raw_code",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3167,
+      "register_end": 3167,
+      "type": "u16_raw_code",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3168,
+      "register_end": 3168,
+      "type": "u16_raw_code",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3169,
+      "register_end": 3169,
+      "type": "u16_voltage_centivolt",
+      "attributes": [
+        "battery_voltage"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3170,
+      "register_end": 3170,
+      "type": "s16_current_deciamp",
+      "attributes": [
+        "battery_current"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3171,
+      "register_end": 3171,
+      "type": "u16_percent",
+      "attributes": [
+        "soc"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3172,
+      "register_end": 3172,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "vbus1_voltage"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3173,
+      "register_end": 3173,
+      "type": "u16_voltage_decivolt",
+      "attributes": [
+        "vbus2_voltage"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3174,
+      "register_end": 3174,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "buck_boost_current"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3175,
+      "register_end": 3175,
+      "type": "u16_current_deciamp",
+      "attributes": [
+        "llc_current"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3176,
+      "register_end": 3176,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "battery_temperature_a"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3177,
+      "register_end": 3177,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "battery_temperature_b"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3178,
+      "register_end": 3179,
+      "type": "s32_power_w_decawatt",
+      "attributes": [
+        "discharge_power"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3180,
+      "register_end": 3181,
+      "type": "s32_power_w_decawatt",
+      "attributes": [
+        "charge_power"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3182,
+      "register_end": 3183,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3184,
+      "register_end": 3185,
+      "type": "u32_energy_kwh_decitenth",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3187,
+      "register_end": 3187,
+      "type": "u16_status_word",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3188,
+      "register_end": 3188,
+      "type": "u16_voltage_decivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3189,
+      "register_end": 3189,
+      "type": "u16_raw",
+      "attributes": [
+        "bms_max_volt_cell_no"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3190,
+      "register_end": 3190,
+      "type": "u16_raw",
+      "attributes": [
+        "bms_min_volt_cell_no"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3191,
+      "register_end": 3191,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "bms_avg_temp_a"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3192,
+      "register_end": 3192,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "bms_max_cell_temp_a"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3193,
+      "register_end": 3193,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "bms_avg_temp_b"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3194,
+      "register_end": 3194,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "bms_max_cell_temp_b"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3195,
+      "register_end": 3195,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "bms_avg_temp_c"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3196,
+      "register_end": 3196,
+      "type": "u16_percent",
+      "attributes": [
+        "bms_max_soc"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3197,
+      "register_end": 3197,
+      "type": "u16_percent",
+      "attributes": [
+        "bms_min_soc"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3198,
+      "register_end": 3198,
+      "type": "u16_raw",
+      "attributes": [
+        "parallel_battery_num"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3199,
+      "register_end": 3199,
+      "type": "u16_raw",
+      "attributes": [
+        "bms_derate_reason"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3200,
+      "register_end": 3200,
+      "type": "u16_ampere_hour",
+      "attributes": [
+        "bms_gauge_fcc_ah"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3201,
+      "register_end": 3201,
+      "type": "u16_ampere_hour",
+      "attributes": [
+        "bms_gauge_rm_ah"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3202,
+      "register_end": 3202,
+      "type": "u16_raw",
+      "attributes": [
+        "bms_protect1"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3203,
+      "register_end": 3203,
+      "type": "u16_raw",
+      "attributes": [
+        "bms_warn1"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3204,
+      "register_end": 3204,
+      "type": "u16_raw",
+      "attributes": [
+        "bms_fault1"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3205,
+      "register_end": 3205,
+      "type": "u16_raw",
+      "attributes": [
+        "bms_fault2"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3210,
+      "register_end": 3210,
+      "type": "u16_raw",
+      "attributes": [
+        "bat_iso_status"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3211,
+      "register_end": 3211,
+      "type": "u16_raw",
+      "attributes": [
+        "batt_request_flags"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3212,
+      "register_end": 3212,
+      "type": "u16_raw",
+      "attributes": [
+        "bms_status"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3213,
+      "register_end": 3213,
+      "type": "u16_raw",
+      "attributes": [
+        "bms_protect2"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3214,
+      "register_end": 3214,
+      "type": "u16_raw",
+      "attributes": [
+        "bms_warn2"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3215,
+      "register_end": 3215,
+      "type": "u16_percent",
+      "attributes": [
+        "bms_soc"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3216,
+      "register_end": 3216,
+      "type": "u16_voltage_centivolt",
+      "attributes": [
+        "bms_battery_voltage"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3217,
+      "register_end": 3217,
+      "type": "s16_current_centiamp",
+      "attributes": [
+        "bms_battery_current"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3218,
+      "register_end": 3218,
+      "type": "s16_temperature_decic",
+      "attributes": [
+        "bms_cell_max_temp"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3219,
+      "register_end": 3219,
+      "type": "u16_current_centiamp",
+      "attributes": [
+        "bms_max_charge_current"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3220,
+      "register_end": 3220,
+      "type": "u16_current_centiamp",
+      "attributes": [
+        "bms_max_discharge_current"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3221,
+      "register_end": 3221,
+      "type": "u16_raw",
+      "attributes": [
+        "bms_cycle_count"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3222,
+      "register_end": 3222,
+      "type": "u16_percent",
+      "attributes": [
+        "bms_soh"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3223,
+      "register_end": 3223,
+      "type": "u16_voltage_centivolt",
+      "attributes": [
+        "bms_charge_volt_limit"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3224,
+      "register_end": 3224,
+      "type": "u16_voltage_centivolt",
+      "attributes": [
+        "bms_discharge_volt_limit"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3225,
+      "register_end": 3225,
+      "type": "u16_raw",
+      "attributes": [
+        "bms_warn3"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3226,
+      "register_end": 3226,
+      "type": "u16_raw",
+      "attributes": [
+        "bms_protect3"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3230,
+      "register_end": 3230,
+      "type": "u16_voltage_millivolt",
+      "attributes": [
+        "bms_cell_volt_max"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3231,
+      "register_end": 3231,
+      "type": "u16_voltage_millivolt",
+      "attributes": [
+        "bms_cell_volt_min"
+      ],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3232,
+      "register_end": 3232,
+      "type": "u16_voltage_centivolt",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3234,
+      "register_end": 3234,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3235,
+      "register_end": 3235,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3236,
+      "register_end": 3236,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3237,
+      "register_end": 3237,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3238,
+      "register_end": 3238,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3239,
+      "register_end": 3239,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3240,
+      "register_end": 3240,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3241,
+      "register_end": 3241,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3242,
+      "register_end": 3242,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3243,
+      "register_end": 3243,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3244,
+      "register_end": 3244,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3245,
+      "register_end": 3245,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3246,
+      "register_end": 3246,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3247,
+      "register_end": 3247,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3248,
+      "register_end": 3248,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    },
+    {
+      "table": "input",
+      "register": 3249,
+      "register_end": 3249,
+      "type": "u16_raw",
+      "attributes": [],
+      "families": [
+        "storage",
+        "tlx"
+      ]
+    }
+  ]
+}

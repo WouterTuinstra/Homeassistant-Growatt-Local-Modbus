@@ -104,11 +104,15 @@ ATTR_TEMPERATURE = "inverter_temperature"  # C
 ATTR_IPM_TEMPERATURE = "ipm_temperature"  # C
 ATTR_BOOST_TEMPERATURE = "boost_temperature"  # C
 
+ATTR_BATTERY_TEMPERATURE_A = "battery_temperature_a"  # C
+ATTR_BATTERY_TEMPERATURE_B = "battery_temperature_b"  # C
+
+ATTR_BDC_NEW_FLAG = "bdc_new_flag"  # 0/1 – geeft aan dat BDC-blok actief is
+
 ATTR_P_BUS_VOLTAGE = "p_bus_voltage"  # V
 ATTR_N_BUS_VOLTAGE = "n_bus_voltage"  # V
 
 ATTR_OUTPUT_PERCENTAGE = "real_output_power_percent"  # %
-
 
 # Attribute names for values in the input register Storage
 ATTR_SOC_PERCENTAGE = "soc"  # %
@@ -133,10 +137,60 @@ ATTR_DISCHARGE_ENERGY_TOTAL = "discharge_energy_total"  # kWh
 ATTR_CHARGE_ENERGY_TODAY = "charge_energy_today"  # kWh
 ATTR_CHARGE_ENERGY_TOTAL = "charge_energy_total"  # kWh
 
-# Attribute names for values in the input register for Offgrid inverter 
+# Additional TL-XH input attributes
+ATTR_COMM_BOARD_TEMPERATURE = "comm_board_temperature"  # C
+ATTR_PRESENT_FFT_A = "present_fft_a"
+ATTR_INV_START_DELAY = "inv_start_delay"  # s
+
+# TL-XH battery and bus attributes
+ATTR_BATTERY_VOLTAGE = "battery_voltage"  # V, 3169
+ATTR_BATTERY_CURRENT = "battery_current"  # A, 3170
+ATTR_VBUS1_VOLTAGE = "vbus1_voltage"  # V, 3172
+ATTR_VBUS2_VOLTAGE = "vbus2_voltage"  # V, 3173
+ATTR_BUCK_BOOST_CURRENT = "buck_boost_current"  # A, 3174
+ATTR_LLC_CURRENT = "llc_current"  # A, 3175
+
+# TL-XH BMS attributes
+ATTR_BMS_MAX_VOLT_CELL_NO = "bms_max_volt_cell_no"  # 3189
+ATTR_BMS_MIN_VOLT_CELL_NO = "bms_min_volt_cell_no"  # 3190
+ATTR_BMS_AVG_TEMP_A = "bms_avg_temp_a"  # 3191
+ATTR_BMS_MAX_CELL_TEMP_A = "bms_max_cell_temp_a"  # 3192
+ATTR_BMS_AVG_TEMP_B = "bms_avg_temp_b"  # 3193
+ATTR_BMS_MAX_CELL_TEMP_B = "bms_max_cell_temp_b"  # 3194
+ATTR_BMS_AVG_TEMP_C = "bms_avg_temp_c"  # 3195
+ATTR_BMS_MAX_SOC = "bms_max_soc"  # %, 3196
+ATTR_BMS_MIN_SOC = "bms_min_soc"  # %, 3197
+ATTR_PARALLEL_BATTERY_NUM = "parallel_battery_num"  # 3198
+ATTR_BMS_DERATE_REASON = "bms_derate_reason"  # 3199
+ATTR_BMS_GAUGE_FCC_AH = "bms_gauge_fcc_ah"  # Ah, 3200
+ATTR_BMS_GAUGE_RM_AH = "bms_gauge_rm_ah"  # Ah, 3201
+ATTR_BMS_PROTECT1 = "bms_protect1"  # 3202
+ATTR_BMS_WARN1 = "bms_warn1"  # 3203
+ATTR_BMS_FAULT1 = "bms_fault1"  # 3204
+ATTR_BMS_FAULT2 = "bms_fault2"  # 3205
+ATTR_BAT_ISO_STATUS = "bat_iso_status"  # 3210
+ATTR_BATT_REQUEST_FLAGS = "batt_request_flags"  # 3211
+ATTR_BMS_STATUS = "bms_status"  # 3212
+ATTR_BMS_PROTECT2 = "bms_protect2"  # 3213
+ATTR_BMS_WARN2 = "bms_warn2"  # 3214
+ATTR_BMS_SOC = "bms_soc"  # %, 3215
+ATTR_BMS_BATTERY_VOLTAGE = "bms_battery_voltage"  # V, 3216
+ATTR_BMS_BATTERY_CURRENT = "bms_battery_current"  # A, 3217
+ATTR_BMS_CELL_MAX_TEMP = "bms_cell_max_temp"  # 3218
+ATTR_BMS_MAX_CHARGE_CURRENT = "bms_max_charge_current"  # A, 3219
+ATTR_BMS_MAX_DISCHARGE_CURRENT = "bms_max_discharge_current"  # A, 3220
+ATTR_BMS_CYCLE_COUNT = "bms_cycle_count"  # 3221
+ATTR_BMS_SOH = "bms_soh"  # %, 3222
+ATTR_BMS_CHARGE_VOLT_LIMIT = "bms_charge_volt_limit"  # V, 3223
+ATTR_BMS_DISCHARGE_VOLT_LIMIT = "bms_discharge_volt_limit"  # V, 3224
+ATTR_BMS_WARN3 = "bms_warn3"  # 3225
+ATTR_BMS_PROTECT3 = "bms_protect3"  # 3226
+ATTR_BMS_CELL_VOLT_MAX = "bms_cell_volt_max"  # V, 3230
+ATTR_BMS_CELL_VOLT_MIN = "bms_cell_volt_min"  # V, 3231
+
+# Attribute names for values in the input register for Offgrid inverter
 ATTR_ACTIVE_POWER = "output_active_power"  # W
 
-ATTR_BATTERY_VOLTAGE = "battery_voltage"  # V
 ATTR_BUS_VOLTAGE = "bus_voltage"  # V
 ATTR_OUTPUT_FREQUENCY = "output_frequency"  # Hz
 ATTR_OUTPUT_DC_VOLTAGE = "output_dc_voltage"  # V
@@ -173,6 +227,7 @@ class GrowattDeviceRegisters:
     length: int = 1
     scale: int = 10
     function: Callable | None = None
+    read_write: bool = False
 
 
 @dataclass

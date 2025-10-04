@@ -1,12 +1,286 @@
 {
-    "state": {
-        "growatt_local__status": {
-          "Offline": "Offline",
-          "not_connected": "Not Connected",
-          "no_response": "No Response",
-          "Waiting": "Waiting",
-          "Normal": "Operational",
-          "Fault": "Fault"
-        }
+  "entity": {
+    "sensor": {
+      "battery_temperature_a": {
+        "name": "Battery temperature A"
+      },
+      "battery_temperature_b": {
+        "name": "Battery temperature B"
+      },
+      "comm_board_temperature": {
+        "name": "Comm board temperature"
+      },
+      "bdc_new_flag": {
+        "name": "BDC present"
+      },
+      "present_fft_a": {
+        "name": "Present FFT A"
+      },
+      "inv_start_delay": {
+        "name": "Inverter start delay"
+      },
+      "soc": {
+        "name": "SOC"
+      },
+      "discharge_power": {
+        "name": "Discharge Power"
+      },
+      "charge_power": {
+        "name": "Charge Power"
+      },
+      "power_to_user": {
+        "name": "Power to user"
+      },
+      "power_to_grid": {
+        "name": "Power to grid"
+      },
+      "power_user_load": {
+        "name": "Power user load"
+      },
+      "energy_to_grid_total": {
+        "name": "Energy To Grid (Total)"
+      },
+      "energy_to_grid_today": {
+        "name": "Energy To Grid (Today)"
+      },
+      "energy_to_user_total": {
+        "name": "Energy To User (Total)"
+      },
+      "energy_to_user_today": {
+        "name": "Energy To User (Today)"
+      },
+      "ac_charge_enabled": {
+        "name": "AC Charge Enabled"
+      },
+      "discharge_energy_today": {
+        "name": "Battery Discharged (Today)"
+      },
+      "discharge_energy_total": {
+        "name": "Battery Discharged (Total)"
+      },
+      "charge_energy_today": {
+        "name": "Battery Charged (Today)"
+      },
+      "charge_energy_total": {
+        "name": "Battery Charged (Total)"
+      },
+      "pac_to_user_total": {
+        "name": "AC to user total"
+      },
+      "pac_to_grid_total": {
+        "name": "AC to grid total"
+      },
+      "battery_voltage": {
+        "name": "Battery voltage"
+      },
+      "battery_current": {
+        "name": "Battery current"
+      },
+      "vbus1_voltage": {
+        "name": "VBUS1 voltage"
+      },
+      "vbus2_voltage": {
+        "name": "VBUS2 voltage"
+      },
+      "buck_boost_current": {
+        "name": "Buck/boost current"
+      },
+      "llc_current": {
+        "name": "LLC current"
+      },
+      "bms_max_volt_cell_no": {
+        "name": "BMS max volt cell no"
+      },
+      "bms_min_volt_cell_no": {
+        "name": "BMS min volt cell no"
+      },
+      "bms_avg_temp_a": {
+        "name": "BMS avg temp A"
+      },
+      "bms_max_cell_temp_a": {
+        "name": "BMS max cell temp A"
+      },
+      "bms_avg_temp_b": {
+        "name": "BMS avg temp B"
+      },
+      "bms_max_cell_temp_b": {
+        "name": "BMS max cell temp B"
+      },
+      "bms_avg_temp_c": {
+        "name": "BMS avg temp C"
+      },
+      "bms_max_soc": {
+        "name": "BMS max SOC"
+      },
+      "bms_min_soc": {
+        "name": "BMS min SOC"
+      },
+      "bms_derate_reason": {
+        "name": "BMS derate reason"
+      },
+      "bms_gauge_fcc_ah": {
+        "name": "BMS full charge capacity"
+      },
+      "bms_gauge_rm_ah": {
+        "name": "BMS remaining capacity"
+      },
+      "bms_protect1": {
+        "name": "BMS protect 1"
+      },
+      "bms_warn1": {
+        "name": "BMS warn 1"
+      },
+      "bms_fault1": {
+        "name": "BMS fault 1"
+      },
+      "bms_fault2": {
+        "name": "BMS fault 2"
+      },
+      "bms_status": {
+        "name": "BMS status"
+      },
+      "bms_protect2": {
+        "name": "BMS protect 2"
+      },
+      "bms_warn2": {
+        "name": "BMS warn 2"
+      },
+      "bms_soc": {
+        "name": "BMS SOC"
+      },
+      "bms_battery_voltage": {
+        "name": "BMS battery voltage"
+      },
+      "bms_battery_current": {
+        "name": "BMS battery current"
+      },
+      "bms_cell_max_temp": {
+        "name": "BMS cell max temperature"
+      },
+      "bms_max_charge_current": {
+        "name": "BMS max charge current"
+      },
+      "bms_max_discharge_current": {
+        "name": "BMS max discharge current"
+      },
+      "bms_cycle_count": {
+        "name": "BMS cycle count"
+      },
+      "bms_soh": {
+        "name": "BMS SOH"
+      },
+      "bms_charge_volt_limit": {
+        "name": "BMS charge voltage limit"
+      },
+      "bms_discharge_volt_limit": {
+        "name": "BMS discharge voltage limit"
+      },
+      "bms_warn3": {
+        "name": "BMS warn 3"
+      },
+      "bms_protect3": {
+        "name": "BMS protect 3"
+      },
+      "bms_cell_volt_max": {
+        "name": "BMS cell voltage max"
+      },
+      "bms_cell_volt_min": {
+        "name": "BMS cell voltage min"
+      },
+      "input_1_voltage": {
+        "name": "PV1 voltage"
+      },
+      "input_1_amperage": {
+        "name": "PV1 buck current"
+      },
+      "input_1_power": {
+        "name": "PV1 charge power"
+      },
+      "input_1_energy_today": {
+        "name": "PV1 energy produced today"
+      },
+      "input_1_energy_total": {
+        "name": "PV1 energy produced Lifetime"
+      },
+      "input_2_voltage": {
+        "name": "PV2 voltage"
+      },
+      "input_2_amperage": {
+        "name": "PV2 buck current"
+      },
+      "input_2_power": {
+        "name": "PV2 charge power"
+      },
+      "input_2_energy_today": {
+        "name": "PV2 energy produced today"
+      },
+      "input_2_energy_total": {
+        "name": "PV2 energy produced Lifetime"
+      },
+      "operation_hours": {
+        "name": "Running hours"
+      },
+      "grid_voltage": {
+        "name": "Grid voltage"
+      },
+      "grid_frequency": {
+        "name": "Grid frequency"
+      },
+      "output_1_voltage": {
+        "name": "Output voltage"
+      },
+      "output_1_amperage": {
+        "name": "Output amperage"
+      },
+      "output_frequency": {
+        "name": "Output frequency"
+      },
+      "output_dc_voltage": {
+        "name": "Output DC voltage"
+      },
+      "ac_charge_amperage": {
+        "name": "AC charge battery current"
+      },
+      "battery_discharge_amperage": {
+        "name": "Battery discharge current"
+      },
+      "ac_discharge_energy_today": {
+        "name": "AC Discharged Today"
+      },
+      "ac_discharge_energy_total": {
+        "name": "Grid Discharged Lifetime"
+      },
+      "output_active_power": {
+        "name": "Output active power"
+      },
+      "inverter_temperature": {
+        "name": "Temperature"
+      },
+      "dc_dc_temperature": {
+        "name": "DC-DC temperature"
+      },
+      "load_percent": {
+        "name": "Inverter load"
+      },
+      "bus_voltage": {
+        "name": "Bus voltage"
+      },
+      "battery_port_voltage": {
+        "name": "Battery port voltage"
+      },
+      "battery_bus_voltage": {
+        "name": "Battery bus voltage"
+      }
     }
+  },
+  "state": {
+    "growatt_local__status": {
+      "Offline": "Offline",
+      "not_connected": "Not Connected",
+      "no_response": "No Response",
+      "Waiting": "Waiting",
+      "Normal": "Operational",
+      "Fault": "Fault"
+    }
+  }
 }

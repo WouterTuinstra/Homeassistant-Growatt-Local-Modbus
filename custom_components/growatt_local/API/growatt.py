@@ -34,7 +34,12 @@ from .device_type.base import (
     inverter_status,
 )
 from .device_type.inverter_120 import MAXIMUM_DATA_LENGTH_120, HOLDING_REGISTERS_120, INPUT_REGISTERS_120, INPUT_REGISTERS_120_TL_XH
-from .device_type.storage_120 import STORAGE_HOLDING_REGISTERS_120, STORAGE_INPUT_REGISTERS_120, STORAGE_INPUT_REGISTERS_120_TL_XH
+from .device_type.storage_120 import (
+    STORAGE_HOLDING_REGISTERS_120,
+    STORAGE_HOLDING_REGISTERS_120_TL_XH,
+    STORAGE_INPUT_REGISTERS_120,
+    STORAGE_INPUT_REGISTERS_120_TL_XH,
+)
 from .device_type.inverter_315 import MAXIMUM_DATA_LENGTH_315, HOLDING_REGISTERS_315, INPUT_REGISTERS_315
 from .device_type.offgrid import INPUT_REGISTERS_OFFGRID, offgrid_status
 
@@ -139,9 +144,15 @@ class GrowattModbusBase:
         await self.client.write_register(49, minute)
         await self.client.write_register(50, second)
 
-    async def write_register(self, register, value, slave) -> ModbusPDU:  
-        payload = ModbusBaseClient.convert_to_registers(value, ModbusBaseClient.DATATYPE.INT16)
-        return await self.client.write_register(register, payload[0], slave=slave)
+    async def write_register(
+        self, register: int, value: int | Sequence[int], slave: int
+    ) -> ModbusPDU:
+        payload = ModbusBaseClient.convert_to_registers(
+            value, ModbusBaseClient.DATATYPE.INT16
+        )
+        return await self.client.write_register(
+            register, payload[0], device_id=slave
+        )
 
     async def read_holding_registers(self, start_address, count, slave) -> dict[int, int]:
         data = await self.client.read_holding_registers(start_address, count=count, device_id=slave)
@@ -323,8 +334,15 @@ class GrowattDevice:
 
         return results
 
-    async def write_register(self, register, payload) -> ModbusPDU:
-        _LOGGER.info("Write register %d with payload %d and unit %d", register, payload, self.slave)
+    async def write_register(
+        self, register: int, payload: int | Sequence[int]
+    ) -> ModbusPDU:
+        _LOGGER.info(
+            "Write register %s with payload %s and unit %s",
+            register,
+            payload,
+            self.slave,
+        )
         data = await self.modbus.write_register(register, payload, self.slave)
         _LOGGER.info("Write response done")
         return data
@@ -428,7 +446,7 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
     elif GrowattDeviceType == DeviceTypes.HYBRID_120_TL_XH:
         max_length = MAXIMUM_DATA_LENGTH_120
         holding_register = {
-            obj.register: obj for obj in STORAGE_HOLDING_REGISTERS_120
+            obj.register: obj for obj in STORAGE_HOLDING_REGISTERS_120_TL_XH
         }
         input_register = {
             obj.register: obj for obj in INPUT_REGISTERS_120_TL_XH
