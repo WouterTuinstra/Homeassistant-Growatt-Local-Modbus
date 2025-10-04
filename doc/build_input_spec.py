@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Rebuild the input register portion of growatt_registers_spec.json.
 
-The canonical data lives in `growatt_local_registers.json` and the
+The canonical data lives in `HA_local_registers.json` and the
 home-grown metadata below.  The goal is to provide clean descriptions,
 units, and data types for the TL-X/TL-XH telemetry ranges.
 """
@@ -15,7 +15,7 @@ from typing import Callable, Iterable
 
 DOC_DIR = Path(__file__).resolve().parent
 SPEC_PATH = DOC_DIR / "growatt_registers_spec.json"
-MAPPING_PATH = DOC_DIR / "growatt_local_registers.json"
+MAPPING_PATH = DOC_DIR / "HA_local_registers.json"
 DATA_TYPES_PATH = DOC_DIR / "growatt_register_data_types.json"
 
 @dataclass(frozen=True)

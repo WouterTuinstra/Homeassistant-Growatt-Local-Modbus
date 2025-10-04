@@ -4,7 +4,7 @@
 - Normalises whitespace/Unicode punctuation in textual fields.
 - Ensures register numbers are stored as integers.
 - Adds attribute mappings (and corresponding sensor labels) derived from
-  growatt_local_registers.json and the integration sensor descriptions.
+  HA_local_registers.json and the integration sensor descriptions.
 
 Run this script after updating the extracted JSON to keep the dataset tidy.
 """
@@ -20,7 +20,7 @@ from typing import Any
 
 DOC_DIR = Path(__file__).resolve().parent
 SPEC_PATH = DOC_DIR / "growatt_registers_spec.json"
-MAPPING_PATH = DOC_DIR / "growatt_local_registers.json"
+MAPPING_PATH = DOC_DIR / "HA_local_registers.json"
 OUTPUT_PATH = SPEC_PATH
 REPO_ROOT = DOC_DIR.parent
 

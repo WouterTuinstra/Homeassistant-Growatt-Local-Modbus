@@ -2395,7 +2395,7 @@
       "value": "1:enable 0:disable",
       "unit": "Binary",
       "initial": "0x000 0",
-      "note": "",
+      "note": "Bit 0: Hungary",
       "page": 20
     },
     {
@@ -5029,7 +5029,7 @@
     },
     {
       "register": "3046",
-      "variable": "\u9884\u7559",
+      "variable": "Reserved",
       "description": "",
       "write_or_not": "",
       "value": "",
@@ -6390,11 +6390,9 @@
       "initial": "",
       "note": "Sameas SpecialDay2_Time 1",
       "page": 46
-    }
-  ],
-  "input": [
+    },
     {
-      "register": "3239-3 249",
+      "register": "3239-3249",
       "variable": "Reserve",
       "description": "Reserve",
       "write_or_not": "R/W",
@@ -6436,7 +6434,9 @@
       "initial": "",
       "note": "",
       "page": 47
-    },
+    }
+  ],
+  "input": [
     {
       "register": "0.",
       "variable": "",

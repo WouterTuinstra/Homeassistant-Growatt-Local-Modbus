@@ -1,0 +1,441 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://growatt.example.com/schemas/consolidated_register_ref.schema.json",
+  "title": "Growatt Consolidated Register Reference",
+  "type": "object",
+  "required": ["meta", "tables"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["version", "generated_at", "generator", "source_files"],
+      "additionalProperties": false,
+      "properties": {
+        "version": {"type": "string"},
+        "generated_at": {"type": "string", "format": "date-time"},
+        "generator": {"type": "string"},
+        "source_files": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "vendor_tables": {"$ref": "#/definitions/source_file"},
+            "spec_json": {"$ref": "#/definitions/source_file"},
+            "ha_local": {"$ref": "#/definitions/source_file"},
+            "openinverter_gateway": {"$ref": "#/definitions/source_file"},
+            "inverter_to_mqtt": {"$ref": "#/definitions/source_file"},
+            "integration_mapping": {"$ref": "#/definitions/source_file"},
+            "ui_metadata": {"$ref": "#/definitions/source_file"}
+          }
+        }
+      }
+    },
+    "tables": {
+      "type": "object",
+      "required": ["holding", "input"],
+      "additionalProperties": false,
+      "properties": {
+        "holding": {"$ref": "#/definitions/table_payload"},
+        "input": {"$ref": "#/definitions/table_payload"}
+      }
+    }
+  },
+  "definitions": {
+    "source_file": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "table_payload": {
+      "type": "object",
+      "required": ["register_blocks"],
+      "additionalProperties": false,
+      "properties": {
+        "register_blocks": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/register_block"}
+        },
+        "orphan_vendor_rows": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/vendor_row"}
+        }
+      }
+    },
+    "register_block": {
+      "type": "object",
+      "required": ["id", "table", "start_register", "end_register", "length", "sources"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string"},
+        "table": {"type": "string", "enum": ["holding", "input"]},
+        "start_register": {"type": "integer", "minimum": 0},
+        "end_register": {"type": "integer", "minimum": 0},
+        "length": {"type": "integer", "minimum": 1},
+        "consolidated": {"$ref": "#/definitions/consolidated_entry"},
+        "applicability": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "families": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "notes": {"type": "string"}
+          }
+        },
+        "sources": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "vendor": {"$ref": "#/definitions/vendor_source"},
+            "spec": {"$ref": "#/definitions/spec_source"},
+            "integration": {"$ref": "#/definitions/integration_source"},
+            "ui": {"$ref": "#/definitions/ui_source"},
+            "home_assistant": {"$ref": "#/definitions/home_assistant_source"},
+            "openinverter_gateway": {"$ref": "#/definitions/openinverter_source"},
+            "inverter_to_mqtt": {"$ref": "#/definitions/inverter_to_mqtt_source"},
+            "notes": {
+              "type": "array",
+              "items": {"$ref": "#/definitions/source_note"}
+            }
+          }
+        }
+      }
+    },
+    "consolidated_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "section": {"type": ["string", "null"]},
+        "name": {"type": ["string", "null"]},
+        "description": {"type": ["string", "null"]},
+        "access": {"type": ["string", "null"]},
+        "unit": {"type": ["string", "null"]},
+        "range": {"type": ["string", "null"]},
+        "initial": {"type": ["string", "null"]},
+        "note": {"type": ["string", "null"]},
+        "data_type": {"type": ["string", "null"]},
+        "attributes": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "sensors": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "vendor_source": {
+      "type": "object",
+      "required": ["rows"],
+      "additionalProperties": false,
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/vendor_row"}
+        },
+        "missing_registers": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "vendor_row": {
+      "type": "object",
+      "required": ["raw_register"],
+      "additionalProperties": false,
+      "properties": {
+        "register": {"type": ["integer", "null"]},
+        "raw_register": {"type": "string"},
+        "variable": {"type": ["string", "null"]},
+        "description": {"type": ["string", "null"]},
+        "access": {"type": ["string", "null"]},
+        "value": {"type": ["string", "null"]},
+        "unit": {"type": ["string", "null"]},
+        "initial": {"type": ["string", "null"]},
+        "note": {"type": ["string", "null"]},
+        "page": {"type": ["integer", "null"]}
+      }
+    },
+    "spec_source": {
+      "type": "object",
+      "required": ["register", "register_start", "register_end"],
+      "additionalProperties": false,
+      "properties": {
+        "section": {"type": ["string", "null"]},
+        "name": {"type": ["string", "null"]},
+        "spec_name": {"type": ["string", "null"]},
+        "description": {"type": ["string", "null"]},
+        "access": {"type": ["string", "null"]},
+        "unit": {"type": ["string", "null"]},
+        "range": {"type": ["string", "null"]},
+        "initial": {"type": ["string", "null"]},
+        "note": {"type": ["string", "null"]},
+        "data_type": {"type": ["string", "null"]},
+        "attributes": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "sensors": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "register": {"type": "integer", "minimum": 0},
+        "register_start": {"type": "integer", "minimum": 0},
+        "register_end": {"type": "integer", "minimum": 0},
+        "access_raw": {"type": ["string", "null"]},
+        "type": {"type": ["string", "null"]},
+        "supplemental_entries": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/spec_entry_fragment"}
+        }
+      }
+    },
+    "spec_entry_fragment": {
+      "type": "object",
+      "required": ["register", "register_start", "register_end"],
+      "additionalProperties": false,
+      "properties": {
+        "section": {"type": ["string", "null"]},
+        "name": {"type": ["string", "null"]},
+        "spec_name": {"type": ["string", "null"]},
+        "description": {"type": ["string", "null"]},
+        "access": {"type": ["string", "null"]},
+        "unit": {"type": ["string", "null"]},
+        "range": {"type": ["string", "null"]},
+        "initial": {"type": ["string", "null"]},
+        "note": {"type": ["string", "null"]},
+        "data_type": {"type": ["string", "null"]},
+        "attributes": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "sensors": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "register": {"type": "integer", "minimum": 0},
+        "register_start": {"type": "integer", "minimum": 0},
+        "register_end": {"type": "integer", "minimum": 0},
+        "access_raw": {"type": ["string", "null"]},
+        "type": {"type": ["string", "null"]}
+      }
+    },
+    "integration_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "entries": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/integration_entry"}
+        }
+      }
+    },
+    "integration_entry": {
+      "type": "object",
+      "required": ["name", "register", "length"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string"},
+        "register": {"type": "integer", "minimum": 0},
+        "length": {"type": "integer", "minimum": 1},
+        "scale": {"type": ["number", "null"]},
+        "read_write": {"type": ["boolean", "null"]},
+        "value_type": {"type": ["string", "null"]},
+        "component": {"type": ["string", "null"]}
+      }
+    },
+    "ui_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "commands": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/ui_command"}
+        },
+        "confidence": {"type": ["string", "null"]}
+      }
+    },
+    "ui_command": {
+      "type": "object",
+      "required": ["command"],
+      "additionalProperties": false,
+      "properties": {
+        "command": {"type": "string"},
+        "label": {"type": ["string", "null"]},
+        "section_id": {"type": ["string", "null"]},
+        "tooltip": {"type": ["string", "null"]},
+        "default": {"type": ["string", "null"]},
+        "unit": {"type": ["string", "null"]},
+        "min": {"type": ["string", "null"]},
+        "max": {"type": ["string", "null"]},
+        "magnification": {"type": ["string", "null"]},
+        "notes": {"type": ["string", "null"]}
+      }
+    },
+    "source_note": {
+      "type": "object",
+      "required": ["note"],
+      "additionalProperties": false,
+      "properties": {
+        "note": {"type": "string"},
+        "source": {"type": ["string", "null"]}
+      }
+    },
+    "home_assistant_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/home_assistant_device"}
+        }
+      }
+    },
+    "home_assistant_device": {
+      "type": "object",
+      "required": ["device", "groups"],
+      "additionalProperties": false,
+      "properties": {
+        "device": {"type": "string"},
+        "groups": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/home_assistant_group"}
+        }
+      }
+    },
+    "home_assistant_group": {
+      "type": "object",
+      "required": ["group", "entries"],
+      "additionalProperties": false,
+      "properties": {
+        "group": {"type": "string"},
+        "entries": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/home_assistant_entry"}
+        }
+      }
+    },
+    "home_assistant_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": ["string", "null"]},
+        "register": {"type": "integer", "minimum": 0},
+        "length": {"type": "integer", "minimum": 1},
+        "scale": {"type": ["number", "null"]},
+        "read_write": {"type": ["boolean", "null"]},
+        "value_type": {"type": ["string", "null"]},
+        "function": {"type": ["string", "null"]},
+        "function_path": {"type": ["string", "null"]},
+        "function_details": {"$ref": "#/definitions/home_assistant_function_details"},
+        "start_register": {"type": "integer", "minimum": 0},
+        "end_register": {"type": "integer", "minimum": 0}
+      }
+    },
+    "home_assistant_function_details": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "module": {"type": "string"},
+        "qualname": {"type": "string"},
+        "signature": {"type": "string"},
+        "defined_in": {"type": "string"},
+        "doc": {"type": ["string", "null"]}
+      }
+    },
+    "openinverter_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/openinverter_device"}
+        }
+      }
+    },
+    "openinverter_device": {
+      "type": "object",
+      "required": ["device", "entries"],
+      "additionalProperties": false,
+      "properties": {
+        "device": {"type": "string"},
+        "entries": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/openinverter_entry"}
+        }
+      }
+    },
+    "openinverter_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "file": {"type": ["string", "null"]},
+        "enum": {"type": ["string", "null"]},
+        "enum_value": {"type": ["integer", "null"]},
+        "label": {"type": ["string", "null"]},
+        "address": {"type": "integer", "minimum": 0},
+        "length": {"type": "integer", "minimum": 1},
+        "size": {"type": ["string", "null"]},
+        "default": {"type": ["number", "string", "null"]},
+        "multiplier": {"type": ["number", "string", "null"]},
+        "resolution": {"type": ["number", "string", "null"]},
+        "unit": {"type": ["string", "null"]},
+        "frontend": {"type": ["boolean", "null"]},
+        "plot": {"type": ["boolean", "null"]},
+        "comment": {"type": ["string", "null"]},
+        "start_register": {"type": "integer", "minimum": 0},
+        "end_register": {"type": "integer", "minimum": 0}
+      }
+    },
+    "inverter_to_mqtt_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "operations": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/inverter_to_mqtt_operation"}
+        }
+      }
+    },
+    "inverter_to_mqtt_operation": {
+      "type": "object",
+      "required": ["operation", "entries"],
+      "additionalProperties": false,
+      "properties": {
+        "file": {"type": ["string", "null"]},
+        "function": {"type": ["string", "null"]},
+        "operation": {"type": "string", "enum": ["read", "write"]},
+        "read_start_register": {"type": ["integer", "null"], "minimum": 0},
+        "read_length": {"type": ["integer", "null"], "minimum": 1},
+        "address": {"type": ["integer", "null"], "minimum": 0},
+        "call": {"type": ["string", "null"]},
+        "entries": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/inverter_to_mqtt_entry"}
+        }
+      }
+    },
+    "inverter_to_mqtt_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "variable": {"type": ["string", "null"]},
+        "registers": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0}
+        },
+        "buffer_indexes": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0}
+        },
+        "expression": {"type": ["string", "null"]},
+        "start_register": {"type": "integer", "minimum": 0},
+        "end_register": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

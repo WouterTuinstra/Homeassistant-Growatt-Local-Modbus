@@ -25,7 +25,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 DOC_DIR = Path(__file__).resolve().parent
-MAPPING_PATH = DOC_DIR / "growatt_local_registers.json"
+MAPPING_PATH = DOC_DIR / "HA_local_registers.json"
 OUTPUT_PATH = DOC_DIR / "growatt_register_data_types.json"
 
 
