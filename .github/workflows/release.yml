@@ -40,5 +40,5 @@ jobs:
               owner,
               repo,
               release_id: "${{ steps.release-drafter.outputs.id }}",
-              draft: false,
+              draft: true,
             });            
