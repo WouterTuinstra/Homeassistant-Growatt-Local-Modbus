@@ -1,10 +1,6 @@
 """Growatt Sensor definitions for the Inverter type."""
 from __future__ import annotations
 
-from homeassistant.components.number.const import (
-    NumberDeviceClass,
-)
-
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorStateClass,
@@ -98,7 +94,7 @@ INVERTER_POWER_SWITCH: GrowattSwitchEntityDescription = GrowattSwitchEntityDescr
 INVERTER_OUTPUT_POWER_LIMIT = GrowattNumberEntityDescription(
     key=ATTR_OUTPUT_POWER_LIMIT,
     name="Output Power Limit",
-    native_unit_of_measurement=NumberDeviceClass.POWER_FACTOR,
+    native_unit_of_measurement=SensorDeviceClass.POWER_FACTOR,
     native_min_value=0,
     native_max_value=100,
     native_step=1,
