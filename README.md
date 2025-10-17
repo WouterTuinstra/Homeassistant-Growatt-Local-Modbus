@@ -55,3 +55,65 @@ git clone https://github.com/WouterTuinstra/Homeassistant-Growatt-Local-Modbus.g
 ```shell
 ln -s /share/custom_components/Homeassistant-Growatt-Local-Modbus/custom_components/growatt_local /config/custom_components/growatt_local
 ```
+
+# Example: Testing the API and Requesting Register Values Without Home Assistant
+
+You can test the API directly without Home Assistant by running a Python script. This is useful for development, debugging, or exploring register values.
+
+
+## Example: Reading Register Values
+
+1. Clone this repository if you have not already:
+
+   ```shell
+   git clone https://github.com/WouterTuinstra/Homeassistant-Growatt-Local-Modbus.git
+   ```
+
+2. Navigate to the `custom_components/growatt_local/API` directory.
+3. Ensure you have Python 3.8+ installed.
+4. Install the required dependency:
+
+   ```shell
+   pip install pymodbus
+   ```
+
+5. Run the following script (adjust the serial port and device type as needed):
+
+```python
+import asyncio
+from growatt import GrowattSerial, GrowattDevice, DeviceTypes
+from utils import RegisterKeys
+
+# Set up the connection to your inverter
+growatt = GrowattDevice(
+    GrowattSerial("/dev/ttyUSB0"),  # Change to your serial port
+    DeviceTypes.HYBRIDE_120,        # Change to your device type
+    1                               # Modbus address (default: 1)
+)
+
+async def main():
+    await growatt.connect()
+    # Request input registers 0-29
+    result = await growatt.update(RegisterKeys(input=set(range(0, 30))))
+    print(result)
+
+asyncio.run(main())
+```
+
+## Customizing Register Requests
+
+- To request different registers, modify the `RegisterKeys` input set.
+- You can also request holding registers by adding `holding={...}` to `RegisterKeys`.
+- Example to request input registers 0-10 and holding registers 100-110:
+
+```python
+result = await growatt.update(RegisterKeys(
+    input=set(range(0, 11)),
+    holding=set(range(100, 111))
+))
+```
+
+## Notes
+
+- Make sure your user has permission to access the serial port.
+- For TCP/UDP, use `GrowattTCP` or `GrowattUDP` instead of `GrowattSerial`.

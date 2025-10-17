@@ -62,9 +62,10 @@ MODBUS_FRAMER_OPTION = [
 ]
 
 DEVICETYPES_OPTION = [
-    selector.SelectOptionDict(value=DeviceTypes.INVERTER_120, label="RTU 2 - Inverter v1.24"),
-    selector.SelectOptionDict(value=DeviceTypes.HYBRIDE_120, label="RTU 2 - Hybrid v1.24"),
-    selector.SelectOptionDict(value=DeviceTypes.INVERTER_315, label="RTU - Inverter v3.15"),
+    selector.SelectOptionDict(value=DeviceTypes.INVERTER_120, label="RTU 2 - Inverter TL3-X (MAX, MID MAC Type)"),
+    selector.SelectOptionDict(value=DeviceTypes.HYBRID_120, label="RTU 2 - Storage (MIX Type, SPA, SPH)"),
+    selector.SelectOptionDict(value=DeviceTypes.HYBRID_120_TL_XH, label="RTU 2 - Hybrid TL-X(H) (MIN Type)"),
+    selector.SelectOptionDict(value=DeviceTypes.INVERTER_315, label="RTU - Inverter (Older regeneration) v3.15"),
     selector.SelectOptionDict(value=DeviceTypes.OFFGRID_SPF, label="SPF - Offgrid/Hybrid"),
 ]
 
