@@ -90,7 +90,7 @@ class GrowattModbusBase:
 
         for item in key_sequences:
             register_values.update(
-                await self.read_holding_registers(item[0], count=item[1], slave=device_id)
+                await self.read_holding_registers(item[0], count=item[1], device_id=device_id)
             )
 
         results = process_registers(register, register_values)
