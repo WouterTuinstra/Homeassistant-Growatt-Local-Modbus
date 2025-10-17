@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from homeassistant.components.switch import SwitchEntityDescription
-
 from homeassistant.components.number import NumberEntityDescription
 
 @dataclass

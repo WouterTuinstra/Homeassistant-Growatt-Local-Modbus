@@ -321,13 +321,3 @@ INPUT_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_OUTPUT_REACTIVE_ENERGY_TOTAL, register=236, value_type=float, length=2,
     ),
 )
-
-def get_power_limit(self) -> int:
-    """Read the inverter power limit (0–100%) from holding register 3."""
-    return self.read_register(3)
-
-def set_power_limit(self, value: int) -> None:
-    """Write a new inverter power limit (0–100%) to holding register 3."""
-    if not 0 <= value <= 100:
-        raise ValueError("Power limit must be between 0 and 100")
-    self.write_register(3, value)
