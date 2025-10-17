@@ -15,10 +15,12 @@ from homeassistant.const import (
     UnitOfTime,
     PERCENTAGE,
 )
+from .number_entity_description import GrowattNumberEntityDescription
 from .sensor_entity_description import GrowattSensorEntityDescription
 from .switch_entity_description import GrowattSwitchEntityDescription
 from ..API.device_type.base import (
     ATTR_INVERTER_ENABLED,
+    ATTR_OUTPUT_POWER_LIMIT,
     ATTR_INPUT_POWER,
     ATTR_INPUT_ENERGY_TOTAL,
     ATTR_INPUT_1_VOLTAGE,
@@ -87,6 +89,16 @@ INVERTER_POWER_SWITCH: GrowattSwitchEntityDescription = GrowattSwitchEntityDescr
     state_on=0x1,
     state_off=0x0,
     mask=0x1,
+)
+
+INVERTER_OUTPUT_POWER_LIMIT = GrowattNumberEntityDescription(
+    key=ATTR_OUTPUT_POWER_LIMIT,
+    name="Output Power Limit",
+    native_unit_of_measurement=SensorDeviceClass.POWER_FACTOR,
+    native_min_value=0,
+    native_max_value=100,
+    native_step=1,
+    icon="mdi:transmission-tower-export",
 )
 
 INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (

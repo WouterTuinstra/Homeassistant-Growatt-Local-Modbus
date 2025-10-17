@@ -8,6 +8,7 @@ from .base import (
     DEVICE_TYPE_CODE_REGISTER,
     NUMBER_OF_TRACKERS_AND_PHASES_REGISTER,
     ATTR_INVERTER_ENABLED,
+    ATTR_OUTPUT_POWER_LIMIT,
     ATTR_INVERTER_MODEL,
     ATTR_MODBUS_VERSION,
     ATTR_STATUS_CODE,
@@ -87,7 +88,6 @@ from .base import (
 
 MAXIMUM_DATA_LENGTH_120 = 100
 
-
 def model(registers) -> str:
     mo = (registers[0] << 16) + registers[1]
     return "A{:X} B{:X} D{:X} T{:X} P{:X} U{:X} M{:X} S{:X}".format(
@@ -101,11 +101,15 @@ def model(registers) -> str:
         (mo & 0x0000000F)
     )
 
-
 HOLDING_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(
         name=ATTR_INVERTER_ENABLED,
         register=0,
+        value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_OUTPUT_POWER_LIMIT,
+        register=3,
         value_type=int
     ),
     FIRMWARE_REGISTER,

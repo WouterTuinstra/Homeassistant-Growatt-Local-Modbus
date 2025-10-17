@@ -8,6 +8,7 @@ from .base import (
     DEVICE_TYPE_CODE_REGISTER,
     NUMBER_OF_TRACKERS_AND_PHASES_REGISTER,
     ATTR_INVERTER_ENABLED,
+    ATTR_OUTPUT_POWER_LIMIT,
     ATTR_INVERTER_MODEL,
     ATTR_MODBUS_VERSION,
     ATTR_STATUS_CODE,
@@ -71,6 +72,11 @@ HOLDING_REGISTERS_315: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(
         name=ATTR_INVERTER_ENABLED,
         register=0,
+        value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_OUTPUT_POWER_LIMIT,
+        register=3,
         value_type=int
     ),
     FIRMWARE_REGISTER,

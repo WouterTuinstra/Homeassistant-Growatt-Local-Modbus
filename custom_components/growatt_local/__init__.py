@@ -281,7 +281,6 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
 
         if status:
             data["status"] = status
-
         return data
 
     async def force_refresh(self):
