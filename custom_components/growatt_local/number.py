@@ -6,11 +6,14 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-
+from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.const import (
     CONF_MODEL,
     CONF_NAME,
+    STATE_UNAVAILABLE,
+    STATE_UNKNOWN
 )
+
 
 from .API.const import DeviceTypes
 
@@ -36,7 +39,7 @@ async def async_setup_entry(
 
     async_add_entities(entities, True)
 
-class InverterPowerLimitEntity(CoordinatorEntity, NumberEntity):
+class InverterPowerLimitEntity(CoordinatorEntity, RestoreEntity, NumberEntity):
     def __init__(self, coordinator, entry, description):
         super().__init__(coordinator, description.key)
         self.entity_description = description
@@ -57,6 +60,18 @@ class InverterPowerLimitEntity(CoordinatorEntity, NumberEntity):
     @property
     def unique_id(self) -> Optional[str]:
         return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}"
+
+    async def async_added_to_hass(self) -> None:
+        """Call when entity is about to be added to Home Assistant."""
+        await super().async_added_to_hass()
+
+        if (state := await self.async_get_last_state()) is None:
+            return
+
+        if state.state in (STATE_UNAVAILABLE, STATE_UNKNOWN):
+            return
+
+        self._attr_native_value = state.state
 
     async def async_set_native_value(self, value: float) -> None:
         await self.coordinator.write_register (self.entity_description.key, int(value))
