@@ -366,6 +366,9 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
     def get_holding_register_by_name(self, name: str) -> GrowattDeviceRegisters | None:
         return self.growatt_api.get_holding_register_by_name(name)
 
+    def get_meter_register_by_name(self, name: str) -> GrowattDeviceRegisters | None:
+        return self.growatt_api.get_meter_register_by_name(name)
+
     async def write_register(self, key: str, payload):
         register = self.growatt_api.get_holding_register_by_name(key)
         #TODO: better logging 

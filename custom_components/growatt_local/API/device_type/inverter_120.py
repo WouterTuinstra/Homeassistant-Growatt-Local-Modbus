@@ -81,12 +81,14 @@ from .base import (
     ATTR_P_BUS_VOLTAGE,
     ATTR_N_BUS_VOLTAGE,
     ATTR_OUTPUT_PERCENTAGE,
+    ATTR_METER_TOTAL_ACTIVE_POWER,
 )
 
 
 
 
 MAXIMUM_DATA_LENGTH_120 = 100
+MAXIMUM_DATA_LENGTH_METER = 50
 
 def model(registers) -> str:
     mo = (registers[0] << 16) + registers[1]
@@ -445,5 +447,11 @@ INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(name=ATTR_FAULT_CODE, register=3105, value_type=int),
     GrowattDeviceRegisters(
         name=ATTR_WARNING_CODE, register=3110, value_type=int, length=2
+    ),
+)
+
+METER_REGISTERS_138: tuple[GrowattDeviceRegisters, ...] = (
+    GrowattDeviceRegisters(
+        name=ATTR_METER_TOTAL_ACTIVE_POWER, register=38, value_type=float, length=2
     ),
 )

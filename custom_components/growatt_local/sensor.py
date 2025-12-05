@@ -33,11 +33,12 @@ from .API.device_type.base import (
     ATTR_LOAD_PERCENTAGE,
     ATTR_PAC_TO_USER_TOTAL,
     ATTR_PAC_TO_GRID_TOTAL,
+    ATTR_METER_TOTAL_ACTIVE_POWER,
 )
 
 from .sensor_types.sensor_entity_description import GrowattSensorEntityDescription
 from .sensor_types.offgrid import OFFGRID_SENSOR_TYPES
-from .sensor_types.inverter import INVERTER_SENSOR_TYPES
+from .sensor_types.inverter import INVERTER_SENSOR_TYPES, METER_SENSOR_TYPES
 from .sensor_types.storage import STORAGE_SENSOR_TYPES
 from .const import (
     CONF_AC_PHASES,
@@ -99,15 +100,20 @@ async def async_setup_entry(
                 continue
 
             sensor_descriptions.append(sensor)
+        for sensor in METER_SENSOR_TYPES:
+            if sensor.key not in supported_key_names:
+                continue
+
+            sensor_descriptions.append(sensor)
 
     if device_type in (DeviceTypes.INVERTER, DeviceTypes.INVERTER_315, DeviceTypes.INVERTER_120):
         power_sensor = (ATTR_INPUT_POWER, ATTR_OUTPUT_POWER)
     elif device_type in (DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH):
         power_sensor = (ATTR_INPUT_POWER, ATTR_OUTPUT_POWER,
                         ATTR_SOC_PERCENTAGE, ATTR_DISCHARGE_POWER, ATTR_CHARGE_POWER,
-                        ATTR_PAC_TO_USER_TOTAL, ATTR_PAC_TO_GRID_TOTAL)
+                        ATTR_PAC_TO_USER_TOTAL, ATTR_PAC_TO_GRID_TOTAL, ATTR_METER_TOTAL_ACTIVE_POWER)
     elif device_type in (DeviceTypes.STORAGE_120, ):
-        power_sensor = (ATTR_SOC_PERCENTAGE, ATTR_DISCHARGE_POWER, ATTR_CHARGE_POWER)
+        power_sensor = (ATTR_SOC_PERCENTAGE, ATTR_DISCHARGE_POWER, ATTR_CHARGE_POWER, ATTR_METER_TOTAL_ACTIVE_POWER)
     elif device_type == DeviceTypes.OFFGRID_SPF:
         power_sensor = (ATTR_ACTIVE_POWER, ATTR_LOAD_PERCENTAGE, ATTR_DISCHARGE_POWER, ATTR_CHARGE_POWER)
     else:

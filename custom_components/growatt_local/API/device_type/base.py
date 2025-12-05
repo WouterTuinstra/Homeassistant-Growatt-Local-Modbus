@@ -157,6 +157,9 @@ ATTR_AC_DISCHARGE_TOTAL = "ac_discharge_energy_total"  # kWh
 
 ATTR_BATTERY_POWER = "battery_power"  # W
 
+# Attribute names for values in the meter register
+ATTR_METER_TOTAL_ACTIVE_POWER = "meter_total_active_power"  # W
+
 class custom_function(type):
     """
     Object to be used as value_type in a `GrowattDeviceRegisters` that require custom function to translate the register value.

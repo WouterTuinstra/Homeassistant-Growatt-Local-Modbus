@@ -81,6 +81,7 @@ from ..API.device_type.base import (
     ATTR_TEMPERATURE,
     ATTR_IPM_TEMPERATURE,
     ATTR_OUTPUT_PERCENTAGE,
+    ATTR_METER_TOTAL_ACTIVE_POWER,
 )
 
 INVERTER_POWER_SWITCH: GrowattSwitchEntityDescription = GrowattSwitchEntityDescription(
@@ -495,5 +496,15 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         key="status",
         name="Status",
         device_class=f"growatt_local__status"
+    ),
+)
+
+METER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
+    GrowattSensorEntityDescription(
+        key=ATTR_METER_TOTAL_ACTIVE_POWER,
+        name="Meter Total active power",
+        native_unit_of_measurement=UnitOfPower.WATT,
+        device_class=SensorDeviceClass.POWER,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
 )
