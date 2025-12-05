@@ -91,7 +91,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         config_entry: config_entries.ConfigEntry,
     ) -> config_entries.OptionsFlow:
         """Create the options flow."""
-        return GrowattLocalOptionsFlow(config_entry)
+        return GrowattLocalOptionsFlow()
 
     @callback
     def _async_show_selection_form(self, errors=None):
@@ -490,10 +490,6 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
 class GrowattLocalOptionsFlow(config_entries.OptionsFlow):
-    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
-        """Initialize options flow."""
-        self.config_entry = config_entry
-
     @callback
     def _async_show_options_form(self, errors=None):
         return self.async_show_form(
