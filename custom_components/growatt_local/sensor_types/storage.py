@@ -48,7 +48,8 @@ STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         key=ATTR_SOC_PERCENTAGE,
         name="SOC",
         native_unit_of_measurement=PERCENTAGE,
-        device_class=SensorDeviceClass.BATTERY
+        device_class=SensorDeviceClass.BATTERY,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_DISCHARGE_POWER,

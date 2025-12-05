@@ -130,12 +130,14 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Input 1 voltage",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_1_AMPERAGE,
         name="Input 1 Amperage",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE ,
         device_class=SensorDeviceClass.CURRENT,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_1_POWER,
@@ -164,12 +166,14 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Input 2 voltage",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_2_AMPERAGE,
         name="Input 2 Amperage",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE ,
         device_class=SensorDeviceClass.CURRENT,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_2_POWER,
@@ -198,12 +202,14 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Input 3 voltage",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_3_AMPERAGE,
         name="Input 3 Amperage",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE ,
         device_class=SensorDeviceClass.CURRENT,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_3_POWER,
@@ -232,12 +238,14 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Input 4 voltage",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_4_AMPERAGE,
         name="Input 4 Amperage",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE ,
         device_class=SensorDeviceClass.CURRENT,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_4_POWER,
@@ -266,12 +274,14 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Input 5 voltage",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_5_AMPERAGE,
         name="Input 5 Amperage",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE ,
         device_class=SensorDeviceClass.CURRENT,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_5_POWER,
@@ -300,12 +310,14 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Input 6 voltage",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_6_AMPERAGE,
         name="Input 6 Amperage",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE ,
         device_class=SensorDeviceClass.CURRENT,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_6_POWER,
@@ -334,12 +346,14 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Input 7 voltage",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_7_AMPERAGE,
         name="Input 7 Amperage",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE ,
         device_class=SensorDeviceClass.CURRENT,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_7_POWER,
@@ -368,12 +382,14 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Input 8 voltage",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_8_AMPERAGE,
         name="Input 8 Amperage",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE ,
         device_class=SensorDeviceClass.CURRENT,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_INPUT_8_POWER,
@@ -402,12 +418,14 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Output 1 voltage",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_OUTPUT_1_AMPERAGE,
         name="Output 1 Amperage",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE ,
         device_class=SensorDeviceClass.CURRENT,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_OUTPUT_1_POWER,
@@ -421,12 +439,14 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Output 2 voltage",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_OUTPUT_2_AMPERAGE,
         name="Output 2 Amperage",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE ,
         device_class=SensorDeviceClass.CURRENT,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_OUTPUT_2_POWER,
@@ -440,12 +460,14 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Output 3 voltage",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_OUTPUT_3_AMPERAGE,
         name="Output 3 Amperage",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE ,
         device_class=SensorDeviceClass.CURRENT,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_OUTPUT_3_POWER,
@@ -472,6 +494,8 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         key=ATTR_GRID_FREQUENCY,
         name="AC frequency",
         native_unit_of_measurement=UnitOfFrequency.HERTZ,
+        device_class=SensorDeviceClass.FREQUENCY,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_OUTPUT_POWER,
@@ -492,18 +516,21 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         name="Intelligent Power Management temperature",
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         device_class=SensorDeviceClass.TEMPERATURE,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_TEMPERATURE,
         name="Temperature",
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         device_class=SensorDeviceClass.TEMPERATURE,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key=ATTR_OUTPUT_PERCENTAGE,
         name="Real power output percentage",
         native_unit_of_measurement=PERCENTAGE,
-        device_class=SensorDeviceClass.POWER_FACTOR
+        device_class=SensorDeviceClass.POWER_FACTOR,
+        state_class=SensorStateClass.MEASUREMENT,
     ),
     GrowattSensorEntityDescription(
         key="status",
