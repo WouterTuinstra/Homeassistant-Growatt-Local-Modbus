@@ -33,6 +33,9 @@ from .API.device_type.base import (
     ATTR_LOAD_PERCENTAGE,
     ATTR_PAC_TO_USER_TOTAL,
     ATTR_PAC_TO_GRID_TOTAL,
+    ATTR_POWER_TO_USER,
+    ATTR_POWER_USER_LOAD,
+    ATTR_POWER_TO_GRID,
 )
 
 from .sensor_types.sensor_entity_description import GrowattSensorEntityDescription
@@ -105,7 +108,8 @@ async def async_setup_entry(
     elif device_type in (DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH):
         power_sensor = (ATTR_INPUT_POWER, ATTR_OUTPUT_POWER,
                         ATTR_SOC_PERCENTAGE, ATTR_DISCHARGE_POWER, ATTR_CHARGE_POWER,
-                        ATTR_PAC_TO_USER_TOTAL, ATTR_PAC_TO_GRID_TOTAL)
+                        ATTR_PAC_TO_USER_TOTAL, ATTR_PAC_TO_GRID_TOTAL, ATTR_POWER_TO_USER,
+                        ATTR_POWER_USER_LOAD, ATTR_POWER_TO_GRID)
     elif device_type in (DeviceTypes.STORAGE_120, ):
         power_sensor = (ATTR_SOC_PERCENTAGE, ATTR_DISCHARGE_POWER, ATTR_CHARGE_POWER)
     elif device_type == DeviceTypes.OFFGRID_SPF:
