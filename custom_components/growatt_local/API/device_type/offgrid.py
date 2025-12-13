@@ -46,6 +46,8 @@ from .base import (
     ATTR_AC_CHARGE_AMPERAGE,
     ATTR_AC_DISCHARGE_TODAY,
     ATTR_AC_DISCHARGE_TOTAL,
+    ATTR_AC_LOAD_TODAY,
+    ATTR_AC_LOAD_TOTAL,
 )
 
 
@@ -272,5 +274,12 @@ INPUT_REGISTERS_OFFGRID: tuple[GrowattDeviceRegisters, ...] = (
     ),
     GrowattDeviceRegisters(
         name=ATTR_BATTERY_POWER, register=77, value_type=float, length=2
-    )
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_AC_LOAD_TODAY, register=85, value_type=float, length=2
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_AC_LOAD_TOTAL, register=87, value_type=float, length=2
+    ),
+
 )
