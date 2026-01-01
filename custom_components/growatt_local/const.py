@@ -17,6 +17,7 @@ CONF_BYTESIZE = "bytesize"
 
 CONF_DC_STRING = "dc_string"
 CONF_AC_PHASES = "ac_phases"
+CONF_METER_CONNECTED = "meter_connected"
 
 CONF_POWER_SCAN_INTERVAL = "power_scan_interval"
 CONF_POWER_SCAN_ENABLED = "power_scan_enabled"

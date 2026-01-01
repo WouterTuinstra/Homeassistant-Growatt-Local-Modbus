@@ -48,6 +48,7 @@ from .const import (
     CONF_BYTESIZE,
     CONF_PARITY,
     CONF_STOPBITS,
+    CONF_METER_CONNECTED,
     CONF_POWER_SCAN_ENABLED,
     CONF_POWER_SCAN_INTERVAL,
     CONF_INVERTER_POWER_CONTROL,
@@ -169,9 +170,13 @@ async def async_migrate_entry(hass, config_entry: ConfigEntry):
         if config_entry.minor_version < 4:
             # Added Inverter power control in naming options of config entity
             new_options[CONF_INVERTER_POWER_CONTROL] = False
+            
+        if config_entry.minor_version < 5:
+            # Added Meter Connected option in naming options of config entity
+            new_options[CONF_METER_CONNECTED] = False
 
 
-        hass.config_entries.async_update_entry(config_entry, data=new_data, options=new_options, minor_version=4, version=1)
+        hass.config_entries.async_update_entry(config_entry, data=new_data, options=new_options, minor_version=5, version=1)
 
     _LOGGER.debug("Migration to configuration version %s.%s successful", config_entry.version, config_entry.minor_version)
 

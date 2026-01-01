@@ -44,6 +44,7 @@ from .const import (
     CONF_AC_PHASES,
     CONF_DC_STRING,
     CONF_FIRMWARE,
+    CONF_METER_CONNECTED,
     CONF_SERIAL_NUMBER,
     CONF_POWER_SCAN_ENABLED,
     DOMAIN,
@@ -65,6 +66,8 @@ async def async_setup_entry(
     supported_key_names = coordinator.growatt_api.get_register_names()
 
     device_type = DeviceTypes(config_entry.data[CONF_TYPE])
+    meter_connected = config_entry.data.get(CONF_METER_CONNECTED, False)
+    modbus_version = (await coordinator.growatt_api.get_device_info()).modbus_version
 
     if device_type in (DeviceTypes.INVERTER, DeviceTypes.INVERTER_315, DeviceTypes.INVERTER_120,
                        DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH):
@@ -100,11 +103,12 @@ async def async_setup_entry(
                 continue
 
             sensor_descriptions.append(sensor)
-        for sensor in METER_SENSOR_TYPES:
-            if sensor.key not in supported_key_names:
-                continue
+        if meter_connected and modbus_version >= 1.38:
+            for sensor in METER_SENSOR_TYPES:
+                if sensor.key not in supported_key_names:
+                    continue
 
-            sensor_descriptions.append(sensor)
+                sensor_descriptions.append(sensor)
 
     if device_type in (DeviceTypes.INVERTER, DeviceTypes.INVERTER_315, DeviceTypes.INVERTER_120):
         power_sensor = (ATTR_INPUT_POWER, ATTR_OUTPUT_POWER)

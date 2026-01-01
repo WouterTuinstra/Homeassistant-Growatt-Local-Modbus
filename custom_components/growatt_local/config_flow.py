@@ -29,6 +29,7 @@ from .API.device_type.base import GrowattDeviceInfo
 from .const import (
     CONF_AC_PHASES,
     CONF_DC_STRING,
+    CONF_METER_CONNECTED,
     CONF_LAYER,
     CONF_SERIAL,
     CONF_TCP,
@@ -76,7 +77,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow class."""
 
     VERSION = 1
-    MINOR_VERSION = 4
+    MINOR_VERSION = 5
 
     def __init__(self):
         """Initialise growatt server flow."""
@@ -170,6 +171,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         device_type: str = DeviceTypes.INVERTER_120,
         mppt_trackers: int = 1,
         grid_phases: int = 1,
+        meter_connected: bool = False,
         modbus_version: float | str = "Not supported, Check logs for device info",
         detected_type: str = "unknown",
         scan_interval: int = 60,
@@ -203,6 +205,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         mode=selector.NumberSelectorMode.BOX,
                     ),
                 ),
+                vol.Required(CONF_METER_CONNECTED, default=meter_connected): bool,
                 vol.Required(CONF_SCAN_INTERVAL, default=scan_interval): int,
                 vol.Required(CONF_POWER_SCAN_ENABLED, default=power_scan_enabled): bool,
                 vol.Optional(CONF_POWER_SCAN_INTERVAL, default=power_scan_interval): int,
@@ -432,6 +435,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     device_type=user_input[CONF_TYPE],
                     mppt_trackers=user_input[CONF_DC_STRING],
                     grid_phases=user_input[CONF_AC_PHASES],
+                    meter_connected=user_input[CONF_METER_CONNECTED],
                     scan_interval=user_input[CONF_SCAN_INTERVAL],
                     power_scan_enabled=user_input[CONF_POWER_SCAN_ENABLED],
                     power_scan_interval=user_input[CONF_POWER_SCAN_INTERVAL],
@@ -447,6 +451,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     device_type=user_input[CONF_TYPE],
                     mppt_trackers=user_input[CONF_DC_STRING],
                     grid_phases=user_input[CONF_AC_PHASES],
+                    meter_connected=user_input[CONF_METER_CONNECTED],
                     scan_interval=user_input[CONF_SCAN_INTERVAL],
                     power_scan_enabled=user_input[CONF_POWER_SCAN_ENABLED],
                     power_scan_interval=user_input[CONF_POWER_SCAN_INTERVAL],
@@ -462,6 +467,7 @@ class GrowattLocalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 device_type=user_input[CONF_TYPE],
                 mppt_trackers=user_input[CONF_DC_STRING],
                 grid_phases=user_input[CONF_AC_PHASES],
+                meter_connected=user_input[CONF_METER_CONNECTED],
                 scan_interval=user_input[CONF_SCAN_INTERVAL],
                 power_scan_enabled=user_input[CONF_POWER_SCAN_ENABLED],
                 power_scan_interval=user_input[CONF_POWER_SCAN_INTERVAL],
