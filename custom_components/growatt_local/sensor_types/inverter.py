@@ -16,11 +16,13 @@ from homeassistant.const import (
     PERCENTAGE,
 )
 from .number_entity_description import GrowattNumberEntityDescription
+from .select_entity_description import GrowattSelectEntityDescription
 from .sensor_entity_description import GrowattSensorEntityDescription
 from .switch_entity_description import GrowattSwitchEntityDescription
 from ..API.device_type.base import (
     ATTR_INVERTER_ENABLED,
     ATTR_OUTPUT_POWER_LIMIT,
+    ATTR_EXPORT_POWER_LIMIT_ENABLE,
     ATTR_EXPORT_POWER_LIMIT_RATE,
     ATTR_INPUT_POWER,
     ATTR_INPUT_ENERGY_TOTAL,
@@ -83,6 +85,7 @@ from ..API.device_type.base import (
     ATTR_IPM_TEMPERATURE,
     ATTR_OUTPUT_PERCENTAGE,
     ATTR_METER_TOTAL_ACTIVE_POWER,
+    EXPORT_POWER_LIMIT_ENABLE_CODES,
 )
 
 INVERTER_POWER_SWITCH: GrowattSwitchEntityDescription = GrowattSwitchEntityDescription(
@@ -102,6 +105,13 @@ INVERTER_OUTPUT_POWER_LIMIT = GrowattNumberEntityDescription(
     native_max_value=100,
     native_step=1,
     icon="mdi:car-speed-limiter",
+)
+
+INVERTER_EXPORT_POWER_LIMIT_ENABLE = GrowattSelectEntityDescription(
+    key=ATTR_EXPORT_POWER_LIMIT_ENABLE,
+    name="Export Power Limit Enable",
+    options=list(EXPORT_POWER_LIMIT_ENABLE_CODES.values()),
+    icon="mdi:transmission-tower-export",
 )
 
 INVERTER_EXPORT_POWER_LIMIT_RATE = GrowattNumberEntityDescription(
