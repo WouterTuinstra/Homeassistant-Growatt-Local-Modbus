@@ -17,10 +17,11 @@ from homeassistant.const import (
 
 from .API.const import DeviceTypes
 
-from .sensor_types.inverter import INVERTER_OUTPUT_POWER_LIMIT
+from .sensor_types.inverter import INVERTER_OUTPUT_POWER_LIMIT, INVERTER_EXPORT_POWER_LIMIT_RATE
 from . import GrowattLocalCoordinator
 from .const import (
     CONF_FIRMWARE,
+    CONF_METER_CONNECTED,
     CONF_SERIAL_NUMBER,
     CONF_INVERTER_POWER_CONTROL,
     DOMAIN,
@@ -34,12 +35,24 @@ async def async_setup_entry(
     coordinator: GrowattLocalCoordinator = hass.data[DOMAIN][config_entry.data[CONF_SERIAL_NUMBER]]
     entities = []
 
+    meter_connected = config_entry.data.get(CONF_METER_CONNECTED, False)
+
     entities.append(InverterPowerLimitEntity(coordinator, entry=config_entry, description=INVERTER_OUTPUT_POWER_LIMIT))
-    coordinator.get_keys_by_name(INVERTER_OUTPUT_POWER_LIMIT.key, True)
+    coordinator.get_keys_by_name((INVERTER_OUTPUT_POWER_LIMIT.key,), True)
+
+    if meter_connected:
+        entities.append(
+            InverterExportPowerLimitRateEntity(
+                coordinator, 
+                entry=config_entry, 
+                description=INVERTER_EXPORT_POWER_LIMIT_RATE
+            )
+        )
+        coordinator.get_keys_by_name((INVERTER_EXPORT_POWER_LIMIT_RATE.key,), True)
 
     async_add_entities(entities, True)
 
-class InverterPowerLimitEntity(CoordinatorEntity, RestoreEntity, NumberEntity):
+class InverterNumberEntityBase(CoordinatorEntity, RestoreEntity, NumberEntity):
     def __init__(self, coordinator, entry, description):
         super().__init__(coordinator, description.key)
         self.entity_description = description
@@ -73,15 +86,26 @@ class InverterPowerLimitEntity(CoordinatorEntity, RestoreEntity, NumberEntity):
 
         self._attr_native_value = state.state
 
-    async def async_set_native_value(self, value: float) -> None:
-        await self.coordinator.write_register (self.entity_description.key, int(value))
-        self._attr_native_value = value
-        self.async_write_ha_state()
-
     @callback
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
         if (state := self.coordinator.data.get(self.entity_description.key)) is None:
             return
         self._attr_native_value = state
+        self.async_write_ha_state()
+
+
+class InverterPowerLimitEntity(InverterNumberEntityBase):
+
+    async def async_set_native_value(self, value: float) -> None:
+        await self.coordinator.write_register(self.entity_description.key, round(value))
+        self._attr_native_value = value
+        self.async_write_ha_state()
+
+
+class InverterExportPowerLimitRateEntity(InverterNumberEntityBase):
+
+    async def async_set_native_value(self, value: float) -> None:
+        await self.coordinator.write_register(self.entity_description.key, round(value*10))
+        self._attr_native_value = value
         self.async_write_ha_state()

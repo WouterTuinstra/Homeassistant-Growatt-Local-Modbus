@@ -21,6 +21,7 @@ from .switch_entity_description import GrowattSwitchEntityDescription
 from ..API.device_type.base import (
     ATTR_INVERTER_ENABLED,
     ATTR_OUTPUT_POWER_LIMIT,
+    ATTR_EXPORT_POWER_LIMIT_RATE,
     ATTR_INPUT_POWER,
     ATTR_INPUT_ENERGY_TOTAL,
     ATTR_INPUT_1_VOLTAGE,
@@ -100,6 +101,18 @@ INVERTER_OUTPUT_POWER_LIMIT = GrowattNumberEntityDescription(
     native_min_value=0,
     native_max_value=100,
     native_step=1,
+    icon="mdi:car-speed-limiter",
+)
+
+INVERTER_EXPORT_POWER_LIMIT_RATE = GrowattNumberEntityDescription(
+    key=ATTR_EXPORT_POWER_LIMIT_RATE,
+    name="Export Power Limit Rate",
+    device_class=SensorDeviceClass.POWER_FACTOR,
+    native_unit_of_measurement=PERCENTAGE,
+    native_min_value=-100,
+    native_max_value=100,
+    native_step=0.1,
+    mode="box",
     icon="mdi:transmission-tower-export",
 )
 
