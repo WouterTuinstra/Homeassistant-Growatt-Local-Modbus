@@ -17,6 +17,7 @@ ATTR_MODBUS_VERSION = "modbus version"
 ATTR_INVERTER_ENABLED = "inverter_enabled"
 ATTR_AC_CHARGE_ENABLED = "ac_charge_enabled"
 ATTR_OUTPUT_POWER_LIMIT = "output_power_limit"
+ATTR_EXPORT_POWER_LIMIT_ENABLE = "export_power_limit_enable"
 ATTR_EXPORT_POWER_LIMIT_RATE = "export_power_limit_rate"
 
 # Attribute names for values in the input register
@@ -333,6 +334,16 @@ def inverter_status(value: dict[str, Any]) -> str | None:
                 return f"{status_value.name} - code: {fault}"
 
     return status_value.name
+
+EXPORT_POWER_LIMIT_ENABLE_CODES = {
+    0x0: "Disable",
+    0x1: "Enable using RS485 meter",
+    0x2: "Enable using RS232 meter",
+    0x3: "Enable using CT meter",
+}
+
+def process_export_power_limit_enable(value) -> str:
+    return EXPORT_POWER_LIMIT_ENABLE_CODES.get(value, EXPORT_POWER_LIMIT_ENABLE_CODES[0])
 
 def process_export_power_limit_rate(value) -> float:
     signed_value = ctypes.c_int16(value).value
