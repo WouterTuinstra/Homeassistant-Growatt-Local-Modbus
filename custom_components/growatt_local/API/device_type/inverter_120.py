@@ -3,12 +3,14 @@
 from .base import (
     GrowattDeviceRegisters,
     custom_function,
+    process_export_power_limit_rate,
     FIRMWARE_REGISTER,
     SERIAL_NUMBER_REGISTER,
     DEVICE_TYPE_CODE_REGISTER,
     NUMBER_OF_TRACKERS_AND_PHASES_REGISTER,
     ATTR_INVERTER_ENABLED,
     ATTR_OUTPUT_POWER_LIMIT,
+    ATTR_EXPORT_POWER_LIMIT_RATE,
     ATTR_INVERTER_MODEL,
     ATTR_MODBUS_VERSION,
     ATTR_STATUS_CODE,
@@ -130,7 +132,13 @@ HOLDING_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
         register=88,
         value_type=float,
         scale=100
-    )
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_EXPORT_POWER_LIMIT_RATE,
+        register=123,
+        value_type=custom_function,
+        function=process_export_power_limit_rate
+    ),
 )
 
 INPUT_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
