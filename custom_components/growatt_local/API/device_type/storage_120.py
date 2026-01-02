@@ -6,6 +6,8 @@ from .base import (
     FIRMWARE_REGISTER,
     DEVICE_TYPE_CODE_REGISTER,
     NUMBER_OF_TRACKERS_AND_PHASES_REGISTER,
+    ATTR_INVERTER_ENABLED,
+    ATTR_OUTPUT_POWER_LIMIT,
     ATTR_INVERTER_MODEL,
     ATTR_MODBUS_VERSION,
     ATTR_SOC_PERCENTAGE,
@@ -50,6 +52,16 @@ SERIAL_NUMBER_REGISTER = GrowattDeviceRegisters(
 )
 
 STORAGE_HOLDING_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
+    GrowattDeviceRegisters(
+        name=ATTR_INVERTER_ENABLED,
+        register=0,
+        value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_OUTPUT_POWER_LIMIT,
+        register=3,
+        value_type=int
+    ),
     FIRMWARE_REGISTER,
     SERIAL_NUMBER_REGISTER,
     GrowattDeviceRegisters(
@@ -128,13 +140,13 @@ STORAGE_INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_CHARGE_POWER, register=3180, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_POWER_TO_USER, register=30041, value_type=float, length=2
+        name=ATTR_POWER_TO_USER, register=3041, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_POWER_TO_GRID, register=30043, value_type=float, length=2
+        name=ATTR_POWER_TO_GRID, register=3043, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_POWER_USER_LOAD, register=30045, value_type=float, length=2
+        name=ATTR_POWER_USER_LOAD, register=3045, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
         name=ATTR_ENERGY_TO_USER_TODAY, register=3067, value_type=float, length=2
