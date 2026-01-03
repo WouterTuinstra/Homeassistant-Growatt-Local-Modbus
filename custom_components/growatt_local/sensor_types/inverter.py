@@ -112,7 +112,7 @@ INVERTER_EXPORT_POWER_LIMIT_ENABLE = GrowattSelectEntityDescription(
     key=ATTR_EXPORT_POWER_LIMIT_ENABLE,
     name="Export Power Limit Enable",
     options=list(EXPORT_POWER_LIMIT_ENABLE_CODES.values()),
-    icon="mdi:transmission-tower-export",
+    icon="mdi:transmission-tower-import",
 )
 
 INVERTER_EXPORT_POWER_LIMIT_RATE = GrowattNumberEntityDescription(
@@ -124,7 +124,7 @@ INVERTER_EXPORT_POWER_LIMIT_RATE = GrowattNumberEntityDescription(
     native_max_value=100,
     native_step=0.1,
     mode=NumberMode.BOX,
-    icon="mdi:transmission-tower-export",
+    icon="mdi:transmission-tower-import",
 )
 
 INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
