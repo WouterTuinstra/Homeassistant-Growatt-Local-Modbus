@@ -10,11 +10,12 @@ from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.const import (
     CONF_MODEL,
     CONF_NAME,
+    CONF_TYPE,
 )
 
-from .API.device_type.base import EXPORT_POWER_LIMIT_ENABLE_CODES
-
-from .sensor_types.inverter import INVERTER_EXPORT_POWER_LIMIT_ENABLE
+from .API.const import DeviceTypes
+from .sensor_types.inverter import INVERTER_SELECT_TYPES_W_METER
+from .sensor_types.select_entity_description import GrowattSelectEntityDescription
 from . import GrowattLocalCoordinator
 from .const import (
     CONF_FIRMWARE,
@@ -30,25 +31,38 @@ async def async_setup_entry(
 ) -> None:
     coordinator: GrowattLocalCoordinator = hass.data[DOMAIN][config_entry.data[CONF_SERIAL_NUMBER]]
     entities = []
+    sensor_descriptions: list[GrowattSelectEntityDescription] = []
+    supported_key_names = coordinator.growatt_api.get_register_names()
 
+    device_type = DeviceTypes(config_entry.data[CONF_TYPE])
     meter_connected = config_entry.data.get(CONF_METER_CONNECTED, False)
 
-    if meter_connected:
-        entities.append(
-            InverterSelectEntity(
-                coordinator, 
-                entry=config_entry, 
-                description=INVERTER_EXPORT_POWER_LIMIT_ENABLE
+    if device_type in (DeviceTypes.INVERTER, DeviceTypes.INVERTER_315, DeviceTypes.INVERTER_120,
+                       DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH):
+        if meter_connected:
+            for sensor in INVERTER_SELECT_TYPES_W_METER:
+                if sensor.key not in supported_key_names:
+                    continue
+                
+                sensor_descriptions.append(sensor)
+    
+    coordinator.get_keys_by_name({sensor.key for sensor in sensor_descriptions}, True)
+
+    entities.extend(
+        [
+            GrowattDeviceEntity(
+                coordinator, description=description, entry=config_entry
             )
-        )
-        coordinator.get_keys_by_name((INVERTER_EXPORT_POWER_LIMIT_ENABLE.key,), True)
+            for description in sensor_descriptions
+        ]
+    )
 
     async_add_entities(entities, True)
 
-class InverterSelectEntity(CoordinatorEntity, RestoreEntity, SelectEntity):
+class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SelectEntity):
     def __init__(self, coordinator, entry, description):
         super().__init__(coordinator, description.key)
-        self.entity_description = description
+        self.entity_description: GrowattSelectEntityDescription = description
         self._config_entry = entry
 
         self._attr_device_info = DeviceInfo(
@@ -88,7 +102,7 @@ class InverterSelectEntity(CoordinatorEntity, RestoreEntity, SelectEntity):
         self.async_write_ha_state()
 
     async def async_select_option(self, option: str) -> None:
-        value = next((k for k, v in EXPORT_POWER_LIMIT_ENABLE_CODES.items() if v == option), None)
+        value = next((k for k, v in self.entity_description.value_to_state_dict.items() if v == option), None)
         if value is None:
             return
         await self.coordinator.write_register(self.entity_description.key, value)

@@ -9,6 +9,7 @@ from homeassistant.components.select import SelectEntityDescription
 class GrowattSelectRequiredKeysMixin:
     """Mixin for required keys."""
     key: str
+    value_to_state_dict: dict
 
 
 @dataclass

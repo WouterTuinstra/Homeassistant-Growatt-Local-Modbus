@@ -16,7 +16,7 @@ from homeassistant.const import (
 )
 
 from .API.const import DeviceTypes
-from .sensor_types.inverter import INVERTER_EXPORT_POWER_LIMIT_RATE, INVERTER_NUMBER_TYPES
+from .sensor_types.inverter import INVERTER_NUMBER_TYPES, INVERTER_NUMBER_TYPES_W_METER
 from .sensor_types.number_entity_description import GrowattNumberEntityDescription
 from .sensor_types.storage import STORAGE_NUMBER_TYPES
 from . import GrowattLocalCoordinator
@@ -47,6 +47,13 @@ async def async_setup_entry(
                 continue
             
             sensor_descriptions.append(sensor)
+        
+        if meter_connected:
+            for sensor in INVERTER_NUMBER_TYPES_W_METER:
+                if sensor.key not in supported_key_names:
+                    continue
+                
+                sensor_descriptions.append(sensor)
     
     if device_type in (DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH, DeviceTypes.STORAGE_120):
         for sensor in STORAGE_NUMBER_TYPES:
@@ -66,25 +73,13 @@ async def async_setup_entry(
         ]
     )
 
-    if meter_connected:
-        entities.append(
-            GrowattDeviceEntity(
-                coordinator, 
-                entry=config_entry, 
-                description=INVERTER_EXPORT_POWER_LIMIT_RATE,
-                scale=10,
-            )
-        )
-        coordinator.get_keys_by_name((INVERTER_EXPORT_POWER_LIMIT_RATE.key,), True)
-
     async_add_entities(entities, True)
 
 class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, NumberEntity):
-    def __init__(self, coordinator, entry, description, scale=None):
+    def __init__(self, coordinator, entry, description):
         super().__init__(coordinator, description.key)
-        self.entity_description = description
+        self.entity_description: GrowattNumberEntityDescription = description
         self._config_entry = entry
-        self._scale = scale
 
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.data[CONF_SERIAL_NUMBER])},
@@ -123,7 +118,7 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, NumberEntity):
         self.async_write_ha_state()
 
     async def async_set_native_value(self, value: float) -> None:
-        scaled_value = value if self._scale is None else value * self._scale
+        scaled_value = value if self.entity_description.scale is None else value * self.entity_description.scale
         await self.coordinator.write_register(self.entity_description.key, round(scaled_value))
         self._attr_native_value = value
         self.async_write_ha_state()
