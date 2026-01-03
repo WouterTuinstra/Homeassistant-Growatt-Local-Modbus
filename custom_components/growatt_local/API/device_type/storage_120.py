@@ -68,10 +68,10 @@ class ChargeDischargeMode(StrEnum):
 
 @dataclass
 class ChargeDischargePeriodValue:
-    enable: bool
-    mode: ChargeDischargeMode
-    start_time: time
-    end_time: time
+    enable: bool = False
+    mode: ChargeDischargeMode = ChargeDischargeMode.AUTO
+    start_time: time = time()
+    end_time: time = time()
 
 def model(registers) -> str:
     mo = (registers[0] << 16) + registers[1]

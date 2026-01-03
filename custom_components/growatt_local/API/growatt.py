@@ -46,6 +46,8 @@ from .device_type.storage_120 import (
     STORAGE_HOLDING_REGISTERS_120_TL_XH,
     STORAGE_INPUT_REGISTERS_120,
     STORAGE_INPUT_REGISTERS_120_TL_XH,
+    ChargeDischargePeriodValue,
+    create_charge_discharge_period,
 )
 from .device_type.inverter_315 import MAXIMUM_DATA_LENGTH_315, HOLDING_REGISTERS_315, INPUT_REGISTERS_315
 from .device_type.offgrid import INPUT_REGISTERS_OFFGRID, offgrid_status
@@ -154,6 +156,13 @@ class GrowattModbusBase:
     async def write_register(self, register, value, device_id) -> ModbusPDU:  
         payload = ModbusBaseClient.convert_to_registers(value, ModbusBaseClient.DATATYPE.INT16)
         return await self.client.write_register(register, payload[0], device_id=device_id)
+
+    async def write_charge_discharge_period_registers(self, start_address, value: ChargeDischargePeriodValue, device_id) -> None:
+        value_processed = create_charge_discharge_period(value)
+        payload_1 = ModbusBaseClient.convert_to_registers(value_processed[0], ModbusBaseClient.DATATYPE.INT16)
+        payload_2 = ModbusBaseClient.convert_to_registers(value_processed[1], ModbusBaseClient.DATATYPE.INT16)
+        await self.client.write_register(start_address, payload_1[0], device_id=device_id)
+        await self.client.write_register(start_address + 1, payload_2[0], device_id=device_id)
 
     async def read_holding_registers(self, start_address, count, device_id) -> dict[int, int]:
         data = await self.client.read_holding_registers(start_address, count=count, device_id=device_id)
@@ -356,6 +365,11 @@ class GrowattDevice:
         data = await self.modbus.write_register(register, payload, self.device_id)
         _LOGGER.info("Write response done")
         return data
+
+    async def write_charge_discharge_period_registers(self, start_address, value: ChargeDischargePeriodValue) -> None:
+        _LOGGER.info("Write register %d with payload %d and unit %d", start_address, value, self.device_id)
+        await self.modbus.write_charge_discharge_period_registers(start_address, value, self.device_id)
+        _LOGGER.info("Write response done")
 
     async def read_holding_register(self, registers: tuple[GrowattDeviceRegisters, ...]) -> dict[str, Any]:
         _LOGGER.info("Read holding registers")

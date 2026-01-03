@@ -14,7 +14,9 @@ from homeassistant.const import (
 )
 
 from .API.const import DeviceTypes
+from .API.device_type.storage_120 import ChargeDischargeMode, ChargeDischargePeriodValue
 from .sensor_types.inverter import INVERTER_SELECT_TYPES_W_METER
+from .sensor_types.storage import STORAGE_SELECT_TYPES
 from .sensor_types.select_entity_description import GrowattSelectEntityDescription
 from . import GrowattLocalCoordinator
 from .const import (
@@ -46,6 +48,13 @@ async def async_setup_entry(
                 
                 sensor_descriptions.append(sensor)
     
+    if device_type in (DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH, DeviceTypes.STORAGE_120):
+        for sensor in STORAGE_SELECT_TYPES:
+            if sensor.key not in supported_key_names:
+                continue
+
+            sensor_descriptions.append(sensor)
+
     coordinator.get_keys_by_name({sensor.key for sensor in sensor_descriptions}, True)
 
     entities.extend(
@@ -64,6 +73,7 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SelectEntity):
         super().__init__(coordinator, description.key)
         self.entity_description: GrowattSelectEntityDescription = description
         self._config_entry = entry
+        self.charge_discharge_period_state = ChargeDischargePeriodValue()
 
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.data[CONF_SERIAL_NUMBER])},
@@ -96,15 +106,31 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SelectEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
-        if (state := self.coordinator.data.get(self.entity_description.key)) not in self.options:
+        if (state := self.coordinator.data.get(self.entity_description.key)) is None:
             return
-        self._attr_current_option = state
+
+        if self.entity_description.charge_discharge_period_select:
+            self.charge_discharge_period_state = state
+            self._attr_current_option = state.mode.value
+        else:
+            if state not in self.options:
+                return
+            self._attr_current_option = state
         self.async_write_ha_state()
 
     async def async_select_option(self, option: str) -> None:
-        value = next((k for k, v in self.entity_description.value_to_state_dict.items() if v == option), None)
-        if value is None:
-            return
-        await self.coordinator.write_register(self.entity_description.key, value)
+        if self.entity_description.charge_discharge_period_select:
+            if option not in list(ChargeDischargeMode):
+                return
+            self.charge_discharge_period_state.mode = ChargeDischargeMode(option)
+            await self.coordinator.write_charge_discharge_period_registers(
+                    self.entity_description.key,
+                    self.charge_discharge_period_state
+                )
+        else:
+            value = next((k for k, v in self.entity_description.value_to_state_dict.items() if v == option), None)
+            if value is None:
+                return
+            await self.coordinator.write_register(self.entity_description.key, value)
         self._attr_current_option = option
         self.async_write_ha_state()

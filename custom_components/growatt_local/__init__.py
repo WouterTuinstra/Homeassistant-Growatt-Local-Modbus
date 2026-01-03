@@ -33,6 +33,7 @@ from homeassistant.helpers.update_coordinator import (
 )
 from homeassistant.util import dt as dt_util
 from .API.device_type.base import GrowattDeviceRegisters
+from .API.device_type.storage_120 import ChargeDischargePeriodValue
 from .API.utils import RegisterKeys
 from .API.const import DeviceTypes
 from .API.growatt import GrowattDevice, GrowattSerial, GrowattNetwork
@@ -379,3 +380,9 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
         #TODO: better logging 
         _LOGGER.debug("Device type key %s and register %d", register.name, register.register)
         await self.growatt_api.write_register(register.register, payload)
+
+    async def write_charge_discharge_period_registers(self, key: str, value: ChargeDischargePeriodValue) -> None:
+        register = self.growatt_api.get_holding_register_by_name(key)
+        #TODO: better logging 
+        _LOGGER.debug("Device type key %s and register %d", register.name, register.register)
+        await self.growatt_api.write_charge_discharge_period_registers(register.register, value)
