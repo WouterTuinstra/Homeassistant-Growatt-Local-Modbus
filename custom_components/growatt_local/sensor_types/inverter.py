@@ -1,6 +1,7 @@
 """Growatt Sensor definitions for the Inverter type."""
 from __future__ import annotations
 
+from homeassistant.components.number import NumberDeviceClass, NumberMode
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorStateClass,
@@ -99,7 +100,7 @@ INVERTER_POWER_SWITCH: GrowattSwitchEntityDescription = GrowattSwitchEntityDescr
 INVERTER_OUTPUT_POWER_LIMIT = GrowattNumberEntityDescription(
     key=ATTR_OUTPUT_POWER_LIMIT,
     name="Output Power Limit",
-    device_class=SensorDeviceClass.POWER_FACTOR,
+    device_class=NumberDeviceClass.POWER_FACTOR,
     native_unit_of_measurement=PERCENTAGE,
     native_min_value=0,
     native_max_value=100,
@@ -117,12 +118,12 @@ INVERTER_EXPORT_POWER_LIMIT_ENABLE = GrowattSelectEntityDescription(
 INVERTER_EXPORT_POWER_LIMIT_RATE = GrowattNumberEntityDescription(
     key=ATTR_EXPORT_POWER_LIMIT_RATE,
     name="Export Power Limit Rate",
-    device_class=SensorDeviceClass.POWER_FACTOR,
+    device_class=NumberDeviceClass.POWER_FACTOR,
     native_unit_of_measurement=PERCENTAGE,
     native_min_value=-100,
     native_max_value=100,
     native_step=0.1,
-    mode="box",
+    mode=NumberMode.BOX,
     icon="mdi:transmission-tower-export",
 )
 
