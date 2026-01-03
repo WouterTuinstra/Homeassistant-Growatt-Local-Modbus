@@ -7,6 +7,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_MODEL,
     CONF_NAME,
+    CONF_TYPE,
     STATE_ON,
 )
 from homeassistant.core import HomeAssistant, callback
@@ -16,6 +17,7 @@ from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
 )
+from .API.const import DeviceTypes
 from .const import (
     CONF_FIRMWARE,
     CONF_SERIAL_NUMBER,
@@ -41,13 +43,17 @@ async def async_setup_entry(
     sensor_descriptions: list[GrowattSwitchEntityDescription] = []
     supported_key_names = coordinator.growatt_api.get_register_names()
 
+    device_type = DeviceTypes(config_entry.data[CONF_TYPE])
+
     if config_entry.options.get(CONF_INVERTER_POWER_CONTROL, False):
         sensor_descriptions.append(INVERTER_POWER_SWITCH) 
 
-    for sensor in STORAGE_SWITCH_TYPES:
-        if sensor.key not in supported_key_names:
-            continue
-        sensor_descriptions.append(sensor)
+    if device_type in (DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH, DeviceTypes.STORAGE_120):
+        for sensor in STORAGE_SWITCH_TYPES:
+            if sensor.key not in supported_key_names:
+                continue
+            
+            sensor_descriptions.append(sensor)
 
     coordinator.get_keys_by_name({sensor.key for sensor in sensor_descriptions}, True)
 
