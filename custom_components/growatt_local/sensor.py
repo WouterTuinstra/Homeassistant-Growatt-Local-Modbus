@@ -106,6 +106,9 @@ async def async_setup_entry(
                 continue
 
             sensor_descriptions.append(sensor)
+
+    if device_type in (DeviceTypes.INVERTER_120, DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH,
+                       DeviceTypes.STORAGE_120):
         if meter_connected and modbus_version >= 1.38:
             for sensor in METER_SENSOR_TYPES:
                 if sensor.key not in supported_key_names:
