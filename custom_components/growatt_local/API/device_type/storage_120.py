@@ -1,5 +1,9 @@
 """Device defaults for a Growatt Inverter."""
 
+from dataclasses import dataclass
+from enum import StrEnum
+from datetime import time
+
 from .base import (
     GrowattDeviceRegisters,
     custom_function,
@@ -18,6 +22,15 @@ from .base import (
     ATTR_DISCHARGE_STOP_SOC_PERCENT_ONGRID,
     ATTR_CHARGE_STOP_SOC_PERCENT,
     ATTR_AC_CHARGE_ENABLED,
+    ATTR_CHARGE_DISCHARGE_PERIOD_1,
+    ATTR_CHARGE_DISCHARGE_PERIOD_2,
+    ATTR_CHARGE_DISCHARGE_PERIOD_3,
+    ATTR_CHARGE_DISCHARGE_PERIOD_4,
+    ATTR_CHARGE_DISCHARGE_PERIOD_5,
+    ATTR_CHARGE_DISCHARGE_PERIOD_6,
+    ATTR_CHARGE_DISCHARGE_PERIOD_7,
+    ATTR_CHARGE_DISCHARGE_PERIOD_8,
+    ATTR_CHARGE_DISCHARGE_PERIOD_9,
     ATTR_INVERTER_MODEL,
     ATTR_MODBUS_VERSION,
     ATTR_SOC_PERCENTAGE,
@@ -48,6 +61,18 @@ STORAGE_PRIORITY_MODE_CODES = {
     2: "Grid First",
 }
 
+class ChargeDischargeMode(StrEnum):
+    AUTO = "Auto"
+    CHARGE = "Charge"
+    DISCHARGE = "Discharge"
+
+@dataclass
+class ChargeDischargePeriodValue:
+    enable: bool
+    mode: ChargeDischargeMode
+    start_time: time
+    end_time: time
+
 def model(registers) -> str:
     mo = (registers[0] << 16) + registers[1]
     return "A{:X} B{:X} D{:X} T{:X} P{:X} U{:X} M{:X} S{:X}".format(
@@ -63,6 +88,32 @@ def model(registers) -> str:
 
 def process_priority_mode(value) -> str:
     return STORAGE_PRIORITY_MODE_CODES.get(value, "Invalid")
+
+def process_charge_discharge_period(values: list[int]) -> ChargeDischargePeriodValue:
+    enable = ((values[0] & 0x8000) >> 15) == 1
+    mode_val = ((values[0] & 0x6000) >> 13)
+    if mode_val == 2:
+        mode = ChargeDischargeMode.DISCHARGE
+    elif mode_val == 1:
+        mode = ChargeDischargeMode.CHARGE
+    else:
+        mode = ChargeDischargeMode.AUTO
+    start_time = time(((values[0] & 0x1F00) >> 8), (values[0] & 0x00FF))
+    end_time = time(((values[1] & 0x1F00) >> 8), (values[1] & 0x00FF))
+    return ChargeDischargePeriodValue(enable, mode, start_time, end_time)
+
+def create_charge_discharge_period(charge_discharge_period: ChargeDischargePeriodValue) -> tuple[int, int]:
+    reg_1 = charge_discharge_period.start_time.minute & 0x00FF
+    reg_1 += (charge_discharge_period.start_time.hour << 8) & 0x1F00
+    if charge_discharge_period.mode == ChargeDischargeMode.DISCHARGE:
+        reg_1 += 2 << 13
+    elif charge_discharge_period.mode == ChargeDischargeMode.CHARGE:
+        reg_1 += 1 << 13
+    if charge_discharge_period.enable:
+        reg_1 += 1 << 15
+    reg_2 = charge_discharge_period.end_time.minute & 0x00FF 
+    reg_2 += (charge_discharge_period.end_time.hour << 8) & 0x1F00
+    return reg_1, reg_2
 
 SERIAL_NUMBER_REGISTER = GrowattDeviceRegisters(
     name=ATTR_SERIAL_NUMBER, register=3001, value_type=str, length=15
@@ -167,6 +218,69 @@ STORAGE_HOLDING_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
     ),
     GrowattDeviceRegisters(
         name=ATTR_AC_CHARGE_ENABLED, register=3049, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_CHARGE_DISCHARGE_PERIOD_1,
+        register=3038,
+        value_type=custom_function,
+        length=2,
+        function=process_charge_discharge_period
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_CHARGE_DISCHARGE_PERIOD_2,
+        register=3040,
+        value_type=custom_function,
+        length=2,
+        function=process_charge_discharge_period
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_CHARGE_DISCHARGE_PERIOD_3,
+        register=3042,
+        value_type=custom_function,
+        length=2,
+        function=process_charge_discharge_period
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_CHARGE_DISCHARGE_PERIOD_4,
+        register=3044,
+        value_type=custom_function,
+        length=2,
+        function=process_charge_discharge_period
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_CHARGE_DISCHARGE_PERIOD_5,
+        register=3050,
+        value_type=custom_function,
+        length=2,
+        function=process_charge_discharge_period
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_CHARGE_DISCHARGE_PERIOD_6,
+        register=3052,
+        value_type=custom_function,
+        length=2,
+        function=process_charge_discharge_period
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_CHARGE_DISCHARGE_PERIOD_7,
+        register=3054,
+        value_type=custom_function,
+        length=2,
+        function=process_charge_discharge_period
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_CHARGE_DISCHARGE_PERIOD_8,
+        register=3056,
+        value_type=custom_function,
+        length=2,
+        function=process_charge_discharge_period
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_CHARGE_DISCHARGE_PERIOD_9,
+        register=3058,
+        value_type=custom_function,
+        length=2,
+        function=process_charge_discharge_period
     ),
 )
 
