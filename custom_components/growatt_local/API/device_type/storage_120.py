@@ -12,6 +12,11 @@ from .base import (
     ATTR_OUTPUT_POWER_LIMIT,
     ATTR_EXPORT_POWER_LIMIT_ENABLE,
     ATTR_EXPORT_POWER_LIMIT_RATE,
+    ATTR_DISCHARGE_POWER_LIMIT_RATE,
+    ATTR_CHARGE_POWER_LIMIT_RATE,
+    ATTR_DISCHARGE_STOP_SOC_PERCENT_OFFGRID,
+    ATTR_DISCHARGE_STOP_SOC_PERCENT_ONGRID,
+    ATTR_CHARGE_STOP_SOC_PERCENT,
     ATTR_AC_CHARGE_ENABLED,
     ATTR_INVERTER_MODEL,
     ATTR_MODBUS_VERSION,
@@ -144,6 +149,21 @@ STORAGE_HOLDING_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
         register=123,
         value_type=custom_function,
         function=process_export_power_limit_rate
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_DISCHARGE_POWER_LIMIT_RATE, register=3036, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_CHARGE_POWER_LIMIT_RATE, register=3047, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_DISCHARGE_STOP_SOC_PERCENT_OFFGRID, register=3037, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_DISCHARGE_STOP_SOC_PERCENT_ONGRID, register=3067, value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_CHARGE_STOP_SOC_PERCENT, register=3048, value_type=int
     ),
     GrowattDeviceRegisters(
         name=ATTR_AC_CHARGE_ENABLED, register=3049, value_type=int

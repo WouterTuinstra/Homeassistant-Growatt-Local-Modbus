@@ -20,8 +20,12 @@ ATTR_EXPORT_POWER_LIMIT_ENABLE = "export_power_limit_enable"
 ATTR_EXPORT_POWER_LIMIT_RATE = "export_power_limit_rate"
 
 # Attribute names for values in the holding register Storage
+ATTR_DISCHARGE_POWER_LIMIT_RATE = "discharge_power_limit_rate"
+ATTR_CHARGE_POWER_LIMIT_RATE = "charge_power_limit_rate"
+ATTR_DISCHARGE_STOP_SOC_PERCENT_OFFGRID = "discharge_stop_soc_percent_offgrid"
+ATTR_DISCHARGE_STOP_SOC_PERCENT_ONGRID = "discharge_stop_soc_percent_ongrid"
+ATTR_CHARGE_STOP_SOC_PERCENT = "charge_stop_soc_percent"
 ATTR_AC_CHARGE_ENABLED = "ac_charge_enabled"
-
 
 # Attribute names for values in the input register
 ATTR_STATUS = "status"
