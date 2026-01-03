@@ -383,6 +383,5 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
 
     async def write_charge_discharge_period_registers(self, key: str, value: ChargeDischargePeriodValue) -> None:
         register = self.growatt_api.get_holding_register_by_name(key)
-        #TODO: better logging 
-        _LOGGER.debug("Device type key %s and register %d", register.name, register.register)
+        _LOGGER.debug("Write Device type key %s and register %d and value %s", register.name, register.register, value)
         await self.growatt_api.write_charge_discharge_period_registers(register.register, value)

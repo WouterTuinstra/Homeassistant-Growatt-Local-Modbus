@@ -103,6 +103,7 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs: Any) -> None:
         if self.entity_description.charge_discharge_period_enable:
             self.charge_discharge_period_state.enable = True
+            _LOGGER.debug("Turn on Device type %s, full state %s", self._attr_unique_id, self.charge_discharge_period_state)
             await self.coordinator.write_charge_discharge_period_registers(
                     self.entity_description.key,
                     self.charge_discharge_period_state
@@ -124,6 +125,7 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs: Any) -> None:
         if self.entity_description.charge_discharge_period_enable:
             self.charge_discharge_period_state.enable = False
+            _LOGGER.debug("Turn off Device type %s, full state %s", self._attr_unique_id, self.charge_discharge_period_state)
             await self.coordinator.write_charge_discharge_period_registers(
                     self.entity_description.key,
                     self.charge_discharge_period_state
