@@ -7,6 +7,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.const import (
+    EntityCategory,
     UnitOfEnergy,
     UnitOfPower,
     PERCENTAGE,
@@ -48,6 +49,7 @@ STORAGE_SWITCH_TYPES: tuple[GrowattSwitchEntityDescription, ...] = (
     GrowattSwitchEntityDescription(
         key=ATTR_AC_CHARGE_ENABLED,
         name="AC Charge",
+        entity_category=EntityCategory.CONFIG,
         state_on=0x1,
         state_off=0x0
     ),
@@ -57,6 +59,7 @@ STORAGE_NUMBER_TYPES: tuple[GrowattNumberEntityDescription, ...] = (
     GrowattNumberEntityDescription(
         key=ATTR_DISCHARGE_POWER_LIMIT_RATE,
         name="Discharge Power Limit Rate",
+        entity_category=EntityCategory.CONFIG,
         device_class=NumberDeviceClass.POWER_FACTOR,
         native_unit_of_measurement=PERCENTAGE,
         native_min_value=0,
@@ -68,6 +71,7 @@ STORAGE_NUMBER_TYPES: tuple[GrowattNumberEntityDescription, ...] = (
     GrowattNumberEntityDescription(
         key=ATTR_CHARGE_POWER_LIMIT_RATE,
         name="Charge Power Limit Rate",
+        entity_category=EntityCategory.CONFIG,
         device_class=NumberDeviceClass.POWER_FACTOR,
         native_unit_of_measurement=PERCENTAGE,
         native_min_value=0,
@@ -79,6 +83,7 @@ STORAGE_NUMBER_TYPES: tuple[GrowattNumberEntityDescription, ...] = (
     GrowattNumberEntityDescription(
         key=ATTR_DISCHARGE_STOP_SOC_PERCENT_OFFGRID,
         name="Discharge Stop SOC Percentage (Off-grid)",
+        entity_category=EntityCategory.CONFIG,
         device_class=NumberDeviceClass.POWER_FACTOR,
         native_unit_of_measurement=PERCENTAGE,
         native_min_value=10,
@@ -90,6 +95,7 @@ STORAGE_NUMBER_TYPES: tuple[GrowattNumberEntityDescription, ...] = (
     GrowattNumberEntityDescription(
         key=ATTR_DISCHARGE_STOP_SOC_PERCENT_ONGRID,
         name="Discharge Stop SOC Percentage (On-grid)",
+        entity_category=EntityCategory.CONFIG,
         device_class=NumberDeviceClass.POWER_FACTOR,
         native_unit_of_measurement=PERCENTAGE,
         native_min_value=10,
@@ -101,6 +107,7 @@ STORAGE_NUMBER_TYPES: tuple[GrowattNumberEntityDescription, ...] = (
     GrowattNumberEntityDescription(
         key=ATTR_CHARGE_STOP_SOC_PERCENT,
         name="Charge Stop SOC Percentage",
+        entity_category=EntityCategory.CONFIG,
         device_class=NumberDeviceClass.POWER_FACTOR,
         native_unit_of_measurement=PERCENTAGE,
         native_min_value=11,
