@@ -7,6 +7,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.const import (
+    EntityCategory,
     UnitOfElectricCurrent,
     UnitOfElectricPotential,
     UnitOfEnergy,
@@ -111,6 +112,7 @@ INVERTER_OUTPUT_POWER_LIMIT = GrowattNumberEntityDescription(
 INVERTER_EXPORT_POWER_LIMIT_ENABLE = GrowattSelectEntityDescription(
     key=ATTR_EXPORT_POWER_LIMIT_ENABLE,
     name="Export Power Limit Enable",
+    entity_category=EntityCategory.CONFIG,
     options=list(EXPORT_POWER_LIMIT_ENABLE_CODES.values()),
     icon="mdi:transmission-tower-import",
 )
@@ -118,6 +120,7 @@ INVERTER_EXPORT_POWER_LIMIT_ENABLE = GrowattSelectEntityDescription(
 INVERTER_EXPORT_POWER_LIMIT_RATE = GrowattNumberEntityDescription(
     key=ATTR_EXPORT_POWER_LIMIT_RATE,
     name="Export Power Limit Rate",
+    entity_category=EntityCategory.CONFIG,
     device_class=NumberDeviceClass.POWER_FACTOR,
     native_unit_of_measurement=PERCENTAGE,
     native_min_value=-100,
