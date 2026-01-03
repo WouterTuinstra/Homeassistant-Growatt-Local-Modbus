@@ -95,7 +95,10 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
 
     @property
     def unique_id(self) -> Optional[str]:
-        return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}"
+        if self.entity_description.charge_discharge_period_enable:
+            return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}_enable"
+        else:
+            return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}"
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         if self.entity_description.charge_discharge_period_enable:

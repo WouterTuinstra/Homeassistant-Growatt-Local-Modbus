@@ -81,7 +81,12 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, TimeEntity):
 
     @property
     def unique_id(self) -> Optional[str]:
-        return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}"
+        if self.entity_description.charge_discharge_period_starttime:
+            return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}_starttime"
+        elif self.entity_description.charge_discharge_period_endtime:
+            return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}_endtime"
+        else:
+            return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}"
 
     async def async_added_to_hass(self) -> None:
         """Call when entity is about to be added to Home Assistant."""

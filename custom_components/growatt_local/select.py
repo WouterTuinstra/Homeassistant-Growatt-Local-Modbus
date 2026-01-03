@@ -89,7 +89,10 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SelectEntity):
 
     @property
     def unique_id(self) -> Optional[str]:
-        return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}"
+        if self.entity_description.charge_discharge_period_mode:
+            return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}_mode"
+        else:
+            return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}"
 
     async def async_added_to_hass(self) -> None:
         """Call when entity is about to be added to Home Assistant."""
@@ -109,7 +112,7 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SelectEntity):
         if (state := self.coordinator.data.get(self.entity_description.key)) is None:
             return
 
-        if self.entity_description.charge_discharge_period_select:
+        if self.entity_description.charge_discharge_period_mode:
             self.charge_discharge_period_state = state
             self._attr_current_option = state.mode.value
         else:
@@ -119,7 +122,7 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SelectEntity):
         self.async_write_ha_state()
 
     async def async_select_option(self, option: str) -> None:
-        if self.entity_description.charge_discharge_period_select:
+        if self.entity_description.charge_discharge_period_mode:
             if option not in list(ChargeDischargeMode):
                 return
             self.charge_discharge_period_state.mode = ChargeDischargeMode(option)

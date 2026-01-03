@@ -147,7 +147,7 @@ STORAGE_SELECT_TYPES: tuple[GrowattSelectEntityDescription, ...] = (
         options=list(ChargeDischargeMode),
         icon="mdi:battery-clock",
         value_to_state_dict={},
-        charge_discharge_period_select= True,
+        charge_discharge_period_mode= True,
     ),
     GrowattSelectEntityDescription(
         key=ATTR_CHARGE_DISCHARGE_PERIOD_2,
@@ -156,7 +156,7 @@ STORAGE_SELECT_TYPES: tuple[GrowattSelectEntityDescription, ...] = (
         options=list(ChargeDischargeMode),
         icon="mdi:battery-clock",
         value_to_state_dict={},
-        charge_discharge_period_select= True,
+        charge_discharge_period_mode= True,
     ),
     GrowattSelectEntityDescription(
         key=ATTR_CHARGE_DISCHARGE_PERIOD_3,
@@ -165,7 +165,7 @@ STORAGE_SELECT_TYPES: tuple[GrowattSelectEntityDescription, ...] = (
         options=list(ChargeDischargeMode),
         icon="mdi:battery-clock",
         value_to_state_dict={},
-        charge_discharge_period_select= True,
+        charge_discharge_period_mode= True,
     ),
     GrowattSelectEntityDescription(
         key=ATTR_CHARGE_DISCHARGE_PERIOD_4,
@@ -174,7 +174,7 @@ STORAGE_SELECT_TYPES: tuple[GrowattSelectEntityDescription, ...] = (
         options=list(ChargeDischargeMode),
         icon="mdi:battery-clock",
         value_to_state_dict={},
-        charge_discharge_period_select= True,
+        charge_discharge_period_mode= True,
     ),
     GrowattSelectEntityDescription(
         key=ATTR_CHARGE_DISCHARGE_PERIOD_5,
@@ -183,7 +183,7 @@ STORAGE_SELECT_TYPES: tuple[GrowattSelectEntityDescription, ...] = (
         options=list(ChargeDischargeMode),
         icon="mdi:battery-clock",
         value_to_state_dict={},
-        charge_discharge_period_select= True,
+        charge_discharge_period_mode= True,
     ),
     GrowattSelectEntityDescription(
         key=ATTR_CHARGE_DISCHARGE_PERIOD_6,
@@ -192,7 +192,7 @@ STORAGE_SELECT_TYPES: tuple[GrowattSelectEntityDescription, ...] = (
         options=list(ChargeDischargeMode),
         icon="mdi:battery-clock",
         value_to_state_dict={},
-        charge_discharge_period_select= True,
+        charge_discharge_period_mode= True,
     ),
     GrowattSelectEntityDescription(
         key=ATTR_CHARGE_DISCHARGE_PERIOD_7,
@@ -201,7 +201,7 @@ STORAGE_SELECT_TYPES: tuple[GrowattSelectEntityDescription, ...] = (
         options=list(ChargeDischargeMode),
         icon="mdi:battery-clock",
         value_to_state_dict={},
-        charge_discharge_period_select= True,
+        charge_discharge_period_mode= True,
     ),
     GrowattSelectEntityDescription(
         key=ATTR_CHARGE_DISCHARGE_PERIOD_8,
@@ -210,7 +210,7 @@ STORAGE_SELECT_TYPES: tuple[GrowattSelectEntityDescription, ...] = (
         options=list(ChargeDischargeMode),
         icon="mdi:battery-clock",
         value_to_state_dict={},
-        charge_discharge_period_select= True,
+        charge_discharge_period_mode= True,
     ),
     GrowattSelectEntityDescription(
         key=ATTR_CHARGE_DISCHARGE_PERIOD_9,
@@ -219,7 +219,7 @@ STORAGE_SELECT_TYPES: tuple[GrowattSelectEntityDescription, ...] = (
         options=list(ChargeDischargeMode),
         icon="mdi:battery-clock",
         value_to_state_dict={},
-        charge_discharge_period_select= True,
+        charge_discharge_period_mode= True,
     ),
 )
 
