@@ -442,12 +442,15 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
             obj.register: obj for obj in INPUT_REGISTERS_OFFGRID
         }
     elif GrowattDeviceType == DeviceTypes.INVERTER_120:
-        max_length = MAXIMUM_DATA_LENGTH_120
+        max_length = min(MAXIMUM_DATA_LENGTH_120, MAXIMUM_DATA_LENGTH_METER)
         holding_register = {
             obj.register: obj for obj in HOLDING_REGISTERS_120
         }
         input_register = {
             obj.register: obj for obj in INPUT_REGISTERS_120
+        }
+        meter_register = {
+            obj.register: obj for obj in METER_REGISTERS_138
         }
     elif GrowattDeviceType == DeviceTypes.HYBRID_120:
         max_length = min(MAXIMUM_DATA_LENGTH_120, MAXIMUM_DATA_LENGTH_METER)
