@@ -15,6 +15,7 @@ from .switch_entity_description import GrowattSwitchEntityDescription
 
 from ..API.device_type.base import (
     ATTR_AC_CHARGE_ENABLED,
+    ATTR_PRIORITY_MODE,
     ATTR_SOC_PERCENTAGE,
     ATTR_DISCHARGE_POWER,
     ATTR_CHARGE_POWER,
@@ -32,6 +33,9 @@ from ..API.device_type.base import (
     ATTR_PAC_TO_GRID_TOTAL,
     ATTR_PAC_TO_USER_TOTAL,
 )
+from ..API.device_type.storage_120 import (
+    STORAGE_PRIORITY_MODE_CODES,
+)
 
 STORAGE_SWITCH_TYPES: tuple[GrowattSwitchEntityDescription, ...] = (
     GrowattSwitchEntityDescription(
@@ -44,6 +48,12 @@ STORAGE_SWITCH_TYPES: tuple[GrowattSwitchEntityDescription, ...] = (
 
 
 STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
+    GrowattSensorEntityDescription(
+        key=ATTR_PRIORITY_MODE,
+        name="Priority Mode",
+        device_class=SensorDeviceClass.ENUM,
+        options=list(STORAGE_PRIORITY_MODE_CODES.values()),
+    ),
     GrowattSensorEntityDescription(
         key=ATTR_SOC_PERCENTAGE,
         name="SOC",

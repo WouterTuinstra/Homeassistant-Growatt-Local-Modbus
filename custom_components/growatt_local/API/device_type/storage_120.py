@@ -32,10 +32,16 @@ from .base import (
     ATTR_SERIAL_NUMBER,
     ATTR_PAC_TO_GRID_TOTAL,
     ATTR_PAC_TO_USER_TOTAL,
+    ATTR_PRIORITY_MODE,
 )
 
 MAXIMUM_DATA_LENGTH = 100
 
+STORAGE_PRIORITY_MODE_CODES = {
+    0: "Load First",
+    1: "Battery First",
+    2: "Grid First",
+}
 
 def model(registers) -> str:
     mo = (registers[0] << 16) + registers[1]
@@ -50,6 +56,8 @@ def model(registers) -> str:
         (mo & 0x0000000F)
     )
 
+def process_priority_mode(value) -> str:
+    return STORAGE_PRIORITY_MODE_CODES.get(value, "Invalid")
 
 SERIAL_NUMBER_REGISTER = GrowattDeviceRegisters(
     name=ATTR_SERIAL_NUMBER, register=3001, value_type=str, length=15
@@ -105,6 +113,9 @@ STORAGE_HOLDING_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
 
 STORAGE_INPUT_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(
+        name=ATTR_PRIORITY_MODE, register=118, value_type=custom_function, function=process_priority_mode
+    ),
+    GrowattDeviceRegisters(
         name=ATTR_SOC_PERCENTAGE, register=1014, value_type=int
     ),
     GrowattDeviceRegisters(
@@ -146,6 +157,9 @@ STORAGE_INPUT_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
 )
 
 STORAGE_INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
+    GrowattDeviceRegisters(
+        name=ATTR_PRIORITY_MODE, register=3144, value_type=custom_function, function=process_priority_mode
+    ),
     GrowattDeviceRegisters(
         name=ATTR_SOC_PERCENTAGE, register=3171, value_type=int
     ),
@@ -189,4 +203,3 @@ STORAGE_INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_CHARGE_ENERGY_TOTAL, register=3131, value_type=float, length=2
     ),
 )
-

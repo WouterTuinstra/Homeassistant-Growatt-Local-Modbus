@@ -115,6 +115,8 @@ ATTR_OUTPUT_PERCENTAGE = "real_output_power_percent"  # %
 
 
 # Attribute names for values in the input register Storage
+ATTR_PRIORITY_MODE = "priority_mode"
+
 ATTR_SOC_PERCENTAGE = "soc"  # %
 ATTR_DISCHARGE_POWER = "discharge_power"  # W
 ATTR_CHARGE_POWER = "charge_power"  # W
