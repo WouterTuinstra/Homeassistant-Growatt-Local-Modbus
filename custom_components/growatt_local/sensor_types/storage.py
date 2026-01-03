@@ -128,10 +128,6 @@ STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         midnight_reset=True
     ),
     GrowattSensorEntityDescription(
-        key=ATTR_AC_CHARGE_ENABLED,
-        name="AC Charge Enabled"
-    ),
-    GrowattSensorEntityDescription(
         key=ATTR_DISCHARGE_ENERGY_TODAY,
         name="Battery Discharged (Today)",
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,

@@ -12,6 +12,7 @@ from .base import (
     ATTR_OUTPUT_POWER_LIMIT,
     ATTR_EXPORT_POWER_LIMIT_ENABLE,
     ATTR_EXPORT_POWER_LIMIT_RATE,
+    ATTR_AC_CHARGE_ENABLED,
     ATTR_INVERTER_MODEL,
     ATTR_MODBUS_VERSION,
     ATTR_SOC_PERCENTAGE,
@@ -28,7 +29,6 @@ from .base import (
     ATTR_DISCHARGE_ENERGY_TOTAL,
     ATTR_CHARGE_ENERGY_TODAY,
     ATTR_CHARGE_ENERGY_TOTAL,
-    ATTR_AC_CHARGE_ENABLED,
     ATTR_SERIAL_NUMBER,
     ATTR_PAC_TO_GRID_TOTAL,
     ATTR_PAC_TO_USER_TOTAL,
@@ -92,10 +92,46 @@ STORAGE_HOLDING_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
         scale=100
     ),
     GrowattDeviceRegisters(
-        name=ATTR_AC_CHARGE_ENABLED,
-        register=3049,
-        value_type=int,
-        length=1
+        name=ATTR_EXPORT_POWER_LIMIT_ENABLE,
+        register=122,
+        value_type=custom_function,
+        function=process_export_power_limit_enable
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_EXPORT_POWER_LIMIT_RATE,
+        register=123,
+        value_type=custom_function,
+        function=process_export_power_limit_rate
+    ),
+)
+
+STORAGE_HOLDING_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
+    GrowattDeviceRegisters(
+        name=ATTR_INVERTER_ENABLED,
+        register=0,
+        value_type=int
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_OUTPUT_POWER_LIMIT,
+        register=3,
+        value_type=int
+    ),
+    FIRMWARE_REGISTER,
+    SERIAL_NUMBER_REGISTER,
+    GrowattDeviceRegisters(
+        name=ATTR_INVERTER_MODEL,
+        register=28,
+        value_type=custom_function,
+        length=2,
+        function=model
+    ),
+    DEVICE_TYPE_CODE_REGISTER,
+    NUMBER_OF_TRACKERS_AND_PHASES_REGISTER,
+    GrowattDeviceRegisters(
+        name=ATTR_MODBUS_VERSION,
+        register=88,
+        value_type=float,
+        scale=100
     ),
     GrowattDeviceRegisters(
         name=ATTR_EXPORT_POWER_LIMIT_ENABLE,
@@ -108,6 +144,9 @@ STORAGE_HOLDING_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
         register=123,
         value_type=custom_function,
         function=process_export_power_limit_rate
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_AC_CHARGE_ENABLED, register=3049, value_type=int
     ),
 )
 
