@@ -1,6 +1,7 @@
 """Growatt Sensor definitions for the Inverter type."""
 from __future__ import annotations
 
+from homeassistant.components.number import NumberDeviceClass, NumberMode
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorStateClass,
@@ -10,11 +11,17 @@ from homeassistant.const import (
     UnitOfPower,
     PERCENTAGE,
 )
+from .number_entity_description import GrowattNumberEntityDescription
 from .sensor_entity_description import GrowattSensorEntityDescription
 from .switch_entity_description import GrowattSwitchEntityDescription
 
 from ..API.device_type.base import (
     ATTR_AC_CHARGE_ENABLED,
+    ATTR_DISCHARGE_POWER_LIMIT_RATE,
+    ATTR_CHARGE_POWER_LIMIT_RATE,
+    ATTR_DISCHARGE_STOP_SOC_PERCENT_OFFGRID,
+    ATTR_DISCHARGE_STOP_SOC_PERCENT_ONGRID,
+    ATTR_CHARGE_STOP_SOC_PERCENT,
     ATTR_PRIORITY_MODE,
     ATTR_SOC_PERCENTAGE,
     ATTR_DISCHARGE_POWER,
@@ -46,6 +53,63 @@ STORAGE_SWITCH_TYPES: tuple[GrowattSwitchEntityDescription, ...] = (
     ),
 )
 
+STORAGE_NUMBER_TYPES: tuple[GrowattNumberEntityDescription, ...] = (
+    GrowattNumberEntityDescription(
+        key=ATTR_DISCHARGE_POWER_LIMIT_RATE,
+        name="Discharge Power Limit Rate",
+        device_class=NumberDeviceClass.POWER_FACTOR,
+        native_unit_of_measurement=PERCENTAGE,
+        native_min_value=0,
+        native_max_value=100,
+        native_step=1,
+        mode=NumberMode.AUTO,
+        icon="mdi:battery-arrow-down",
+    ),
+    GrowattNumberEntityDescription(
+        key=ATTR_CHARGE_POWER_LIMIT_RATE,
+        name="Charge Power Limit Rate",
+        device_class=NumberDeviceClass.POWER_FACTOR,
+        native_unit_of_measurement=PERCENTAGE,
+        native_min_value=0,
+        native_max_value=100,
+        native_step=1,
+        mode=NumberMode.AUTO,
+        icon="mdi:battery-arrow-up",
+    ),
+    GrowattNumberEntityDescription(
+        key=ATTR_DISCHARGE_STOP_SOC_PERCENT_OFFGRID,
+        name="Discharge Stop SOC Percentage (Off-grid)",
+        device_class=NumberDeviceClass.POWER_FACTOR,
+        native_unit_of_measurement=PERCENTAGE,
+        native_min_value=10,
+        native_max_value=100,
+        native_step=1,
+        mode=NumberMode.BOX,
+        icon="mdi:battery-negative",
+    ),
+    GrowattNumberEntityDescription(
+        key=ATTR_DISCHARGE_STOP_SOC_PERCENT_ONGRID,
+        name="Discharge Stop SOC Percentage (On-grid)",
+        device_class=NumberDeviceClass.POWER_FACTOR,
+        native_unit_of_measurement=PERCENTAGE,
+        native_min_value=10,
+        native_max_value=100,
+        native_step=1,
+        mode=NumberMode.BOX,
+        icon="mdi:battery-negative",
+    ),
+    GrowattNumberEntityDescription(
+        key=ATTR_CHARGE_STOP_SOC_PERCENT,
+        name="Charge Stop SOC Percentage",
+        device_class=NumberDeviceClass.POWER_FACTOR,
+        native_unit_of_measurement=PERCENTAGE,
+        native_min_value=11,
+        native_max_value=100,
+        native_step=1,
+        mode=NumberMode.BOX,
+        icon="mdi:battery-positive",
+    ),
+)
 
 STORAGE_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
     GrowattSensorEntityDescription(

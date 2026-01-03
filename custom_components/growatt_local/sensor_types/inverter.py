@@ -97,17 +97,6 @@ INVERTER_POWER_SWITCH: GrowattSwitchEntityDescription = GrowattSwitchEntityDescr
     mask=0x1,
 )
 
-INVERTER_OUTPUT_POWER_LIMIT = GrowattNumberEntityDescription(
-    key=ATTR_OUTPUT_POWER_LIMIT,
-    name="Output Power Limit",
-    device_class=NumberDeviceClass.POWER_FACTOR,
-    native_unit_of_measurement=PERCENTAGE,
-    native_min_value=0,
-    native_max_value=100,
-    native_step=1,
-    icon="mdi:car-speed-limiter",
-)
-
 INVERTER_EXPORT_POWER_LIMIT_ENABLE = GrowattSelectEntityDescription(
     key=ATTR_EXPORT_POWER_LIMIT_ENABLE,
     name="Export Power Limit Enable",
@@ -125,6 +114,20 @@ INVERTER_EXPORT_POWER_LIMIT_RATE = GrowattNumberEntityDescription(
     native_step=0.1,
     mode=NumberMode.BOX,
     icon="mdi:transmission-tower-import",
+)
+
+INVERTER_NUMBER_TYPES: tuple[GrowattNumberEntityDescription, ...] = (
+    GrowattNumberEntityDescription(
+        key=ATTR_OUTPUT_POWER_LIMIT,
+        name="Output Power Limit",
+        device_class=NumberDeviceClass.POWER_FACTOR,
+        native_unit_of_measurement=PERCENTAGE,
+        native_min_value=0,
+        native_max_value=100,
+        native_step=1,
+        mode=NumberMode.AUTO,
+        icon="mdi:car-speed-limiter",
+    ),
 )
 
 INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
