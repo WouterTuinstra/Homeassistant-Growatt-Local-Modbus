@@ -160,8 +160,8 @@ class GrowattModbusBase:
     async def write_charge_discharge_period_registers(self, start_address, value: ChargeDischargePeriodValue, device_id) -> None:
         value_processed = create_charge_discharge_period(value)
         _LOGGER.debug("Charge/discharge period processed value: %s", value_processed)
-        payload_1 = ModbusBaseClient.convert_to_registers(value_processed[0], ModbusBaseClient.DATATYPE.INT16)
-        payload_2 = ModbusBaseClient.convert_to_registers(value_processed[1], ModbusBaseClient.DATATYPE.INT16)
+        payload_1 = ModbusBaseClient.convert_to_registers(value_processed[0], ModbusBaseClient.DATATYPE.UINT16)
+        payload_2 = ModbusBaseClient.convert_to_registers(value_processed[1], ModbusBaseClient.DATATYPE.UINT16)
         _LOGGER.debug("Charge/discharge period payloads: %s %s", payload_1, payload_2)
         await self.client.write_register(start_address, payload_1[0], device_id=device_id)
         await self.client.write_register(start_address + 1, payload_2[0], device_id=device_id)
@@ -369,7 +369,7 @@ class GrowattDevice:
         return data
 
     async def write_charge_discharge_period_registers(self, start_address, value: ChargeDischargePeriodValue) -> None:
-        _LOGGER.info("Write charge/discharge period register %d with payload %d and unit %d", start_address, value, self.device_id)
+        _LOGGER.info("Write charge/discharge period register %d with payload %s and unit %d", start_address, value, self.device_id)
         await self.modbus.write_charge_discharge_period_registers(start_address, value, self.device_id)
         _LOGGER.info("Write charge/discharge period response done")
 
