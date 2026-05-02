@@ -49,13 +49,14 @@
       },
       "device": {
         "title": "Define your Growatt device",
-        "description": "Based on the configration the following values are preset.\nAdditioanlly detected the following device type: {device_type}",
+        "description": "Based on the configration the following values are preset.\nAdditionally detected the following device type: {device_type}",
         "data": {
           "name": "Device name",
           "model": "Inverter model name",
           "type": "Device type",
           "dc_string": "Number of Solar strings",
           "ac_phases": "Number of AC phases",
+          "meter_connected": "Is a kWh meter connected?",
           "scan_interval": "General update interval",
           "power_scan_enabled": "Enable power update interval",
           "power_scan_interval": "Power update interval",
@@ -79,6 +80,7 @@
           "type": "Device type",
           "dc_string": "Number of Solar strings",
           "ac_phases": "Number of AC phases",
+          "meter_connected": "Is a kWh meter connected?",
           "scan_interval": "General update interval",
           "power_scan_enabled": "Enable power update interval",
           "power_scan_interval": "Power update interval",

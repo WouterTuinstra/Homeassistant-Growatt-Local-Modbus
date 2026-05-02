@@ -1,3 +1,4 @@
+import ctypes
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Callable
@@ -14,8 +15,26 @@ ATTR_MODBUS_VERSION = "modbus version"
 
 # Attribute names for values in the holding register
 ATTR_INVERTER_ENABLED = "inverter_enabled"
+ATTR_OUTPUT_POWER_LIMIT = "output_power_limit"
+ATTR_EXPORT_POWER_LIMIT_ENABLE = "export_power_limit_enable"
+ATTR_EXPORT_POWER_LIMIT_RATE = "export_power_limit_rate"
+
+# Attribute names for values in the holding register Storage
+ATTR_DISCHARGE_POWER_LIMIT_RATE = "discharge_power_limit_rate"
+ATTR_CHARGE_POWER_LIMIT_RATE = "charge_power_limit_rate"
+ATTR_DISCHARGE_STOP_SOC_PERCENT_OFFGRID = "discharge_stop_soc_percent_offgrid"
+ATTR_DISCHARGE_STOP_SOC_PERCENT_ONGRID = "discharge_stop_soc_percent_ongrid"
+ATTR_CHARGE_STOP_SOC_PERCENT = "charge_stop_soc_percent"
 ATTR_AC_CHARGE_ENABLED = "ac_charge_enabled"
-ATTR_OUTPUT_POWER_LIMIT = "output_power_limit" 
+ATTR_CHARGE_DISCHARGE_PERIOD_1 = "charge_discharge_period_1"
+ATTR_CHARGE_DISCHARGE_PERIOD_2 = "charge_discharge_period_2"
+ATTR_CHARGE_DISCHARGE_PERIOD_3 = "charge_discharge_period_3"
+ATTR_CHARGE_DISCHARGE_PERIOD_4 = "charge_discharge_period_4"
+ATTR_CHARGE_DISCHARGE_PERIOD_5 = "charge_discharge_period_5"
+ATTR_CHARGE_DISCHARGE_PERIOD_6 = "charge_discharge_period_6"
+ATTR_CHARGE_DISCHARGE_PERIOD_7 = "charge_discharge_period_7"
+ATTR_CHARGE_DISCHARGE_PERIOD_8 = "charge_discharge_period_8"
+ATTR_CHARGE_DISCHARGE_PERIOD_9 = "charge_discharge_period_9"
 
 # Attribute names for values in the input register
 ATTR_STATUS = "status"
@@ -112,6 +131,8 @@ ATTR_OUTPUT_PERCENTAGE = "real_output_power_percent"  # %
 
 
 # Attribute names for values in the input register Storage
+ATTR_PRIORITY_MODE = "priority_mode"
+
 ATTR_SOC_PERCENTAGE = "soc"  # %
 ATTR_DISCHARGE_POWER = "discharge_power"  # W
 ATTR_CHARGE_POWER = "charge_power"  # W
@@ -159,6 +180,9 @@ ATTR_AC_LOAD_TODAY = "ac_load_energy_today"  # kWh
 ATTR_AC_LOAD_TOTAL = "ac_load_energy_total"  # kWh
 
 ATTR_BATTERY_POWER = "battery_power"  # W
+
+# Attribute names for values in the meter register
+ATTR_METER_TOTAL_ACTIVE_POWER = "meter_total_active_power"  # W
 
 class custom_function(type):
     """
@@ -328,3 +352,17 @@ def inverter_status(value: dict[str, Any]) -> str | None:
                 return f"{status_value.name} - code: {fault}"
 
     return status_value.name
+
+EXPORT_POWER_LIMIT_ENABLE_CODES = {
+    0x0: "Disable",
+    0x1: "Enable using RS485 meter",
+    0x2: "Enable using RS232 meter",
+    0x3: "Enable using CT meter",
+}
+
+def process_export_power_limit_enable(value) -> str:
+    return EXPORT_POWER_LIMIT_ENABLE_CODES.get(value, EXPORT_POWER_LIMIT_ENABLE_CODES[0])
+
+def process_export_power_limit_rate(value) -> float:
+    signed_value = ctypes.c_int16(value).value
+    return round(float(signed_value) / 10, 3)

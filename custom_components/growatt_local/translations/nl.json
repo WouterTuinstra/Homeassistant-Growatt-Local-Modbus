@@ -56,6 +56,7 @@
           "type": "Apparaat type",
           "dc_string": "Aantal PV strings",
           "ac_phases": "Aantal grid fasen",
+          "meter_connected": "Is een kWh meter aangesloten?",
           "scan_interval": "General update interval",
           "power_scan_enabled": "Enable seperate power update interval",
           "power_scan_interval": "Power update interval",
@@ -79,6 +80,7 @@
           "type": "Apparaat type",
           "dc_string": "Aantal PV strings",
           "ac_phases": "Aantal grid fasen",
+          "meter_connected": "Is een kWh meter aangesloten?",
           "scan_interval": "General update interval",
           "power_scan_enabled": "Enable seperate power update interval",
           "power_scan_interval": "Power update interval"

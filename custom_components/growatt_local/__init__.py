@@ -33,6 +33,7 @@ from homeassistant.helpers.update_coordinator import (
 )
 from homeassistant.util import dt as dt_util
 from .API.device_type.base import GrowattDeviceRegisters
+from .API.device_type.storage_120 import ChargeDischargePeriodValue
 from .API.utils import RegisterKeys
 from .API.const import DeviceTypes
 from .API.growatt import GrowattDevice, GrowattSerial, GrowattNetwork
@@ -48,6 +49,7 @@ from .const import (
     CONF_BYTESIZE,
     CONF_PARITY,
     CONF_STOPBITS,
+    CONF_METER_CONNECTED,
     CONF_POWER_SCAN_ENABLED,
     CONF_POWER_SCAN_INTERVAL,
     CONF_INVERTER_POWER_CONTROL,
@@ -169,9 +171,13 @@ async def async_migrate_entry(hass, config_entry: ConfigEntry):
         if config_entry.minor_version < 4:
             # Added Inverter power control in naming options of config entity
             new_options[CONF_INVERTER_POWER_CONTROL] = False
+            
+        if config_entry.minor_version < 5:
+            # Added Meter Connected option in naming options of config entity
+            new_options[CONF_METER_CONNECTED] = False
 
 
-        hass.config_entries.async_update_entry(config_entry, data=new_data, options=new_options, minor_version=4, version=1)
+        hass.config_entries.async_update_entry(config_entry, data=new_data, options=new_options, minor_version=5, version=1)
 
     _LOGGER.debug("Migration to configuration version %s.%s successful", config_entry.version, config_entry.minor_version)
 
@@ -366,8 +372,16 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
     def get_holding_register_by_name(self, name: str) -> GrowattDeviceRegisters | None:
         return self.growatt_api.get_holding_register_by_name(name)
 
+    def get_meter_register_by_name(self, name: str) -> GrowattDeviceRegisters | None:
+        return self.growatt_api.get_meter_register_by_name(name)
+
     async def write_register(self, key: str, payload):
         register = self.growatt_api.get_holding_register_by_name(key)
         #TODO: better logging 
         _LOGGER.debug("Device type key %s and register %d", register.name, register.register)
         await self.growatt_api.write_register(register.register, payload)
+
+    async def write_charge_discharge_period_registers(self, key: str, value: ChargeDischargePeriodValue) -> None:
+        register = self.growatt_api.get_holding_register_by_name(key)
+        _LOGGER.debug("Write Device type key %s and register %d and value %s", register.name, register.register, value)
+        await self.growatt_api.write_charge_discharge_period_registers(register.register, value)
