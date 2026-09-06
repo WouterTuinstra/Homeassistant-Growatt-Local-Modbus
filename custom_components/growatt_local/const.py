@@ -40,4 +40,13 @@ DEFAULT_NAME = "Growatt Modbus"
 
 DOMAIN = "growatt_local"
 
+
+def inverter_power_control_enabled(config_entry) -> bool:
+    """Return the effective power-control setting for a config entry."""
+
+    return config_entry.options.get(
+        CONF_INVERTER_POWER_CONTROL,
+        config_entry.data.get(CONF_INVERTER_POWER_CONTROL, False),
+    )
+
 PLATFORMS = [Platform.SENSOR, Platform.SWITCH, Platform.NUMBER]

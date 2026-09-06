@@ -1,4 +1,9 @@
-"""Device defaults for a Growatt Inverter."""
+"""Device defaults for TL-X/TL-XH (MIN) inverters.
+
+Per Growatt Modbus protocol v1.24 the register ranges are:
+- FC03: ``0–124`` and ``3000–3124`` (``3125–3249`` for TL-XH US)
+- FC04: ``3000–3124``, ``3125–3249`` and ``3250–3374`` (TL-XH)
+"""
 
 from .base import (
     GrowattDeviceRegisters,
@@ -81,7 +86,12 @@ from .base import (
     ATTR_P_BUS_VOLTAGE,
     ATTR_N_BUS_VOLTAGE,
     ATTR_OUTPUT_PERCENTAGE,
+    ATTR_ENERGY_TO_USER_TODAY,
+    ATTR_ENERGY_TO_USER_TOTAL,
+    ATTR_ENERGY_TO_GRID_TODAY,
+    ATTR_ENERGY_TO_GRID_TOTAL,
 )
+from .storage_120 import STORAGE_INPUT_REGISTERS_120_TL_XH
 
 
 
@@ -105,12 +115,14 @@ HOLDING_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(
         name=ATTR_INVERTER_ENABLED,
         register=0,
-        value_type=int
+        value_type=int,
     ),
     GrowattDeviceRegisters(
         name=ATTR_OUTPUT_POWER_LIMIT,
         register=3,
-        value_type=int
+        value_type=int,
+        scale=1,
+        read_write=True,
     ),
     FIRMWARE_REGISTER,
     SERIAL_NUMBER_REGISTER,
@@ -314,6 +326,7 @@ INPUT_REGISTERS_120: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(
         name=ATTR_WARNING_CODE, register=110, value_type=int, length=2
     ),
+
     GrowattDeviceRegisters(
         name=ATTR_OUTPUT_REACTIVE_POWER, register=234, value_type=float, length=2,
     ),
@@ -365,9 +378,15 @@ INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
     GrowattDeviceRegisters(
         name=ATTR_INPUT_4_POWER, register=3017, value_type=float, length=2
     ),
+
+    GrowattDeviceRegisters(
+        name=ATTR_OUTPUT_REACTIVE_POWER, register=3021, value_type=float, length=2,
+    ),
+
     GrowattDeviceRegisters(
         name=ATTR_OUTPUT_POWER, register=3023, value_type=float, length=2
     ),
+
     GrowattDeviceRegisters(
         name=ATTR_GRID_FREQUENCY, register=3025, value_type=float, scale=100
     ),
@@ -429,11 +448,18 @@ INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_INPUT_3_ENERGY_TOTAL, register=3065, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_INPUT_4_ENERGY_TODAY, register=71, value_type=float, length=2
+        name=ATTR_ENERGY_TO_USER_TODAY, register=3067, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_INPUT_4_ENERGY_TOTAL, register=73, value_type=float, length=2
+        name=ATTR_ENERGY_TO_USER_TOTAL, register=3069, value_type=float, length=2
     ),
+    GrowattDeviceRegisters(
+        name=ATTR_ENERGY_TO_GRID_TODAY, register=3071, value_type=float, length=2
+    ),
+    GrowattDeviceRegisters(
+        name=ATTR_ENERGY_TO_GRID_TOTAL, register=3073, value_type=float, length=2
+    ),
+
     GrowattDeviceRegisters(name=ATTR_DERATING_MODE, register=3086, value_type=int),
     GrowattDeviceRegisters(name=ATTR_TEMPERATURE, register=3093, value_type=float),
     GrowattDeviceRegisters(name=ATTR_IPM_TEMPERATURE, register=3094, value_type=float),
@@ -447,3 +473,14 @@ INPUT_REGISTERS_120_TL_XH: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_WARNING_CODE, register=3110, value_type=int, length=2
     ),
 )
+
+# Reuse the TL-XH storage register block for hybrid telemetry (battery energy,
+# power flow and BMS data). Avoid duplicates where the base inverter list
+# already provides a mapping.
+_EXISTING_TL_XH_REGS = {register.register for register in INPUT_REGISTERS_120_TL_XH}
+_STORAGE_EXTENSIONS = tuple(
+    register
+    for register in STORAGE_INPUT_REGISTERS_120_TL_XH
+    if register.register not in _EXISTING_TL_XH_REGS
+)
+INPUT_REGISTERS_120_TL_XH = INPUT_REGISTERS_120_TL_XH + _STORAGE_EXTENSIONS

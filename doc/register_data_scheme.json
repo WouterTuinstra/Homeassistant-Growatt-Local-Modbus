@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Growatt Register Data Scheme",
+  "type": "object",
+  "required": ["meta", "inverter_families", "blocks", "register_values"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["version", "generated_at", "generator"],
+      "properties": {
+        "version": { "type": "string" },
+        "generated_at": { "type": "string", "format": "date-time" },
+        "generator": { "type": "string" },
+        "source_files": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": { "type": "string" },
+              "sha256": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+    "inverter_families": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["description"],
+        "properties": {
+          "label":          { "type": "string" },
+          "description":    { "type": "string" },
+          "aliases":        { "type": "array", "items": { "type": "string" } },
+          "blocks":         { "type": "array", "items": { "type": "string" } },
+          "holding_blocks": { "type": "array", "items": { "type": "string" } },
+          "input_blocks":   { "type": "array", "items": { "type": "string" } },
+          "notes":          { "type": "string" }
+        }
+      }
+    },
+
+    "blocks": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["reg_type", "register", "length"],
+        "properties": {
+          "reg_type": { "enum": ["holding", "input"] },
+          "label":         { "type": "string" },
+          "register":      { "type": "integer", "minimum": 0 },
+          "length":        { "type": "integer", "minimum": 1 },
+          "description":    { "type": "string" },
+          "supported_families": { "type": "array", "items": { "type": "string" } },
+          "catalog_id":    { "type": "string" },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["label", "register", "length"],
+              "properties": {
+                "label":       { "type": "string" },
+                "register":    { "type": "integer" },
+                "length":      { "type": "integer", "minimum": 1 },
+                "description": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+
+
+    "catalog": {
+      "type": "object",
+      "properties": {
+        "version": { "type": "string" },
+        "path":    { "type": "string" },
+        "sha256":  { "type": "string" }
+      }
+    },
+
+    "register_values": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/RegisterValue" }
+    }
+  },
+
+  "$defs": {
+    "RegisterValue": {
+      "type": "object",
+      "required": ["id", "label", "description", "register", "length", "reg_type", "unit", "writable", "scale"],
+      "properties": {
+        "id":          { "type": "string" },
+        "label":       { "type": "string" },
+        "description": { "type": "string" },
+        "register":    { "type": "integer", "minimum": 0 },
+        "length":      { "type": "integer", "minimum": 1 },
+        "reg_type":    { "enum": ["holding", "input"] },
+        "unit":        { "type": "string" },
+        "writable":    { "type": "boolean" },
+        "scale":       { "type": ["number", "string", "null"] },
+        "value_encoding": { "enum": ["numeric", "enum", "bitfield", "ascii", "raw", "special"] },
+        "value_range": {
+          "type": "object",
+          "properties": {
+            "min": { "type": ["number", "integer", "string", "null"] },
+            "max": { "type": ["number", "integer", "string", "null"] }
+          }
+        },
+        "enum_values": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["value"],
+            "properties": {
+              "value":       { "type": ["integer", "string"] },
+              "label":       { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "bitfields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["bit"],
+            "properties": {
+              "bit":         { "type": "integer" },
+              "label":       { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "decoder":     { "type": "string" },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "source_strings": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

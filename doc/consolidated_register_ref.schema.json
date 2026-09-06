@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://growatt.example.com/schemas/consolidated_register_ref.schema.json",
+  "title": "Growatt graph-derived consolidated register reference",
+  "description": "Schema for the canonical export produced from register_graph.gpickle. The legacy register_blocks export is intentionally not this format.",
+  "type": "object",
+  "required": ["meta", "tables", "canonical_registers", "families", "data_types"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {"$ref": "#/definitions/meta"},
+    "tables": {"$ref": "#/definitions/tables"},
+    "canonical_registers": {
+      "type": "object",
+      "patternProperties": {
+        "^register:(holding|input):[0-9]+$": {"$ref": "#/definitions/canonical_register"}
+      },
+      "additionalProperties": false
+    },
+    "families": {"type": "array", "items": {"$ref": "#/definitions/family"}},
+    "data_types": {
+      "type": "object",
+      "additionalProperties": {"type": "array", "items": {"$ref": "#/definitions/data_type"}}
+    }
+  },
+  "definitions": {
+    "meta": {
+      "type": "object",
+      "required": ["version", "generated_at", "generator", "source_files"],
+      "additionalProperties": false,
+      "properties": {
+        "version": {"type": "string"},
+        "generated_at": {"type": "string", "format": "date-time"},
+        "generator": {"type": "string"},
+        "source_files": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"$ref": "#/definitions/source_file"}
+        }
+      }
+    },
+    "source_file": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "tables": {
+      "type": "object",
+      "required": ["holding", "input"],
+      "additionalProperties": false,
+      "properties": {
+        "holding": {"$ref": "#/definitions/table"},
+        "input": {"$ref": "#/definitions/table"}
+      }
+    },
+    "table": {
+      "type": "object",
+      "required": ["ranges"],
+      "additionalProperties": false,
+      "properties": {
+        "ranges": {"type": "array", "items": {"$ref": "#/definitions/register_range"}}
+      }
+    },
+    "register_range": {
+      "type": "object",
+      "required": ["id", "table", "start_register", "end_register", "length"],
+      "additionalProperties": true,
+      "properties": {
+        "id": {"type": "string"},
+        "table": {"type": "string", "enum": ["holding", "input"]},
+        "start_register": {"type": "integer", "minimum": 0},
+        "end_register": {"type": "integer", "minimum": 0},
+        "length": {"type": "integer", "minimum": 1},
+        "canonical_registers": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^register:(holding|input):[0-9]+$"}
+        },
+        "supported_families": {"type": "array"},
+        "sections": {"type": "array"},
+        "metadata": {"type": "object"}
+      }
+    },
+    "canonical_register": {
+      "type": "object",
+      "required": ["id", "register", "table"],
+      "additionalProperties": true,
+      "properties": {
+        "id": {"type": "string", "pattern": "^register:(holding|input):[0-9]+$"},
+        "register": {"type": "integer", "minimum": 0},
+        "table": {"type": "string", "enum": ["holding", "input"]},
+        "data_type": {"type": "string"},
+        "alternate_data_types": {"type": "array", "items": {"type": "string"}},
+        "sources": {"type": "object"},
+        "families": {"type": "array"},
+        "writable": {"type": "boolean"}
+      }
+    },
+    "family": {
+      "type": "object",
+      "required": ["id", "name"],
+      "additionalProperties": true,
+      "properties": {
+        "id": {"type": "string"},
+        "name": {"type": "string"},
+        "aliases": {"type": "array", "items": {"type": "string"}},
+        "ranges": {"type": "array", "items": {"type": "string"}},
+        "sections": {"type": "array"}
+      }
+    },
+    "data_type": {
+      "type": "object",
+      "required": ["id", "namespace"],
+      "additionalProperties": true,
+      "properties": {
+        "id": {"type": "string"},
+        "namespace": {"type": "string"},
+        "length_bytes": {"type": ["integer", "null"], "minimum": 0},
+        "signed": {"type": ["boolean", "null"]},
+        "textual": {"type": ["boolean", "null"]},
+        "divide": {},
+        "scale": {},
+        "multiplier": {},
+        "unit": {"type": ["string", "null"]},
+        "conflicts": {"type": "object"},
+        "sources": {"type": "array"}
+      }
+    }
+  }
+}

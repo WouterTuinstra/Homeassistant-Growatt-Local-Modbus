@@ -1,0 +1,1745 @@
+{
+  "meta": {
+    "generated_at": "2025-10-04T21:13:48+00:00",
+    "generator": "extract_ha_overlay.py",
+    "source_files": {
+      "HA_local_registers.json": "HA_local_registers.json",
+      "register_catalog.json": "register_catalog.json"
+    }
+  },
+  "overlays": {
+    "canonical:holding:0": {
+      "notes": {
+        "ha_key": "inverter_enabled",
+        "ha_writable": true
+      },
+      "enum_candidates": {}
+    },
+    "canonical:holding:9-14": {
+      "notes": {
+        "ha_key": "firmware"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:holding:23-27": {
+      "notes": {
+        "ha_key": "serial number"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:holding:28-29": {
+      "notes": {
+        "ha_key": "Inverter model"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:holding:43": {
+      "notes": {
+        "ha_key": "device type code"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:holding:44": {
+      "notes": {
+        "ha_key": "number of trackers and phases"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:holding:88": {
+      "notes": {
+        "ha_key": "modbus version"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:0": {
+      "notes": {
+        "ha_key": "status_code",
+        "ha_name": "Status code"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1-2": {
+      "notes": {
+        "ha_key": "input_power",
+        "ha_name": "Internal wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3": {
+      "notes": {
+        "ha_key": "input_1_voltage",
+        "ha_name": "PV1 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:4": {
+      "notes": {
+        "ha_key": "input_1_amperage",
+        "ha_name": "PV1 buck current",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:5-6": {
+      "notes": {
+        "ha_key": "input_1_power",
+        "ha_name": "PV1 charge power",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:7": {
+      "notes": {
+        "ha_key": "input_2_voltage",
+        "ha_name": "PV2 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:8": {
+      "notes": {
+        "ha_key": "input_2_amperage",
+        "ha_name": "PV2 buck current",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:9-10": {
+      "notes": {
+        "ha_key": "input_2_power",
+        "ha_name": "PV2 charge power",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:11": {
+      "notes": {
+        "ha_key": "input_3_voltage",
+        "ha_name": "Input 3 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:12": {
+      "notes": {
+        "ha_key": "input_3_amperage",
+        "ha_name": "Input 3 Amperage",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:13-14": {
+      "notes": {
+        "ha_key": "input_3_power",
+        "ha_name": "Input 3 Wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:15": {
+      "notes": {
+        "ha_key": "input_4_voltage",
+        "ha_name": "Input 4 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:16": {
+      "notes": {
+        "ha_key": "input_4_amperage",
+        "ha_name": "Input 4 Amperage",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:17-18": {
+      "notes": {
+        "ha_key": "input_4_power",
+        "ha_name": "Input 4 Wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:19": {
+      "notes": {
+        "ha_key": "input_5_voltage",
+        "ha_name": "Input 5 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:20": {
+      "notes": {
+        "ha_key": "input_5_amperage",
+        "ha_name": "Input 5 Amperage",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:21-22": {
+      "notes": {
+        "ha_key": "input_5_power",
+        "ha_name": "Input 5 Wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:23": {
+      "notes": {
+        "ha_key": "input_6_voltage",
+        "ha_name": "Input 6 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:24": {
+      "notes": {
+        "ha_key": "input_6_amperage",
+        "ha_name": "Input 6 Amperage",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:25-26": {
+      "notes": {
+        "ha_key": "input_6_power",
+        "ha_name": "Input 6 Wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:27": {
+      "notes": {
+        "ha_key": "input_7_voltage",
+        "ha_name": "Input 7 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:28": {
+      "notes": {
+        "ha_key": "input_7_amperage",
+        "ha_name": "Input 7 Amperage",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:29-30": {
+      "notes": {
+        "ha_key": "input_7_power",
+        "ha_name": "Input 7 Wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:31": {
+      "notes": {
+        "ha_key": "input_8_voltage",
+        "ha_name": "Input 8 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:32": {
+      "notes": {
+        "ha_key": "input_8_amperage",
+        "ha_name": "Input 8 Amperage",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:33-34": {
+      "notes": {
+        "ha_key": "input_8_power",
+        "ha_name": "Input 8 Wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:35-36": {
+      "notes": {
+        "ha_key": "output_power",
+        "ha_name": "Output power",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:37": {
+      "notes": {
+        "ha_key": "grid_frequency",
+        "ha_name": "Grid frequency",
+        "ha_unit": "Hz"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:38": {
+      "notes": {
+        "ha_key": "output_1_voltage",
+        "ha_name": "Output voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:39": {
+      "notes": {
+        "ha_key": "output_1_amperage",
+        "ha_name": "Output amperage",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:40-41": {
+      "notes": {
+        "ha_key": "output_1_power",
+        "ha_name": "Output 1 Wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:42": {
+      "notes": {
+        "ha_key": "output_2_voltage",
+        "ha_name": "Output 2 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:43": {
+      "notes": {
+        "ha_key": "output_2_amperage",
+        "ha_name": "Output 2 Amperage",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:44-45": {
+      "notes": {
+        "ha_key": "output_2_power",
+        "ha_name": "Output 2 Wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:46": {
+      "notes": {
+        "ha_key": "output_3_voltage",
+        "ha_name": "Output 3 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:47": {
+      "notes": {
+        "ha_key": "output_3_amperage",
+        "ha_name": "Output 3 Amperage",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:48-49": {
+      "notes": {
+        "ha_key": "output_3_power",
+        "ha_name": "Output 3 Wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:53-54": {
+      "notes": {
+        "ha_key": "output_energy_today",
+        "ha_name": "Energy produced today",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:55-56": {
+      "notes": {
+        "ha_key": "output_energy_total",
+        "ha_name": "Total energy produced",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:57-58": {
+      "notes": {
+        "ha_key": "operation_hours",
+        "ha_name": "Running hours",
+        "ha_device_class": "duration",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "h"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:59-60": {
+      "notes": {
+        "ha_key": "input_1_energy_today",
+        "ha_name": "PV1 energy produced today",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:61-62": {
+      "notes": {
+        "ha_key": "input_1_energy_total",
+        "ha_name": "PV1 energy produced Lifetime",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:63-64": {
+      "notes": {
+        "ha_key": "input_2_energy_today",
+        "ha_name": "PV2 energy produced today",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:65-66": {
+      "notes": {
+        "ha_key": "input_2_energy_total",
+        "ha_name": "PV2 energy produced Lifetime",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:67-68": {
+      "notes": {
+        "ha_key": "input_3_energy_today",
+        "ha_name": "Input 3 energy today",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:69-70": {
+      "notes": {
+        "ha_key": "input_3_energy_total",
+        "ha_name": "Input 3 total energy",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:71-72": {
+      "notes": {
+        "ha_key": "input_4_energy_today",
+        "ha_name": "Input 4 energy today",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:73-74": {
+      "notes": {
+        "ha_key": "input_4_energy_total",
+        "ha_name": "Input 4 total energy",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:75-76": {
+      "notes": {
+        "ha_key": "input_5_energy_today",
+        "ha_name": "Input 5 energy today",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:77-78": {
+      "notes": {
+        "ha_key": "input_5_energy_total",
+        "ha_name": "Input 5 total energy",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:79-80": {
+      "notes": {
+        "ha_key": "input_6_energy_today",
+        "ha_name": "Input 6 energy today",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:81-82": {
+      "notes": {
+        "ha_key": "input_6_energy_total",
+        "ha_name": "Input 6 total energy",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:83-84": {
+      "notes": {
+        "ha_key": "input_7_energy_today",
+        "ha_name": "Input 7 energy today",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:85-86": {
+      "notes": {
+        "ha_key": "input_7_energy_total",
+        "ha_name": "Input 7 total energy",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:87-88": {
+      "notes": {
+        "ha_key": "input_8_energy_today",
+        "ha_name": "Input 8 energy today",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:89-90": {
+      "notes": {
+        "ha_key": "input_8_energy_total",
+        "ha_name": "Input 8 total energy",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:91-92": {
+      "notes": {
+        "ha_key": "input_energy_total",
+        "ha_name": "Total energy input",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:93": {
+      "notes": {
+        "ha_key": "inverter_temperature",
+        "ha_name": "Temperature",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:94": {
+      "notes": {
+        "ha_key": "ipm_temperature",
+        "ha_name": "Intelligent Power Management temperature",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:95": {
+      "notes": {
+        "ha_key": "boost_temperature",
+        "ha_name": "Boost temperature",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:98": {
+      "notes": {
+        "ha_key": "p_bus_voltage",
+        "ha_name": "P-bus voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:99": {
+      "notes": {
+        "ha_key": "n_bus_voltage",
+        "ha_name": "N-bus voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:101": {
+      "notes": {
+        "ha_key": "real_output_power_percent",
+        "ha_name": "Real power output percentage",
+        "ha_device_class": "power_factor",
+        "ha_unit": "%"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:104": {
+      "notes": {
+        "ha_key": "derating_mode",
+        "ha_name": "Derating mode"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:105": {
+      "notes": {
+        "ha_key": "fault_code",
+        "ha_name": "Fault code"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:110-111": {
+      "notes": {
+        "ha_key": "warning_code",
+        "ha_name": "Warning code"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:234-235": {
+      "notes": {
+        "ha_key": "output_reactive_power",
+        "ha_name": "Reactive wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:236-237": {
+      "notes": {
+        "ha_key": "output_reactive_energy_total"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3000": {
+      "notes": {
+        "ha_key": "status_code",
+        "ha_name": "Status code"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3001-3002": {
+      "notes": {
+        "ha_key": "input_power",
+        "ha_name": "Internal wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3003": {
+      "notes": {
+        "ha_key": "input_1_voltage",
+        "ha_name": "PV1 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3004": {
+      "notes": {
+        "ha_key": "input_1_amperage",
+        "ha_name": "PV1 buck current",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3005-3006": {
+      "notes": {
+        "ha_key": "input_1_power",
+        "ha_name": "PV1 charge power",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3007": {
+      "notes": {
+        "ha_key": "input_2_voltage",
+        "ha_name": "PV2 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3008": {
+      "notes": {
+        "ha_key": "input_2_amperage",
+        "ha_name": "PV2 buck current",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3009-3010": {
+      "notes": {
+        "ha_key": "input_2_power",
+        "ha_name": "PV2 charge power",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3011": {
+      "notes": {
+        "ha_key": "input_3_voltage",
+        "ha_name": "Input 3 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3012": {
+      "notes": {
+        "ha_key": "input_3_amperage",
+        "ha_name": "Input 3 Amperage",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3013-3014": {
+      "notes": {
+        "ha_key": "input_3_power",
+        "ha_name": "Input 3 Wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3015": {
+      "notes": {
+        "ha_key": "input_4_voltage",
+        "ha_name": "Input 4 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3016": {
+      "notes": {
+        "ha_key": "input_4_amperage",
+        "ha_name": "Input 4 Amperage",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3017-3018": {
+      "notes": {
+        "ha_key": "input_4_power",
+        "ha_name": "Input 4 Wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3021-3022": {
+      "notes": {
+        "ha_key": "output_reactive_power",
+        "ha_name": "Reactive wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3023-3024": {
+      "notes": {
+        "ha_key": "output_power",
+        "ha_name": "Output power",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3025": {
+      "notes": {
+        "ha_key": "grid_frequency",
+        "ha_name": "Grid frequency",
+        "ha_unit": "Hz"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3026": {
+      "notes": {
+        "ha_key": "output_1_voltage",
+        "ha_name": "Output voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3027": {
+      "notes": {
+        "ha_key": "output_1_amperage",
+        "ha_name": "Output amperage",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3028-3029": {
+      "notes": {
+        "ha_key": "output_1_power",
+        "ha_name": "Output 1 Wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3030": {
+      "notes": {
+        "ha_key": "output_2_voltage",
+        "ha_name": "Output 2 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3031": {
+      "notes": {
+        "ha_key": "output_2_amperage",
+        "ha_name": "Output 2 Amperage",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3032-3033": {
+      "notes": {
+        "ha_key": "output_2_power",
+        "ha_name": "Output 2 Wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3034": {
+      "notes": {
+        "ha_key": "output_3_voltage",
+        "ha_name": "Output 3 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3035": {
+      "notes": {
+        "ha_key": "output_3_amperage",
+        "ha_name": "Output 3 Amperage",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3036-3037": {
+      "notes": {
+        "ha_key": "output_3_power",
+        "ha_name": "Output 3 Wattage",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3041-3042": {
+      "notes": {
+        "ha_key": "power_to_user",
+        "ha_name": "Power to user",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3043-3044": {
+      "notes": {
+        "ha_key": "power_to_grid",
+        "ha_name": "Power to grid",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3045-3046": {
+      "notes": {
+        "ha_key": "power_user_load",
+        "ha_name": "Power user load",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3047-3048": {
+      "notes": {
+        "ha_key": "operation_hours",
+        "ha_name": "Running hours",
+        "ha_device_class": "duration",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "h"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3049-3050": {
+      "notes": {
+        "ha_key": "output_energy_today",
+        "ha_name": "Energy produced today",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3051-3052": {
+      "notes": {
+        "ha_key": "output_energy_total",
+        "ha_name": "Total energy produced",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3053-3054": {
+      "notes": {
+        "ha_key": "input_energy_total",
+        "ha_name": "Total energy input",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3055-3056": {
+      "notes": {
+        "ha_key": "input_1_energy_today",
+        "ha_name": "PV1 energy produced today",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3057-3058": {
+      "notes": {
+        "ha_key": "input_1_energy_total",
+        "ha_name": "PV1 energy produced Lifetime",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3059-3060": {
+      "notes": {
+        "ha_key": "input_2_energy_today",
+        "ha_name": "PV2 energy produced today",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3061-3062": {
+      "notes": {
+        "ha_key": "input_2_energy_total",
+        "ha_name": "PV2 energy produced Lifetime",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3063-3064": {
+      "notes": {
+        "ha_key": "input_3_energy_today",
+        "ha_name": "Input 3 energy today",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3065-3066": {
+      "notes": {
+        "ha_key": "input_3_energy_total",
+        "ha_name": "Input 3 total energy",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3067-3068": {
+      "notes": {
+        "ha_key": "energy_to_user_today",
+        "ha_name": "Energy To User (Today)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3069-3070": {
+      "notes": {
+        "ha_key": "energy_to_user_total",
+        "ha_name": "Energy To User (Total)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3071-3072": {
+      "notes": {
+        "ha_key": "energy_to_grid_today",
+        "ha_name": "Energy To Grid (Today)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3073-3074": {
+      "notes": {
+        "ha_key": "energy_to_grid_total",
+        "ha_name": "Energy To Grid (Total)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3086": {
+      "notes": {
+        "ha_key": "derating_mode",
+        "ha_name": "Derating mode"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3093": {
+      "notes": {
+        "ha_key": "inverter_temperature",
+        "ha_name": "Temperature",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3094": {
+      "notes": {
+        "ha_key": "ipm_temperature",
+        "ha_name": "Intelligent Power Management temperature",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3095": {
+      "notes": {
+        "ha_key": "boost_temperature",
+        "ha_name": "Boost temperature",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3097": {
+      "notes": {
+        "ha_key": "comm_board_temperature",
+        "ha_name": "Comm board temperature",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3098": {
+      "notes": {
+        "ha_key": "p_bus_voltage",
+        "ha_name": "P-bus voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3099": {
+      "notes": {
+        "ha_key": "n_bus_voltage",
+        "ha_name": "N-bus voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3101": {
+      "notes": {
+        "ha_key": "real_output_power_percent",
+        "ha_name": "Real power output percentage",
+        "ha_device_class": "power_factor",
+        "ha_unit": "%"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3105": {
+      "notes": {
+        "ha_key": "fault_code",
+        "ha_name": "Fault code"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3110-3111": {
+      "notes": {
+        "ha_key": "warning_code",
+        "ha_name": "Warning code"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3111": {
+      "notes": {
+        "ha_key": "present_fft_a",
+        "ha_name": "Present FFT A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3115": {
+      "notes": {
+        "ha_key": "inv_start_delay",
+        "ha_name": "Inverter start delay",
+        "ha_device_class": "duration",
+        "ha_unit": "s"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3125-3126": {
+      "notes": {
+        "ha_key": "discharge_energy_today",
+        "ha_name": "Battery Discharged (Today)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3127-3128": {
+      "notes": {
+        "ha_key": "discharge_energy_total",
+        "ha_name": "Battery Discharged (Total)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3129-3130": {
+      "notes": {
+        "ha_key": "charge_energy_today",
+        "ha_name": "Battery Charged (Today)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3131-3132": {
+      "notes": {
+        "ha_key": "charge_energy_total",
+        "ha_name": "Battery Charged (Total)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3164": {
+      "notes": {
+        "ha_key": "bdc_new_flag",
+        "ha_name": "BDC present"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3169": {
+      "notes": {
+        "ha_key": "battery_voltage",
+        "ha_name": "Battery voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3170": {
+      "notes": {
+        "ha_key": "battery_current",
+        "ha_name": "Battery current",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3171": {
+      "notes": {
+        "ha_key": "soc",
+        "ha_name": "SOC",
+        "ha_device_class": "battery",
+        "ha_unit": "%"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3172": {
+      "notes": {
+        "ha_key": "vbus1_voltage",
+        "ha_name": "VBUS1 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3173": {
+      "notes": {
+        "ha_key": "vbus2_voltage",
+        "ha_name": "VBUS2 voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3174": {
+      "notes": {
+        "ha_key": "buck_boost_current",
+        "ha_name": "Buck/boost current",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3175": {
+      "notes": {
+        "ha_key": "llc_current",
+        "ha_name": "LLC current",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3176": {
+      "notes": {
+        "ha_key": "battery_temperature_a",
+        "ha_name": "Battery temperature A",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3177": {
+      "notes": {
+        "ha_key": "battery_temperature_b",
+        "ha_name": "Battery temperature B",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3178-3179": {
+      "notes": {
+        "ha_key": "discharge_power",
+        "ha_name": "Discharge Power",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3180-3181": {
+      "notes": {
+        "ha_key": "charge_power",
+        "ha_name": "Charge Power",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3189": {
+      "notes": {
+        "ha_key": "bms_max_volt_cell_no",
+        "ha_name": "BMS max volt cell no"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3190": {
+      "notes": {
+        "ha_key": "bms_min_volt_cell_no",
+        "ha_name": "BMS min volt cell no"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3191": {
+      "notes": {
+        "ha_key": "bms_avg_temp_a",
+        "ha_name": "BMS avg temp A",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3192": {
+      "notes": {
+        "ha_key": "bms_max_cell_temp_a",
+        "ha_name": "BMS max cell temp A",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3193": {
+      "notes": {
+        "ha_key": "bms_avg_temp_b",
+        "ha_name": "BMS avg temp B",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3194": {
+      "notes": {
+        "ha_key": "bms_max_cell_temp_b",
+        "ha_name": "BMS max cell temp B",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3195": {
+      "notes": {
+        "ha_key": "bms_avg_temp_c",
+        "ha_name": "BMS avg temp C",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3196": {
+      "notes": {
+        "ha_key": "bms_max_soc",
+        "ha_name": "BMS max SOC",
+        "ha_device_class": "battery",
+        "ha_unit": "%"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3197": {
+      "notes": {
+        "ha_key": "bms_min_soc",
+        "ha_name": "BMS min SOC",
+        "ha_device_class": "battery",
+        "ha_unit": "%"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3198": {
+      "notes": {
+        "ha_key": "parallel_battery_num"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3199": {
+      "notes": {
+        "ha_key": "bms_derate_reason",
+        "ha_name": "BMS derate reason"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3200": {
+      "notes": {
+        "ha_key": "bms_gauge_fcc_ah",
+        "ha_name": "BMS full charge capacity",
+        "ha_unit": "Ah"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3201": {
+      "notes": {
+        "ha_key": "bms_gauge_rm_ah",
+        "ha_name": "BMS remaining capacity",
+        "ha_unit": "Ah"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3202": {
+      "notes": {
+        "ha_key": "bms_protect1",
+        "ha_name": "BMS protect 1"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3203": {
+      "notes": {
+        "ha_key": "bms_warn1",
+        "ha_name": "BMS warn 1"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3204": {
+      "notes": {
+        "ha_key": "bms_fault1",
+        "ha_name": "BMS fault 1"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3205": {
+      "notes": {
+        "ha_key": "bms_fault2",
+        "ha_name": "BMS fault 2"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3210": {
+      "notes": {
+        "ha_key": "bat_iso_status"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3211": {
+      "notes": {
+        "ha_key": "batt_request_flags"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3212": {
+      "notes": {
+        "ha_key": "bms_status",
+        "ha_name": "BMS status"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3213": {
+      "notes": {
+        "ha_key": "bms_protect2",
+        "ha_name": "BMS protect 2"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3214": {
+      "notes": {
+        "ha_key": "bms_warn2",
+        "ha_name": "BMS warn 2"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3215": {
+      "notes": {
+        "ha_key": "bms_soc",
+        "ha_name": "BMS SOC",
+        "ha_device_class": "battery",
+        "ha_unit": "%"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3216": {
+      "notes": {
+        "ha_key": "bms_battery_voltage",
+        "ha_name": "BMS battery voltage",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3217": {
+      "notes": {
+        "ha_key": "bms_battery_current",
+        "ha_name": "BMS battery current",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3218": {
+      "notes": {
+        "ha_key": "bms_cell_max_temp",
+        "ha_name": "BMS cell max temperature",
+        "ha_device_class": "temperature",
+        "ha_unit": "\u00b0C"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3219": {
+      "notes": {
+        "ha_key": "bms_max_charge_current",
+        "ha_name": "BMS max charge current",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3220": {
+      "notes": {
+        "ha_key": "bms_max_discharge_current",
+        "ha_name": "BMS max discharge current",
+        "ha_device_class": "current",
+        "ha_unit": "A"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3221": {
+      "notes": {
+        "ha_key": "bms_cycle_count",
+        "ha_name": "BMS cycle count"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3222": {
+      "notes": {
+        "ha_key": "bms_soh",
+        "ha_name": "BMS SOH",
+        "ha_device_class": "battery",
+        "ha_unit": "%"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3223": {
+      "notes": {
+        "ha_key": "bms_charge_volt_limit",
+        "ha_name": "BMS charge voltage limit",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3224": {
+      "notes": {
+        "ha_key": "bms_discharge_volt_limit",
+        "ha_name": "BMS discharge voltage limit",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3225": {
+      "notes": {
+        "ha_key": "bms_warn3",
+        "ha_name": "BMS warn 3"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3226": {
+      "notes": {
+        "ha_key": "bms_protect3",
+        "ha_name": "BMS protect 3"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3230": {
+      "notes": {
+        "ha_key": "bms_cell_volt_max",
+        "ha_name": "BMS cell voltage max",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:3231": {
+      "notes": {
+        "ha_key": "bms_cell_volt_min",
+        "ha_name": "BMS cell voltage min",
+        "ha_device_class": "voltage",
+        "ha_unit": "V"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:holding:3001-3015": {
+      "notes": {
+        "ha_key": "serial number"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:holding:3049": {
+      "notes": {
+        "ha_key": "ac_charge_enabled",
+        "ha_name": "AC Charge Enabled",
+        "ha_writable": true
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1009-1010": {
+      "notes": {
+        "ha_key": "discharge_power",
+        "ha_name": "Discharge Power",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1011-1012": {
+      "notes": {
+        "ha_key": "charge_power",
+        "ha_name": "Charge Power",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1014": {
+      "notes": {
+        "ha_key": "soc",
+        "ha_name": "SOC",
+        "ha_device_class": "battery",
+        "ha_unit": "%"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1021-1022": {
+      "notes": {
+        "ha_key": "pac_to_user_total",
+        "ha_name": "AC to user total",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1029-1030": {
+      "notes": {
+        "ha_key": "pac_to_grid_total",
+        "ha_name": "AC to grid total",
+        "ha_device_class": "power",
+        "ha_unit": "W"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1044-1045": {
+      "notes": {
+        "ha_key": "energy_to_user_today",
+        "ha_name": "Energy To User (Today)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1046-1047": {
+      "notes": {
+        "ha_key": "energy_to_user_total",
+        "ha_name": "Energy To User (Total)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1048-1049": {
+      "notes": {
+        "ha_key": "energy_to_grid_today",
+        "ha_name": "Energy To Grid (Today)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1050-1051": {
+      "notes": {
+        "ha_key": "energy_to_grid_total",
+        "ha_name": "Energy To Grid (Total)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1052-1053": {
+      "notes": {
+        "ha_key": "discharge_energy_today",
+        "ha_name": "Battery Discharged (Today)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1054-1055": {
+      "notes": {
+        "ha_key": "discharge_energy_total",
+        "ha_name": "Battery Discharged (Total)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1056-1057": {
+      "notes": {
+        "ha_key": "charge_energy_today",
+        "ha_name": "Battery Charged (Today)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    },
+    "canonical:input:1058-1059": {
+      "notes": {
+        "ha_key": "charge_energy_total",
+        "ha_name": "Battery Charged (Total)",
+        "ha_device_class": "energy",
+        "ha_state_class": "total_increasing",
+        "ha_unit": "kWh"
+      },
+      "enum_candidates": {}
+    }
+  }
+}

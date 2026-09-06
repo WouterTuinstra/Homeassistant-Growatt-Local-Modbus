@@ -1,0 +1,2307 @@
+{
+  "generated_at": "2025-10-04T10:55:44.835117+00:00",
+  "source": "external/inverter-to-mqtt-esp8266",
+  "markdown_registers": {
+    "input_registers": [
+      {
+        "address": 0,
+        "text": "Inverter status (0, 1, 3, 5 & 6)"
+      },
+      {
+        "address": 0,
+        "text": "Standby"
+      },
+      {
+        "address": 1,
+        "text": "Normal / Checking"
+      },
+      {
+        "address": 3,
+        "text": "Error / Fault"
+      },
+      {
+        "address": 5,
+        "text": "Normal, battery and solar online"
+      },
+      {
+        "address": 6,
+        "text": "Normal, only battery online (no solar)"
+      },
+      {
+        "address": 3,
+        "text": "Vpv1   (PV1 DC voltage)"
+      },
+      {
+        "address": 4,
+        "text": "Ipv1   (PV1 DC current)"
+      },
+      {
+        "address": 5,
+        "text": "Ppv1 H"
+      },
+      {
+        "address": 6,
+        "text": "Ppv1 L (PV1 power in watts)"
+      },
+      {
+        "address": 7,
+        "text": "Vpv2   (PV2 DC voltage)"
+      },
+      {
+        "address": 8,
+        "text": "Ipv2   (PV2 DC voltage)"
+      },
+      {
+        "address": 9,
+        "text": "Ppv2 H"
+      },
+      {
+        "address": 10,
+        "text": "Ppv2 L (PV2 power in watts)"
+      },
+      {
+        "address": 35,
+        "text": "Pac H"
+      },
+      {
+        "address": 36,
+        "text": "Pac L  (Power output in Watts)"
+      },
+      {
+        "address": 37,
+        "text": "Fac    (AC Grid frequency)"
+      },
+      {
+        "address": 38,
+        "text": "Vac1   (AC Grid phase 1 voltage)"
+      },
+      {
+        "address": 39,
+        "text": "Iac1   (AC Grid phase 1 current)"
+      },
+      {
+        "address": 40,
+        "text": "Pac1 H"
+      },
+      {
+        "address": 41,
+        "text": "Pac1 L (AC Grid phase 1 power output in VA)"
+      },
+      {
+        "address": 42,
+        "text": "Vac2   (AC Grid phase 2 voltage)"
+      },
+      {
+        "address": 43,
+        "text": "Iac2   (AC Grid phase 2 current)"
+      },
+      {
+        "address": 44,
+        "text": "Pac2 H"
+      },
+      {
+        "address": 45,
+        "text": "Pac2 L (AC Grid phase 2 power output in VA)"
+      },
+      {
+        "address": 46,
+        "text": "Vac3   (AC Grid phase 3 voltage)"
+      },
+      {
+        "address": 47,
+        "text": "Iac3   (AC Grid phase 3 current)"
+      },
+      {
+        "address": 48,
+        "text": "Pac3 H"
+      },
+      {
+        "address": 49,
+        "text": "Pac3 L (AC Grid phase 3 power output in VA)"
+      },
+      {
+        "address": 53,
+        "text": "Etotal H"
+      },
+      {
+        "address": 54,
+        "text": "Etotal L  (total energy produced by inverter [in watts ?])"
+      },
+      {
+        "address": 55,
+        "text": "Etoday H"
+      },
+      {
+        "address": 56,
+        "text": "Etoday L  (energy produced by inverter today [in watts ?])"
+      },
+      {
+        "address": 57,
+        "text": "Ttotal H"
+      },
+      {
+        "address": 58,
+        "text": "Ttotal L  (total time inverter running [unknown units])"
+      },
+      {
+        "address": 93,
+        "text": "Temp 1 inverter / \u00baC"
+      },
+      {
+        "address": 94,
+        "text": "Temp 2 inverter IPM / \u00baC"
+      },
+      {
+        "address": 95,
+        "text": "Temp 3 inverter boost / \u00baC"
+      },
+      {
+        "address": 96,
+        "text": "Temp 4 (reserved and not read)"
+      },
+      {
+        "address": 104,
+        "text": "Derating mode"
+      },
+      {
+        "address": 118,
+        "text": "Priority 0:LoadF, 1:BatF, 2:GridF"
+      },
+      {
+        "address": 119,
+        "text": "Battery type 0:LeadAcid, 1:Lithium"
+      },
+      {
+        "address": 1009,
+        "text": "PdischargeH"
+      },
+      {
+        "address": 1010,
+        "text": "PdischargeL"
+      },
+      {
+        "address": 1011,
+        "text": "PchargeH"
+      },
+      {
+        "address": 1012,
+        "text": "PchargeL"
+      },
+      {
+        "address": 1013,
+        "text": "Vbat"
+      },
+      {
+        "address": 1014,
+        "text": "SOC"
+      },
+      {
+        "address": 1086,
+        "text": "BMS_SOC"
+      },
+      {
+        "address": 1087,
+        "text": "BMS_BatteryVolt"
+      },
+      {
+        "address": 1088,
+        "text": "BMS_BatteryCurr"
+      },
+      {
+        "address": 1089,
+        "text": "BMS_BatteryTemp"
+      },
+      {
+        "address": 1090,
+        "text": "BMS_MaxCurr (pylon)"
+      }
+    ],
+    "holding_registers": [
+      {
+        "address": 1070,
+        "text": "Grid first discharge power rate"
+      },
+      {
+        "address": 1071,
+        "text": "Grid first Stop State of Charge"
+      },
+      {
+        "address": 1080,
+        "text": "Grid first Start Time 1"
+      },
+      {
+        "address": 1081,
+        "text": "Grid first Stop Time 1"
+      },
+      {
+        "address": 1082,
+        "text": "Grid first Time 1 enable switch"
+      },
+      {
+        "address": 1083,
+        "text": "Grid first Start Time 2"
+      },
+      {
+        "address": 1084,
+        "text": "Grid first Stop Time 2"
+      },
+      {
+        "address": 1085,
+        "text": "Grid first Time 2 enable switch"
+      },
+      {
+        "address": 1086,
+        "text": "Grid first Start Time 3"
+      },
+      {
+        "address": 1087,
+        "text": "Grid first Stop Time 3"
+      },
+      {
+        "address": 1088,
+        "text": "Grid first Time 3 enable switch"
+      },
+      {
+        "address": 1090,
+        "text": "Battery first charge power rate"
+      },
+      {
+        "address": 1091,
+        "text": "Battery first Stop State of Charge"
+      },
+      {
+        "address": 1092,
+        "text": "Battery first AC charger enable switch"
+      },
+      {
+        "address": 1100,
+        "text": "Battery first Start Time 1"
+      },
+      {
+        "address": 1101,
+        "text": "Battery first Stop Time 1"
+      },
+      {
+        "address": 1102,
+        "text": "Battery first Time 1 enable switch"
+      },
+      {
+        "address": 1103,
+        "text": "Battery first Start Time 2"
+      },
+      {
+        "address": 1104,
+        "text": "Battery first Stop Time 2"
+      },
+      {
+        "address": 1105,
+        "text": "Battery first Time 2 enable switch"
+      },
+      {
+        "address": 1106,
+        "text": "Battery first Start Time 3"
+      },
+      {
+        "address": 1107,
+        "text": "Battery first Stop Time 3"
+      },
+      {
+        "address": 1108,
+        "text": "Battery first Time 3 enable switch"
+      },
+      {
+        "address": 1110,
+        "text": "Load first Start Time 1"
+      },
+      {
+        "address": 1111,
+        "text": "Load first Stop Time 1"
+      },
+      {
+        "address": 1112,
+        "text": "Load first Time 1 enable switch"
+      },
+      {
+        "address": 1113,
+        "text": "Load first Start Time 2"
+      },
+      {
+        "address": 1114,
+        "text": "Load first Stop Time 2"
+      },
+      {
+        "address": 1115,
+        "text": "Load first Time 2 enable switch"
+      },
+      {
+        "address": 1116,
+        "text": "Load first Start Time 3"
+      },
+      {
+        "address": 1117,
+        "text": "Load first Stop Time 3"
+      },
+      {
+        "address": 1118,
+        "text": "Load first Time 3 enable switch"
+      }
+    ]
+  },
+  "topics": {
+    "general": [
+      {
+        "topic": "<name>/tele/IP",
+        "units": "-",
+        "format": "text",
+        "description": "Board IP address"
+      },
+      {
+        "topic": "<name>/tele/Uptime",
+        "units": "-",
+        "format": "text",
+        "description": "Uptime"
+      },
+      {
+        "topic": "<name>/tele/ClientID",
+        "units": "-",
+        "format": "text",
+        "description": "MQTT client ID"
+      },
+      {
+        "topic": "<name>/tele/RSSI",
+        "units": "-",
+        "format": "int",
+        "description": "ESP8266 WiFi RSSI value in dBm, negative number"
+      }
+    ],
+    "energy_data": [
+      {
+        "topic": "growatt/online",
+        "units": "-",
+        "format": "bool",
+        "description": "MQTT connection status (Last will and testament)"
+      },
+      {
+        "topic": "growatt/status",
+        "units": "-",
+        "format": "int",
+        "description": "Inverter numeric status"
+      },
+      {
+        "topic": "growatt/Priority",
+        "units": "-",
+        "format": "text",
+        "description": "Inverter working priority (Load, Bat, Grid)"
+      },
+      {
+        "topic": "growatt/DerateMode",
+        "units": "-",
+        "format": "int",
+        "description": "Derating due to overtemp, overvoltage, unstable frequency, etc."
+      },
+      {
+        "topic": "growatt/Derate",
+        "units": "-",
+        "format": "text",
+        "description": "Derating textual cause"
+      },
+      {
+        "topic": "growatt/Vpv1",
+        "units": "V",
+        "format": "float",
+        "description": "Voltage of solar string 1"
+      },
+      {
+        "topic": "growatt/Ppv1",
+        "units": "W",
+        "format": "float",
+        "description": "Power of solar string 1"
+      },
+      {
+        "topic": "growatt/Ipv1",
+        "units": "A",
+        "format": "float",
+        "description": "Current of solar string 1"
+      },
+      {
+        "topic": "growatt/Vpv2",
+        "units": "V",
+        "format": "float",
+        "description": "Voltage of solar string 2"
+      },
+      {
+        "topic": "growatt/Ppv2",
+        "units": "W",
+        "format": "float",
+        "description": "Power of solar string 2"
+      },
+      {
+        "topic": "growatt/Ipv2",
+        "units": "A",
+        "format": "float",
+        "description": "Current of solar string 2"
+      },
+      {
+        "topic": "growatt/Vac1",
+        "units": "V",
+        "format": "float",
+        "description": "Grid Phase 1 voltage"
+      },
+      {
+        "topic": "growatt/Iac1",
+        "units": "A",
+        "format": "float",
+        "description": "Grid Phase 1 current"
+      },
+      {
+        "topic": "growatt/Pac1",
+        "units": "VA",
+        "format": "float",
+        "description": "Grid Phase 1 apparent power"
+      },
+      {
+        "topic": "growatt/Vac2",
+        "units": "V",
+        "format": "float",
+        "description": "Grid Phase 2 voltage (disabled by default, TL inverters only)"
+      },
+      {
+        "topic": "growatt/Iac2",
+        "units": "A",
+        "format": "float",
+        "description": "Grid Phase 2 current (disabled by default, TL inverters only)"
+      },
+      {
+        "topic": "growatt/Pac2",
+        "units": "VA",
+        "format": "float",
+        "description": "Grid Phase 2 apparent power (disabled by default, TL inverters only)"
+      },
+      {
+        "topic": "growatt/Vac3",
+        "units": "V",
+        "format": "float",
+        "description": "Grid Phase 3 voltage (disabled by default, TL inverters only)"
+      },
+      {
+        "topic": "growatt/Iac3",
+        "units": "A",
+        "format": "float",
+        "description": "Grid Phase 3 current (disabled by default, TL inverters only)"
+      },
+      {
+        "topic": "growatt/Pac3",
+        "units": "VA",
+        "format": "float",
+        "description": "Grid Phase 3 apparent power (disabled by default, TL inverters only)"
+      },
+      {
+        "topic": "growatt/Pac",
+        "units": "W",
+        "format": "float",
+        "description": "Grid Tie inverter output ACTIVE power"
+      },
+      {
+        "topic": "growatt/Fac",
+        "units": "Hz",
+        "format": "float",
+        "description": "Grid Tie inverter output/grid frequency"
+      },
+      {
+        "topic": "growatt/Etoday",
+        "units": "kWh",
+        "format": "float",
+        "description": "Total energy produced today"
+      },
+      {
+        "topic": "growatt/Etotal",
+        "units": "kWh",
+        "format": "float",
+        "description": "Total energy produced"
+      },
+      {
+        "topic": "growatt/Ttotal",
+        "units": "Hours",
+        "format": "float",
+        "description": "Total time inverter running"
+      },
+      {
+        "topic": "growatt/Temp1",
+        "units": "\u00baC",
+        "format": "float",
+        "description": "Temperature of inverter"
+      },
+      {
+        "topic": "growatt/Temp2",
+        "units": "\u00baC",
+        "format": "float",
+        "description": "Temperature inside IPM of inverter"
+      },
+      {
+        "topic": "growatt/Temp3",
+        "units": "\u00baC",
+        "format": "float",
+        "description": "Temperature of boost module"
+      },
+      {
+        "topic": "growatt/Battery",
+        "units": "-",
+        "format": "text",
+        "description": "Type of battery (Lithium, LeadAcid or Unknown)"
+      },
+      {
+        "topic": "growatt/Pdischarge",
+        "units": "W",
+        "format": "float",
+        "description": "Battery discharge power"
+      },
+      {
+        "topic": "growatt/Pcharge",
+        "units": "W",
+        "format": "float",
+        "description": "Battery charge power"
+      },
+      {
+        "topic": "growatt/Vbat",
+        "units": "V",
+        "format": "float",
+        "description": "Battery voltage"
+      },
+      {
+        "topic": "growatt/SOC",
+        "units": "%",
+        "format": "int",
+        "description": "Battery charge percentage (state of charge)"
+      },
+      {
+        "topic": "growatt/EpsFac",
+        "units": "Hz",
+        "format": "float",
+        "description": "EPS output frequency"
+      },
+      {
+        "topic": "growatt/EpsVac1",
+        "units": "V",
+        "format": "float",
+        "description": "EPS Phase 1 voltage"
+      },
+      {
+        "topic": "growatt/EpsIac1",
+        "units": "A",
+        "format": "float",
+        "description": "EPSPhase 1 current"
+      },
+      {
+        "topic": "growatt/EpsPac1",
+        "units": "W",
+        "format": "float",
+        "description": "EPS Phase 1 total power"
+      },
+      {
+        "topic": "growatt/EpsVac2",
+        "units": "V",
+        "format": "float",
+        "description": "EPS Phase 2 voltage (disabled by default, for TL inverters only)"
+      },
+      {
+        "topic": "growatt/EpsIac2",
+        "units": "A",
+        "format": "float",
+        "description": "EPSPhase 2 current (disabled by default, for TL inverters only)"
+      },
+      {
+        "topic": "growatt/EpsPac2",
+        "units": "W",
+        "format": "float",
+        "description": "EPS Phase 2 total power (disabled by default, for TL inverters only)"
+      },
+      {
+        "topic": "growatt/EpsVac3",
+        "units": "V",
+        "format": "float",
+        "description": "EPS Phase 3 voltage (disabled by default, for TL inverters only)"
+      },
+      {
+        "topic": "growatt/EpsIac3",
+        "units": "A",
+        "format": "float",
+        "description": "EPSPhase 3 current (disabled by default, for TL inverters only)"
+      },
+      {
+        "topic": "growatt/EpsPac3",
+        "units": "W",
+        "format": "float",
+        "description": "EPS Phase 3 total power (disabled by default, for TL inverters only)"
+      },
+      {
+        "topic": "growatt/EpsLoadPercent",
+        "units": "%",
+        "format": "float",
+        "description": "EPS Load in percentage 100% at 3kW"
+      },
+      {
+        "topic": "growatt/EpsPF",
+        "units": "-",
+        "format": "float",
+        "description": "EPS power factor"
+      },
+      {
+        "topic": "gtn1200w/online",
+        "units": "-",
+        "format": "bool",
+        "description": "MQTT connection status (Last will and testament)"
+      },
+      {
+        "topic": "gtn1200w/Error",
+        "units": "-",
+        "format": "int",
+        "description": "Numeric error value"
+      },
+      {
+        "topic": "gtn1200w/ErrorBitmask",
+        "units": "-",
+        "format": "float",
+        "description": "Numeric error bitmask (no use)"
+      },
+      {
+        "topic": "gtn1200w/Fac",
+        "units": "Hz",
+        "format": "float",
+        "description": "Grid frequency in Hz"
+      },
+      {
+        "topic": "gtn1200w/Ibat",
+        "units": "Amps",
+        "format": "float",
+        "description": "DC input current (PV or Battery)"
+      },
+      {
+        "topic": "gtn1200w/MeterConnected",
+        "units": "-",
+        "format": "bool",
+        "description": "`yes` if meter connected, `no` otherwise"
+      },
+      {
+        "topic": "gtn1200w/Mode",
+        "units": "-",
+        "format": "int",
+        "description": "Inverter working mode"
+      },
+      {
+        "topic": "gtn1200w/ModeString",
+        "units": "-",
+        "format": "text",
+        "description": "Inverter working mode as text"
+      },
+      {
+        "topic": "gtn1200w/OperationStatus",
+        "units": "-",
+        "format": "text",
+        "description": "Operation status (Normal, Standby)"
+      },
+      {
+        "topic": "gtn1200w/OperationStatusId",
+        "units": "-",
+        "format": "int",
+        "description": "Numeric Operation status"
+      },
+      {
+        "topic": "gtn1200w/Pac",
+        "units": "Watts",
+        "format": "float",
+        "description": "AC power being injected"
+      },
+      {
+        "topic": "gtn1200w/PacMeter",
+        "units": "Watts",
+        "format": "float",
+        "description": "AC power requested (stuck at 257 no matter what)"
+      },
+      {
+        "topic": "gtn1200w/Pbat",
+        "units": "Watts",
+        "format": "float",
+        "description": "DC power being generated"
+      },
+      {
+        "topic": "gtn1200w/Temp",
+        "units": "\u00baC",
+        "format": "float",
+        "description": "Inverter temperature"
+      },
+      {
+        "topic": "gtn1200w/Vac",
+        "units": "Volts",
+        "format": "float",
+        "description": "AC grid voltage"
+      },
+      {
+        "topic": "gtn1200w/Vbat",
+        "units": "Volts",
+        "format": "float",
+        "description": "DC input voltage (PV or Battery)"
+      },
+      {
+        "topic": "gtn1200w/tele/IP",
+        "units": "-",
+        "format": "text",
+        "description": "Board IP address"
+      },
+      {
+        "topic": "gtn1200w/tele/Uptime",
+        "units": "-",
+        "format": "text",
+        "description": "Uptime"
+      },
+      {
+        "topic": "gtn1200w/tele/ClientID",
+        "units": "-",
+        "format": "text",
+        "description": "MQTT client ID"
+      },
+      {
+        "topic": "gtn1200w/tele/RSSI    ",
+        "units": "-",
+        "format": "int",
+        "description": "ESP8266 WiFi RSSI value, between 0 and 255"
+      }
+    ],
+    "settings": [
+      {
+        "topic": "growatt/settings/led",
+        "units": "`0` OR `1` OR `2`",
+        "format": "Default ESP8266 LED behaviour",
+        "description": "LED always OFF (0), always ON (1) or blinking when polling data (2)"
+      },
+      {
+        "topic": "growatt/settings/priority",
+        "units": "`load` OR `bat` OR `grid`",
+        "format": "Priority setting from the inverter menu",
+        "description": "`grid` is being tested and may require more work to work correctly"
+      },
+      {
+        "topic": "(same)",
+        "units": "`status`",
+        "format": "Special priority",
+        "description": "`status` returns all priority settings in JSON format (see below)"
+      },
+      {
+        "topic": "growatt/settings/priority/bat/ac",
+        "units": "`0` OR `1` OR `off` OR `on` OR `false` OR `true`",
+        "format": "AC Charger",
+        "description": "Enables or disables the AC Charger in Battery First"
+      },
+      {
+        "topic": "growatt/settings/priority/bat/pr",
+        "units": "`1` ... `100`",
+        "format": "Charge Power Rating",
+        "description": "Battery First charging power rating"
+      },
+      {
+        "topic": "growatt/settings/priority/bat/ssoc",
+        "units": "`13` ... `100`",
+        "format": "Stop State Of Charge",
+        "description": "Battery First SSOC"
+      },
+      {
+        "topic": "growatt/settings/priority/bat/t1",
+        "units": "`00:00 23:59`",
+        "format": "Battery First Time",
+        "description": "Battery First Time Interval 1 that can be set from the panel"
+      },
+      {
+        "topic": "growatt/settings/priority/grid/pr",
+        "units": "`1` ... `100`",
+        "format": "Discharge Power Rating",
+        "description": "Grid First discharge power rating"
+      },
+      {
+        "topic": "growatt/settings/priority/grid/ssoc",
+        "units": "`13` ... `100`",
+        "format": "Stop State Of Charge",
+        "description": "Grid First SSOC"
+      },
+      {
+        "topic": "growatt/settings/priority/grid/t1",
+        "units": "`00:00 23:59`",
+        "format": "Grid First Time",
+        "description": "Grid First Time Interval 1 that can be set from the panel"
+      }
+    ],
+    "settings_currently_not_enabled_in_the_code": [
+      {
+        "topic": "growatt/settings/priority/bat/t2",
+        "units": "`00:00 23:59`",
+        "format": "Battery First Time 2",
+        "description": "Battery First Time Interval 2"
+      },
+      {
+        "topic": "growatt/settings/priority/bat/t3",
+        "units": "`00:00 23:59`",
+        "format": "Battery First Time 3",
+        "description": "Battery First Time Interval 3"
+      },
+      {
+        "topic": "growatt/settings/priority/grid/t2",
+        "units": "`00:00 23:59`",
+        "format": "Grid First Time 2",
+        "description": "Grid First Time Interval 2"
+      },
+      {
+        "topic": "growatt/settings/priority/grid/t3",
+        "units": "`00:00 23:59`",
+        "format": "Grid First Time 3",
+        "description": "Grid First Time Interval 3"
+      }
+    ],
+    "limiter_/_meter_function": [
+      {
+        "topic": "gtn1200w/settings/power",
+        "units": "Watts",
+        "format": "int",
+        "description": "Limiter/Meter demand power (to use the inverter in `PV Limit` mode), min = 0, max = 1200"
+      }
+    ]
+  },
+  "code": {
+    "src/growatt/GrowattInverter.cpp": {
+      "reads": [
+        {
+          "type": "input",
+          "block_start_register": 0,
+          "block_length": 12,
+          "function": "GrowattInverter::read",
+          "file": "src/growatt/GrowattInverter.cpp",
+          "entries": [
+            {
+              "variable": "status",
+              "expression": "this->node->getResponseBuffer(0)",
+              "buffer_indexes": [
+                0
+              ],
+              "registers": [
+                0
+              ]
+            },
+            {
+              "variable": "Vpv1",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(3))",
+              "buffer_indexes": [
+                3
+              ],
+              "registers": [
+                3
+              ]
+            },
+            {
+              "variable": "Ipv1",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(4)) / 10.0",
+              "buffer_indexes": [
+                4
+              ],
+              "registers": [
+                4
+              ]
+            },
+            {
+              "variable": "Ppv1",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(5), this->node->getResponseBuffer(6))",
+              "buffer_indexes": [
+                5,
+                6
+              ],
+              "registers": [
+                5,
+                6
+              ]
+            },
+            {
+              "variable": "Vpv2",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(7))",
+              "buffer_indexes": [
+                7
+              ],
+              "registers": [
+                7
+              ]
+            },
+            {
+              "variable": "Ipv2",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(8)) / 10.0",
+              "buffer_indexes": [
+                8
+              ],
+              "registers": [
+                8
+              ]
+            },
+            {
+              "variable": "Ppv2",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(9), this->node->getResponseBuffer(10))",
+              "buffer_indexes": [
+                9,
+                10
+              ],
+              "registers": [
+                9,
+                10
+              ]
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "block_start_register": 35,
+          "block_length": 24,
+          "function": "GrowattInverter::read",
+          "file": "src/growatt/GrowattInverter.cpp",
+          "entries": [
+            {
+              "variable": "Pac",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(0), this->node->getResponseBuffer(1))",
+              "buffer_indexes": [
+                0,
+                1
+              ],
+              "registers": [
+                35,
+                36
+              ]
+            },
+            {
+              "variable": "Fac",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(2))/10",
+              "buffer_indexes": [
+                2
+              ],
+              "registers": [
+                37
+              ]
+            },
+            {
+              "variable": "Vac1",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(3))",
+              "buffer_indexes": [
+                3
+              ],
+              "registers": [
+                38
+              ]
+            },
+            {
+              "variable": "Iac1",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(4))",
+              "buffer_indexes": [
+                4
+              ],
+              "registers": [
+                39
+              ]
+            },
+            {
+              "variable": "Pac1",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(5), this->node->getResponseBuffer(6))",
+              "buffer_indexes": [
+                5,
+                6
+              ],
+              "registers": [
+                40,
+                41
+              ]
+            },
+            {
+              "variable": "Vac2",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(7))",
+              "buffer_indexes": [
+                7
+              ],
+              "registers": [
+                42
+              ]
+            },
+            {
+              "variable": "Iac2",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(8))",
+              "buffer_indexes": [
+                8
+              ],
+              "registers": [
+                43
+              ]
+            },
+            {
+              "variable": "Pac2",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(9), this->node->getResponseBuffer(10))",
+              "buffer_indexes": [
+                9,
+                10
+              ],
+              "registers": [
+                44,
+                45
+              ]
+            },
+            {
+              "variable": "Vac3",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(11))",
+              "buffer_indexes": [
+                11
+              ],
+              "registers": [
+                46
+              ]
+            },
+            {
+              "variable": "Iac3",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(12))",
+              "buffer_indexes": [
+                12
+              ],
+              "registers": [
+                47
+              ]
+            },
+            {
+              "variable": "Pac3",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(13), this->node->getResponseBuffer(14))",
+              "buffer_indexes": [
+                13,
+                14
+              ],
+              "registers": [
+                48,
+                49
+              ]
+            },
+            {
+              "variable": "Etoday",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(18), this->node->getResponseBuffer(19))",
+              "buffer_indexes": [
+                18,
+                19
+              ],
+              "registers": [
+                53,
+                54
+              ]
+            },
+            {
+              "variable": "Etotal",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(20), this->node->getResponseBuffer(21))",
+              "buffer_indexes": [
+                20,
+                21
+              ],
+              "registers": [
+                55,
+                56
+              ]
+            },
+            {
+              "variable": "Ttotal",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(22), this->node->getResponseBuffer(23))",
+              "buffer_indexes": [
+                22,
+                23
+              ],
+              "registers": [
+                57,
+                58
+              ]
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "block_start_register": 93,
+          "block_length": 30,
+          "function": "GrowattInverter::read",
+          "file": "src/growatt/GrowattInverter.cpp",
+          "entries": [
+            {
+              "variable": "temp1",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(0))",
+              "buffer_indexes": [
+                0
+              ],
+              "registers": [
+                93
+              ]
+            },
+            {
+              "variable": "temp2",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(1))",
+              "buffer_indexes": [
+                1
+              ],
+              "registers": [
+                94
+              ]
+            },
+            {
+              "variable": "temp3",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(2))",
+              "buffer_indexes": [
+                2
+              ],
+              "registers": [
+                95
+              ]
+            },
+            {
+              "variable": "deratingMode",
+              "expression": "this->node->getResponseBuffer(11)",
+              "buffer_indexes": [
+                11
+              ],
+              "registers": [
+                104
+              ]
+            },
+            {
+              "variable": "Priority",
+              "expression": "this->node->getResponseBuffer(25)",
+              "buffer_indexes": [
+                25
+              ],
+              "registers": [
+                118
+              ]
+            },
+            {
+              "variable": "BatteryType",
+              "expression": "this->node->getResponseBuffer(26)",
+              "buffer_indexes": [
+                26
+              ],
+              "registers": [
+                119
+              ]
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "block_start_register": 1009,
+          "block_length": 6,
+          "function": "GrowattInverter::read",
+          "file": "src/growatt/GrowattInverter.cpp",
+          "entries": [
+            {
+              "variable": "Pdischarge",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(0), this->node->getResponseBuffer(1))",
+              "buffer_indexes": [
+                0,
+                1
+              ],
+              "registers": [
+                1009,
+                1010
+              ]
+            },
+            {
+              "variable": "Pcharge",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(2), this->node->getResponseBuffer(3))",
+              "buffer_indexes": [
+                2,
+                3
+              ],
+              "registers": [
+                1011,
+                1012
+              ]
+            },
+            {
+              "variable": "Vbat",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(4))",
+              "buffer_indexes": [
+                4
+              ],
+              "registers": [
+                1013
+              ]
+            },
+            {
+              "variable": "SOC",
+              "expression": "this->node->getResponseBuffer(5)",
+              "buffer_indexes": [
+                5
+              ],
+              "registers": [
+                1014
+              ]
+            }
+          ]
+        },
+        {
+          "type": "input",
+          "block_start_register": 1067,
+          "block_length": 15,
+          "function": "GrowattInverter::read",
+          "file": "src/growatt/GrowattInverter.cpp",
+          "entries": [
+            {
+              "variable": "EpsFac",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(0)) / 10.0",
+              "buffer_indexes": [
+                0
+              ],
+              "registers": [
+                1067
+              ]
+            },
+            {
+              "variable": "EpsVac1",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(1))",
+              "buffer_indexes": [
+                1
+              ],
+              "registers": [
+                1068
+              ]
+            },
+            {
+              "variable": "EpsIac1",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(2))",
+              "buffer_indexes": [
+                2
+              ],
+              "registers": [
+                1069
+              ]
+            },
+            {
+              "variable": "EpsPac1",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(3), this->node->getResponseBuffer(4))",
+              "buffer_indexes": [
+                3,
+                4
+              ],
+              "registers": [
+                1070,
+                1071
+              ]
+            },
+            {
+              "variable": "EpsVac2",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(5))",
+              "buffer_indexes": [
+                5
+              ],
+              "registers": [
+                1072
+              ]
+            },
+            {
+              "variable": "EpsIac2",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(6))",
+              "buffer_indexes": [
+                6
+              ],
+              "registers": [
+                1073
+              ]
+            },
+            {
+              "variable": "EpsPac2",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(7), this->node->getResponseBuffer(8))",
+              "buffer_indexes": [
+                7,
+                8
+              ],
+              "registers": [
+                1074,
+                1075
+              ]
+            },
+            {
+              "variable": "EpsVac3",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(9))",
+              "buffer_indexes": [
+                9
+              ],
+              "registers": [
+                1076
+              ]
+            },
+            {
+              "variable": "EpsIac3",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(10))",
+              "buffer_indexes": [
+                10
+              ],
+              "registers": [
+                1077
+              ]
+            },
+            {
+              "variable": "EpsPac3",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(11), this->node->getResponseBuffer(12))",
+              "buffer_indexes": [
+                11,
+                12
+              ],
+              "registers": [
+                1078,
+                1079
+              ]
+            },
+            {
+              "variable": "EpsLoadPercent",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(13))",
+              "buffer_indexes": [
+                13
+              ],
+              "registers": [
+                1080
+              ]
+            },
+            {
+              "variable": "EpsPF",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(14)) / 100.0",
+              "buffer_indexes": [
+                14
+              ],
+              "registers": [
+                1081
+              ]
+            }
+          ]
+        }
+      ],
+      "writes": [],
+      "address_functions": [],
+      "data_set_calls": [
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "(runningTask->subtopic()+\"/result\").c_str()",
+          "value_expression": "runningTask->isSuccessful() ? \"Ok\" : \"Fail\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"status\"",
+          "value_expression": "this->status"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Ppv1\"",
+          "value_expression": "this->Ppv1"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Vpv1\"",
+          "value_expression": "this->Vpv1"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Ipv1\"",
+          "value_expression": "this->Ipv1"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Ppv2\"",
+          "value_expression": "this->Ppv2"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Vpv2\"",
+          "value_expression": "this->Vpv2"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Ipv2\"",
+          "value_expression": "this->Ipv2"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Vac1\"",
+          "value_expression": "this->Vac1"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Iac1\"",
+          "value_expression": "this->Iac1"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Pac1\"",
+          "value_expression": "this->Pac1"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Pac\"",
+          "value_expression": "this->Pac"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Fac\"",
+          "value_expression": "this->Fac"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Vac2\"",
+          "value_expression": "this->Vac2"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Iac2\"",
+          "value_expression": "this->Iac2"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Pac2\"",
+          "value_expression": "this->Pac2"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Vac3\"",
+          "value_expression": "this->Vac3"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Iac3\"",
+          "value_expression": "this->Iac3"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Pac3\"",
+          "value_expression": "this->Pac3"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Etoday\"",
+          "value_expression": "this->Etoday"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Etotal\"",
+          "value_expression": "this->Etotal"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Ttotal\"",
+          "value_expression": "this->Ttotal"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Temp1\"",
+          "value_expression": "this->temp1"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Temp2\"",
+          "value_expression": "this->temp2"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Temp3\"",
+          "value_expression": "this->temp3"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"DeratingMode\"",
+          "value_expression": "this->deratingMode"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Derating\"",
+          "value_expression": "\"None\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Derating\"",
+          "value_expression": "\"PV\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Derating\"",
+          "value_expression": "\"*\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Derating\"",
+          "value_expression": "\"Vac\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Derating\"",
+          "value_expression": "\"Fac\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Derating\"",
+          "value_expression": "\"Tboost\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Derating\"",
+          "value_expression": "\"Tinv\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Derating\"",
+          "value_expression": "\"Control\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Derating\"",
+          "value_expression": "\"*\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Derating\"",
+          "value_expression": "\"OverBackByTime\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Derating\"",
+          "value_expression": "\"Unknown\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Priority\"",
+          "value_expression": "\"Load\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Priority\"",
+          "value_expression": "\"Bat\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Priority\"",
+          "value_expression": "\"Grid\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Priority\"",
+          "value_expression": "(String(\"Unknown \") + this->Priority).c_str()"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Battery\"",
+          "value_expression": "\"LeadAcid\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Battery\"",
+          "value_expression": "\"Lithium\""
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Battery\"",
+          "value_expression": "(String(\"Unknown type \") + this->BatteryType).c_str()"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Pdischarge\"",
+          "value_expression": "this->Pdischarge"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Pcharge\"",
+          "value_expression": "this->Pcharge"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"Vbat\"",
+          "value_expression": "this->Vbat"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"SOC\"",
+          "value_expression": "this->SOC"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"EpsFac\"",
+          "value_expression": "this->EpsFac"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"EpsPac1\"",
+          "value_expression": "this->EpsPac1"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"EpsVac1\"",
+          "value_expression": "this->EpsVac1"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"EpsIac1\"",
+          "value_expression": "this->EpsIac1"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"EpsPac2\"",
+          "value_expression": "this->EpsPac2"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"EpsVac2\"",
+          "value_expression": "this->EpsVac2"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"EpsIac2\"",
+          "value_expression": "this->EpsIac2"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"EpsPac3\"",
+          "value_expression": "this->EpsPac3"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"EpsVac3\"",
+          "value_expression": "this->EpsVac3"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"EpsIac3\"",
+          "value_expression": "this->EpsIac3"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"EpsLoadPercent\"",
+          "value_expression": "this->EpsLoadPercent"
+        },
+        {
+          "file": "src/growatt/GrowattInverter.cpp",
+          "key_expression": "\"EpsPF\"",
+          "value_expression": "this->EpsPF"
+        }
+      ],
+      "mqtt_var_to_topic": {
+        "status": "status",
+        "Ppv1": "Ppv1",
+        "Vpv1": "Vpv1",
+        "Ipv1": "Ipv1",
+        "Ppv2": "Ppv2",
+        "Vpv2": "Vpv2",
+        "Ipv2": "Ipv2",
+        "Vac1": "Vac1",
+        "Iac1": "Iac1",
+        "Pac1": "Pac1",
+        "Pac": "Pac",
+        "Fac": "Fac",
+        "Vac2": "Vac2",
+        "Iac2": "Iac2",
+        "Pac2": "Pac2",
+        "Vac3": "Vac3",
+        "Iac3": "Iac3",
+        "Pac3": "Pac3",
+        "Etoday": "Etoday",
+        "Etotal": "Etotal",
+        "Ttotal": "Ttotal",
+        "temp1": "Temp1",
+        "temp2": "Temp2",
+        "temp3": "Temp3",
+        "deratingMode": "DeratingMode",
+        "Priority": "Priority",
+        "BatteryType": "Battery",
+        "Pdischarge": "Pdischarge",
+        "Pcharge": "Pcharge",
+        "Vbat": "Vbat",
+        "SOC": "SOC",
+        "EpsFac": "EpsFac",
+        "EpsPac1": "EpsPac1",
+        "EpsVac1": "EpsVac1",
+        "EpsIac1": "EpsIac1",
+        "EpsPac2": "EpsPac2",
+        "EpsVac2": "EpsVac2",
+        "EpsIac2": "EpsIac2",
+        "EpsPac3": "EpsPac3",
+        "EpsVac3": "EpsVac3",
+        "EpsIac3": "EpsIac3",
+        "EpsLoadPercent": "EpsLoadPercent",
+        "EpsPF": "EpsPF"
+      },
+      "mqtt_keys": [
+        "Battery",
+        "DeratingMode",
+        "EpsFac",
+        "EpsIac1",
+        "EpsIac2",
+        "EpsIac3",
+        "EpsLoadPercent",
+        "EpsPF",
+        "EpsPac1",
+        "EpsPac2",
+        "EpsPac3",
+        "EpsVac1",
+        "EpsVac2",
+        "EpsVac3",
+        "Etoday",
+        "Etotal",
+        "Fac",
+        "Iac1",
+        "Iac2",
+        "Iac3",
+        "Ipv1",
+        "Ipv2",
+        "Pac",
+        "Pac1",
+        "Pac2",
+        "Pac3",
+        "Pcharge",
+        "Pdischarge",
+        "Ppv1",
+        "Ppv2",
+        "Priority",
+        "SOC",
+        "Temp1",
+        "Temp2",
+        "Temp3",
+        "Ttotal",
+        "Vac1",
+        "Vac2",
+        "Vac3",
+        "Vbat",
+        "Vpv1",
+        "Vpv2",
+        "status"
+      ]
+    },
+    "src/growatt/GrowattPriorityBatteryFirstACChargerConfigTask.cpp": {
+      "reads": [],
+      "writes": [
+        {
+          "call": "writeMultipleRegisters",
+          "address": 1092,
+          "file": "src/growatt/GrowattPriorityBatteryFirstACChargerConfigTask.cpp"
+        }
+      ],
+      "address_functions": [],
+      "data_set_calls": []
+    },
+    "src/growatt/GrowattPriorityConfigSetOneRegisterTask.cpp": {
+      "reads": [],
+      "writes": [],
+      "address_functions": [],
+      "data_set_calls": []
+    },
+    "src/growatt/GrowattPriorityPowerRatingConfigTask.cpp": {
+      "reads": [],
+      "writes": [],
+      "address_functions": [
+        {
+          "function": "GrowattPriorityPowerRatingConfigTask::getAddress",
+          "file": "src/growatt/GrowattPriorityPowerRatingConfigTask.cpp",
+          "returns": [
+            1090,
+            1070,
+            65535
+          ]
+        }
+      ],
+      "data_set_calls": []
+    },
+    "src/growatt/GrowattPriorityStopStateOfChargeConfigTask.cpp": {
+      "reads": [],
+      "writes": [],
+      "address_functions": [
+        {
+          "function": "GrowattPriorityStopStateOfChargeConfigTask::getAddress",
+          "file": "src/growatt/GrowattPriorityStopStateOfChargeConfigTask.cpp",
+          "returns": [
+            1091,
+            1071,
+            65535
+          ]
+        }
+      ],
+      "data_set_calls": []
+    },
+    "src/growatt/GrowattPriorityTask.cpp": {
+      "reads": [
+        {
+          "type": "holding",
+          "block_start_register": 1070,
+          "block_length": 49,
+          "function": "GrowattPriorityTask::readPriorityStatus",
+          "file": "src/growatt/GrowattPriorityTask.cpp",
+          "entries": []
+        }
+      ],
+      "writes": [],
+      "address_functions": [],
+      "data_set_calls": []
+    },
+    "src/growatt/GrowattPriorityTimeConfigTask.cpp": {
+      "reads": [],
+      "writes": [],
+      "address_functions": [],
+      "data_set_calls": []
+    },
+    "src/growatt/GrowattReadHoldingTask.cpp": {
+      "reads": [],
+      "writes": [],
+      "address_functions": [],
+      "data_set_calls": []
+    },
+    "src/growatt/GrowattTaskFactory.cpp": {
+      "reads": [],
+      "writes": [],
+      "address_functions": [],
+      "data_set_calls": []
+    },
+    "src/growatt/MicInverter.cpp": {
+      "reads": [
+        {
+          "type": "input",
+          "block_start_register": 0,
+          "block_length": 42,
+          "function": "MicInverter::read",
+          "file": "src/growatt/MicInverter.cpp",
+          "entries": [
+            {
+              "variable": "status",
+              "expression": "this->node->getResponseBuffer(0)",
+              "buffer_indexes": [
+                0
+              ],
+              "registers": [
+                0
+              ]
+            },
+            {
+              "variable": "Ppv",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(1), this->node->getResponseBuffer(2))",
+              "buffer_indexes": [
+                1,
+                2
+              ],
+              "registers": [
+                1,
+                2
+              ]
+            },
+            {
+              "variable": "Vpv1",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(3))",
+              "buffer_indexes": [
+                3
+              ],
+              "registers": [
+                3
+              ]
+            },
+            {
+              "variable": "Ipv1",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(4))",
+              "buffer_indexes": [
+                4
+              ],
+              "registers": [
+                4
+              ]
+            },
+            {
+              "variable": "Ppv1",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(5), this->node->getResponseBuffer(6))",
+              "buffer_indexes": [
+                5,
+                6
+              ],
+              "registers": [
+                5,
+                6
+              ]
+            },
+            {
+              "variable": "Vpv2",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(7))",
+              "buffer_indexes": [
+                7
+              ],
+              "registers": [
+                7
+              ]
+            },
+            {
+              "variable": "Ipv2",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(8))",
+              "buffer_indexes": [
+                8
+              ],
+              "registers": [
+                8
+              ]
+            },
+            {
+              "variable": "Ppv2",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(9), this->node->getResponseBuffer(10))",
+              "buffer_indexes": [
+                9,
+                10
+              ],
+              "registers": [
+                9,
+                10
+              ]
+            },
+            {
+              "variable": "Pac",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(11), this->node->getResponseBuffer(12))",
+              "buffer_indexes": [
+                11,
+                12
+              ],
+              "registers": [
+                11,
+                12
+              ]
+            },
+            {
+              "variable": "Fac",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(13)) / 10.0",
+              "buffer_indexes": [
+                13
+              ],
+              "registers": [
+                13
+              ]
+            },
+            {
+              "variable": "Vac1",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(14))",
+              "buffer_indexes": [
+                14
+              ],
+              "registers": [
+                14
+              ]
+            },
+            {
+              "variable": "Iac1",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(15))",
+              "buffer_indexes": [
+                15
+              ],
+              "registers": [
+                15
+              ]
+            },
+            {
+              "variable": "Pac1",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(16), this->node->getResponseBuffer(17))",
+              "buffer_indexes": [
+                16,
+                17
+              ],
+              "registers": [
+                16,
+                17
+              ]
+            },
+            {
+              "variable": "Vac2",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(18))",
+              "buffer_indexes": [
+                18
+              ],
+              "registers": [
+                18
+              ]
+            },
+            {
+              "variable": "Iac2",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(19))",
+              "buffer_indexes": [
+                19
+              ],
+              "registers": [
+                19
+              ]
+            },
+            {
+              "variable": "Pac2",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(20), this->node->getResponseBuffer(21))",
+              "buffer_indexes": [
+                20,
+                21
+              ],
+              "registers": [
+                20,
+                21
+              ]
+            },
+            {
+              "variable": "Vac3",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(22))",
+              "buffer_indexes": [
+                22
+              ],
+              "registers": [
+                22
+              ]
+            },
+            {
+              "variable": "Iac3",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(23))",
+              "buffer_indexes": [
+                23
+              ],
+              "registers": [
+                23
+              ]
+            },
+            {
+              "variable": "Pac3",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(24), this->node->getResponseBuffer(25))",
+              "buffer_indexes": [
+                24,
+                25
+              ],
+              "registers": [
+                24,
+                25
+              ]
+            },
+            {
+              "variable": "Etoday",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(26), this->node->getResponseBuffer(27))",
+              "buffer_indexes": [
+                26,
+                27
+              ],
+              "registers": [
+                26,
+                27
+              ]
+            },
+            {
+              "variable": "Etotal",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(28), this->node->getResponseBuffer(29))",
+              "buffer_indexes": [
+                28,
+                29
+              ],
+              "registers": [
+                28,
+                29
+              ]
+            },
+            {
+              "variable": "Ttotal",
+              "expression": "ModbusUtils::glueFloat(this->node->getResponseBuffer(30), this->node->getResponseBuffer(31))",
+              "buffer_indexes": [
+                30,
+                31
+              ],
+              "registers": [
+                30,
+                31
+              ]
+            },
+            {
+              "variable": "tempInverter",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(32))",
+              "buffer_indexes": [
+                32
+              ],
+              "registers": [
+                32
+              ]
+            },
+            {
+              "variable": "tempIPM",
+              "expression": "ModbusUtils::glueFloat(0, this->node->getResponseBuffer(41))",
+              "buffer_indexes": [
+                41
+              ],
+              "registers": [
+                41
+              ]
+            }
+          ]
+        }
+      ],
+      "writes": [],
+      "address_functions": [],
+      "data_set_calls": [
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"status\"",
+          "value_expression": "this->status"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Ppv\"",
+          "value_expression": "this->Ppv"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Ppv1\"",
+          "value_expression": "this->Ppv1"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Vpv1\"",
+          "value_expression": "this->Vpv1"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Ipv1\"",
+          "value_expression": "this->Ipv1"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Ppv2\"",
+          "value_expression": "this->Ppv2"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Vpv2\"",
+          "value_expression": "this->Vpv2"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Ipv2\"",
+          "value_expression": "this->Ipv2"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Pac\"",
+          "value_expression": "this->Pac"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Fac\"",
+          "value_expression": "this->Fac"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Vac1\"",
+          "value_expression": "this->Vac1"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Iac1\"",
+          "value_expression": "this->Iac1"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Pac1\"",
+          "value_expression": "this->Pac1"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Vac2\"",
+          "value_expression": "this->Vac2"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Iac2\"",
+          "value_expression": "this->Iac2"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Pac2\"",
+          "value_expression": "this->Pac2"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Vac3\"",
+          "value_expression": "this->Vac3"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Iac3\"",
+          "value_expression": "this->Iac3"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Pac3\"",
+          "value_expression": "this->Pac3"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Etoday\"",
+          "value_expression": "this->Etoday"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Etotal\"",
+          "value_expression": "this->Etotal"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Ttotal\"",
+          "value_expression": "this->Ttotal"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Temp1\"",
+          "value_expression": "this->tempInverter"
+        },
+        {
+          "file": "src/growatt/MicInverter.cpp",
+          "key_expression": "\"Temp2\"",
+          "value_expression": "this->tempIPM"
+        }
+      ],
+      "mqtt_var_to_topic": {
+        "status": "status",
+        "Ppv": "Ppv",
+        "Ppv1": "Ppv1",
+        "Vpv1": "Vpv1",
+        "Ipv1": "Ipv1",
+        "Ppv2": "Ppv2",
+        "Vpv2": "Vpv2",
+        "Ipv2": "Ipv2",
+        "Pac": "Pac",
+        "Fac": "Fac",
+        "Vac1": "Vac1",
+        "Iac1": "Iac1",
+        "Pac1": "Pac1",
+        "Vac2": "Vac2",
+        "Iac2": "Iac2",
+        "Pac2": "Pac2",
+        "Vac3": "Vac3",
+        "Iac3": "Iac3",
+        "Pac3": "Pac3",
+        "Etoday": "Etoday",
+        "Etotal": "Etotal",
+        "Ttotal": "Ttotal",
+        "tempInverter": "Temp1",
+        "tempIPM": "Temp2"
+      },
+      "mqtt_keys": [
+        "Etoday",
+        "Etotal",
+        "Fac",
+        "Iac1",
+        "Iac2",
+        "Iac3",
+        "Ipv1",
+        "Ipv2",
+        "Pac",
+        "Pac1",
+        "Pac2",
+        "Pac3",
+        "Ppv",
+        "Ppv1",
+        "Ppv2",
+        "Temp1",
+        "Temp2",
+        "Ttotal",
+        "Vac1",
+        "Vac2",
+        "Vac3",
+        "Vpv1",
+        "Vpv2",
+        "status"
+      ]
+    },
+    "src/growatt/MultiGrowattInverter.cpp": {
+      "reads": [],
+      "writes": [],
+      "address_functions": [],
+      "data_set_calls": []
+    }
+  }
+}

@@ -1,0 +1,474 @@
+{
+  "meta": {
+    "version": "0.2.1",
+    "generated_at": "2025-10-04T21:13:10+00:00",
+    "generator": "manual bootstrap from vendor spec"
+  },
+  "inverter_families": {
+    "tlx_min": {
+      "label": "TL-X / TL-XH / TL-XH US (MIN)",
+      "description": "Single and three-phase TL-X variants including TL-XH hybrids and TL-XH US firmware.",
+      "holding_blocks": [
+        "holding_bdc_5000_5399",
+        "holding_common_0_124",
+        "holding_extended_125_249",
+        "holding_extended_303_345",
+        "holding_tlxh_3000_3124",
+        "holding_tlxh_3125_3249",
+        "holding_tlxh_3250_3374"
+      ],
+      "input_blocks": [
+        "input_common_0_124",
+        "input_extended_125_249",
+        "input_tlxh_3000_3124",
+        "input_tlxh_3125_3199",
+        "input_tlxh_3200_3249"
+      ],
+      "notes": "Block usage derived from protocol v1.24 tables; BDC mirrors inferred from field traces."
+    },
+    "tl3x": {
+      "label": "TL3-X (MAX / MID / MAC)",
+      "description": "Three-phase TL3 variants covering MAX, MID and MAC series.",
+      "holding_blocks": [
+        "holding_common_0_124",
+        "holding_extended_125_249",
+        "holding_extended_303_345"
+      ],
+      "input_blocks": [
+        "input_common_0_124",
+        "input_extended_125_249"
+      ]
+    },
+    "max_lv": {
+      "label": "MAX 1500V / MAX-X LV",
+      "description": "High-voltage commercial families with extended telemetry windows.",
+      "holding_blocks": [
+        "holding_common_0_124",
+        "holding_extended_125_249",
+        "holding_extended_303_345"
+      ],
+      "input_blocks": [
+        "input_common_0_124",
+        "input_extended_125_249",
+        "input_max_lv_875_999"
+      ],
+      "notes": "Function code 04 additionally exposes 875-999 per vendor table; pending detailed catalog entry."
+    },
+    "mod_tl3xh": {
+      "label": "MOD TL3-XH",
+      "description": "Modular TL3-XH hybrid platform.",
+      "holding_blocks": [
+        "holding_common_0_124",
+        "holding_tlxh_3000_3124"
+      ],
+      "input_blocks": [
+        "input_common_0_124",
+        "input_tlxh_3000_3124",
+        "input_tlxh_3125_3199",
+        "input_tlxh_3200_3249"
+      ]
+    },
+    "storage_mix": {
+      "label": "Storage (MIX)",
+      "description": "MIX hybrid storage platform.",
+      "holding_blocks": [
+        "holding_common_0_124",
+        "holding_storage_1000_1124",
+        "holding_storage_diagnostics_532_612",
+        "holding_storage_status_660"
+      ],
+      "input_blocks": [
+        "input_common_0_124",
+        "input_extended_125_249",
+        "input_storage_1000_1124"
+      ]
+    },
+    "storage_spa": {
+      "label": "Storage (SPA)",
+      "description": "SPA hybrid storage platform with extended scheduling blocks.",
+      "holding_blocks": [
+        "holding_common_0_124",
+        "holding_storage_1000_1124",
+        "holding_storage_diagnostics_532_612",
+        "holding_storage_spa_1125_1249",
+        "holding_storage_spa_2000_2124",
+        "holding_storage_status_660"
+      ],
+      "input_blocks": [
+        "input_common_0_124",
+        "input_extended_125_249",
+        "input_storage_1000_1124"
+      ]
+    },
+    "storage_sph": {
+      "label": "Storage (SPH)",
+      "description": "SPH storage platform with battery scheduling.",
+      "holding_blocks": [
+        "holding_common_0_124",
+        "holding_storage_1000_1124",
+        "holding_storage_diagnostics_532_612",
+        "holding_storage_spa_1125_1249",
+        "holding_storage_status_660"
+      ],
+      "input_blocks": [
+        "input_common_0_124",
+        "input_extended_125_249",
+        "input_storage_1000_1124"
+      ]
+    }
+  },
+  "blocks": {
+    "holding_common_0_124": {
+      "label": "Holding common registers 0-124",
+      "reg_type": "holding",
+      "register": 0,
+      "length": 125,
+      "description": "Core configuration and enable flags shared across inverter families.",
+      "sections": [
+        {
+          "id": "holding_common_configuration",
+          "label": "Common configuration",
+          "register": 0,
+          "length": 125,
+          "description": "General control flags including inverter enable and safety bitmasks."
+        }
+      ]
+    },
+    "holding_extended_125_249": {
+      "label": "Holding extended common registers 125-249",
+      "reg_type": "holding",
+      "register": 125,
+      "length": 125,
+      "description": "Extended identification, grid support and diagnostics registers present on most three-phase models.",
+      "sections": [
+        {
+          "id": "holding_extended_identification",
+          "label": "Extended identification and reactive control",
+          "register": 125,
+          "length": 17,
+          "description": "Model identification words, reactive power defaults and certification flags."
+        },
+        {
+          "id": "holding_grid_support_parameters",
+          "label": "Grid support parameters",
+          "register": 142,
+          "length": 38,
+          "description": "Voltage/frequency ride-through parameters and grid support tuning."
+        },
+        {
+          "id": "holding_accessory_optimizer_control",
+          "label": "Accessory and optimizer control",
+          "register": 180,
+          "length": 9,
+          "description": "Optimizer discovery and third-party accessory configuration."
+        },
+        {
+          "id": "holding_pid_mitigation",
+          "label": "PID mitigation control",
+          "register": 200,
+          "length": 4,
+          "description": "Potential-induced degradation mitigation timer configuration."
+        },
+        {
+          "id": "holding_serial_buffer",
+          "label": "Extended serial number buffer",
+          "register": 209,
+          "length": 15,
+          "description": "Continuation of serial number fields for longer IDs (covers registers 209-223)."
+        },
+        {
+          "id": "holding_diagnostics_override",
+          "label": "Diagnostics and grid override controls",
+          "register": 229,
+          "length": 11,
+          "description": "Installer diagnostics, grid override and remote debug controls."
+        },
+        {
+          "id": "holding_installer_location",
+          "label": "Installer location metadata",
+          "register": 240,
+          "length": 3,
+          "description": "Latitude/longitude and installer notes."
+        }
+      ]
+    },
+    "holding_storage_1000_1124": {
+      "label": "Holding storage control 1000-1124",
+      "reg_type": "holding",
+      "register": 1000,
+      "length": 125,
+      "description": "Hybrid/storage specific scheduling and control registers.",
+      "sections": [
+        {
+          "id": "holding_storage_discharge_schedule",
+          "label": "Grid-first discharge schedule",
+          "register": 1070,
+          "length": 19,
+          "description": "Time-of-use discharge windows prioritising grid support."
+        },
+        {
+          "id": "holding_storage_charge_schedule",
+          "label": "Battery-first charge schedule",
+          "register": 1090,
+          "length": 19,
+          "description": "Charge windows prioritising battery replenishment."
+        },
+        {
+          "label": "Load-first schedule (SPA only)",
+          "register": 1110,
+          "length": 9,
+          "description": "SPA-specific schedule favouring local loads."
+        },
+        {
+          "label": "Additional storage control flags",
+          "register": 1119,
+          "length": 3,
+          "description": "Miscellaneous hybrid control toggles and vendor-reserved words."
+        }
+      ]
+    },
+    "holding_storage_spa_1125_1249": {
+      "label": "Holding storage SPA extensions 1125-1249",
+      "reg_type": "holding",
+      "register": 1125,
+      "length": 125,
+      "description": "Additional SPA-only scheduling and diagnostics registers.",
+      "sections": [
+        {
+          "label": "Battery Serial",
+          "register": 1125,
+          "length": 80,
+          "description": "Serial number registers for SPA/MIN battery packs (pack 1 columns 1125-1132, packs 2-10 extend to 1204)."
+        },
+        {
+          "label": "Unnamed section",
+          "register": 1244,
+          "length": 6,
+          "description": "Reserved SPA flag registers (best-guess data)."
+        }
+      ]
+    },
+    "holding_storage_spa_2000_2124": {
+      "label": "Holding storage SPA diagnostics 2000-2124",
+      "reg_type": "holding",
+      "register": 2000,
+      "length": 125,
+      "description": "SPA auxiliary diagnostics block referenced by function code 04."
+    },
+    "holding_tlxh_3000_3124": {
+      "label": "Holding TL-XH block 3000-3124",
+      "reg_type": "holding",
+      "register": 3000,
+      "length": 125,
+      "description": "Hybrid TL-XH configuration registers mirrored from common holding block.",
+      "sections": [
+        {
+          "id": "holding_tlxh_configuration",
+          "label": "TL-XH hybrid configuration",
+          "register": 3000,
+          "length": 125,
+          "description": "Mirrored core configuration exposed via hybrid holding block."
+        }
+      ]
+    },
+    "holding_tlxh_3125_3249": {
+      "label": "Holding TL-XH US block 3125-3249",
+      "reg_type": "holding",
+      "register": 3125,
+      "length": 125,
+      "description": "Time-of-use scheduling and regional options for TL-XH US models.",
+      "sections": [
+        {
+          "id": "holding_tlxh_tou",
+          "label": "TL-XH US time-of-use scheduler",
+          "register": 3125,
+          "length": 125,
+          "description": "Time-of-use schedule tables for TL-XH US firmware."
+        }
+      ]
+    },
+    "holding_tlxh_3250_3374": {
+      "label": "Holding TL-XH extended block 3250-3374",
+      "reg_type": "holding",
+      "register": 3250,
+      "length": 125,
+      "description": "Additional TL-XH telemetry exposed via function 04 reads."
+    },
+    "holding_bdc_5000_5399": {
+      "label": "Holding BDC telemetry mirrors 5000-5399",
+      "reg_type": "holding",
+      "register": 5000,
+      "length": 400,
+      "description": "Mirrored metadata for up to ten BDC modules as documented in the vendor protocol (page 47).",
+      "sections": [
+        {
+          "label": "BDC module mirrors",
+          "register": 5000,
+          "length": 40,
+          "description": "Mirror of holding 3085-3124 (BDC1); additional slots follow the same layout."
+        }
+      ]
+    },
+    "input_common_0_124": {
+      "label": "Input telemetry 0-124",
+      "reg_type": "input",
+      "register": 0,
+      "length": 125,
+      "description": "Standard input telemetry for all inverter families.",
+      "sections": [
+        {
+          "id": "input_common",
+          "label": "Common input telemetry (0-124)",
+          "register": 0,
+          "length": 125,
+          "description": "Instantaneous telemetry for PV strings, grid and inverter state."
+        }
+      ]
+    },
+    "input_extended_125_249": {
+      "label": "Input telemetry 125-249",
+      "reg_type": "input",
+      "register": 125,
+      "length": 125,
+      "description": "Extended telemetry available on three-phase families.",
+      "sections": [
+        {
+          "id": "input_extended",
+          "label": "Extended common input telemetry (125-249)",
+          "register": 125,
+          "length": 125,
+          "description": "Extended second-bank telemetry for models exposing additional metrics."
+        }
+      ]
+    },
+    "input_tlxh_3000_3124": {
+      "label": "Input TL-X/TL-XH telemetry 3000-3124",
+      "reg_type": "input",
+      "register": 3000,
+      "length": 125,
+      "description": "PV and AC telemetry for TL-X / TL-XH families.",
+      "sections": [
+        {
+          "id": "input_tlxh_pv_ac",
+          "label": "TL-X/TL-XH PV/AC telemetry (3000-3124)",
+          "register": 3000,
+          "length": 125,
+          "description": "Hybrid exposure of PV and AC telemetry."
+        }
+      ]
+    },
+    "input_tlxh_3125_3199": {
+      "label": "Input TL-X/TL-XH battery telemetry 3125-3199",
+      "reg_type": "input",
+      "register": 3125,
+      "length": 75,
+      "description": "Battery-centric telemetry for TL-XH devices.",
+      "sections": [
+        {
+          "id": "input_tlxh_battery",
+          "label": "TL-X/TL-XH battery telemetry (3125-3199)",
+          "register": 3125,
+          "length": 75,
+          "description": "Battery pack state, charge/discharge power and alarms."
+        }
+      ]
+    },
+    "input_tlxh_3200_3249": {
+      "label": "Input TL-X/TL-XH BMS and diagnostics 3200-3249",
+      "reg_type": "input",
+      "register": 3200,
+      "length": 50,
+      "description": "BMS status and debug metrics for hybrid models.",
+      "sections": [
+        {
+          "id": "input_tlxh_bms_debug",
+          "label": "TL-X/TL-XH BMS and debug telemetry (3200-3249)",
+          "register": 3200,
+          "length": 50,
+          "description": "Detailed BMS channel readings and firmware debug counters."
+        }
+      ]
+    },
+    "holding_extended_303_345": {
+      "label": "Holding extended diagnostics 303-345",
+      "reg_type": "holding",
+      "register": 303,
+      "length": 43,
+      "description": "Diagnostics, communication stats and advanced Q(V)/frequency tuning registers.",
+      "sections": [
+        {
+          "label": "Export control and communication diagnostics",
+          "register": 303,
+          "length": 8,
+          "description": "Diagnostic information for export control and communication interfaces."
+        },
+        {
+          "label": "Advanced Q(V) and frequency tuning",
+          "register": 311,
+          "length": 35,
+          "description": "Advanced voltage-reactive power and frequency tuning parameters."
+        }
+      ]
+    },
+    "holding_storage_diagnostics_532_612": {
+      "label": "Holding storage diagnostics 532-612",
+      "reg_type": "holding",
+      "register": 532,
+      "length": 81,
+      "description": "Storage diagnostics block described in vendor protocol (holding 532-612).",
+      "sections": [
+        {
+          "label": "Storage diagnostics",
+          "register": 532,
+          "length": 81,
+          "description": "Detailed diagnostics for storage controllers."
+        }
+      ]
+    },
+    "holding_storage_status_660": {
+      "label": "Holding storage status 660",
+      "reg_type": "holding",
+      "register": 660,
+      "length": 1,
+      "description": "Standalone holding register 660 referenced in vendor documentation.",
+      "sections": [
+        {
+          "label": "Storage status register",
+          "register": 660,
+          "length": 1,
+          "description": "Single status register (vendor PDF)."
+        }
+      ]
+    },
+    "input_max_lv_875_999": {
+      "label": "Input telemetry 875-999 (MAX LV)",
+      "reg_type": "input",
+      "register": 875,
+      "length": 125,
+      "description": "MAX 1500V / MAX-X LV additional input telemetry block (function code 04).",
+      "sections": [
+        {
+          "label": "MAX LV extended telemetry",
+          "register": 875,
+          "length": 125,
+          "description": "Extended telemetry for MAX LV devices (vendor summary range 875-999)."
+        }
+      ]
+    },
+    "input_storage_1000_1124": {
+      "label": "Input storage telemetry 1000-1124",
+      "reg_type": "input",
+      "register": 1000,
+      "length": 125,
+      "description": "Storage-specific input telemetry block documented in vendor protocol (function code 04).",
+      "sections": [
+        {
+          "label": "Storage input telemetry",
+          "register": 1000,
+          "length": 125,
+          "description": "Battery/storage input metrics spanning registers 1000-1124."
+        }
+      ]
+    }
+  }
+}

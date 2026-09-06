@@ -1,0 +1,303 @@
+"
+
+InverterFamily:
+  Id          # short name, like variable name, mqtt topic,
+  description # One line description / characterization
+  holdings    # list of Block::Id
+  inputs      # list of Block::Id
+
+
+Block:        # 0-124, 1000-1124, ...
+  Id          # short name, like variable name, mqtt topic,
+  description # One line description / characterization
+  Supported_by # list of InverterFamily::Id
+  Sections     # list of Section (note: complete sections, not just references/Ids)
+
+
+Section:
+    Id          # short name, like variable name, mqtt topic,
+    description # One line description / characterization
+    reg_values  # list of CanonicalRegisterValue::Id
+
+
+RegisterValue:
+  Id          # short name, like variable name, mqtt topic,
+  description # One line description / characterization
+  address     # modbus reg address (first address when length > 1)
+  length      # number of 16 bit words/raw registers in this value
+  reg_type    # either 'holding' or 'input'
+  unit        # unit string, like 'W', 'V', 'A', '%', 'C', 'Hz', 'kWh', ...
+  writeable   # can only be true for holding registers
+  scale       # multiplier to apply to raw value, may be none (f.e. for ASCII)
+
+CanonicalRegisterValue : extends RegisterValue
+  tooltip     # Short descriptive explanation
+  help        # More extensive documentation
+  annotation  # anything else
+  datatype    # DataType::Id , may be none for values that are covered by length + scale
+  siblings    # list of RegisterValue::Id
+
+HARegisterValue : extends RegisterValue
+   ...
+
+OpenInverterRegisterValue : extends RegisterValue
+   ...
+
+InverterToMqttRegisterValue : extends RegisterValue
+   ...
+
+
+
+DataType:
+  Id          # short name, like variable name, mqtt topic,
+  description # One line description / characterization
+
+"
+
+
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Growatt Register Data Scheme",
+  "type": "object",
+  "required": ["meta", "tables", "canonical_registers", "families"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["version", "generated_at", "generator"],
+      "properties": {
+        "version": { "type": "string" },
+        "generated_at": { "type": "string", "format": "date-time" },
+        "generator": { "type": "string" },
+        "source_files": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": { "type": "string" },
+              "sha256": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "tables": {
+      "type": "object",
+      "properties": {
+        "holding": { "$ref": "#/$defs/registerTable" },
+        "input":   { "$ref": "#/$defs/registerTable" }
+      },
+      "additionalProperties": false
+    },
+    "canonical_registers": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/canonicalRegister" }
+    },
+    "families": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/family" }
+    },
+    "data_types": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/dataType" }
+      }
+    }
+  },
+  "$defs": {
+    "registerTable": {
+      "type": "object",
+      "required": ["ranges"],
+      "properties": {
+        "ranges": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/range" }
+        }
+      }
+    },
+    "range": {
+      "type": "object",
+      "required": ["id", "table", "start_register", "end_register"],
+      "properties": {
+        "id":            { "type": "string" },
+        "table":         { "enum": ["holding", "input"] },
+        "start_register":{ "type": "integer", "minimum": 0 },
+        "end_register":  { "type": "integer", "minimum": 0 },
+        "length":        { "type": "integer", "minimum": 1 },
+        "description":   { "type": "string" },
+        "notes":         { "type": "array", "items": { "type": "string" } },
+        "metadata":      { "type": "object" },
+        "supported_families": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/familyRef" }
+        },
+        "sections": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/section" }
+        },
+        "canonical_registers": {
+          "type": "array",
+          "items": { "type": "string" }  // canonical register IDs
+        }
+      }
+    },
+    "section": {
+      "type": "object",
+      "required": ["id", "start_register", "end_register"],
+      "properties": {
+        "id":            { "type": "string" },
+        "label":         { "type": "string" },
+        "description":   { "type": "string" },
+        "kind":          { "type": "string" },
+        "start_register":{ "type": "integer", "minimum": 0 },
+        "end_register":  { "type": "integer", "minimum": 0 },
+        "index":         { "type": "integer" },
+        "metadata":      { "type": "object" },
+        "canonical_mappings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["canonical_register", "instance_register"],
+            "properties": {
+              "canonical_register": { "type": "string" },
+              "instance_register":  { "type": "integer" },
+              "offset":             { "type": "integer" },
+              "slot_index":         { "type": "integer" }
+            }
+          }
+        },
+        "register_instances": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["register", "table"],
+            "properties": {
+              "register": { "type": "integer" },
+              "table":    { "enum": ["holding", "input"] },
+              "offset":   { "type": "integer" }
+            }
+          }
+        },
+        "sections": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/section" }  // nested children
+        }
+      }
+    },
+    "canonicalRegister": {
+      "type": "object",
+      "required": ["id", "register", "table", "data_type"],
+      "properties": {
+        "id":          { "type": "string" },
+        "register":    { "type": ["integer", "array"], "items": { "type": "integer" } },
+        "table":       { "enum": ["holding", "input"] },
+        "data_type":   { "type": "string" },
+        "alternate_data_types": { "type": "array", "items": { "type": "string" } },
+        "description": { "type": "string" },
+        "unit":        { "type": "string" },
+        "writable":    { "type": "boolean" },
+        "attributes":  { "type": "array", "items": { "type": "string" } },
+        "families":    { "type": "array", "items": { "type": "string" } },
+        "tooltip":     { "type": "string" },
+        "help":        { "type": "string" },
+        "annotations": { "type": "array", "items": { "type": "string" } },
+        "sources": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": ["object", "string"] }
+          }
+        },
+        "inverter_to_mqtt": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "operation":       { "enum": ["read", "write"] },
+              "file":            { "type": "string" },
+              "function":        { "type": "string" },
+              "section":         { "type": "string" },
+              "section_label":   { "type": "string" },
+              "variable":        { "type": "string" },
+              "expression":      { "type": "string" },
+              "buffer_indexes":  { "type": "array", "items": { "type": "integer" } },
+              "registers":       { "type": "array", "items": { "type": "integer" } },
+              "register_count":  { "type": "integer", "minimum": 1 }
+            }
+          }
+        }
+      }
+    },
+    "family": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id":          { "type": "string" },
+        "name":        { "type": "string" },
+        "description": { "type": "string" },
+        "ranges": {
+          "type": "array",
+          "items": { "type": "string" }  // range IDs
+        },
+        "storage_sections": {
+          "type": "array",
+          "items": { "type": "string" }  // section IDs (e.g. repeated slots)
+        },
+        "metadata": { "type": "object" }
+      }
+    },
+    "familyRef": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id":   { "type": "string" },
+        "name": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    },
+    "dataType": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id":          { "type": "string" },
+        "length_bytes":{ "type": "integer" },
+        "signed":      { "type": "boolean" },
+        "textual":     { "type": "boolean" },
+        "divide":      { "type": ["number", "string"] },
+        "scale":       { "type": ["number", "string"] },
+        "multiplier":  { "type": ["number", "string"] },
+        "unit":        { "type": "string" },
+        "display_name":{ "type": "string" },
+        "description": { "type": "string" },
+        "enum_values": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["value"],
+            "properties": {
+              "value": { "type": ["integer", "string"] },
+              "label": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "bitflags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["bit"],
+            "properties": {
+              "bit":         { "type": "integer" },
+              "label":       { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "annotations": { "type": "array", "items": { "type": "string" } },
+        "sources":     { "type": "object" },
+        "conflicts":   { "type": "object" }
+      }
+    }
+  }
+}

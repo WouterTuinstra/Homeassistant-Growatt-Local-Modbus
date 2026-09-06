@@ -1,0 +1,3383 @@
+{
+  "meta": {
+    "generated_at": "2025-10-05T09:38:43+00:00",
+    "generator": "extract_growatt_datatypes_overlay.py",
+    "source_files": {
+      "growatt_register_data_types.json": "growatt_register_data_types.json",
+      "register_catalog.json": "register_catalog.json",
+      "growatt_registers_best_guess.v2.json": "growatt_registers_best_guess.v2.json"
+    }
+  },
+  "overlays": {
+    "holding:0": {
+      "enum_values": [],
+      "bitfields": [
+        {
+          "bit": 0,
+          "label": "inverter_run_request",
+          "description": "1 keeps the inverter enabled; 0 issues a remote stop command."
+        },
+        {
+          "bit": 1,
+          "label": "bdc_enable_request",
+          "description": "Enable the BDC (battery DC converter) for battery-ready mode."
+        }
+      ],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Write the combined bit mask (0\u20133). Bits 2\u201315 are reserved and should remain 0.",
+          "register_description": "Remote enable bits for the inverter (bit 0) and BDC (bit 1).",
+          "attributes": "inverter_enabled"
+        }
+      }
+    },
+    "holding:1": {
+      "enum_values": [],
+      "bitfields": [
+        {
+          "bit": 0,
+          "label": "spi_enable",
+          "description": "Enable the System Protection Interface (SPI)."
+        },
+        {
+          "bit": 1,
+          "label": "auto_test_start",
+          "description": "Allow automatic anti-islanding test routines."
+        },
+        {
+          "bit": 2,
+          "label": "lvfrt_enable",
+          "description": "Enable low-voltage fault ride through."
+        },
+        {
+          "bit": 3,
+          "label": "frequency_derating_enable",
+          "description": "Apply frequency-based active power derating."
+        },
+        {
+          "bit": 4,
+          "label": "soft_start_enable",
+          "description": "Enable soft-start behaviour."
+        },
+        {
+          "bit": 5,
+          "label": "drms_enable",
+          "description": "Enable DRMS/DRAS demand response mode."
+        },
+        {
+          "bit": 6,
+          "label": "volt_var_enable",
+          "description": "Enable Volt-Var (Power-Volt) function."
+        },
+        {
+          "bit": 7,
+          "label": "hvfrt_enable",
+          "description": "Enable high-voltage fault ride through."
+        },
+        {
+          "bit": 8,
+          "label": "rocof_enable",
+          "description": "Enable rate-of-change-of-frequency protection."
+        },
+        {
+          "bit": 9,
+          "label": "freq_derating_recover",
+          "description": "Allow automatic recovery after frequency derating."
+        },
+        {
+          "bit": 10,
+          "label": "split_phase_enable",
+          "description": "Enable split-phase operation."
+        }
+      ],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Bits 0\u20133 relate to CEI 0-21 compliance; bits 4\u20136 to AS/NZS (SAA) requirements. Bits 11\u201315 are reserved.",
+          "register_description": "Safety function enable mask (SPI, LVFRT, DRMS, Volt/Var, etc.)."
+        }
+      }
+    },
+    "holding:15": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "Italian"
+        },
+        {
+          "value": 1,
+          "label": "English"
+        },
+        {
+          "value": 2,
+          "label": "German"
+        },
+        {
+          "value": 3,
+          "label": "Spanish"
+        },
+        {
+          "value": 4,
+          "label": "French"
+        },
+        {
+          "value": 5,
+          "label": "Chinese"
+        },
+        {
+          "value": 6,
+          "label": "Polish"
+        },
+        {
+          "value": 7,
+          "label": "Portuguese"
+        },
+        {
+          "value": 8,
+          "label": "Hungarian"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:16": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "disabled"
+        },
+        {
+          "value": 1,
+          "label": "enabled"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "register_description": "Indicates whether a country/regional profile has been selected."
+        }
+      }
+    },
+    "holding:17": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:18": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:19": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:2": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "volatile",
+          "description": "Restore defaults after a restart."
+        },
+        {
+          "value": 1,
+          "label": "persist",
+          "description": "Keep power-factor related commands in NVRAM."
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:20": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:21": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:22": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "9600 bps"
+        },
+        {
+          "value": 1,
+          "label": "38400 bps"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Applies to the RS-485 Modbus RTU interface."
+        }
+      }
+    },
+    "holding:23-27": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "register_description": "Inverter serial number stored as a 10-character ASCII string.",
+          "attributes": "serial number"
+        }
+      }
+    },
+    "holding:28-29": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "Inverter model"
+        }
+      }
+    },
+    "holding:3": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3000": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Fallback output percentage used when the export-limit controller is unavailable.",
+          "register_description": "Fallback output percentage when export limiting fails."
+        }
+      }
+    },
+    "holding:3001-3015": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "serial number"
+        }
+      }
+    },
+    "holding:3016": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "disabled"
+        },
+        {
+          "value": 1,
+          "label": "enabled"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3018": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "default"
+        },
+        {
+          "value": 1,
+          "label": "system_retrofit"
+        },
+        {
+          "value": 2,
+          "label": "multi_parallel"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Selects the hybrid operating mode for retrofits or parallel stacks."
+        }
+      }
+    },
+    "holding:3021": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "disabled"
+        },
+        {
+          "value": 1,
+          "label": "enabled"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3023": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "single_phase"
+        },
+        {
+          "value": 1,
+          "label": "three_phase"
+        },
+        {
+          "value": 2,
+          "label": "split_phase"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3024": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3028-3030": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3031-3034": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Values 0\u2013200 map to 0\u201320\u202f\u00b0C; subtract 1000 from values \u22651000 to obtain negative limits."
+        }
+      }
+    },
+    "holding:3038": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Bits 0\u20137 start minute, 8\u201312 start hour, 13\u201314 priority, bit 15 enable."
+        }
+      }
+    },
+    "holding:3039": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Bits 0\u20137 end minute, 8\u201312 end hour; other bits reserved."
+        }
+      }
+    },
+    "holding:3041-3042": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "power_to_user"
+        }
+      }
+    },
+    "holding:3043-3044": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "power_to_grid"
+        }
+      }
+    },
+    "holding:3045-3046": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "power_user_load"
+        }
+      }
+    },
+    "holding:3047-3048": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Value / 7200 gives operating hours with 0.5 s resolution.",
+          "attributes": "operation_hours"
+        }
+      }
+    },
+    "holding:3049": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "disabled"
+        },
+        {
+          "value": 1,
+          "label": "enabled"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "0 disables AC-side charging; 1 allows grid charging when configured.",
+          "register_description": "Remote enable for AC-side charging on TL-XH hybrids.",
+          "attributes": "ac_charge_enabled"
+        }
+      }
+    },
+    "holding:3051-3052": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_energy_total"
+        }
+      }
+    },
+    "holding:3053-3054": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_energy_total"
+        }
+      }
+    },
+    "holding:3055-3056": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_1_energy_today"
+        }
+      }
+    },
+    "holding:3057-3058": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_1_energy_total"
+        }
+      }
+    },
+    "holding:3059-3060": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_2_energy_today"
+        }
+      }
+    },
+    "holding:3061-3062": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_2_energy_total"
+        }
+      }
+    },
+    "holding:3063-3064": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_3_energy_today"
+        }
+      }
+    },
+    "holding:3065-3066": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_3_energy_total"
+        }
+      }
+    },
+    "holding:3067-3068": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "energy_to_user_today"
+        }
+      }
+    },
+    "holding:3069-3070": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "energy_to_user_total"
+        }
+      }
+    },
+    "holding:3071-3072": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "energy_to_grid_today"
+        }
+      }
+    },
+    "holding:3073-3074": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "energy_to_grid_total"
+        }
+      }
+    },
+    "holding:3075-3076": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "load_energy_today"
+        }
+      }
+    },
+    "holding:3077-3078": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "load_energy_total"
+        }
+      }
+    },
+    "holding:3079-3082": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3083-3084": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3087-3094": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "register_description": "Battery rack serial number string from the BMS."
+        }
+      }
+    },
+    "holding:3095": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "invalid"
+        },
+        {
+          "value": 1,
+          "label": "reset_settings"
+        },
+        {
+          "value": 2,
+          "label": "reset_calibration"
+        },
+        {
+          "value": 3,
+          "label": "clear_history"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3096-3097": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "register_description": "BDC monitoring firmware code."
+        }
+      }
+    },
+    "holding:3099-3100": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "register_description": "DSP firmware code identifier."
+        }
+      }
+    },
+    "holding:3101": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3103-3106": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3107": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "rs485"
+        },
+        {
+          "value": 1,
+          "label": "can"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3108-3111": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "register_description": "BDC module identification tokens."
+        }
+      }
+    },
+    "holding:3113": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "High byte = major version, low byte = minor version."
+        }
+      }
+    },
+    "holding:3118": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "off"
+        },
+        {
+          "value": 1,
+          "label": "on"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3121-3122": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3123-3124": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:3125-3128": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Groups of nine US time-of-use slots enabled by month bitfields.",
+          "register_description": "US time-of-use month enable ranges (slots 1\u201336 in groups of nine)."
+        }
+      }
+    },
+    "holding:3129-3200": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Complete table of 36 US time-of-use slots (start/end, mode, and day grouping).",
+          "register_description": "US time-of-use schedule table containing 36 start/stop windows."
+        }
+      }
+    },
+    "holding:3201-3219": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Date enable register followed by up to nine override slots for the selected day.",
+          "register_description": "Special day 1 override date and slot definitions."
+        }
+      }
+    },
+    "holding:3220-3238": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Date enable register followed by up to nine override slots for the selected day.",
+          "register_description": "Special day 2 override date and slot definitions."
+        }
+      }
+    },
+    "holding:4": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:43": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "device type code"
+        }
+      }
+    },
+    "holding:44": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "number of trackers and phases"
+        }
+      }
+    },
+    "holding:5": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Divide by 10\u202f000 to obtain the power factor. Values <1 lead (capacitive), >1 lag (inductive)."
+        }
+      }
+    },
+    "holding:5000-5039": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Matches the 40-register block at 3085\u20133124. Registers 27 and 30\u201339 remain reserved.",
+          "register_description": "BDC slot 1 metadata mirror (repeat every 40 registers for additional slots)."
+        }
+      }
+    },
+    "holding:6-7": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored in 0.1 VA increments (high word first)."
+        }
+      }
+    },
+    "holding:73": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "modbus version"
+        }
+      }
+    },
+    "holding:8": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "holding:88": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "modbus version"
+        }
+      }
+    },
+    "holding:9-14": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "register_description": "Concatenated DSP/control firmware identification string (ASCII).",
+          "attributes": "firmware"
+        }
+      }
+    },
+    "input:0": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "waiting"
+        },
+        {
+          "value": 1,
+          "label": "normal"
+        },
+        {
+          "value": 3,
+          "label": "fault"
+        },
+        {
+          "value": 5,
+          "label": "pv_charge"
+        },
+        {
+          "value": 6,
+          "label": "ac_charge"
+        },
+        {
+          "value": 7,
+          "label": "combined_charge"
+        },
+        {
+          "value": 8,
+          "label": "combined_charge_bypass"
+        },
+        {
+          "value": 9,
+          "label": "pv_charge_bypass"
+        },
+        {
+          "value": 10,
+          "label": "ac_charge_bypass"
+        },
+        {
+          "value": 11,
+          "label": "bypass"
+        },
+        {
+          "value": 12,
+          "label": "pv_charge_discharge"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Enum derived from Growatt protocol inverter status codes.",
+          "attributes": "status_code"
+        }
+      }
+    },
+    "input:1-2": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "input_power"
+        }
+      }
+    },
+    "input:1009-1010": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "discharge_power"
+        }
+      }
+    },
+    "input:101": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "real_output_power_percent"
+        }
+      }
+    },
+    "input:1011-1012": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "charge_power"
+        }
+      }
+    },
+    "input:1014": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "soc"
+        }
+      }
+    },
+    "input:1021-1022": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "pac_to_user_total"
+        }
+      }
+    },
+    "input:1029-1030": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "pac_to_grid_total"
+        }
+      }
+    },
+    "input:104": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific state code.",
+          "attributes": "derating_mode"
+        }
+      }
+    },
+    "input:1044-1045": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "energy_to_user_today"
+        }
+      }
+    },
+    "input:1046-1047": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "energy_to_user_total"
+        }
+      }
+    },
+    "input:1048-1049": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "energy_to_grid_today"
+        }
+      }
+    },
+    "input:105": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific fault/warning bitmask.",
+          "attributes": "fault_code"
+        }
+      }
+    },
+    "input:1050-1051": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "energy_to_grid_total"
+        }
+      }
+    },
+    "input:1052-1053": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "discharge_energy_today"
+        }
+      }
+    },
+    "input:1054-1055": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "discharge_energy_total"
+        }
+      }
+    },
+    "input:1056-1057": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "charge_energy_today"
+        }
+      }
+    },
+    "input:1058-1059": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "charge_energy_total"
+        }
+      }
+    },
+    "input:11": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_3_voltage"
+        }
+      }
+    },
+    "input:110-111": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific fault/warning bitmask.",
+          "attributes": "warning_code"
+        }
+      }
+    },
+    "input:12": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_3_amperage"
+        }
+      }
+    },
+    "input:13-14": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "input_3_power"
+        }
+      }
+    },
+    "input:14": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_1_voltage"
+        }
+      }
+    },
+    "input:15": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_4_voltage"
+        }
+      }
+    },
+    "input:16": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_4_amperage"
+        }
+      }
+    },
+    "input:17-18": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "input_4_power"
+        }
+      }
+    },
+    "input:18": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_2_voltage, soc"
+        }
+      }
+    },
+    "input:19": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_5_voltage"
+        }
+      }
+    },
+    "input:2": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_2_voltage"
+        }
+      }
+    },
+    "input:20": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_5_amperage"
+        }
+      }
+    },
+    "input:21-22": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "input_5_power"
+        }
+      }
+    },
+    "input:22": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_1_voltage, output_3_voltage"
+        }
+      }
+    },
+    "input:23": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_6_voltage"
+        }
+      }
+    },
+    "input:234-235": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Signed 32-bit reactive power measurement with 0.1 var resolution.",
+          "attributes": "output_reactive_power"
+        }
+      }
+    },
+    "input:236-237": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative reactive energy counter with 0.1 kvarh resolution (high word first).",
+          "attributes": "output_reactive_energy_total"
+        }
+      }
+    },
+    "input:24": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_6_amperage"
+        }
+      }
+    },
+    "input:25-26": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "input_6_power"
+        }
+      }
+    },
+    "input:26-27": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "dc_dc_temperature, output_energy_today"
+        }
+      }
+    },
+    "input:27": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_7_voltage"
+        }
+      }
+    },
+    "input:28": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_7_amperage"
+        }
+      }
+    },
+    "input:29-30": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "input_7_power"
+        }
+      }
+    },
+    "input:3": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_1_voltage"
+        }
+      }
+    },
+    "input:30-31": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "operation_hours"
+        }
+      }
+    },
+    "input:3000": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "waiting"
+        },
+        {
+          "value": 1,
+          "label": "normal"
+        },
+        {
+          "value": 3,
+          "label": "fault"
+        },
+        {
+          "value": 5,
+          "label": "pv_charge"
+        },
+        {
+          "value": 6,
+          "label": "ac_charge"
+        },
+        {
+          "value": 7,
+          "label": "combined_charge"
+        },
+        {
+          "value": 8,
+          "label": "combined_charge_bypass"
+        },
+        {
+          "value": 9,
+          "label": "pv_charge_bypass"
+        },
+        {
+          "value": 10,
+          "label": "ac_charge_bypass"
+        },
+        {
+          "value": 11,
+          "label": "bypass"
+        },
+        {
+          "value": 12,
+          "label": "pv_charge_discharge"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Enum derived from Growatt protocol inverter status codes.",
+          "attributes": "status_code"
+        }
+      }
+    },
+    "input:3001-3002": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "input_power"
+        }
+      }
+    },
+    "input:3003": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_1_voltage"
+        }
+      }
+    },
+    "input:3004": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_1_amperage"
+        }
+      }
+    },
+    "input:3005-3006": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "input_1_power"
+        }
+      }
+    },
+    "input:3007": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_2_voltage"
+        }
+      }
+    },
+    "input:3008": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_2_amperage"
+        }
+      }
+    },
+    "input:3009-3010": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "input_2_power"
+        }
+      }
+    },
+    "input:3011": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_3_voltage"
+        }
+      }
+    },
+    "input:3012": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_3_amperage"
+        }
+      }
+    },
+    "input:3013-3014": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "input_3_power"
+        }
+      }
+    },
+    "input:3015": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_4_voltage"
+        }
+      }
+    },
+    "input:3016": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_4_amperage"
+        }
+      }
+    },
+    "input:3017-3018": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "input_4_power"
+        }
+      }
+    },
+    "input:3019-3020": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution."
+        }
+      }
+    },
+    "input:3021-3022": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Signed 32-bit reactive power measurement with 0.1 var resolution.",
+          "attributes": "output_reactive_power"
+        }
+      }
+    },
+    "input:3023-3024": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "output_power"
+        }
+      }
+    },
+    "input:3025": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Divide by 100 to obtain the grid frequency in hertz.",
+          "attributes": "grid_frequency"
+        }
+      }
+    },
+    "input:3026": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_1_voltage"
+        }
+      }
+    },
+    "input:3027": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_1_amperage"
+        }
+      }
+    },
+    "input:3028-3029": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "output_1_power"
+        }
+      }
+    },
+    "input:3030": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_2_voltage"
+        }
+      }
+    },
+    "input:3031": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_2_amperage"
+        }
+      }
+    },
+    "input:3032-3033": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "output_2_power"
+        }
+      }
+    },
+    "input:3034": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_3_voltage"
+        }
+      }
+    },
+    "input:3035": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_3_amperage"
+        }
+      }
+    },
+    "input:3036-3037": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "output_3_power"
+        }
+      }
+    },
+    "input:3038": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3039": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3040": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3041-3042": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "power_to_user"
+        }
+      }
+    },
+    "input:3043-3044": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "power_to_grid"
+        }
+      }
+    },
+    "input:3045-3046": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "power_user_load"
+        }
+      }
+    },
+    "input:3047-3048": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Divide raw seconds by 7200 to obtain hours.",
+          "attributes": "operation_hours"
+        }
+      }
+    },
+    "input:3049-3050": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "output_energy_today"
+        }
+      }
+    },
+    "input:3051-3052": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "output_energy_total"
+        }
+      }
+    },
+    "input:3053-3054": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_energy_total"
+        }
+      }
+    },
+    "input:3055-3056": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_1_energy_today"
+        }
+      }
+    },
+    "input:3057-3058": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_1_energy_total"
+        }
+      }
+    },
+    "input:3059-3060": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_2_energy_today"
+        }
+      }
+    },
+    "input:3061-3062": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_2_energy_total"
+        }
+      }
+    },
+    "input:3063-3064": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_3_energy_today"
+        }
+      }
+    },
+    "input:3065-3066": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_3_energy_total"
+        }
+      }
+    },
+    "input:3067-3068": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "energy_to_user_today"
+        }
+      }
+    },
+    "input:3069-3070": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "energy_to_user_total"
+        }
+      }
+    },
+    "input:3071-3072": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "energy_to_grid_today"
+        }
+      }
+    },
+    "input:3073-3074": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "energy_to_grid_total"
+        }
+      }
+    },
+    "input:3075-3076": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+        }
+      }
+    },
+    "input:3077-3078": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+        }
+      }
+    },
+    "input:3079-3080": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+        }
+      }
+    },
+    "input:3081-3082": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+        }
+      }
+    },
+    "input:3083-3084": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+        }
+      }
+    },
+    "input:3086": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific state code.",
+          "attributes": "derating_mode"
+        }
+      }
+    },
+    "input:3087": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "PV insulation resistance reported in kilo-ohms."
+        }
+      }
+    },
+    "input:3088": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Divide by 10 to obtain milliamps."
+        }
+      }
+    },
+    "input:3089": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Divide by 10 to obtain milliamps."
+        }
+      }
+    },
+    "input:3090": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Divide by 10 to obtain milliamps."
+        }
+      }
+    },
+    "input:3091": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3092": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3093": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "inverter_temperature"
+        }
+      }
+    },
+    "input:3094": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "ipm_temperature"
+        }
+      }
+    },
+    "input:3095": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "boost_temperature"
+        }
+      }
+    },
+    "input:3097": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "comm_board_temperature"
+        }
+      }
+    },
+    "input:3098": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "p_bus_voltage"
+        }
+      }
+    },
+    "input:3099": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "n_bus_voltage"
+        }
+      }
+    },
+    "input:31": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_8_voltage"
+        }
+      }
+    },
+    "input:3100": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Divide by 10\u202f000 to obtain the power factor. Values <1 lead (capacitive), >1 lag (inductive)."
+        }
+      }
+    },
+    "input:3101": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "real_output_power_percent"
+        }
+      }
+    },
+    "input:3102-3103": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution."
+        }
+      }
+    },
+    "input:3104": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific fault/warning bitmask."
+        }
+      }
+    },
+    "input:3105": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific fault/warning bitmask.",
+          "attributes": "fault_code"
+        }
+      }
+    },
+    "input:3106": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific state code."
+        }
+      }
+    },
+    "input:3107": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific fault/warning bitmask."
+        }
+      }
+    },
+    "input:3108": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific fault/warning bitmask."
+        }
+      }
+    },
+    "input:3110-3111": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific fault/warning bitmask.",
+          "attributes": "warning_code"
+        }
+      }
+    },
+    "input:3111": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "present_fft_a"
+        }
+      }
+    },
+    "input:3112": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific state code."
+        }
+      }
+    },
+    "input:3113": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3114": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3115": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "inv_start_delay"
+        }
+      }
+    },
+    "input:3118": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "off"
+        },
+        {
+          "value": 1,
+          "label": "on"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3119": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "disabled"
+        },
+        {
+          "value": 1,
+          "label": "enabled"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3121-3122": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution."
+        }
+      }
+    },
+    "input:3123-3124": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+        }
+      }
+    },
+    "input:3125-3126": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "discharge_energy_today"
+        }
+      }
+    },
+    "input:3127-3128": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "discharge_energy_total"
+        }
+      }
+    },
+    "input:3129-3130": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "charge_energy_today"
+        }
+      }
+    },
+    "input:3131-3132": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "charge_energy_total"
+        }
+      }
+    },
+    "input:3133-3134": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+        }
+      }
+    },
+    "input:3135-3136": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+        }
+      }
+    },
+    "input:3137-3138": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+        }
+      }
+    },
+    "input:3139-3140": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+        }
+      }
+    },
+    "input:3141-3142": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+        }
+      }
+    },
+    "input:3144": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "load_first"
+        },
+        {
+          "value": 1,
+          "label": "battery_first"
+        },
+        {
+          "value": 2,
+          "label": "grid_first"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Hybrid priority mode selector."
+        }
+      }
+    },
+    "input:3145": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Divide by 100 to obtain the grid frequency in hertz."
+        }
+      }
+    },
+    "input:3146": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3147": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3148-3149": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit apparent power value with 0.1 VA resolution (high word first)."
+        }
+      }
+    },
+    "input:3150": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3151": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3152-3153": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit apparent power value with 0.1 VA resolution (high word first)."
+        }
+      }
+    },
+    "input:3154": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3155": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3156-3157": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit apparent power value with 0.1 VA resolution (high word first)."
+        }
+      }
+    },
+    "input:3158-3159": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit apparent power value with 0.1 VA resolution (high word first)."
+        }
+      }
+    },
+    "input:3160": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Divide by 10 for percent values."
+        }
+      }
+    },
+    "input:3161": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Divide by 10 to obtain the power factor."
+        }
+      }
+    },
+    "input:3162": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3164": {
+      "enum_values": [
+        {
+          "value": 0,
+          "label": "no"
+        },
+        {
+          "value": 1,
+          "label": "yes"
+        }
+      ],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bdc_new_flag"
+        }
+      }
+    },
+    "input:3165": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific state code."
+        }
+      }
+    },
+    "input:3166": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific state code."
+        }
+      }
+    },
+    "input:3167": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific state code."
+        }
+      }
+    },
+    "input:3168": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific state code."
+        }
+      }
+    },
+    "input:3169": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "battery_voltage"
+        }
+      }
+    },
+    "input:3170": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "battery_current"
+        }
+      }
+    },
+    "input:3171": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "soc"
+        }
+      }
+    },
+    "input:3172": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "vbus1_voltage"
+        }
+      }
+    },
+    "input:3173": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "vbus2_voltage"
+        }
+      }
+    },
+    "input:3174": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "buck_boost_current"
+        }
+      }
+    },
+    "input:3175": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "llc_current"
+        }
+      }
+    },
+    "input:3176": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "battery_temperature_a"
+        }
+      }
+    },
+    "input:3177": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "battery_temperature_b"
+        }
+      }
+    },
+    "input:3178-3179": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Signed 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "discharge_power"
+        }
+      }
+    },
+    "input:3180-3181": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Signed 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "charge_power"
+        }
+      }
+    },
+    "input:3182-3183": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+        }
+      }
+    },
+    "input:3184-3185": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first)."
+        }
+      }
+    },
+    "input:3187": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Vendor-specific fault/warning bitmask."
+        }
+      }
+    },
+    "input:3188": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3189": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_max_volt_cell_no"
+        }
+      }
+    },
+    "input:3190": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_min_volt_cell_no"
+        }
+      }
+    },
+    "input:3191": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_avg_temp_a"
+        }
+      }
+    },
+    "input:3192": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_max_cell_temp_a"
+        }
+      }
+    },
+    "input:3193": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_avg_temp_b"
+        }
+      }
+    },
+    "input:3194": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_max_cell_temp_b"
+        }
+      }
+    },
+    "input:3195": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_avg_temp_c"
+        }
+      }
+    },
+    "input:3196": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_max_soc"
+        }
+      }
+    },
+    "input:3197": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_min_soc"
+        }
+      }
+    },
+    "input:3198": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "parallel_battery_num"
+        }
+      }
+    },
+    "input:3199": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_derate_reason"
+        }
+      }
+    },
+    "input:32": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_8_amperage"
+        }
+      }
+    },
+    "input:3200": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_gauge_fcc_ah"
+        }
+      }
+    },
+    "input:3201": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_gauge_rm_ah"
+        }
+      }
+    },
+    "input:3202": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_protect1"
+        }
+      }
+    },
+    "input:3203": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_warn1"
+        }
+      }
+    },
+    "input:3204": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_fault1"
+        }
+      }
+    },
+    "input:3205": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_fault2"
+        }
+      }
+    },
+    "input:3210": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bat_iso_status"
+        }
+      }
+    },
+    "input:3211": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "batt_request_flags"
+        }
+      }
+    },
+    "input:3212": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_status"
+        }
+      }
+    },
+    "input:3213": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_protect2"
+        }
+      }
+    },
+    "input:3214": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_warn2"
+        }
+      }
+    },
+    "input:3215": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_soc"
+        }
+      }
+    },
+    "input:3216": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_battery_voltage"
+        }
+      }
+    },
+    "input:3217": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_battery_current"
+        }
+      }
+    },
+    "input:3218": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_cell_max_temp"
+        }
+      }
+    },
+    "input:3219": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_max_charge_current"
+        }
+      }
+    },
+    "input:3220": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_max_discharge_current"
+        }
+      }
+    },
+    "input:3221": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_cycle_count"
+        }
+      }
+    },
+    "input:3222": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_soh"
+        }
+      }
+    },
+    "input:3223": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_charge_volt_limit"
+        }
+      }
+    },
+    "input:3224": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_discharge_volt_limit"
+        }
+      }
+    },
+    "input:3225": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_warn3"
+        }
+      }
+    },
+    "input:3226": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_protect3"
+        }
+      }
+    },
+    "input:3230": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_cell_volt_max"
+        }
+      }
+    },
+    "input:3231": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "bms_cell_volt_min"
+        }
+      }
+    },
+    "input:3232": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3234": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3235": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3236": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3237": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3238": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3239": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3240": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3241": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3242": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3243": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3244": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3245": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3246": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3247": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3248": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:3249": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {}
+    },
+    "input:33-34": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "input_8_power"
+        }
+      }
+    },
+    "input:34": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_1_amperage"
+        }
+      }
+    },
+    "input:35-36": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "output_power"
+        }
+      }
+    },
+    "input:37": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Divide by 100 to obtain the grid frequency in hertz.",
+          "attributes": "grid_frequency"
+        }
+      }
+    },
+    "input:38": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_1_voltage"
+        }
+      }
+    },
+    "input:39": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_1_amperage"
+        }
+      }
+    },
+    "input:4": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_1_amperage"
+        }
+      }
+    },
+    "input:40-41": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "output_1_power"
+        }
+      }
+    },
+    "input:41": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "ipm_temperature"
+        }
+      }
+    },
+    "input:42": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_2_voltage"
+        }
+      }
+    },
+    "input:43": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_2_amperage"
+        }
+      }
+    },
+    "input:44-45": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "output_2_power"
+        }
+      }
+    },
+    "input:46": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_3_voltage"
+        }
+      }
+    },
+    "input:47": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "output_3_amperage"
+        }
+      }
+    },
+    "input:48-49": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "output_3_power"
+        }
+      }
+    },
+    "input:5-6": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "input_1_power"
+        }
+      }
+    },
+    "input:50-51": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_1_energy_total"
+        }
+      }
+    },
+    "input:52-53": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_2_energy_today"
+        }
+      }
+    },
+    "input:53-54": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "output_energy_today"
+        }
+      }
+    },
+    "input:54-55": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_2_energy_total"
+        }
+      }
+    },
+    "input:55-56": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "output_energy_total"
+        }
+      }
+    },
+    "input:56-57": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "charge_energy_today, input_energy_total"
+        }
+      }
+    },
+    "input:57-58": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Divide raw seconds by 7200 to obtain hours.",
+          "attributes": "operation_hours"
+        }
+      }
+    },
+    "input:58-59": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "charge_energy_total, output_reactive_power"
+        }
+      }
+    },
+    "input:59-60": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_1_energy_today"
+        }
+      }
+    },
+    "input:60-61": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "discharge_energy_today, output_reactive_energy_today"
+        }
+      }
+    },
+    "input:61-62": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_1_energy_total"
+        }
+      }
+    },
+    "input:62-63": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "discharge_energy_total, output_reactive_energy_total"
+        }
+      }
+    },
+    "input:63-64": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_2_energy_today"
+        }
+      }
+    },
+    "input:64-65": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "ac_discharge_energy_today, warning_code"
+        }
+      }
+    },
+    "input:65-66": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_2_energy_total"
+        }
+      }
+    },
+    "input:66-67": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "ac_discharge_energy_total, real_output_power_percent"
+        }
+      }
+    },
+    "input:67-68": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_3_energy_today"
+        }
+      }
+    },
+    "input:68": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "ac_charge_amperage"
+        }
+      }
+    },
+    "input:69-70": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_3_energy_total"
+        }
+      }
+    },
+    "input:7": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_2_voltage"
+        }
+      }
+    },
+    "input:71-72": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_4_energy_today"
+        }
+      }
+    },
+    "input:73-74": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_4_energy_total"
+        }
+      }
+    },
+    "input:75-76": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_5_energy_today"
+        }
+      }
+    },
+    "input:77-78": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_5_energy_total"
+        }
+      }
+    },
+    "input:79-80": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_6_energy_today"
+        }
+      }
+    },
+    "input:8": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "input_2_amperage"
+        }
+      }
+    },
+    "input:81-82": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_6_energy_total"
+        }
+      }
+    },
+    "input:83-84": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_7_energy_today"
+        }
+      }
+    },
+    "input:85-86": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_7_energy_total"
+        }
+      }
+    },
+    "input:87-88": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_8_energy_today"
+        }
+      }
+    },
+    "input:89-90": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_8_energy_total"
+        }
+      }
+    },
+    "input:9-10": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Unsigned 32-bit value stored as high/low words with 0.1 W resolution.",
+          "attributes": "input_2_power"
+        }
+      }
+    },
+    "input:91-92": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "notes": "Cumulative energy counter with 0.1 kWh resolution (high word first).",
+          "attributes": "input_energy_total"
+        }
+      }
+    },
+    "input:93": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "inverter_temperature"
+        }
+      }
+    },
+    "input:94": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "ipm_temperature"
+        }
+      }
+    },
+    "input:95": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "boost_temperature"
+        }
+      }
+    },
+    "input:98": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "p_bus_voltage"
+        }
+      }
+    },
+    "input:99": {
+      "enum_values": [],
+      "bitfields": [],
+      "source_strings": {
+        "growatt_data_types": {
+          "attributes": "n_bus_voltage"
+        }
+      }
+    }
+  }
+}

@@ -13,7 +13,7 @@ jobs:
       - name: Configure git
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"  
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git pull
       - uses: release-drafter/release-drafter@v6
         id: release-drafter
@@ -41,4 +41,4 @@ jobs:
               repo,
               release_id: "${{ steps.release-drafter.outputs.id }}",
               draft: false,
-            });            
+            });

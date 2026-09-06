@@ -34,7 +34,12 @@ from .device_type.base import (
     inverter_status,
 )
 from .device_type.inverter_120 import MAXIMUM_DATA_LENGTH_120, HOLDING_REGISTERS_120, INPUT_REGISTERS_120, INPUT_REGISTERS_120_TL_XH
-from .device_type.storage_120 import STORAGE_HOLDING_REGISTERS_120, STORAGE_INPUT_REGISTERS_120, STORAGE_INPUT_REGISTERS_120_TL_XH
+from .device_type.storage_120 import (
+    STORAGE_HOLDING_REGISTERS_120,
+    STORAGE_HOLDING_REGISTERS_120_TL_XH,
+    STORAGE_INPUT_REGISTERS_120,
+    STORAGE_INPUT_REGISTERS_120_TL_XH,
+)
 from .device_type.inverter_315 import MAXIMUM_DATA_LENGTH_315, HOLDING_REGISTERS_315, INPUT_REGISTERS_315
 from .device_type.offgrid import INPUT_REGISTERS_OFFGRID, offgrid_status
 
@@ -102,7 +107,8 @@ class GrowattModbusBase:
             mppt_trackers=results[ATTR_NUMBER_OF_TRACKERS_AND_PHASES][0],
             grid_phases=results[ATTR_NUMBER_OF_TRACKERS_AND_PHASES][1],
             modbus_version=results[ATTR_MODBUS_VERSION],
-            device_type=results[ATTR_DEVICE_TYPE_CODE]
+            device_type=results[ATTR_DEVICE_TYPE_CODE],
+            device_type_code=register_values[43],
         )
 
         return device_info
@@ -127,21 +133,34 @@ class GrowattModbusBase:
         )
 
     async def write_device_time(
-        self, year: int, month: int, day: int, hour: int, minute: int, second: int
+        self,
+        year: int,
+        month: int,
+        day: int,
+        hour: int,
+        minute: int,
+        second: int,
+        device_id: int,
     ):
         """Writing current date/time to device."""
         # TODO: test if it works with current asyc libary
         # TODO: update with dynamic register values
-        await self.client.write_register(45, year - 2000)
-        await self.client.write_register(46, month)
-        await self.client.write_register(47, day)
-        await self.client.write_register(48, hour)
-        await self.client.write_register(49, minute)
-        await self.client.write_register(50, second)
+        await self.client.write_register(45, year - 2000, device_id=device_id)
+        await self.client.write_register(46, month, device_id=device_id)
+        await self.client.write_register(47, day, device_id=device_id)
+        await self.client.write_register(48, hour, device_id=device_id)
+        await self.client.write_register(49, minute, device_id=device_id)
+        await self.client.write_register(50, second, device_id=device_id)
 
-    async def write_register(self, register, value, device_id) -> ModbusPDU:  
-        payload = ModbusBaseClient.convert_to_registers(value, ModbusBaseClient.DATATYPE.INT16)
-        return await self.client.write_register(register, payload[0], device_id=device_id)
+    async def write_register(
+        self, register: int, value: int | Sequence[int], device_id: int
+    ) -> ModbusPDU:
+        payload = ModbusBaseClient.convert_to_registers(
+            value, ModbusBaseClient.DATATYPE.INT16
+        )
+        return await self.client.write_register(
+            register, payload[0], device_id=device_id
+        )
 
     async def read_holding_registers(self, start_address, count, device_id) -> dict[int, int]:
         data = await self.client.read_holding_registers(start_address, count=count, device_id=device_id)
@@ -280,7 +299,13 @@ class GrowattDevice:
         device_time = await self.modbus.read_device_time(self.device_id)
         time = datetime.now()
         await self.modbus.write_device_time(
-            time.year, time.month, time.day, time.hour, time.minute, time.second
+            time.year,
+            time.month,
+            time.day,
+            time.hour,
+            time.minute,
+            time.second,
+            self.device_id,
         )
 
         return time - device_time
@@ -323,8 +348,15 @@ class GrowattDevice:
 
         return results
 
-    async def write_register(self, register, payload) -> ModbusPDU:
-        _LOGGER.info("Write register %d with payload %d and unit %d", register, payload, self.device_id)
+    async def write_register(
+        self, register: int, payload: int | Sequence[int]
+    ) -> ModbusPDU:
+        _LOGGER.info(
+            "Write register %s with payload %s and unit %s",
+            register,
+            payload,
+            self.device_id,
+        )
         data = await self.modbus.write_register(register, payload, self.device_id)
         _LOGGER.info("Write response done")
         return data
@@ -428,7 +460,7 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
     elif GrowattDeviceType == DeviceTypes.HYBRID_120_TL_XH:
         max_length = MAXIMUM_DATA_LENGTH_120
         holding_register = {
-            obj.register: obj for obj in STORAGE_HOLDING_REGISTERS_120
+            obj.register: obj for obj in STORAGE_HOLDING_REGISTERS_120_TL_XH
         }
         input_register = {
             obj.register: obj for obj in INPUT_REGISTERS_120_TL_XH
@@ -448,6 +480,59 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
         raise TypeError("Unsupported Growatt device type")
 
     return DeviceRegisters(holding_register, input_register, max_length)
+
+
+_PROTOCOL_120_DEVICE_TYPE_FAMILIES = {
+    0x0100,
+    0x0200,
+    0x0300,
+    0x0400,
+    0x0500,
+    0x0600,
+    0x0700,
+    0x0800,
+    0x0900,
+    0x0A00,
+    0x0C00,
+    0x1300,
+    0x1500,
+}
+
+
+def _device_family_for_code(device_type_code: int) -> DeviceTypes | None:
+    """Map known device-code families to the corresponding register layout."""
+
+    family_code = device_type_code & 0xFF00
+    if family_code == 0x1300:
+        return DeviceTypes.HYBRID_120_TL_XH
+    if family_code in {0x0C00, 0x1500}:
+        return DeviceTypes.HYBRID_120
+    if family_code == 0x0D00:
+        return DeviceTypes.OFFGRID_SPF
+    if family_code in _PROTOCOL_120_DEVICE_TYPE_FAMILIES:
+        return DeviceTypes.INVERTER_120
+    return None
+
+
+def select_device_info(
+    inverter_v120: GrowattDeviceInfo,
+    inverter_v315: GrowattDeviceInfo,
+) -> GrowattDeviceInfo | None:
+    """Select a register-layout family using the device type code."""
+
+    if inverter_v120.device_type_code is not None and (
+        device_family := _device_family_for_code(inverter_v120.device_type_code)
+    ) not in (None, DeviceTypes.OFFGRID_SPF):
+        inverter_v120.device_family = device_family
+        return inverter_v120
+
+    if inverter_v315.device_type_code is not None and (
+        device_family := _device_family_for_code(inverter_v315.device_type_code)
+    ) == DeviceTypes.OFFGRID_SPF:
+        inverter_v315.device_family = device_family
+        return inverter_v315
+
+    return None
 
 
 async def get_device_info(device: GrowattModbusBase, unit: int, fixed_device_types: DeviceTypes | None = None) -> GrowattDeviceInfo | None:
@@ -470,10 +555,11 @@ async def get_device_info(device: GrowattModbusBase, unit: int, fixed_device_typ
     inverter_v315 = await device.get_device_info(HOLDING_REGISTERS_315, minimal_length, unit)
     _LOGGER.info(f"Inverter Protocol v3.15: {inverter_v315}")
 
-    if 1.0 < inverter_v120.modbus_version < 1.20:
-        return inverter_v120
-    elif 3.0 < inverter_v315.modbus_version < 3.15:
-        return inverter_v315
-    else:
-        _LOGGER.warning(f"Inverter Modbus version not default supported.\nCheck full logs to get device information using the supported protocols.")
-        return None
+    if (device_info := select_device_info(inverter_v120, inverter_v315)):
+        return device_info
+
+    _LOGGER.warning(
+        "Could not identify a supported register-layout family from device type "
+        "code; select the protocol family explicitly."
+    )
+    return None

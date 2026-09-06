@@ -28,6 +28,31 @@ Customizable control of the update rate of sensor values.
 
 For inverters a optional switch can be set active if you want control when the inverter may produces power to the grid.
 
+Recent updates expose additional energy-flow information for hybrid models:
+
+* Energy delivered to the user and grid (today and total)
+* Battery charge/discharge energy and instantaneous power
+* Battery state of charge and dual temperature sensors
+
+### Recently added features
+
+- **Complete register map** for MIN 6000XH-TL (see `testing/growatt_registers.md`)
+- **Static simulator** (`growatt_broker.simulator.modbus_simulator`) with deterministic and realistic datasets
+- **VS Code devcontainer forked from HA core** ([repo](https://github.com/l4m4re/HA-core/tree/growatt-local-test))
+- **Pytest environment** with comprehensive tests
+- **Synergy with external broker project** for dataset generation (not a runtime dependency)
+
+### Register Map
+
+The register mapping for MIN 6000XH-TL is complete as far as currently determined. See [`testing/growatt_registers.md`](testing/growatt_registers.md) for details.
+
+### Simulator
+
+- The simulator (`growatt_broker.simulator.modbus_simulator`) supports static and deterministic datasets, mutation plug-ins, and is used for both manual and automated tests.
+- By default, it simulates a MIN 6000XH-TL with battery.
+- See [`testing/README.md`](testing/README.md) for advanced usage, mutation plug-ins, and dataset provenance.
+
+
 ## Manual Installation by ssh
 
 1. Open the `\share` directory.
@@ -55,6 +80,90 @@ git clone https://github.com/WouterTuinstra/Homeassistant-Growatt-Local-Modbus.g
 ```shell
 ln -s /share/custom_components/Homeassistant-Growatt-Local-Modbus/custom_components/growatt_local /config/custom_components/growatt_local
 ```
+
+
+## Development
+
+You can develop and test this integration either standalone (limited) or inside the Home Assistant Core devcontainer (recommended). See [`testing/README.md`](testing/README.md) for details.
+
+
+### 1. Standalone (limited)
+
+You can check out this repository, install the requirements (optionally using a venv), and run pytest and scripts in the `testing` directory. This does not require a full Home Assistant installation, but only limited tests and scripts will work.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements_dev.txt
+pytest
+python testing/probe_simulator.py
+```
+
+### 2. Home Assistant Core Devcontainer (recommended)
+
+
+## Quick Start (Dev Container)
+
+1. **Clone the devcontainer fork:**
+    ```bash
+    git clone -b growatt-local-test https://github.com/l4m4re/HA-core.git
+    cd HA-core
+    ```
+
+2. **Open in VS Code (with devcontainer support):**
+    - VS Code will prompt to reopen in the container.
+    - All dependencies are pre-installed.
+
+3. **Run the simulator:**
+    ```bash
+    cd external/Homeassistant-Growatt-Local-Modbus
+    python -m growatt_broker.simulator.modbus_simulator
+    ```
+    - By default, this simulates a MIN 6000XH-TL inverter on TCP port 5020.
+
+4. **Start Home Assistant Core:**
+    ```bash
+    hass -c config
+    ```
+    - Open Home Assistant in your browser (usually at `http://localhost:8123`).
+
+5. **Add the Growatt device in Home Assistant:**
+    - Use TCP transport.
+    - Host: `localhost`
+    - Port: `5020`
+    - Slave address: `1`
+
+
+## Manual Dev Container Setup
+
+Clone the official Home Assistant core repository, add this repository as a submodule under `external/`, and symlink the `custom_components/growatt_local` directory into your HA config directory. This allows you to test the integration as if on a live system, with full Home Assistant infrastructure and code quality checks.
+
+```bash
+ln -s /share/custom_components/Homeassistant-Growatt-Local-Modbus/custom_components/growatt_local /config/custom_components/growatt_local
+```
+
+Run tests from the HA core root:
+
+```bash
+pytest external/Homeassistant-Growatt-Local-Modbus/tests
+```
+
+For more details, see the Home Assistant core documentation and the integration README.
+
+## Modbus Simulator (Development & Testing)
+
+This repository includes a lightweight Modbus TCP simulator (see `testing/` directory) used by the automated tests to exercise register parsing and mutation logic without real hardware.
+
+Key points:
+* Address Base: All dataset register addresses are treated as starting at Modbus address `0`. When you seed a dataset JSON (or the built‑in default), tests (and example probes) read starting at `0` (e.g. `read_input_registers(0, count=...)`). No offset translation is currently applied.
+* Datasets: A dataset provides two optional top‑level objects: `"input"` and `"holding"`, each a mapping of register address (as string) to value. Missing registers implicitly read back as `0`.
+* Mutation Loop: When mutators are enabled a background asyncio task wakes roughly once per second, increments an internal tick counter, and gives each mutator a chance to update in‑memory register dictionaries in place. This keeps I/O operations (client reads) simple and non‑blocking.
+* Clean Shutdown: The simulator context manager cancels the mutation task before closing the server so tests do not leak tasks. Always keep Modbus client operations inside the simulator `async with` block.
+* Client Usage Notes: Use keyword form `count=<n>` with `pymodbus` async client methods (e.g. `await client.read_input_registers(0, count=10)`). Do not pass unsupported kwargs like `unit`/`slave` to the high‑level async client in this test harness.
+
+If you create additional mutators, ensure they are pure (no long blocking awaits) and idempotent per tick. For deterministic tests, keep mutation math simple and bounded.
+
+Future enhancements (not yet implemented): optional configurable tick interval, address base normalization, and capture replay integration.
 
 # Example: Testing the API and Requesting Register Values Without Home Assistant
 

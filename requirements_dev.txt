@@ -1,0 +1,8 @@
+pymodbus
+pytest
+pytest-homeassistant-custom-component
+homeassistant
+hassil
+mutagen
+pyserial
+pyserial-asyncio

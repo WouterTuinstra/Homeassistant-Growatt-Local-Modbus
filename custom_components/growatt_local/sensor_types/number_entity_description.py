@@ -14,5 +14,3 @@ class GrowattNumberRequiredKeysMixin:
 @dataclass
 class GrowattNumberEntityDescription(NumberEntityDescription, GrowattNumberRequiredKeysMixin):
     """Describes Growatt number entity."""
-
-

@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "captured_at": "2026-09-05T17:54:14.294172+00:00",
+    "endpoint": "192.168.1.148:5021",
+    "unit": 1,
+    "access": "FC03/FC04 only; no writes issued",
+    "pacing_seconds": 1.1,
+    "device": "MIN 6000TL-XH",
+    "serial_number": "SNL0CGV020",
+    "firmware": "AL1.0ZAba\u001d",
+    "source_commit": "e913cbd42ac2d7dfcd9e496d92bb20d7fe38be1b"
+  },
+  "identity": {
+    "fc03_0_count30_registers": [1, 401, 0, 100, 0, 10000, 0, 60000, 1000, 16716, 12590, 12288, 23105, 25185, 29, 1, 0, 1000, 60, 60, 100, 100, 1, 21326, 19504, 17223, 22064, 12848, 0, 0],
+    "fc03_43_count2_registers": [5100, 513],
+    "fc03_88_count1_registers": [305]
+  },
+  "holding_ems": {
+    "fc03_3036_count14_registers": [70, 10, 14080, 5947, 40960, 1792, 8192, 1083, 0, 0, 0, 70, 90, 0],
+    "fc03_3036_count14_raw_response": "00040000001f01031c0046000a3700173ba00007002000043b0000000000000046005a0000",
+    "fc03_3081_count2_registers": [0, 0],
+    "fc03_3081_count2_raw_response": "00050000000701030400000000",
+    "fc03_3050_count10_registers": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "fc03_3070_count3_registers": [0, 0, 0],
+    "fc03_3079_count4_registers": [1, 0, 0, 0],
+    "fc03_3079_count4_raw_response": "00030000000b0103080001000000000000"
+  },
+  "telemetry_samples": [
+    {
+      "captured_at_range": "2026-09-05T17:47:16.731608+00:00/2026-09-05T17:47:23.473303+00:00",
+      "fc04_3000_count11_registers": [1, 0, 703, 2487, 1, 0, 313, 3539, 1, 0, 390],
+      "fc04_3021_count13_registers": [0, 0, 0, 5286, 5003, 2251, 24, 0, 5287, 0, 0, 0, 0],
+      "fc04_3043_count4_registers": [0, 0, 0, 5610],
+      "fc04_3164_count18_registers": [0, 6, 513, 0, 0, 21294, 22, 93, 3928, 2007, 10, 10, 264, 0, 0, 4950, 0, 0],
+      "decoded": {
+        "status": 1,
+        "pv_power_w": 70.3,
+        "pv1_power_w": 31.3,
+        "pv2_power_w": 39.0,
+        "ac_output_power_w": 528.6,
+        "grid_frequency_hz": 50.03,
+        "grid_import_w": 0.0,
+        "grid_export_w": 0.0,
+        "load_w": 561.0,
+        "battery_voltage_v": 212.94,
+        "battery_current_a": 2.2,
+        "battery_soc_pct": 93,
+        "battery_discharge_w": 495.0,
+        "battery_charge_w": 0.0
+      }
+    },
+    {
+      "captured_at_range": "2026-09-05T17:54:09.548771+00:00/2026-09-05T17:54:14.294172+00:00",
+      "fc04_3041_count6_registers": [0, 0, 0, 0, 0, 24848],
+      "fc04_3000_count11_registers": [1, 0, 571, 2331, 0, 0, 199, 3697, 1, 0, 372],
+      "fc04_3169_count13_registers": [21146, 115, 92, 4125, 2108, 57, 57, 267, 0, 0, 24280, 0, 0],
+      "decoded": {
+        "status": 1,
+        "pv_power_w": 57.1,
+        "pv1_power_w": 19.9,
+        "pv2_power_w": 37.2,
+        "grid_import_w": 0.0,
+        "grid_export_w": 0.0,
+        "load_w": 2484.8,
+        "battery_voltage_v": 211.46,
+        "battery_current_a": 11.5,
+        "battery_soc_pct": 92,
+        "battery_discharge_w": 2428.0,
+        "battery_charge_w": 0.0
+      }
+    },
+    {
+      "captured_at_range": "2026-09-05T17:47:23.473303+00:00",
+      "fc04_3189_count43_registers": [59, 9, 0, 251, 236, 2, 14, 0, 0, 1, 0, 44, 44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 93, 21300, 65306, 384, 200, 2500, 0, 100, 22720, 18880, 0, 0, 10398, 0, 0, 3314, 3311],
+      "decoded": {
+        "bms_status": 2,
+        "bms_soc_pct": 93,
+        "bms_voltage_v": 213.0,
+        "bms_current_a": -2.3,
+        "bms_soh_pct": 100,
+        "bms_cell_voltage_max_v": 3.314,
+        "bms_cell_voltage_min_v": 3.311
+      }
+    }
+  ],
+  "raw_response_examples": {
+    "fc03_identity": "00010000003f01033c0001019100000064000027100000ea6003e8414c312e30005a416261001d0001000003e8003c003c006400640001534e4c3043475630323000000000",
+    "fc04_status_pv": "00020000001901041600010000023b091b0000000000c70e71000100000174"
+  }
+}

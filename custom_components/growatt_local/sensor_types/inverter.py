@@ -5,6 +5,7 @@ from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorStateClass,
 )
+from homeassistant.components.number import NumberDeviceClass
 from homeassistant.const import (
     UnitOfElectricCurrent,
     UnitOfElectricPotential,
@@ -80,7 +81,14 @@ from ..API.device_type.base import (
     ATTR_GRID_FREQUENCY,
     ATTR_TEMPERATURE,
     ATTR_IPM_TEMPERATURE,
+    ATTR_BOOST_TEMPERATURE,
     ATTR_OUTPUT_PERCENTAGE,
+    ATTR_P_BUS_VOLTAGE,
+    ATTR_N_BUS_VOLTAGE,
+    ATTR_STATUS_CODE,
+    ATTR_DERATING_MODE,
+    ATTR_FAULT_CODE,
+    ATTR_WARNING_CODE,
 )
 
 INVERTER_POWER_SWITCH: GrowattSwitchEntityDescription = GrowattSwitchEntityDescription(
@@ -94,7 +102,7 @@ INVERTER_POWER_SWITCH: GrowattSwitchEntityDescription = GrowattSwitchEntityDescr
 INVERTER_OUTPUT_POWER_LIMIT = GrowattNumberEntityDescription(
     key=ATTR_OUTPUT_POWER_LIMIT,
     name="Output Power Limit",
-    device_class=SensorDeviceClass.POWER_FACTOR,
+    device_class=NumberDeviceClass.POWER_FACTOR,
     native_unit_of_measurement=PERCENTAGE,
     native_min_value=0,
     native_max_value=100,
@@ -500,10 +508,44 @@ INVERTER_SENSOR_TYPES: tuple[GrowattSensorEntityDescription, ...] = (
         device_class=SensorDeviceClass.TEMPERATURE,
     ),
     GrowattSensorEntityDescription(
+        key=ATTR_BOOST_TEMPERATURE,
+        name="Boost temperature",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        device_class=SensorDeviceClass.TEMPERATURE,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_P_BUS_VOLTAGE,
+        name="P-bus voltage",
+        native_unit_of_measurement=UnitOfElectricPotential.VOLT,
+        device_class=SensorDeviceClass.VOLTAGE,
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_N_BUS_VOLTAGE,
+        name="N-bus voltage",
+        native_unit_of_measurement=UnitOfElectricPotential.VOLT,
+        device_class=SensorDeviceClass.VOLTAGE,
+    ),
+    GrowattSensorEntityDescription(
         key=ATTR_OUTPUT_PERCENTAGE,
         name="Real power output percentage",
         native_unit_of_measurement=PERCENTAGE,
         device_class=SensorDeviceClass.POWER_FACTOR
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_STATUS_CODE,
+        name="Status code",
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_DERATING_MODE,
+        name="Derating mode",
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_FAULT_CODE,
+        name="Fault code",
+    ),
+    GrowattSensorEntityDescription(
+        key=ATTR_WARNING_CODE,
+        name="Warning code",
     ),
     GrowattSensorEntityDescription(
         key="status",
