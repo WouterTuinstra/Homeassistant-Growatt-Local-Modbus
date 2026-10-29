@@ -36,6 +36,7 @@ from .API.device_type.base import GrowattDeviceRegisters
 from .API.utils import RegisterKeys
 from .API.const import DeviceTypes
 from .API.growatt import GrowattDevice, GrowattSerial, GrowattNetwork
+from .API.exception import ModbusException
 from .const import (
     CONF_LAYER,
     CONF_SERIAL,
@@ -272,7 +273,7 @@ class GrowattLocalCoordinator(DataUpdateCoordinator):
                 await self.growatt_api.connect()
             self._failed_update_count += 1
             status = "not_connected"
-        except (asyncio.TimeoutError, ModbusIOException):
+        except (asyncio.TimeoutError, ModbusIOException, ModbusException):
             self._failed_update_count += 1
             status = "no_response"
 

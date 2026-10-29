@@ -145,13 +145,26 @@ class GrowattModbusBase:
 
     async def read_holding_registers(self, start_address, count, device_id) -> dict[int, int]:
         data = await self.client.read_holding_registers(start_address, count=count, device_id=device_id)
-        registers = {c: v for c, v in enumerate(data.registers, start_address)}
-        return registers
+        return self._registers_from_response(data, start_address, count, "holding")
 
     async def read_input_registers(self, start_address, count, device_id) -> dict[int, int]:
         data = await self.client.read_input_registers(start_address, count=count, device_id=device_id)
-        registers = {c: v for c, v in enumerate(data.registers, start_address)}
-        return registers
+        return self._registers_from_response(data, start_address, count, "input")
+
+    @staticmethod
+    def _registers_from_response(data, start_address: int, count: int, register_type: str) -> dict[int, int]:
+        is_error = getattr(data, "isError", None)
+        registers = getattr(data, "registers", None)
+        if data is None or not callable(is_error) or is_error():
+            raise ModbusException(f"Modbus {register_type} register read failed at {start_address}")
+        if registers is None or len(registers) != count:
+            actual_count = len(registers) if registers is not None else 0
+            raise ModbusException(
+                f"Modbus {register_type} register read at {start_address} returned "
+                f"{actual_count} registers; expected {count}"
+            )
+
+        return dict(enumerate(registers, start_address))
 
 
 class GrowattNetwork(GrowattModbusBase):

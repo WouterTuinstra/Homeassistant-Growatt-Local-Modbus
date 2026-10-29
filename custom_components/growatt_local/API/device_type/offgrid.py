@@ -172,7 +172,7 @@ INPUT_REGISTERS_OFFGRID: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_INPUT_2_AMPERAGE, register=8, value_type=float,
     ),
     GrowattDeviceRegisters(
-        name=ATTR_ACTIVE_POWER, register=9, value_type=float, length=2
+        name=ATTR_ACTIVE_POWER, register=9, value_type=float, length=2, max_value=20_000
     ),
     GrowattDeviceRegisters(
         name=ATTR_CHARGE_POWER, register=13, value_type=float, length=2

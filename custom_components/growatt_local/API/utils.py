@@ -252,7 +252,16 @@ def process_registers(
             if (second_value := register_values.get(key + 1, None)) is None:
                 continue
             signed_value = ctypes.c_int32((value << 16) | second_value).value
-            result[register.name] = round(float(signed_value) / register.scale, 3)
+            scaled_value = round(float(signed_value) / register.scale, 3)
+            if register.max_value is not None and abs(scaled_value) > register.max_value:
+                _LOGGER.warning(
+                    "Ignoring implausible value %s for register %s at address %s",
+                    scaled_value,
+                    register.name,
+                    key,
+                )
+                continue
+            result[register.name] = scaled_value
 
         elif register.value_type == float:
             result[register.name] = round(float(value) / register.scale, 3)
