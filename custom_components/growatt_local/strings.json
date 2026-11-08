@@ -64,6 +64,7 @@
         },
         "data_description": {
           "type": "Select the protocol version used by your device detected modbus version: {modbus_version}",
+          "meter_connected": "Supported when modbus protocol version is 1.38 or newer",
           "power_scan_enabled": "Allows a higher update rate of the various power values of your device.",
           "inverter_power_control": "Creates a switch to allow manual control of when the inverter is enabled."
         }
@@ -88,6 +89,7 @@
         },
         "data_description": {
           "type": "Select the protocol version used by your device.",
+          "meter_connected": "Supported when modbus protocol version is 1.38 or newer.",
           "power_scan_enabled": "Allows a higher update rate of the various power values of your device.",
           "inverter_power_control": "Creates a switch to allow manual control of when the inverter is enabled."
         }
