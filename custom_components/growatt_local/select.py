@@ -49,17 +49,19 @@ async def async_setup_entry(
                 sensor_descriptions.append(sensor)
     
     if device_type in (DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH, DeviceTypes.STORAGE_120):
-        for sensor in STORAGE_SELECT_TYPES:
-            if sensor.key not in supported_key_names:
+        for item in STORAGE_CHARGE_DISCHARGE_SELECT_TYPES:
+            if item.key not in supported_key_names:
                 continue
 
-            sensor_descriptions.append(sensor)
+            entities.append(
+                GrowattChargeDischargeSelectEntity(coordinator, description=item, entry=config_entry)
+            )
 
     coordinator.get_keys_by_name({sensor.key for sensor in sensor_descriptions}, True)
 
     entities.extend(
         [
-            GrowattDeviceEntity(
+            GrowattSelectEntity(
                 coordinator, description=description, entry=config_entry
             )
             for description in sensor_descriptions
@@ -68,12 +70,11 @@ async def async_setup_entry(
 
     async_add_entities(entities, True)
 
-class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SelectEntity):
+class GrowattBaseSelectEntity(CoordinatorEntity, RestoreEntity, SelectEntity):
     def __init__(self, coordinator, entry, description):
         super().__init__(coordinator, description.key)
         self.entity_description: GrowattSelectEntityDescription = description
         self._config_entry = entry
-        self.charge_discharge_period_state = ChargeDischargePeriodValue()
 
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.data[CONF_SERIAL_NUMBER])},
@@ -89,10 +90,7 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SelectEntity):
 
     @property
     def unique_id(self) -> Optional[str]:
-        if self.entity_description.charge_discharge_period_mode:
-            return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}_mode"
-        else:
-            return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}"
+        return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}"
 
     async def async_added_to_hass(self) -> None:
         """Call when entity is about to be added to Home Assistant."""
@@ -106,34 +104,57 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SelectEntity):
 
         self._attr_current_option = state.state
 
+class GrowattSelectEntity(GrowattBaseSelectEntity):
+
     @callback
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
         if (state := self.coordinator.data.get(self.entity_description.key)) is None:
             return
 
-        if self.entity_description.charge_discharge_period_mode:
-            self.charge_discharge_period_state = state
-            self._attr_current_option = state.mode.value
-        else:
-            if state not in self.options:
-                return
-            self._attr_current_option = state
+        if state not in self.options:
+            return
+
+        self._attr_current_option = state
         self.async_write_ha_state()
 
     async def async_select_option(self, option: str) -> None:
-        if self.entity_description.charge_discharge_period_mode:
-            if option not in list(ChargeDischargeMode):
-                return
-            self.charge_discharge_period_state.mode = ChargeDischargeMode(option)
-            await self.coordinator.write_charge_discharge_period_registers(
-                    self.entity_description.key,
-                    self.charge_discharge_period_state
-                )
-        else:
-            value = next((k for k, v in self.entity_description.value_to_state_dict.items() if v == option), None)
-            if value is None:
-                return
-            await self.coordinator.write_register(self.entity_description.key, value)
+        value = next((k for k, v in self.entity_description.value_to_state_dict.items() if v == option), None)
+        if value is None:
+            return
+        await self.coordinator.write_register(self.entity_description.key, value)
+
+        self._attr_current_option = option
+        self.async_write_ha_state()
+
+class GrowattChargeDischargeSelectEntity(CoordinatorEntity, RestoreEntity, SelectEntity):
+    def __init__(self, coordinator, entry, description):
+        super().__init__(coordinator, description.key, entry)
+        self.charge_discharge_period_state = ChargeDischargePeriodValue()
+
+    @property
+    def unique_id(self) -> Optional[str]:
+        return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}_mode"
+
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        if (state := self.coordinator.data.get(self.entity_description.key)) is None:
+            return
+
+        self.charge_discharge_period_state = state
+        self._attr_current_option = state.mode.value
+        self.async_write_ha_state()
+
+    async def async_select_option(self, option: str) -> None:
+        if option not in list(ChargeDischargeMode):
+            return
+        
+        self.charge_discharge_period_state.mode = ChargeDischargeMode(option)
+        await self.coordinator.write_charge_discharge_period_registers(
+                self.entity_description.key,
+                self.charge_discharge_period_state
+            )
+        
         self._attr_current_option = option
         self.async_write_ha_state()

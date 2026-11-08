@@ -12,7 +12,6 @@ class GrowattSwitchRequiredKeysMixin:
     state_on: str|int
     state_off: str|int
     mask: int = 0
-    charge_discharge_period_enable: bool = False
 
 @dataclass
 class GrowattSwitchEntityDescription(SwitchEntityDescription, GrowattSwitchRequiredKeysMixin):

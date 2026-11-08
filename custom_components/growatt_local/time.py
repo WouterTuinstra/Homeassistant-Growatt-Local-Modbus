@@ -51,7 +51,7 @@ async def async_setup_entry(
 
     entities.extend(
         [
-            GrowattDeviceEntity(
+            GrowattChargeDischargeTimeEntity(
                 coordinator, description=description, entry=config_entry
             )
             for description in sensor_descriptions
@@ -60,7 +60,7 @@ async def async_setup_entry(
 
     async_add_entities(entities, True)
 
-class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, TimeEntity):
+class GrowattChargeDischargeTimeEntity(CoordinatorEntity, RestoreEntity, TimeEntity):
     def __init__(self, coordinator, entry, description):
         super().__init__(coordinator, description.key)
         self.entity_description: GrowattTimeEntityDescription = description
