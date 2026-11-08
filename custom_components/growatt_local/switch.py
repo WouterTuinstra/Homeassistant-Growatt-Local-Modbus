@@ -7,6 +7,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_MODEL,
     CONF_NAME,
+    CONF_TYPE,
     STATE_ON,
 )
 from homeassistant.core import HomeAssistant, callback
@@ -16,6 +17,8 @@ from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
 )
+from .API.const import DeviceTypes
+from .API.device_type.storage_120 import ChargeDischargePeriodValue
 from .const import (
     CONF_FIRMWARE,
     CONF_SERIAL_NUMBER,
@@ -41,13 +44,17 @@ async def async_setup_entry(
     sensor_descriptions: list[GrowattSwitchEntityDescription] = []
     supported_key_names = coordinator.growatt_api.get_register_names()
 
+    device_type = DeviceTypes(config_entry.data[CONF_TYPE])
+
     if config_entry.options.get(CONF_INVERTER_POWER_CONTROL, False):
         sensor_descriptions.append(INVERTER_POWER_SWITCH) 
 
-    for sensor in STORAGE_SWITCH_TYPES:
-        if sensor.key not in supported_key_names:
-            continue
-        sensor_descriptions.append(sensor)
+    if device_type in (DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH, DeviceTypes.STORAGE_120):
+        for sensor in STORAGE_SWITCH_TYPES:
+            if sensor.key not in supported_key_names:
+                continue
+            
+            sensor_descriptions.append(sensor)
 
     coordinator.get_keys_by_name({sensor.key for sensor in sensor_descriptions}, True)
 
@@ -72,6 +79,7 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
         self.entity_description: GrowattSwitchEntityDescription = description
         self._config_entry = entry
         self.masked_value = 0
+        self.charge_discharge_period_state = ChargeDischargePeriodValue()
 
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.data[CONF_SERIAL_NUMBER])},
@@ -87,32 +95,54 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
 
     @property
     def unique_id(self) -> Optional[str]:
-        return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}"
+        if self.entity_description.charge_discharge_period_enable:
+            return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}_enable"
+        else:
+            return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}"
 
     async def async_turn_on(self, **kwargs: Any) -> None:
-        if self.masked_value != 0:
-            await self.coordinator.write_register(
-                self.entity_description.key,
-                self.masked_value + self.entity_description.state_on
-            )
+        if self.entity_description.charge_discharge_period_enable:
+            self.charge_discharge_period_state.enable = True
+            _LOGGER.debug("Turn on Device type %s, full state %s", self._attr_unique_id, self.charge_discharge_period_state)
+            await self.coordinator.write_charge_discharge_period_registers(
+                    self.entity_description.key,
+                    self.charge_discharge_period_state
+                )
         else:
-            await self.coordinator.write_register(
-                self.entity_description.key,
-                self.entity_description.state_on
-            )
+            if self.masked_value != 0:
+                await self.coordinator.write_register(
+                    self.entity_description.key,
+                    self.masked_value + self.entity_description.state_on
+                )
+            else:
+                await self.coordinator.write_register(
+                    self.entity_description.key,
+                    self.entity_description.state_on
+                )
+        self._attr_is_on = True
+        self.async_write_ha_state()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
-        if self.masked_value != 0:
-            await self.coordinator.write_register(
-                self.entity_description.key,
-                self.masked_value + self.entity_description.state_off
-            )
+        if self.entity_description.charge_discharge_period_enable:
+            self.charge_discharge_period_state.enable = False
+            _LOGGER.debug("Turn off Device type %s, full state %s", self._attr_unique_id, self.charge_discharge_period_state)
+            await self.coordinator.write_charge_discharge_period_registers(
+                    self.entity_description.key,
+                    self.charge_discharge_period_state
+                )
         else:
-            await self.coordinator.write_register(
-                self.entity_description.key,
-                self.entity_description.state_off
-            )
-        await self.coordinator.force_refresh()
+            if self.masked_value != 0:
+                await self.coordinator.write_register(
+                    self.entity_description.key,
+                    self.masked_value + self.entity_description.state_off
+                )
+            else:
+                await self.coordinator.write_register(
+                    self.entity_description.key,
+                    self.entity_description.state_off
+                )
+        self._attr_is_on = False
+        self.async_write_ha_state()
 
     async def async_added_to_hass(self) -> None:
         """Call when entity is about to be added to Home Assistant."""
@@ -129,14 +159,18 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
 
         _LOGGER.debug("Device type %s state %s", self._attr_unique_id, state)
 
-        value = int(state)
+        if self.entity_description.charge_discharge_period_enable:
+            self.charge_discharge_period_state = state
+            self._attr_is_on = state.enable
+        else:
+            value = int(state)
 
-        if self.entity_description.mask != 0:
-            self._attr_is_on = value & self.entity_description.mask
-            self.masked_value = value ^ self._attr_is_on
+            if self.entity_description.mask != 0:
+                self._attr_is_on = value & self.entity_description.mask
+                self.masked_value = value ^ self._attr_is_on
 
-        else:    
-            self._attr_is_on = value >= 1
+            else:    
+                self._attr_is_on = value >= 1
 
         self.async_write_ha_state()
 
