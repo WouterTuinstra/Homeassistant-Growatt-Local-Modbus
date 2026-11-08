@@ -8,11 +8,8 @@ from homeassistant.components.number import NumberEntityDescription
 class GrowattNumberRequiredKeysMixin:
     """Mixin for required keys."""
     key: str
-
-
+    scale: int = 1
 
 @dataclass
 class GrowattNumberEntityDescription(NumberEntityDescription, GrowattNumberRequiredKeysMixin):
     """Describes Growatt number entity."""
-
-

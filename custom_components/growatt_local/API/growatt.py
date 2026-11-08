@@ -33,8 +33,22 @@ from .device_type.base import (
     ATTR_STATUS_CODE,
     inverter_status,
 )
-from .device_type.inverter_120 import MAXIMUM_DATA_LENGTH_120, HOLDING_REGISTERS_120, INPUT_REGISTERS_120, INPUT_REGISTERS_120_TL_XH
-from .device_type.storage_120 import STORAGE_HOLDING_REGISTERS_120, STORAGE_INPUT_REGISTERS_120, STORAGE_INPUT_REGISTERS_120_TL_XH
+from .device_type.inverter_120 import (
+    MAXIMUM_DATA_LENGTH_120, 
+    MAXIMUM_DATA_LENGTH_METER, 
+    HOLDING_REGISTERS_120, 
+    INPUT_REGISTERS_120, 
+    INPUT_REGISTERS_120_TL_XH, 
+    METER_REGISTERS_138,
+)
+from .device_type.storage_120 import (
+    STORAGE_HOLDING_REGISTERS_120,
+    STORAGE_HOLDING_REGISTERS_120_TL_XH,
+    STORAGE_INPUT_REGISTERS_120,
+    STORAGE_INPUT_REGISTERS_120_TL_XH,
+    ChargeDischargePeriodValue,
+    create_charge_discharge_period,
+)
 from .device_type.inverter_315 import MAXIMUM_DATA_LENGTH_315, HOLDING_REGISTERS_315, INPUT_REGISTERS_315
 from .device_type.offgrid import INPUT_REGISTERS_OFFGRID, offgrid_status
 
@@ -143,6 +157,15 @@ class GrowattModbusBase:
         payload = ModbusBaseClient.convert_to_registers(value, ModbusBaseClient.DATATYPE.INT16)
         return await self.client.write_register(register, payload[0], device_id=device_id)
 
+    async def write_charge_discharge_period_registers(self, start_address, value: ChargeDischargePeriodValue, device_id) -> None:
+        value_processed = create_charge_discharge_period(value)
+        _LOGGER.debug("Charge/discharge period processed value: %s", value_processed)
+        payload_1 = ModbusBaseClient.convert_to_registers(value_processed[0], ModbusBaseClient.DATATYPE.UINT16)
+        payload_2 = ModbusBaseClient.convert_to_registers(value_processed[1], ModbusBaseClient.DATATYPE.UINT16)
+        _LOGGER.debug("Charge/discharge period payloads: %s %s", payload_1, payload_2)
+        await self.client.write_register(start_address, payload_1[0], device_id=device_id)
+        await self.client.write_register(start_address + 1, payload_2[0], device_id=device_id)
+
     async def read_holding_registers(self, start_address, count, device_id) -> dict[int, int]:
         data = await self.client.read_holding_registers(start_address, count=count, device_id=device_id)
         registers = {c: v for c, v in enumerate(data.registers, start_address)}
@@ -150,6 +173,11 @@ class GrowattModbusBase:
 
     async def read_input_registers(self, start_address, count, device_id) -> dict[int, int]:
         data = await self.client.read_input_registers(start_address, count=count, device_id=device_id)
+        registers = {c: v for c, v in enumerate(data.registers, start_address)}
+        return registers
+
+    async def read_meter_registers(self, start_address, count, device_id) -> dict[int, int]:
+        data = await self.client.read_meter_registers(start_address, count=count, device_id=device_id)
         registers = {c: v for c, v in enumerate(data.registers, start_address)}
         return registers
 
@@ -245,6 +273,7 @@ class GrowattSerial(GrowattModbusBase):
 class GrowattDevice:
     holding_register: dict[int, GrowattDeviceRegisters] = {}
     input_register: dict[int, GrowattDeviceRegisters] = {}
+    meter_register: dict[int, GrowattDeviceRegisters] = {}
     max_length: int = 20
 
     def __init__(
@@ -261,6 +290,7 @@ class GrowattDevice:
         self.max_length = self.device_registers.max_length
         self.holding_register = self.device_registers.holding
         self.input_register = self.device_registers.input
+        self.meter_register = self.device_registers.meter
 
         self.device_id = unit
 
@@ -287,8 +317,8 @@ class GrowattDevice:
 
     async def update(self, keys: RegisterKeys) -> dict[str, Any]:
         """
-        Based on the given keys it will generate one or multiple requests to get the corrisponding results
-        from both holding and input registers from the device.
+        Based on the given keys it will generate one or multiple requests to get the corresponding results
+        from both holding, input and meter registers from the device.
 
         returns a dictionary of register name and value
         """
@@ -321,6 +351,15 @@ class GrowattDevice:
 
             results.update(process_registers(self.device_registers.input, register_values))
 
+        if key_sequences.meter:
+            register_values = {}
+            for item in key_sequences.meter:
+                register_values.update(
+                    await self.modbus.read_meter_registers(item[0], item[1], self.device_id)
+                )
+
+            results.update(process_registers(self.device_registers.meter, register_values))
+
         return results
 
     async def write_register(self, register, payload) -> ModbusPDU:
@@ -328,6 +367,11 @@ class GrowattDevice:
         data = await self.modbus.write_register(register, payload, self.device_id)
         _LOGGER.info("Write response done")
         return data
+
+    async def write_charge_discharge_period_registers(self, start_address, value: ChargeDischargePeriodValue) -> None:
+        _LOGGER.info("Write charge/discharge period register %d with payload %s and unit %d", start_address, value, self.device_id)
+        await self.modbus.write_charge_discharge_period_registers(start_address, value, self.device_id)
+        _LOGGER.info("Write charge/discharge period response done")
 
     async def read_holding_register(self, registers: tuple[GrowattDeviceRegisters, ...]) -> dict[str, Any]:
         _LOGGER.info("Read holding registers")
@@ -358,6 +402,11 @@ class GrowattDevice:
                 key
                 for key, register in self.device_registers.input.items()
                 if register.name in names
+            },
+            meter={
+                key
+                for key, register in self.device_registers.meter.items()
+                if register.name in names
             }
         )
 
@@ -371,9 +420,15 @@ class GrowattDevice:
             if register.name == name:
                 return register
 
+    def get_meter_register_by_name(self, name: str) -> Optional[GrowattDeviceRegisters]:
+        for register in self.meter_register.values():
+            if register.name == name:
+                return register
+
     def get_register_names(self) -> set[str]:
         names = {register.name for register in self.input_register.values()}
         names.update({register.name for register in self.holding_register.values()})
+        names.update({register.name for register in self.meter_register.values()})
 
         names.add(ATTR_STATUS)
 
@@ -390,6 +445,7 @@ class GrowattDevice:
 
 
 def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
+    meter_register = {}
     if GrowattDeviceType in (DeviceTypes.INVERTER, DeviceTypes.INVERTER_315):
         max_length = MAXIMUM_DATA_LENGTH_315
         holding_register = {
@@ -407,15 +463,18 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
             obj.register: obj for obj in INPUT_REGISTERS_OFFGRID
         }
     elif GrowattDeviceType == DeviceTypes.INVERTER_120:
-        max_length = MAXIMUM_DATA_LENGTH_120
+        max_length = min(MAXIMUM_DATA_LENGTH_120, MAXIMUM_DATA_LENGTH_METER)
         holding_register = {
             obj.register: obj for obj in HOLDING_REGISTERS_120
         }
         input_register = {
             obj.register: obj for obj in INPUT_REGISTERS_120
         }
+        meter_register = {
+            obj.register: obj for obj in METER_REGISTERS_138
+        }
     elif GrowattDeviceType == DeviceTypes.HYBRID_120:
-        max_length = MAXIMUM_DATA_LENGTH_120
+        max_length = min(MAXIMUM_DATA_LENGTH_120, MAXIMUM_DATA_LENGTH_METER)
         holding_register = {
             obj.register: obj for obj in STORAGE_HOLDING_REGISTERS_120
         }
@@ -425,10 +484,13 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
         input_register.update({
             obj.register: obj for obj in STORAGE_INPUT_REGISTERS_120
         })
+        meter_register = {
+            obj.register: obj for obj in METER_REGISTERS_138
+        }
     elif GrowattDeviceType == DeviceTypes.HYBRID_120_TL_XH:
-        max_length = MAXIMUM_DATA_LENGTH_120
+        max_length = min(MAXIMUM_DATA_LENGTH_120, MAXIMUM_DATA_LENGTH_METER)
         holding_register = {
-            obj.register: obj for obj in STORAGE_HOLDING_REGISTERS_120
+            obj.register: obj for obj in STORAGE_HOLDING_REGISTERS_120_TL_XH
         }
         input_register = {
             obj.register: obj for obj in INPUT_REGISTERS_120_TL_XH
@@ -436,18 +498,24 @@ def get_register_information(GrowattDeviceType: DeviceTypes) -> DeviceRegisters:
         input_register.update({
             obj.register: obj for obj in STORAGE_INPUT_REGISTERS_120_TL_XH
         })
+        meter_register = {
+            obj.register: obj for obj in METER_REGISTERS_138
+        }
     elif GrowattDeviceType == DeviceTypes.STORAGE_120:
-        max_length = MAXIMUM_DATA_LENGTH_120
+        max_length = min(MAXIMUM_DATA_LENGTH_120, MAXIMUM_DATA_LENGTH_METER)
         holding_register = {
             obj.register: obj for obj in STORAGE_HOLDING_REGISTERS_120
         }
         input_register = {
             obj.register: obj for obj in STORAGE_INPUT_REGISTERS_120
         }
+        meter_register = {
+            obj.register: obj for obj in METER_REGISTERS_138
+        }
     else:
         raise TypeError("Unsupported Growatt device type")
 
-    return DeviceRegisters(holding_register, input_register, max_length)
+    return DeviceRegisters(holding_register, input_register, meter_register, max_length)
 
 
 async def get_device_info(device: GrowattModbusBase, unit: int, fixed_device_types: DeviceTypes | None = None) -> GrowattDeviceInfo | None:
