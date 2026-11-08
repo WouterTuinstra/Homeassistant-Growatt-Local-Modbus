@@ -64,7 +64,7 @@ STORAGE_SWITCH_TYPES: tuple[GrowattSwitchEntityDescription, ...] = (
         entity_category=EntityCategory.CONFIG,
         state_on=0x1,
         state_off=0x0
-    )
+    ),
 )
 STORAGE_CHARGE_DISCHARGE_SWITCH_TYPES: tuple[GrowattSwitchEntityDescription, ...] = (
     GrowattSwitchEntityDescription(
