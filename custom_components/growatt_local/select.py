@@ -123,9 +123,9 @@ class GrowattSelectEntity(GrowattBaseSelectEntity):
         self._attr_current_option = option
         self.async_write_ha_state()
 
-class GrowattChargeDischargeSelectEntity(CoordinatorEntity, RestoreEntity, SelectEntity):
+class GrowattChargeDischargeSelectEntity(GrowattBaseSelectEntity):
     def __init__(self, coordinator, entry, description):
-        super().__init__(coordinator, description.key, entry)
+        super().__init__(coordinator, entry, description)
         self.charge_discharge_period_state = ChargeDischargePeriodValue()
 
     @property
