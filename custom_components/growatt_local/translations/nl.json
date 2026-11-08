@@ -64,6 +64,7 @@
         },
         "data_description": {
           "type": "Selecteer de protocol versie die gebruikt wordt door het apperaat de volgende modbus versie is gedetecteerd: {modbus_version}",
+          "meter_connected": "Ondersteund indien modbus protocol versie 1.38 of nieuwer is.",
           "power_scan_enabled": "Optie om een hogere update rate te hebben voor verschillende energy waardes.",
           "inverter_power_control": "Voegt een schakelaar toe welke manueele controle geeft wanneer de inverter aanstaat."
         }
@@ -87,6 +88,7 @@
         },
         "data_description": {
           "type": "Selecteer de protocol versie die gebruikt wordt door het apperaat.",
+          "meter_connected": "Ondersteund indien modbus protocol versie 1.38 of nieuwer is.",
           "power_scan_enabled": "Optie om een hogere update rate te hebben voor verschillende energy waardes."
         }
       }
