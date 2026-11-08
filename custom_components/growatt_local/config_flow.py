@@ -503,6 +503,7 @@ class GrowattLocalOptionsFlow(config_entries.OptionsFlow):
             data_schema=vol.Schema(
                 {
                     vol.Required(CONF_NAME, default=self.config_entry.options.get(CONF_NAME)): str,
+                    vol.Required(CONF_METER_CONNECTED, default=self.config_entry.options.get(CONF_METER_CONNECTED)): bool,
                     vol.Required(CONF_SCAN_INTERVAL, default=self.config_entry.options.get(CONF_SCAN_INTERVAL)): int,
                     vol.Required(CONF_POWER_SCAN_ENABLED, default=self.config_entry.options.get(CONF_POWER_SCAN_ENABLED)): bool,
                     vol.Optional(CONF_POWER_SCAN_INTERVAL, default=self.config_entry.options.get(CONF_POWER_SCAN_INTERVAL)): int,
