@@ -36,9 +36,15 @@ async def async_setup_entry(
     entities = []
     sensor_descriptions: list[GrowattNumberEntityDescription] = []
     supported_key_names = coordinator.growatt_api.get_register_names()
-
+    
+    if config_entry.data.get(CONF_METER_CONNECTED, False):
+        for sensor in INVERTER_NUMBER_TYPES_W_METER:
+            if sensor.key not in supported_key_names:
+                continue
+            
+            sensor_descriptions.append(sensor)
+    
     device_type = DeviceTypes(config_entry.data[CONF_TYPE])
-    meter_connected = config_entry.data.get(CONF_METER_CONNECTED, False)
 
     if device_type in (DeviceTypes.INVERTER, DeviceTypes.INVERTER_315, DeviceTypes.INVERTER_120,
                        DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH):
@@ -48,12 +54,6 @@ async def async_setup_entry(
             
             sensor_descriptions.append(sensor)
         
-        if meter_connected:
-            for sensor in INVERTER_NUMBER_TYPES_W_METER:
-                if sensor.key not in supported_key_names:
-                    continue
-                
-                sensor_descriptions.append(sensor)
     
     if device_type in (DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH, DeviceTypes.STORAGE_120):
         for sensor in STORAGE_NUMBER_TYPES:
