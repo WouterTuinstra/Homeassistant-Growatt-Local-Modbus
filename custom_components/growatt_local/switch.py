@@ -113,7 +113,7 @@ class GrowattSwitchEntity(GrowattBaseSwitchEntity):
 
     def __init__(self, coordinator, description, entry):
         """Pass coordinator to CoordinatorEntity."""
-        super().__init__(coordinator, description.key, entry)
+        super().__init__(coordinator, description, entry)
         self.masked_value = 0
 
     async def async_turn_on(self, **kwargs: Any) -> None:
@@ -182,7 +182,7 @@ class GrowattChargeDischargeEntity(GrowattBaseSwitchEntity):
 
     def __init__(self, coordinator, description, entry):
         """Pass coordinator to GrowattDeviceEntity."""
-        super().__init__(coordinator, description.key, entry)
+        super().__init__(coordinator, description, entry)
         self.charge_discharge_period_state = ChargeDischargePeriodValue()
 
     @property
