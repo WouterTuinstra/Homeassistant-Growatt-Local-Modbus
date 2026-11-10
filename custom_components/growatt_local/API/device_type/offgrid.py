@@ -233,26 +233,26 @@ INPUT_REGISTERS_OFFGRID: tuple[GrowattDeviceRegisters, ...] = (
     ),
 
     GrowattDeviceRegisters(
-        name=ATTR_INPUT_1_ENERGY_TODAY, register=48, value_type=float, length=2
+        name=ATTR_INPUT_1_ENERGY_TODAY, register=48, value_type=float, length=2, max_value=1_000
     ),
     GrowattDeviceRegisters(
-        name=ATTR_INPUT_1_ENERGY_TOTAL, register=50, value_type=float, length=2
+        name=ATTR_INPUT_1_ENERGY_TOTAL, register=50, value_type=float, length=2, max_value=100_000
     ),
     GrowattDeviceRegisters(
         name=ATTR_INPUT_2_ENERGY_TODAY, register=52, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_INPUT_2_ENERGY_TOTAL, register=54, value_type=float, length=2
+        name=ATTR_INPUT_2_ENERGY_TOTAL, register=54, value_type=float, length=2, max_value=100_000
     ),
 
     GrowattDeviceRegisters(
-        name=ATTR_CHARGE_ENERGY_TODAY, register=56, value_type=float, length=2
+        name=ATTR_CHARGE_ENERGY_TODAY, register=56, value_type=float, length=2, max_value=1_000
     ),
     GrowattDeviceRegisters(
-        name=ATTR_CHARGE_ENERGY_TOTAL, register=58, value_type=float, length=2
+        name=ATTR_CHARGE_ENERGY_TOTAL, register=58, value_type=float, length=2, max_value=100_000
     ),
     GrowattDeviceRegisters(
-        name=ATTR_DISCHARGE_ENERGY_TODAY, register=60, value_type=float, length=2
+        name=ATTR_DISCHARGE_ENERGY_TODAY, register=60, value_type=float, length=2, max_value=1_000
     ),
     GrowattDeviceRegisters(
         name=ATTR_DISCHARGE_ENERGY_TOTAL, register=62, value_type=float, length=2
@@ -261,7 +261,7 @@ INPUT_REGISTERS_OFFGRID: tuple[GrowattDeviceRegisters, ...] = (
         name=ATTR_AC_DISCHARGE_TODAY, register=64, value_type=float, length=2
     ),
     GrowattDeviceRegisters(
-        name=ATTR_AC_DISCHARGE_TOTAL, register=66, value_type=float, length=2
+        name=ATTR_AC_DISCHARGE_TOTAL, register=66, value_type=float, length=2, max_value=100_000
     ),
     GrowattDeviceRegisters(
         name=ATTR_AC_CHARGE_AMPERAGE, register=68, value_type=float,
