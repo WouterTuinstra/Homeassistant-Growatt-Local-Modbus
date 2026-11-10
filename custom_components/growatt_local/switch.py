@@ -7,6 +7,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_MODEL,
     CONF_NAME,
+    CONF_TYPE,
     STATE_ON,
 )
 from homeassistant.core import HomeAssistant, callback
@@ -16,6 +17,8 @@ from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
 )
+from .API.const import DeviceTypes
+from .API.device_type.storage_120 import ChargeDischargePeriodValue
 from .const import (
     CONF_FIRMWARE,
     CONF_SERIAL_NUMBER,
@@ -23,7 +26,7 @@ from .const import (
     DOMAIN,
 )
 from .sensor_types.inverter import INVERTER_POWER_SWITCH
-from .sensor_types.storage import STORAGE_SWITCH_TYPES
+from .sensor_types.storage import STORAGE_SWITCH_TYPES, STORAGE_CHARGE_DISCHARGE_SWITCH_TYPES
 from .sensor_types.switch_entity_description import GrowattSwitchEntityDescription
 
 _LOGGER = logging.getLogger(__name__)
@@ -41,19 +44,31 @@ async def async_setup_entry(
     sensor_descriptions: list[GrowattSwitchEntityDescription] = []
     supported_key_names = coordinator.growatt_api.get_register_names()
 
+    device_type = DeviceTypes(config_entry.data[CONF_TYPE])
+
     if config_entry.options.get(CONF_INVERTER_POWER_CONTROL, False):
         sensor_descriptions.append(INVERTER_POWER_SWITCH) 
 
-    for sensor in STORAGE_SWITCH_TYPES:
-        if sensor.key not in supported_key_names:
-            continue
-        sensor_descriptions.append(sensor)
+    if device_type in (DeviceTypes.HYBRID_120, DeviceTypes.HYBRID_120_TL_XH, DeviceTypes.STORAGE_120):
+        for sensor in STORAGE_SWITCH_TYPES:
+            if sensor.key not in supported_key_names:
+                continue
+            
+            sensor_descriptions.append(sensor)
+
+        for item in STORAGE_CHARGE_DISCHARGE_SWITCH_TYPES:
+            if sensor.key not in supported_key_names:
+                continue
+
+            entities.append(
+                GrowattChargeDischargeEntity(coordinator, description=item, entry=config_entry)
+            )
 
     coordinator.get_keys_by_name({sensor.key for sensor in sensor_descriptions}, True)
 
     entities.extend(
         [
-            GrowattDeviceEntity(
+            GrowattSwitchEntity(
                 coordinator, description=description, entry=config_entry
             )
             for description in sensor_descriptions
@@ -63,15 +78,14 @@ async def async_setup_entry(
     async_add_entities(entities, True)
 
 
-class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
-    """An entity using CoordinatorEntity."""
+class GrowattBaseSwitchEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
+    """A base Growatt switch entity using CoordinatorEntity."""
 
     def __init__(self, coordinator, description, entry):
         """Pass coordinator to CoordinatorEntity."""
         super().__init__(coordinator, description.key)
         self.entity_description: GrowattSwitchEntityDescription = description
         self._config_entry = entry
-        self.masked_value = 0
 
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.data[CONF_SERIAL_NUMBER])},
@@ -89,6 +103,19 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
     def unique_id(self) -> Optional[str]:
         return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}"
 
+    @callback
+    def _handle_midnight_update(self) -> None:
+        self._handle_coordinator_update()
+
+
+class GrowattSwitchEntity(GrowattBaseSwitchEntity):
+    """An entity using CoordinatorEntity."""
+
+    def __init__(self, coordinator, description, entry):
+        """Pass coordinator to CoordinatorEntity."""
+        super().__init__(coordinator, description, entry)
+        self.masked_value = 0
+
     async def async_turn_on(self, **kwargs: Any) -> None:
         if self.masked_value != 0:
             await self.coordinator.write_register(
@@ -101,6 +128,9 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
                 self.entity_description.state_on
             )
 
+        self._attr_is_on = True
+        self.async_write_ha_state()
+
     async def async_turn_off(self, **kwargs: Any) -> None:
         if self.masked_value != 0:
             await self.coordinator.write_register(
@@ -112,7 +142,9 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
                 self.entity_description.key,
                 self.entity_description.state_off
             )
-        await self.coordinator.force_refresh()
+
+        self._attr_is_on = False
+        self.async_write_ha_state()
 
     async def async_added_to_hass(self) -> None:
         """Call when entity is about to be added to Home Assistant."""
@@ -143,3 +175,58 @@ class GrowattDeviceEntity(CoordinatorEntity, RestoreEntity, SwitchEntity):
     @callback
     def _handle_midnight_update(self) -> None:
         self._handle_coordinator_update()
+
+
+class GrowattChargeDischargeEntity(GrowattBaseSwitchEntity):
+    """A specific Growatt charge discharge switch entity using CoordinatorEntity."""
+
+    def __init__(self, coordinator, description, entry):
+        """Pass coordinator to GrowattDeviceEntity."""
+        super().__init__(coordinator, description, entry)
+        self.charge_discharge_period_state = ChargeDischargePeriodValue()
+
+    @property
+    def unique_id(self) -> Optional[str]:
+            return f"{DOMAIN}_{self._config_entry.data[CONF_SERIAL_NUMBER]}_{self.entity_description.key}_enable"
+
+    async def async_turn_on(self, **kwargs: Any) -> None:
+        self.charge_discharge_period_state.enable = True
+        _LOGGER.debug("Turn on Device type %s, full state %s", self._attr_unique_id, self.charge_discharge_period_state)
+        await self.coordinator.write_charge_discharge_period_registers(
+                self.entity_description.key,
+                self.charge_discharge_period_state
+            )
+
+        self._attr_is_on = True
+        self.async_write_ha_state()
+
+    async def async_turn_off(self, **kwargs: Any) -> None:
+        self.charge_discharge_period_state.enable = False
+        _LOGGER.debug("Turn off Device type %s, full state %s", self._attr_unique_id, self.charge_discharge_period_state)
+        await self.coordinator.write_charge_discharge_period_registers(
+                self.entity_description.key,
+                self.charge_discharge_period_state
+            )
+        
+        self._attr_is_on = False
+        self.async_write_ha_state()
+
+    async def async_added_to_hass(self) -> None:
+        """Call when entity is about to be added to Home Assistant."""
+        await super().async_added_to_hass()
+        if state := await self.async_get_last_state():
+            self._attr_is_on = state.state == STATE_ON
+
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        if (state := self.coordinator.data.get(self.entity_description.key)) is None:
+            _LOGGER.debug("Device type %s state %s", self._attr_unique_id, state)
+            return
+
+        _LOGGER.debug("Device type %s state %s", self._attr_unique_id, state)
+
+        self.charge_discharge_period_state = state
+        self._attr_is_on = state.enable
+
+        self.async_write_ha_state()

@@ -49,13 +49,14 @@
       },
       "device": {
         "title": "Define your Growatt device",
-        "description": "Based on the configration the following values are preset.\nAdditioanlly detected the following device type: {device_type}",
+        "description": "Based on the configration the following values are preset.\nAdditionally detected the following device type: {device_type}",
         "data": {
           "name": "Device name",
           "model": "Inverter model name",
           "type": "Device type",
           "dc_string": "Number of Solar strings",
           "ac_phases": "Number of AC phases",
+          "meter_connected": "Is a kWh meter connected?",
           "scan_interval": "General update interval",
           "power_scan_enabled": "Enable power update interval",
           "power_scan_interval": "Power update interval",
@@ -63,6 +64,7 @@
         },
         "data_description": {
           "type": "Select the protocol version used by your device detected modbus version: {modbus_version}",
+          "meter_connected": "Supported when modbus protocol version is 1.38 or newer.",
           "power_scan_enabled": "Allows a higher update rate of the various power values of your device.",
           "inverter_power_control": "Creates a switch to allow manual control of when the inverter is enabled."
         }
@@ -79,6 +81,7 @@
           "type": "Device type",
           "dc_string": "Number of Solar strings",
           "ac_phases": "Number of AC phases",
+          "meter_connected": "Is a kWh meter connected?",
           "scan_interval": "General update interval",
           "power_scan_enabled": "Enable power update interval",
           "power_scan_interval": "Power update interval",
@@ -86,6 +89,7 @@
         },
         "data_description": {
           "type": "Select the protocol version used by your device.",
+          "meter_connected": "Supported when modbus protocol version is 1.38 or newer",
           "power_scan_enabled": "Allows a higher update rate of the various power values of your device.",
           "inverter_power_control": "Creates a switch to allow manual control of when the inverter is enabled."
         }

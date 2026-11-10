@@ -27,6 +27,7 @@ _LOGGER = logging.getLogger(__name__)
 class DeviceRegisters:
     holding: dict[int, GrowattDeviceRegisters]
     input: dict[int, GrowattDeviceRegisters]
+    meter: dict[int, GrowattDeviceRegisters]
     max_length: int
 
 
@@ -34,25 +35,28 @@ class DeviceRegisters:
 class RegisterKeys:
     holding: set[int] = field(default_factory=set)
     input: set[int] = field(default_factory=set)
+    meter: set[int] = field(default_factory=set)
 
     def __len__(self):
-        return len(self.holding) + len(self.input)
+        return len(self.holding) + len(self.input) + len(self.meter)
 
     def __hash__(self) -> int:
-        return hash((frozenset(self.holding), frozenset(self.input)))
+        return hash((frozenset(self.holding), frozenset(self.input), frozenset(self.meter)))
 
     def update(self, register_keys: "RegisterKeys") -> None:
         self.holding.update(register_keys.holding)
         self.input.update(register_keys.input)
+        self.meter.update(register_keys.meter)
 
 
 @dataclass
 class RegisterSequences:
     holding: set[tuple[int, int]] = field(default_factory=set)
     input: set[tuple[int, int]] = field(default_factory=set)
+    meter: set[tuple[int, int]] = field(default_factory=set)
 
     def __len__(self):
-        return len(self.holding) + len(self.input)
+        return len(self.holding) + len(self.input) + len(self.meter)
 
 
 def register_sequences(
@@ -70,7 +74,12 @@ def register_sequences(
     else:
         input_sequence = set()
 
-    return RegisterSequences(holding_sequence, input_sequence)
+    if register_keys.meter:
+        meter_sequence = keys_sequences(get_all_keys_from_register(device_registers.meter, register_keys.meter), device_registers.max_length)
+    else:
+        meter_sequence = set()
+
+    return RegisterSequences(holding_sequence, input_sequence, meter_sequence)
 
 
 def get_keys_from_register(register: dict[int, GrowattDeviceRegisters]) -> set[int]:

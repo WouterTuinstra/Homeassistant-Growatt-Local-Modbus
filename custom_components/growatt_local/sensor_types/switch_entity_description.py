@@ -5,7 +5,6 @@ from dataclasses import dataclass
 
 from homeassistant.components.switch import SwitchEntityDescription
 
-
 @dataclass
 class GrowattSwitchRequiredKeysMixin:
     """Mixin for required keys."""
@@ -14,9 +13,6 @@ class GrowattSwitchRequiredKeysMixin:
     state_off: str|int
     mask: int = 0
 
-
 @dataclass
 class GrowattSwitchEntityDescription(SwitchEntityDescription, GrowattSwitchRequiredKeysMixin):
     """Describes Growatt sensor entity."""
-
-
